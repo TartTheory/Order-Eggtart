@@ -23,6 +23,8 @@
   @keyframes ttPop { 0% { transform: scale(.6); opacity: 0; } 60% { transform: scale(1.12); } 100% { transform: scale(1); opacity: 1; } }
   .tt-body::-webkit-scrollbar { width: 8px; }
   .tt-body::-webkit-scrollbar-thumb { background: var(--line); border-radius: 8px; }
+  .tt-menu-grid { grid-template-columns: 1fr; }
+  @media (min-width: 640px) { .tt-menu-grid { grid-template-columns: repeat(auto-fill, minmax(170px,1fr)); } }
 
 </style>
 </helmet>
@@ -109,7 +111,7 @@
       </div>
     </div>
 
-    <div style="display:grid; grid-template-columns:repeat(auto-fill,minmax(170px,1fr)); gap:16px">
+    <div class="tt-menu-grid" style="display:grid; gap:16px">
       <sc-for list="{{ menu }}" as="item" hint-placeholder-count="8">
         <div style="background:var(--surface); border-radius:20px; padding:9px; box-shadow:var(--shadow); border:1px solid var(--line)">
           <div style="border-radius:14px; overflow:hidden; aspect-ratio:3/4">
