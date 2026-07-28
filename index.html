@@ -14,7 +14,7 @@
 <script src="./image-slot.js"></script>
 <style>
   * { box-sizing: border-box; }
-  body { margin: 0; }
+  html, body { margin: 0; overflow-x: hidden; max-width: 100%; }
   .tt-root *, .tt-drawer *, .tt-backdrop { transition: background-color .35s ease, color .3s ease, border-color .35s ease, box-shadow .35s ease; }
   ::placeholder { color: var(--muted); opacity: .7; }
   @keyframes ttFloat { 0%,100% { transform: translateY(0) rotate(-3deg); } 50% { transform: translateY(-12px) rotate(-3deg); } }
