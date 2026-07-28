@@ -1,0 +1,629 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Hanken+Grotesk:wght@400;500;600;700;800&family=Newsreader:opsz,wght@6..72,400;6..72,500;6..72,600&family=Noto+Serif+SC:wght@500;600;700&family=Noto+Sans+SC:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<script src="./image-slot.js"></script>
+<style>
+  * { box-sizing: border-box; }
+  body { margin: 0; }
+  .tt-root *, .tt-drawer *, .tt-backdrop { transition: background-color .35s ease, color .3s ease, border-color .35s ease, box-shadow .35s ease; }
+  ::placeholder { color: var(--muted); opacity: .7; }
+  @keyframes ttFloat { 0%,100% { transform: translateY(0) rotate(-3deg); } 50% { transform: translateY(-12px) rotate(-3deg); } }
+  @keyframes ttFloatB { 0%,100% { transform: rotate(-8deg) translateY(0); } 50% { transform: rotate(-8deg) translateY(-9px); } }
+  @keyframes ttFloatC { 0%,100% { transform: rotate(7deg) translateY(0); } 50% { transform: rotate(7deg) translateY(-10px); } }
+  @keyframes ttPop { 0% { transform: scale(.6); opacity: 0; } 60% { transform: scale(1.12); } 100% { transform: scale(1); opacity: 1; } }
+  .tt-body::-webkit-scrollbar { width: 8px; }
+  .tt-body::-webkit-scrollbar-thumb { background: var(--line); border-radius: 8px; }
+
+</style>
+</helmet>
+
+<div class="tt-root" style="{{ rootStyle }}">
+<div style="{{ frameStyle }}">
+
+  <!-- NAV -->
+  <nav style="position:sticky; top:0; z-index:40; display:flex; flex-wrap:wrap; row-gap:8px; align-items:center; justify-content:space-between; gap:8px; padding:10px clamp(4px,2vw,56px); background:color-mix(in srgb, var(--bg) 88%, transparent); backdrop-filter:blur(12px); border-bottom:1px solid var(--line)">
+    <div style="display:flex; align-items:baseline; gap:6px; cursor:default; min-width:0">
+      <span style="font-family:'Newsreader', Georgia, serif; font-weight:600; font-size:clamp(15px,4vw,22px); color:var(--text); white-space:nowrap">{{ brand }}</span>
+      <span style="width:6px; height:6px; border-radius:50%; background:var(--accent); display:inline-block; flex:none"></span>
+    </div>
+    <div style="display:flex; align-items:center; gap:6px; flex:none">
+      <button onClick="{{ toggleLang }}" style="position:relative; display:flex; align-items:center; padding:2px; border:1.5px solid var(--line); cursor:pointer; border-radius:999px; background:var(--surface); width:clamp(52px,14vw,62px); height:24px; flex:none">
+        <span style="{{ langThumbStyle }}"></span>
+        <span style="flex:1; text-align:center; z-index:1; font-family:var(--font-body); font-weight:700; font-size:clamp(9.5px,2.8vw,10.5px); color:var(--text)">中</span>
+        <span style="flex:1; text-align:center; z-index:1; font-family:var(--font-body); font-weight:700; font-size:clamp(9.5px,2.8vw,10.5px); color:var(--text)">EN</span>
+      </button>
+      <button onClick="{{ openCart }}" style="position:relative; display:flex; align-items:center; gap:6px; padding:8px clamp(10px,3.2vw,14px); border:none; cursor:pointer; border-radius:var(--radius-sm); background:var(--accent); color:var(--accent-text); font-family:var(--font-body); font-weight:700; font-size:clamp(12px,3.4vw,13.5px); white-space:nowrap">
+        {{ t.bag }}
+        <sc-if value="{{ hasItems }}" hint-placeholder-val="{{ true }}">
+          <span style="min-width:18px; height:18px; padding:0 4px; display:inline-flex; align-items:center; justify-content:center; border-radius:999px; background:var(--accent-text); color:var(--accent); font-size:10.5px; font-weight:800">{{ cartCount }}</span>
+        </sc-if>
+      </button>
+    </div>
+  </nav>
+
+  <header style="display:grid; grid-template-columns:1fr; gap:20px; align-items:center; padding:clamp(18px,6vw,80px) clamp(4px,2vw,56px); max-width:1280px; margin:0 auto">
+    <div>
+      <div style="display:inline-flex; align-items:center; padding:5px 12px; border-radius:999px; background:var(--accent-soft); color:var(--accent); font-size:clamp(11px,3vw,12.5px); font-weight:700; margin-bottom:14px; max-width:100%">{{ t.kicker }}</div>
+      <h1 style="font-family:var(--font-head); font-weight:var(--head-weight); letter-spacing:var(--head-spacing); color:var(--text); font-size:clamp(28px,8.5vw,72px); line-height:1.1; margin:0 0 12px; white-space:pre-line; text-wrap:balance">{{ t.heroTitle }}</h1>
+      <p style="font-family:var(--font-body); color:var(--text); font-weight:600; font-size:clamp(14px,3.6vw,20px); line-height:1.5; max-width:440px; margin:0 0 10px; white-space:pre-line">{{ t.heroSubtitle }}</p>
+      <p style="font-family:var(--font-body); color:var(--muted); font-size:clamp(13px,3.2vw,17px); line-height:1.55; max-width:440px; margin:0 0 10px; white-space:pre-line">{{ t.heroNote }}</p>
+      <p style="font-family:var(--font-body); font-weight:700; color:var(--accent); font-size:clamp(12px,3.2vw,13.5px); margin:0 0 20px">{{ t.heroSmall }}</p>
+      <button onClick="{{ scrollToMenu }}" style="padding:12px clamp(18px,5vw,26px); border:none; cursor:pointer; border-radius:var(--radius-sm); background:var(--accent); color:var(--accent-text); font-family:var(--font-body); font-weight:700; font-size:clamp(14px,3.8vw,15.5px)">{{ t.ctaLabel }}</button>
+    </div>
+    <div style="position:relative; aspect-ratio:1; min-height:220px; max-width:480px; width:100%; justify-self:center">
+      <div style="position:absolute; width:46%; left:4%; top:18%; opacity:.92; animation:ttFloatB 5.5s ease-in-out infinite">
+        <div style="position:relative; width:100%; aspect-ratio:1; border-radius:50%; background:repeating-conic-gradient(from 0deg, #E7B97F 0deg 6deg, #D1A061 6deg 12deg); box-shadow:0 12px 26px rgba(80,50,20,.2)">
+          <div style="{{ heroTartB }}"></div>
+        </div>
+        <div style="position:absolute; bottom:-4px; left:50%; transform:translateX(-50%); background:var(--surface); border:1px solid var(--line); box-shadow:var(--shadow); border-radius:var(--radius-sm); padding:5px 10px; font-family:var(--font-head); font-weight:var(--head-weight); color:var(--text); font-size:12px; white-space:nowrap">{{ t.heroWordB }}</div>
+      </div>
+      <div style="position:absolute; width:42%; right:3%; top:6%; opacity:.92; animation:ttFloatC 6.5s ease-in-out infinite">
+        <div style="position:relative; width:100%; aspect-ratio:1; border-radius:50%; background:repeating-conic-gradient(from 0deg, #E7B97F 0deg 6deg, #D1A061 6deg 12deg); box-shadow:0 12px 26px rgba(80,50,20,.2)">
+          <div style="{{ heroTartC }}"></div>
+        </div>
+        <div style="position:absolute; bottom:-4px; left:50%; transform:translateX(-50%); background:var(--surface); border:1px solid var(--line); box-shadow:var(--shadow); border-radius:var(--radius-sm); padding:5px 10px; font-family:var(--font-head); font-weight:var(--head-weight); color:var(--text); font-size:12px; white-space:nowrap">{{ t.heroWordC }}</div>
+      </div>
+      <div style="position:absolute; width:62%; left:50%; top:54%; transform:translate(-50%,-50%); animation:ttFloat 6s ease-in-out infinite">
+        <div style="position:relative; width:100%; aspect-ratio:1; border-radius:50%; background:repeating-conic-gradient(from 0deg, #EABE83 0deg 6deg, #D3A263 6deg 12deg); box-shadow:0 24px 50px rgba(80,50,20,.28)">
+          <div style="{{ heroTartA }}"></div>
+        </div>
+        <div style="position:absolute; bottom:-6px; left:-14px; background:var(--surface); border:1px solid var(--line); box-shadow:var(--shadow); border-radius:var(--radius-sm); padding:7px 12px; font-family:var(--font-head); font-weight:var(--head-weight); color:var(--text); font-size:14.5px; white-space:nowrap">{{ t.heroWordA }}</div>
+      </div>
+    </div>
+  </header>
+
+  <section style="display:grid; grid-template-columns:repeat(auto-fit,minmax(200px,1fr)); gap:1px; background:var(--line); border-top:1px solid var(--line); border-bottom:1px solid var(--line)">
+    <sc-for list="{{ pillars }}" as="p" hint-placeholder-count="3">
+      <div style="background:var(--bg); padding:22px clamp(16px,4vw,32px); text-align:center">
+        <div style="font-family:var(--font-head); font-weight:var(--head-weight); font-size:20px; color:var(--accent); margin-bottom:4px">{{ p.stat }}</div>
+        <div style="font-family:var(--font-body); font-weight:700; color:var(--text); font-size:14.5px; margin-bottom:4px">{{ p.title }}</div>
+        <div style="font-family:var(--font-body); color:var(--muted); font-size:13px; line-height:1.45">{{ p.note }}</div>
+      </div>
+    </sc-for>
+  </section>
+
+  <section id="tt-menu" style="padding:clamp(24px,6vw,84px) clamp(4px,2vw,56px); max-width:1280px; margin:0 auto">
+    <div style="display:flex; align-items:flex-end; justify-content:space-between; gap:16px; margin-bottom:24px; flex-wrap:wrap">
+      <div>
+        <div style="font-family:var(--font-body); font-size:11.5px; font-weight:700; letter-spacing:.06em; text-transform:uppercase; color:var(--accent); margin-bottom:8px">{{ t.menuLabel }}</div>
+        <h2 style="font-family:var(--font-head); font-weight:var(--head-weight); color:var(--text); font-size:clamp(24px,5vw,46px); margin:0">{{ t.menuTitle }}</h2>
+      </div>
+      <p style="font-family:var(--font-body); color:var(--muted); font-size:14px; max-width:320px; margin:0; line-height:1.5">{{ t.menuNote }}</p>
+    </div>
+
+    <div style="display:flex; align-items:center; gap:10px; flex-wrap:wrap; background:var(--accent-soft); color:var(--accent); border-radius:var(--radius-sm); padding:12px 16px; margin-bottom:20px">
+      <span style="font-size:20px">&#127873;</span>
+      <div>
+        <div style="font-family:var(--font-head); font-weight:var(--head-weight); font-size:16px">{{ t.boxPromo }}</div>
+        <div style="font-family:var(--font-body); font-size:12px; opacity:.85">{{ t.boxPromoSub }}</div>
+      </div>
+    </div>
+
+    <div style="display:grid; grid-template-columns:repeat(auto-fill,minmax(170px,1fr)); gap:16px">
+      <sc-for list="{{ menu }}" as="item" hint-placeholder-count="8">
+        <div style="background:var(--surface); border-radius:20px; padding:9px; box-shadow:var(--shadow); border:1px solid var(--line)">
+          <div style="border-radius:14px; overflow:hidden; aspect-ratio:3/4">
+            <image-slot id="{{ item.id }}-thumb" src="{{ item.img }}" shape="rect" placeholder="{{ item.name }}" style="width:100%; height:100%"></image-slot>
+          </div>
+          <div style="display:flex; align-items:center; justify-content:space-between; gap:8px; padding:11px 3px 2px">
+            <div style="min-width:0">
+              <div style="font-family:var(--font-head); font-weight:var(--head-weight); color:var(--text); font-size:15.5px; line-height:1.2">{{ item.name }}</div>
+              <div style="font-family:var(--font-body); color:var(--muted); font-size:12px; margin-top:2px">{{ item.priceLabel }}</div>
+            </div>
+            <sc-if value="{{ item.outCart }}" hint-placeholder-val="{{ true }}">
+              <button onClick="{{ item.onAdd }}" style="flex:none; width:34px; height:34px; border:none; cursor:pointer; border-radius:50%; background:var(--accent); color:var(--accent-text); font-size:18px; font-weight:700; line-height:1">+</button>
+            </sc-if>
+            <sc-if value="{{ item.inCart }}" hint-placeholder-val="">
+              <div style="flex:none; display:flex; align-items:center; border:1.5px solid var(--accent); border-radius:999px; overflow:hidden">
+                <button onClick="{{ item.onDec }}" style="width:26px; height:30px; border:none; cursor:pointer; background:transparent; color:var(--accent); font-size:15px; font-weight:700; line-height:1">&minus;</button>
+                <span style="min-width:16px; text-align:center; font-family:var(--font-body); font-weight:800; color:var(--text); font-size:12.5px">{{ item.qty }}</span>
+                <button onClick="{{ item.onInc }}" style="width:26px; height:30px; border:none; cursor:pointer; background:var(--accent); color:var(--accent-text); font-size:15px; font-weight:700; line-height:1">+</button>
+              </div>
+            </sc-if>
+          </div>
+        </div>
+      </sc-for>
+    </div>
+  </section>
+
+  <!-- PICKUP & PAYMENT -->
+  <section style="border-top:1px solid var(--line); background:var(--surface-2); padding:clamp(24px,6vw,72px) clamp(4px,2vw,56px)">
+    <div style="max-width:1100px; margin:0 auto">
+      <div style="font-family:var(--font-body); font-size:11.5px; font-weight:700; letter-spacing:.06em; text-transform:uppercase; color:var(--accent); margin-bottom:8px">{{ t.pickupPaymentLabel }}</div>
+      <h2 style="font-family:var(--font-head); font-weight:var(--head-weight); color:var(--text); font-size:clamp(22px,5vw,40px); margin:0 0 6px">{{ t.howItWorks }}</h2>
+      <p style="font-family:var(--font-body); color:var(--muted); font-size:14px; margin:0 0 26px; max-width:560px; line-height:1.5">{{ t.howItWorksNote }}</p>
+
+      <div style="display:grid; grid-template-columns:repeat(auto-fit,minmax(180px,1fr)); gap:14px; margin-bottom:32px">
+        <sc-for list="{{ steps }}" as="st" hint-placeholder-count="3">
+          <div style="background:var(--surface); border:1px solid var(--line); border-radius:var(--radius); padding:18px">
+            <div style="width:30px; height:30px; border-radius:50%; background:var(--accent); color:var(--accent-text); display:flex; align-items:center; justify-content:center; font-family:var(--font-head); font-weight:var(--head-weight); font-size:14.5px; margin-bottom:12px">{{ st.n }}</div>
+            <div style="font-family:var(--font-body); font-weight:700; color:var(--text); font-size:14px; margin-bottom:5px">{{ st.title }}</div>
+            <sc-if value="{{ st.note }}" hint-placeholder-val="{{ true }}">
+              <div style="font-family:var(--font-body); color:var(--muted); font-size:12.5px; line-height:1.5">{{ st.note }}</div>
+            </sc-if>
+            <sc-if value="{{ st.hasBullets }}" hint-placeholder-val="">
+              <div style="display:flex; flex-direction:column; gap:8px; margin-bottom:10px">
+                <sc-for list="{{ st.pickupCards }}" as="pc" hint-placeholder-count="3">
+                  <div style="background:var(--surface-2); border:1px solid var(--line); border-radius:10px; padding:10px 12px; display:flex; align-items:center; justify-content:space-between; gap:10px">
+                    <div>
+                      <div style="font-family:var(--font-body); font-weight:800; color:var(--text); font-size:12.5px">{{ pc.day }} · {{ pc.time }}</div>
+                      <div style="font-family:var(--font-body); color:var(--muted); font-size:10.5px; line-height:1.3; margin-top:2px">{{ pc.place }}</div>
+                    </div>
+                    <div style="font-family:var(--font-body); color:var(--accent); font-size:9.5px; font-weight:700; white-space:nowrap; text-align:right">{{ pc.cutoff }}</div>
+                  </div>
+                </sc-for>
+              </div>
+              <div style="font-family:var(--font-body); color:var(--muted); font-size:11.5px; line-height:1.5; font-style:italic">{{ st.afterNote }}</div>
+            </sc-if>
+            <sc-if value="{{ st.hasQr }}" hint-placeholder-val="">
+              <image-slot id="{{ st.qrId }}" src="{{ st.qrImg }}" shape="rounded" radius="12" placeholder="QR" style="{{ st.qrStyle }}"></image-slot>
+              <div style="text-align:center; font-family:var(--font-body); font-weight:700; color:var(--text); font-size:13px; margin-top:8px">{{ st.qrLabel }}</div>
+            </sc-if>
+
+          </div>
+        </sc-for>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer style="padding:26px clamp(4px,2vw,56px) 40px">
+    <div style="background:var(--text); border-radius:var(--radius); padding:30px 24px; text-align:center; max-width:480px; margin:0 auto">
+      <div style="font-family:var(--font-head); font-weight:var(--head-weight); color:var(--bg); font-size:20px; margin-bottom:6px">{{ brand }}</div>
+      <div style="font-family:var(--font-body); color:color-mix(in srgb, var(--bg) 65%, transparent); font-size:13px; line-height:1.5; max-width:300px; margin:0 auto 18px">{{ t.brandBlurb }}</div>
+      <div style="display:flex; justify-content:center; gap:10px; flex-wrap:wrap">
+        <span style="padding:7px 14px; border-radius:999px; background:var(--accent); color:var(--accent-text); font-size:11.5px; font-weight:700; font-family:var(--font-body)">WeChat {{ wechatId }}</span>
+        <span style="padding:7px 14px; border-radius:999px; border:1px solid color-mix(in srgb, var(--bg) 35%, transparent); color:var(--bg); font-size:11.5px; font-weight:700; font-family:var(--font-body)">Instagram {{ instagramId }}</span>
+      </div>
+    </div>
+  </footer>
+
+  <!-- BACKDROP -->
+  <div class="tt-backdrop" onClick="{{ closeCart }}" style="{{ backdropStyle }}"></div>
+
+  <!-- CART DRAWER -->
+  <aside class="tt-drawer" style="{{ drawerStyle }}">
+    <div style="display:flex; align-items:center; justify-content:space-between; padding:18px 18px; border-bottom:1px solid var(--line); flex:none">
+      <span style="font-family:var(--font-head); font-weight:var(--head-weight); color:var(--text); font-size:21px">{{ drawerTitle }}</span>
+      <button onClick="{{ closeCart }}" style="width:32px; height:32px; border:1px solid var(--line); cursor:pointer; border-radius:50%; background:var(--surface); color:var(--text); font-size:17px; line-height:1">&times;</button>
+    </div>
+
+    <div class="tt-body" style="flex:1; overflow-y:auto; padding:18px">
+
+      <sc-if value="{{ isCart }}" hint-placeholder-val="{{ true }}">
+        <sc-if value="{{ isEmpty }}" hint-placeholder-val="">
+          <div style="text-align:center; padding:44px 10px">
+            <div style="width:78px; height:78px; margin:0 auto 16px; border-radius:50%; background:repeating-conic-gradient(from 0deg, #EABE83 0deg 6deg, #D3A263 6deg 12deg); position:relative; opacity:.5">
+              <div style="position:absolute; inset:15%; border-radius:50%; background:radial-gradient(circle at 42% 34%, #FFE9AE 0%, #E7A93A 80%)"></div>
+            </div>
+            <p style="font-family:var(--font-body); color:var(--muted); font-size:14.5px; margin:0 0 14px">{{ t.emptyBagMsg }}</p>
+            <div style="display:inline-flex; align-items:center; gap:8px; padding:9px 14px; border-radius:999px; background:var(--accent-soft); color:var(--accent); font-family:var(--font-body); font-weight:700; font-size:13px; margin-bottom:18px">&#127873; {{ t.boxPromo }}</div>
+            <div>
+              <button onClick="{{ browseFromCart }}" style="padding:12px 22px; border:none; cursor:pointer; border-radius:var(--radius-sm); background:var(--accent); color:var(--accent-text); font-family:var(--font-body); font-weight:700; font-size:14.5px">{{ t.ctaLabel }}</button>
+            </div>
+          </div>
+        </sc-if>
+        <sc-if value="{{ hasItems }}" hint-placeholder-val="">
+          <div style="display:flex; flex-direction:column; gap:14px">
+            <sc-for list="{{ cartItems }}" as="ci" hint-placeholder-count="2">
+              <div style="display:flex; gap:12px; align-items:center">
+                <div style="width:48px; height:48px; flex:none; border-radius:50%; background:repeating-conic-gradient(from 0deg, #EABE83 0deg 6deg, #D3A263 6deg 12deg); position:relative">
+                  <div style="{{ ci.custardStyle }}"></div>
+                </div>
+                <div style="flex:1; min-width:0">
+                  <div style="font-family:var(--font-body); font-weight:700; color:var(--text); font-size:14.5px">{{ ci.name }}</div>
+                  <div style="font-family:var(--font-body); color:var(--muted); font-size:12.5px">{{ ci.perEachLabel }}</div>
+                </div>
+                <div style="display:flex; align-items:center; border:1px solid var(--line); border-radius:var(--radius-sm); overflow:hidden">
+                  <button onClick="{{ ci.onDec }}" style="width:28px; height:30px; border:none; cursor:pointer; background:transparent; color:var(--text); font-size:16px; line-height:1">&minus;</button>
+                  <span style="min-width:22px; text-align:center; font-family:var(--font-body); font-weight:800; color:var(--text); font-size:13.5px">{{ ci.qty }}</span>
+                  <button onClick="{{ ci.onInc }}" style="width:28px; height:30px; border:none; cursor:pointer; background:transparent; color:var(--text); font-size:15px; line-height:1">+</button>
+                </div>
+                <div style="width:50px; text-align:right; font-family:var(--font-body); font-weight:800; color:var(--text); font-size:14.5px">{{ ci.lineLabel }}</div>
+              </div>
+            </sc-for>
+          </div>
+
+          <sc-for list="{{ priorBoxes }}" as="bx" hint-placeholder-count="0">
+            <div style="margin-top:18px; padding:14px; border-radius:var(--radius); border:2px solid var(--accent); background:var(--accent-soft)">
+              <div style="display:flex; align-items:center; justify-content:center; gap:10px; margin-bottom:10px">
+                <sc-for list="{{ bx.items }}" as="it" hint-placeholder-count="4">
+                  <div style="width:40px; height:40px; border-radius:50%; position:relative; overflow:hidden; box-shadow:0 4px 8px rgba(0,0,0,.15); background:var(--surface)">
+                    <div style="{{ it.custardStyle }}"></div>
+                  </div>
+                </sc-for>
+              </div>
+              <div style="text-align:center; font-family:var(--font-body); font-weight:700; color:var(--accent); font-size:13px">{{ bx.price }}</div>
+            </div>
+          </sc-for>
+
+          <div style="margin-top:18px; padding:14px; border-radius:var(--radius); border:2px dashed var(--line); background:var(--surface-2)">
+            <div style="display:flex; align-items:center; justify-content:center; gap:10px; margin-bottom:10px">
+              <sc-for list="{{ boxSlots }}" as="bs" hint-placeholder-count="4">
+                <sc-if value="{{ bs.filled }}" hint-placeholder-val="">
+                  <div style="width:40px; height:40px; border-radius:50%; position:relative; overflow:hidden; box-shadow:0 4px 8px rgba(0,0,0,.15); background:var(--surface)">
+                    <div style="{{ bs.custardStyle }}"></div>
+                  </div>
+                </sc-if>
+                <sc-if value="{{ bs.empty }}" hint-placeholder-val="{{ true }}">
+                  <div style="width:40px; height:40px; border-radius:50%; border:2px dashed var(--line); background:var(--surface)"></div>
+                </sc-if>
+              </sc-for>
+            </div>
+            <div style="text-align:center; font-family:var(--font-body); font-weight:700; color:var(--text); font-size:13px">{{ boxNote }}</div>
+          </div>
+
+          <sc-if value="{{ hasSavings }}" hint-placeholder-val="">
+            <div style="margin-top:12px; text-align:center; font-family:var(--font-body); font-weight:700; color:var(--accent); font-size:13px">{{ savingsNote }}</div>
+          </sc-if>
+
+          <div style="margin-top:18px">
+            <div style="font-family:var(--font-body); font-weight:800; font-size:11.5px; letter-spacing:.05em; text-transform:uppercase; color:var(--muted); margin-bottom:10px">{{ t.pickupDayLabel }}</div>
+            <div style="display:flex; flex-direction:column; gap:8px">
+              <sc-for list="{{ dayOptions }}" as="dopt" hint-placeholder-count="3">
+                <button onClick="{{ dopt.onSelect }}" style="{{ dopt.style }}">
+                  <span style="display:flex; flex-direction:column; align-items:flex-start; gap:2px">
+                    <span style="font-weight:700; font-size:14px">{{ dopt.dateLabel }}</span>
+                    <span style="font-size:11.5px; opacity:.75">{{ dopt.timeLabel }} · {{ dopt.placeLabel }}</span>
+                  </span>
+                  <span style="font-size:10.5px; opacity:.65; white-space:nowrap">{{ dopt.cutoffLabel }}</span>
+                </button>
+              </sc-for>
+            </div>
+          </div>
+        </sc-if>
+      </sc-if>
+
+      <sc-if value="{{ isDone }}" hint-placeholder-val="">
+        <div style="text-align:center; padding:6px 0 4px">
+          <sc-if value="{{ toastMsg }}" hint-placeholder-val="">
+            <div style="background:#FDECC8; border:1px solid #E8B84B; color:#7A5A12; border-radius:var(--radius-sm); padding:10px 12px; font-family:var(--font-body); font-size:12.5px; font-weight:700; margin-bottom:14px; text-align:left">
+              &#9200; {{ toastMsgText }}
+            </div>
+          </sc-if>
+          <div style="width:60px; height:60px; margin:0 auto 14px; border-radius:50%; background:var(--accent); color:var(--accent-text); display:flex; align-items:center; justify-content:center; font-size:28px; animation:ttPop .5s ease both">&check;</div>
+          <h3 style="font-family:var(--font-head); font-weight:var(--head-weight); color:var(--text); font-size:22px; margin:0 0 4px">{{ t.almostThere }}</h3>
+          <p style="font-family:var(--font-body); color:var(--muted); font-size:14px; margin:0 0 18px; line-height:1.5">{{ t.orderReserved }}</p>
+
+          <div style="background:var(--accent-soft); border-radius:var(--radius-sm); padding:13px; margin-bottom:16px">
+            <div style="font-family:var(--font-body); font-size:11.5px; font-weight:700; letter-spacing:.06em; text-transform:uppercase; color:var(--accent); margin-bottom:4px">{{ t.yourOrderNumberLabel }}</div>
+            <div style="font-family:var(--font-head); font-weight:var(--head-weight); color:var(--text); font-size:28px; letter-spacing:.02em">{{ orderNum }}</div>
+          </div>
+
+          <div style="text-align:left; background:var(--surface-2); border:1px solid var(--line); border-radius:var(--radius-sm); padding:15px 16px; margin-bottom:16px">
+            <div style="display:flex; justify-content:space-between; font-family:var(--font-body); font-size:12.5px; color:var(--muted); margin-bottom:10px">
+              <span>{{ t.orderLabel }}{{ orderNum }}</span><span>{{ pickupWhen }}</span>
+            </div>
+            <sc-for list="{{ cartItems }}" as="ci" hint-placeholder-count="2">
+              <div style="display:flex; justify-content:space-between; font-family:var(--font-body); font-size:13.5px; color:var(--text); padding:4px 0">
+                <span>{{ ci.qty }}&times; {{ ci.name }}</span><span>{{ ci.lineLabel }}</span>
+              </div>
+            </sc-for>
+            <div style="display:flex; justify-content:space-between; font-family:var(--font-body); font-weight:800; color:var(--text); font-size:15px; border-top:1px solid var(--line); margin-top:10px; padding-top:12px">
+              <span>{{ t.totalLabel }}</span><span>{{ totalLabel }}</span>
+            </div>
+            <div style="font-family:var(--font-body); color:var(--muted); font-size:12.5px; margin-top:10px; line-height:1.5">{{ t.collectAt }}{{ pickupWhere }}</div>
+          </div>
+
+          <div style="text-align:left; background:var(--surface-2); border:1px solid var(--line); border-radius:var(--radius-sm); padding:15px 16px; margin-bottom:16px">
+            <div style="font-family:var(--font-body); font-weight:800; font-size:11.5px; letter-spacing:.05em; text-transform:uppercase; color:var(--muted); margin-bottom:10px">{{ t.toConfirmOrderLabel }}</div>
+            <div style="text-align:center; margin-bottom:14px">
+              <image-slot id="artisan-venmo-qr-done" src="uploads/venmo-qr.png" shape="rounded" radius="12" placeholder="Venmo QR" style="width:140px; height:140px; margin:0 auto 8px"></image-slot>
+              <div style="font-family:var(--font-body); font-weight:700; color:var(--text); font-size:14.5px; margin-bottom:2px">{{ t.scanToPay }} {{ totalLabel }}</div>
+              <div style="font-family:var(--font-body); color:var(--muted); font-size:11.5px">{{ venmoId }}</div>
+            </div>
+            <sc-for list="{{ confirmSteps }}" as="cs" hint-placeholder-count="3">
+              <div style="display:flex; gap:10px; margin-bottom:10px">
+                <span style="flex:none; width:20px; height:20px; border-radius:50%; background:var(--accent); color:var(--accent-text); font-family:var(--font-body); font-weight:800; font-size:11px; display:flex; align-items:center; justify-content:center">{{ cs.n }}</span>
+                <span style="font-family:var(--font-body); color:var(--text); font-size:13px; line-height:1.5">{{ cs.text }}</span>
+              </div>
+            </sc-for>
+          </div>
+
+          <button onClick="{{ startNew }}" style="margin-top:18px; padding:13px 24px; border:1px solid var(--line); cursor:pointer; border-radius:var(--radius-sm); background:transparent; color:var(--text); font-family:var(--font-body); font-weight:700; font-size:14.5px">{{ t.startNewOrder }}</button>
+        </div>
+      </sc-if>
+    </div>
+
+    <sc-if value="{{ showCartFooter }}" hint-placeholder-val="">
+      <div style="flex:none; border-top:1px solid var(--line); padding:15px 18px; display:flex; flex-direction:column; gap:11px">
+        <div style="display:flex; justify-content:space-between; align-items:baseline; font-family:var(--font-body); font-weight:800; color:var(--text); font-size:17px">
+          <span>{{ t.totalLabel }}</span>
+          <span>{{ totalLabel }}</span>
+        </div>
+        <button onClick="{{ goCheckout }}" style="width:100%; padding:15px; border:none; cursor:pointer; border-radius:var(--radius-sm); background:var(--accent); color:var(--accent-text); font-family:var(--font-body); font-weight:700; font-size:15px">{{ t.checkoutBtn }}</button>
+      </div>
+    </sc-if>
+
+  </aside>
+</div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:&quot;100%&quot;,&quot;height&quot;:&quot;100%&quot;},&quot;previewMobile&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;View&quot;},&quot;wechatId&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;@TartTheory&quot;,&quot;tsType&quot;:&quot;string&quot;},&quot;venmoId&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;@tart_theory&quot;,&quot;tsType&quot;:&quot;string&quot;}}">
+class Component extends DCLogic {
+  constructor(props) {
+    super(props);
+    this.BRAND = 'Tart Theory';
+    this.FLAVORS = [
+      { id:'original', zh:'原味葡式蛋挞', en:'Original Portuguese Style', tagZh:'畅销', tagEn:'Best Seller', descZh:'焦糖表面，嫩滑蛋奶馅，千层酥皮，完美烘烤。', descEn:'Caramelized top, silky egg custard, buttery layered crust, baked to perfection.', center:'#FFE9AE', edge:'#E7A93A', torched:true, price:4, img:'uploads/poster.jpg' },
+      { id:'lychee', zh:'荔枝奶酪蛋挞', en:'Lychee Cream Cheese Eggtart', tagZh:null, tagEn:null, descZh:'新鲜荔枝，丝滑奶酪馅，玫瑰花瓣点缀，千层酥皮。', descEn:'Fresh lychee, silky cream cheese, aromatic rose petal, buttery layered crust.', center:'#F6E1DC', edge:'#D99C92', torched:false, price:6, img:'uploads/poster-82d88b98.jpg' },
+      { id:'matcha', zh:'抹茶红豆蛋挞', en:'Matcha Red Bean Tart', tagZh:null, tagEn:null, descZh:'抹茶粉，嫩滑蛋奶馅，红豆沙，千层酥皮。', descEn:'Matcha powder, silky egg custard, smooth red bean paste, buttery layered crust.', center:'#C9D9A0', edge:'#7C9B4A', torched:false, price:6, img:'uploads/poster-c3d7448e.jpg' },
+      { id:'porkfloss', zh:'肉松咸蛋黄蛋挞', en:'Pork Floss Salted Egg Tart', tagZh:'新品', tagEn:'New', descZh:'肉松，咸蛋黄酱，海苔点缀，千层酥皮。', descEn:'Pork floss, rich salted egg yolk sauce, seaweed, buttery layered crust.', center:'#F0B15C', edge:'#C97A22', torched:false, price:6, img:'uploads/poster-ae494cf0.jpg' },
+      { id:'oreo', zh:'奥利奥奶油蛋挞', en:'Cookies & Cream Egg Tart', tagZh:null, tagEn:null, descZh:'奥利奥饼干，可可粉，蛋奶馅，千层酥皮。', descEn:'Chocolate cookie, cocoa powder, silky egg custard, buttery layered pastry.', center:'#E8D9C2', edge:'#8B6A4A', torched:false, price:6, img:'uploads/poster-7699b6d5.jpg' },
+    ];
+    this.PICKUP_PLACE_ZH='Bellevue T&T 亚洲超市停车场'; this.PICKUP_PLACE_EN='Bellevue T&T Supermarket parking lot';
+    this.DOWNTOWN_PLACE_ZH='西雅图市中心（具体地点将通过 Instagram/微信 告知）'; this.DOWNTOWN_PLACE_EN='Downtown Seattle (exact spot shared via Instagram/WeChat)';
+    this.PICKUP_SCHEDULE = [
+      { id:'sat', weekday:6, cutoffDays:2, timeZh:'下午3:00\u20133:30', timeEn:'3:00\u20133:30 PM', placeZh:this.PICKUP_PLACE_ZH, placeEn:this.PICKUP_PLACE_EN, shortZh:'Bellevue T&T', shortEn:'Bellevue T&T' },
+      { id:'sun', weekday:0, cutoffDays:2, timeZh:'下午3:00\u20133:30', timeEn:'3:00\u20133:30 PM', placeZh:this.PICKUP_PLACE_ZH, placeEn:this.PICKUP_PLACE_EN, shortZh:'Bellevue T&T', shortEn:'Bellevue T&T' },
+    ];
+    this.UI = {
+      zh:{ bag:'购物车', kicker:'今天，也想吃一颗热乎乎的蛋挞。', heroTitle:'现烤出炉。', heroSubtitle:'酥到掉渣的塔皮，\n顺滑浓郁的蛋奶馅。', heroNote:'每天新鲜制作，\n每周都有新的口味。', heroSmall:'仅支持线上预订 \u00b7 定点自取', ctaLabel:'查看菜单',
+        menuLabel:'菜单', menuTitle:'蛋奶冻风味', menuNote:'经典口味与每周限定，任你挑选。', add:'加入',
+        pickupPaymentLabel:'取货与付款', howItWorks:'使用流程', howItWorksNote:'仅限自取，微信/支付宝扫码付款，一分钟搞定。',
+        brandBlurb:'一家只专注做蛋挞的小店。提前下单，扫码付款，温热取走。', pickupShopsLabel:'取货门店', hoursContactLabel:'营业时间与联系方式',
+        hoursLine1:'周一至周五 \u00b7 8:00\u201319:00', hoursLine2:'周六至周日 \u00b7 9:00\u201318:00', wechatLabel:'微信',
+        emptyBagMsg:'你的袋子还是空的，去挑几个蛋挞吧。', selfPickupNote:'仅限自取 \u00b7 下一步扫码付款', chooseShopLabel:'选择门店', pickupTimeLabel:'取货时间', pickupDayLabel:'选择取货日期',
+        boxPromo:'任选 4 个，仅需 $20！', boxPromoSub:'原味蛋挞已含优惠，混搭更划算。',
+        yourDetailsLabel:'你的信息', namePlaceholder:'你的姓名', wechatPlaceholder:'你的微信号', wechatMatchNote:'我们会用你的微信号核对付款截图与订单。',
+        backToBag:'\u2190 返回袋子', almostThere:'就快好了', orderReserved:'订单已预留，付款确认后即可锁定。', yourOrderNumberLabel:'你的订单号',
+        scanToPay:'扫码支付', wechatAlipayAccepted:'支持微信支付/支付宝', toConfirmOrderLabel:'确认订单步骤', orderLabel:'订单 ', collectAt:'取货地点：',
+        startNewOrder:'开始新订单', checkoutBtn:'结账', totalLabel:'总计', eachSuffix:'/每个', confirmShotLabel:'付款确认截图示例',
+        heroWordA:'现烤', heroWordB:'酥脆', heroWordC:'浓郁',
+        confirm1:(t)=>'扫描上方二维码支付 '+t+'。', confirm2:(o,w)=>'将订单号 '+o+' 和付款截图发送到微信：'+w+'。', confirm3:(s,tm)=>'在 '+s+'，'+tm+' 取货，我们会回复确认。' },
+      en:{ bag:'Bag', kicker:'Freshly baked eggtarts.', heroTitle:'Every batch.', heroSubtitle:'Flaky crust.\nSilky custard.', heroNote:'Classic favorites and weekly specials.', heroSmall:'Pre-order for pickup.', ctaLabel:'Order Now',
+        menuLabel:'The menu', menuTitle:'Ways to set custard', menuNote:'Classic favorites and weekly specials.', add:'Add',
+        pickupPaymentLabel:'Pickup & payment', howItWorks:'How it works', howItWorksNote:'Self-pickup only, paid by QR. It takes about a minute \u2014 here\u2019s the whole thing.',
+        brandBlurb:'A small bakery obsessed with one pastry. Order ahead, pay by QR, collect warm.', pickupShopsLabel:'Pickup shops', hoursContactLabel:'Hours & contact',
+        hoursLine1:'Mon\u2013Fri \u00b7 8am\u20137pm', hoursLine2:'Sat\u2013Sun \u00b7 9am\u20136pm', wechatLabel:'Instagram',
+        emptyBagMsg:'Your bag is empty. Go pick some tarts.', selfPickupNote:'Self-pickup \u00b7 pay by QR on the next step', chooseShopLabel:'Choose a shop', pickupTimeLabel:'Pickup time', pickupDayLabel:'Choose your pickup day',
+        boxPromo:'Any 4 for $20!', boxPromoSub:'The Original is already discounted \u2014 mix and match for more.',
+        yourDetailsLabel:'Your details', namePlaceholder:'Your name', wechatPlaceholder:'Your Instagram handle', wechatMatchNote:'We\u2019ll match your Instagram handle to your order when you send your payment screenshot.',
+        backToBag:'\u2190 Back to bag', almostThere:'Almost there', orderReserved:'Your order is reserved. Pay & confirm to lock it in.', yourOrderNumberLabel:'Your order number',
+        scanToPay:'Scan to pay', wechatAlipayAccepted:'WeChat Pay / Alipay accepted', toConfirmOrderLabel:'To confirm your order', orderLabel:'Order ', collectAt:'Collect at ',
+        startNewOrder:'Start a new order', checkoutBtn:'Checkout', totalLabel:'Total', eachSuffix:' each', confirmShotLabel:'Payment confirmation screenshot',
+        heroWordA:'Fresh-Baked', heroWordB:'Flaky', heroWordC:'Rich',
+        confirm1:(t)=>'Scan the QR above to pay '+t+'.', confirm2:(o,w)=>'Send your order number '+o+' and the payment screenshot to us on Instagram: '+w+'.', confirm3:(s,tm)=>'Collect at '+s+', '+tm+'. We reply to confirm.' },
+    };
+    this.THEME_VARS = { '--bg':'#F7EFE0','--surface':'#FFFCF4','--surface-2':'#F1E6D0','--text':'#3A2C1A','--muted':'#94826A','--line':'#E7D9BF','--accent':'#C0792A','--accent-text':'#FFF8EC','--accent-soft':'#F2E3C6','--font-head':"'Noto Serif SC', 'Newsreader', Georgia, serif",'--font-body':"'Noto Sans SC', 'Hanken Grotesk', system-ui, sans-serif",'--radius':'16px','--radius-sm':'12px','--head-weight':'600','--head-transform':'none','--head-spacing':'0','--shadow':'0 10px 30px rgba(90,60,20,.12)' };
+    this.state = { cart: {}, cartOpen: false, step: 'cart', orderNum: null, lang: 'zh', pickupDayId: null, pickupDaySelectedDate: null, toastMsg: false };
+  }
+
+  wechat() { return this.props.wechatId ?? '@TartTheory'; }
+  venmo() { return this.props.venmoId ?? '@tart_theory'; }
+  instagram() { return this.props.instagramId ?? '@tarttheory'; }
+  money(n) { return (n % 1 === 0) ? ('$' + n) : ('$' + n.toFixed(2)); }
+  toggleLang() { this.setState(s => ({ lang: s.lang==='zh' ? 'en' : 'zh' })); }
+
+  custardBg(f) {
+    let spots = '';
+    if (f.torched) {
+      spots = 'radial-gradient(circle at 33% 36%, rgba(86,44,12,.5) 0 4%, transparent 5%),'
+            + 'radial-gradient(circle at 63% 30%, rgba(86,44,12,.4) 0 3%, transparent 4.5%),'
+            + 'radial-gradient(circle at 58% 64%, rgba(86,44,12,.45) 0 4%, transparent 5%),';
+    }
+    return spots + 'radial-gradient(circle at 42% 34%, ' + f.center + ' 0%, ' + f.center + ' 16%, ' + f.edge + ' 80%, ' + f.edge + ' 100%)';
+  }
+  custardStyle(f, inset) {
+    return { position:'absolute', inset: inset, borderRadius:'50%', background:this.custardBg(f),
+             boxShadow:'inset 0 -7px 14px rgba(60,30,8,.22), inset 0 5px 10px rgba(255,255,255,.45)' };
+  }
+
+  add(id) {
+    this.setState(s => {
+      if (s.step === 'done') return { cart: { [id]: 1 }, step:'cart', orderNum:null };
+      return { cart: { ...s.cart, [id]: (s.cart[id]||0) + 1 } };
+    });
+  }
+  inc(id) { this.setState(s => ({ cart:{ ...s.cart, [id]:(s.cart[id]||0)+1 } })); }
+  dec(id) { this.setState(s => { const q=(s.cart[id]||0)-1; const c={...s.cart}; if(q<=0) delete c[id]; else c[id]=q; return { cart:c }; }); }
+  openCart() { this.setState(s => ({ cartOpen:true, step: s.step==='done'?'cart':s.step })); }
+  closeCart() { this.setState({ cartOpen:false }); }
+  computePickupOptions() {
+    const now = new Date();
+    const zhWeekday = ['周日','周一','周二','周三','周四','周五','周六'];
+    const enWeekday = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
+    return this.PICKUP_SCHEDULE.map(sch => {
+      let d = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+      const diff = (sch.weekday - d.getDay() + 7) % 7;
+      d.setDate(d.getDate() + diff);
+      let cutoff = new Date(d); cutoff.setDate(cutoff.getDate()-(sch.cutoffDays||1)); cutoff.setHours(23,0,0,0);
+      if (now.getTime() > cutoff.getTime()) { d.setDate(d.getDate()+7); cutoff.setDate(cutoff.getDate()+7); }
+      return { ...sch, date:d, cutoff,
+        dateLabelZh: zhWeekday[d.getDay()]+' '+(d.getMonth()+1)+'月'+d.getDate()+'日',
+        dateLabelEn: enWeekday[d.getDay()]+' '+(d.getMonth()+1)+'/'+d.getDate(),
+        cutoffLabelZh: zhWeekday[cutoff.getDay()]+' 23:00 前下单',
+        cutoffLabelEn: 'Order by '+enWeekday[cutoff.getDay()]+' 11PM' };
+    }).sort((a,b)=>a.date-b.date);
+  }
+  selectPickupDay(id) {
+    const o = this.computePickupOptions().find(x=>x.id===id);
+    if (!o) return;
+    this.setState({ pickupDayId:id, pickupDaySelectedDate:o.date.toISOString() });
+  }
+  goCheckout() {
+    const opts = this.computePickupOptions();
+    const selId = this.state.pickupDayId || opts[0].id;
+    const sel = opts.find(o=>o.id===selId) || opts[0];
+    const bumped = !!(this.state.pickupDaySelectedDate && this.state.pickupDaySelectedDate !== sel.date.toISOString());
+    const n = 'TT-' + Math.floor(1000 + Math.random()*9000);
+    this.setState({ step:'done', orderNum:n, pickupDayId:sel.id, pickupDaySelectedDate:sel.date.toISOString(), toastMsg:bumped });
+    if (bumped) setTimeout(()=>this.setState({ toastMsg:false }), 4000);
+  }
+  backToCart() { this.setState({ step:'cart' }); }
+  browseFromCart() { this.setState({ cartOpen:false }); this.scrollToMenu(); }
+  startNew() { this.setState({ cart:{}, step:'cart', orderNum:null, cartOpen:false, pickupDayId:null, pickupDaySelectedDate:null, toastMsg:false }); }
+  scrollToMenu() {
+    const el = document.getElementById('tt-menu');
+    if (!el) return;
+    const nav = document.querySelector('.tt-root nav');
+    const off = (nav ? nav.offsetHeight : 70) + 12;
+    window.scrollTo({ top: el.getBoundingClientRect().top + window.scrollY - off, behavior:'smooth' });
+  }
+
+  entries() { return Object.keys(this.state.cart).map(id => ({ f:this.FLAVORS.find(x=>x.id===id), qty:this.state.cart[id] })).filter(e=>e.f); }
+  qtyTotal() { return this.entries().reduce((a,e)=>a+e.qty, 0); }
+  unitList() { const list=[]; this.entries().forEach(e=>{ for(let i=0;i<e.qty;i++) list.push(e.f); }); return list; }
+  total() {
+    const units = this.unitList();
+    const boxes = Math.floor(units.length/4);
+    let sum = 0;
+    for (let b=0; b<boxes; b++) {
+      const seg = units.slice(b*4, b*4+4);
+      const segSum = seg.reduce((a,f)=>a+f.price, 0);
+      sum += Math.min(20, segSum);
+    }
+    sum += units.slice(boxes*4).reduce((a,f)=>a+f.price, 0);
+    return sum;
+  }
+  grossTotal() { return this.unitList().reduce((a,f)=>a+f.price, 0); }
+  renderVals() {
+    const lang = this.state.lang;
+    const isZh = lang === 'zh';
+    const L = this.UI[lang];
+    const rootStyle = { ...this.THEME_VARS, minHeight:'100vh', width:'100%',
+      background: this.props.previewMobile ? 'color-mix(in srgb, var(--text) 6%, var(--surface-2))' : 'var(--bg)',
+      color:'var(--text)', fontFamily:'var(--font-body)', display:'flex', justifyContent:'center' };
+    const frameStyle = this.props.previewMobile
+      ? { width:'390px', maxWidth:'100%', minHeight:'100vh', background:'var(--bg)', boxShadow:'0 0 0 1px var(--line), 0 30px 60px rgba(0,0,0,.25)', overflow:'hidden' }
+      : { width:'100%', background:'var(--bg)' };
+
+    const menu = this.FLAVORS.map((f, i) => {
+      const qty = this.state.cart[f.id] || 0;
+      const priceLabel = this.money(f.price);
+      return { ...f, name: isZh?f.zh:f.en, desc: isZh?f.descZh:f.descEn, tag: isZh?f.tagZh:f.tagEn,
+        qty, num: String(i+1).padStart(2,'0'), inCart:qty>0, outCart:qty===0,
+        priceLabel, custardStyle:this.custardStyle(f, '14%'), img:f.img,
+        onAdd:()=>this.add(f.id), onInc:()=>this.inc(f.id), onDec:()=>this.dec(f.id) };
+    });
+
+    const cartItems = this.entries().map(e => ({ id:e.f.id, name: isZh?e.f.zh:e.f.en, qty:e.qty,
+      priceLabel:this.money(e.f.price), perEachLabel: this.money(e.f.price) + L.eachSuffix, lineLabel:this.money(e.f.price*e.qty),
+      custardStyle:this.custardStyle(e.f, '13%'),
+      onInc:()=>this.inc(e.f.id), onDec:()=>this.dec(e.f.id) }));
+
+    const qty = this.qtyTotal();
+    const total = this.total();
+    const gross = this.grossTotal();
+    const savings = gross - total;
+
+    const units = this.unitList();
+    const boxesCompleted = Math.floor(qty/4);
+    const fillCount = qty % 4;
+    const showFull = fillCount===0 && qty>0;
+    const displayFill = showFull ? 4 : fillCount;
+    const segStart = showFull ? (boxesCompleted-1)*4 : boxesCompleted*4;
+    const segment = units.slice(segStart, segStart+4);
+    const boxSlots = Array.from({length:4}, (_,i) => i<displayFill
+      ? { filled:true, empty:false, custardStyle:this.custardStyle(segment[i], '20%') }
+      : { filled:false, empty:true });
+    const boxPriceNow = showFull ? Math.min(20, segment.reduce((a,f)=>a+f.price,0)) : null;
+    const checkoutBoxes = Array.from({length:boxesCompleted}, (_,b) => {
+      const segItems = units.slice(b*4,(b*4)+4);
+      return { price: this.money(Math.min(20, segItems.reduce((a,f)=>a+f.price,0))),
+        items: segItems.map(f=>({custardStyle:this.custardStyle(f,'20%')})) };
+    });
+    const leftoverUnits = units.slice(boxesCompleted*4).map(f=>({custardStyle:this.custardStyle(f,'20%')}));
+    const priorCompletedCount = showFull ? boxesCompleted-1 : boxesCompleted;
+    const priorBoxes = checkoutBoxes.slice(0, priorCompletedCount);
+    const hasPriorBoxes = priorBoxes.length>0;
+    const boxNote = showFull
+      ? (isZh? ('\ud83c\udf89 已凑成一盒，仅 $'+boxPriceNow+'！') : ('\ud83c\udf89 Box complete \u2014 just $'+boxPriceNow+'!'))
+      : (isZh? ('还差 '+(4-fillCount)+' 个凑成 4 个装的礼盒！') : ('Add '+(4-fillCount)+' more for a box of 4!'));
+
+    const pickupOptions = this.computePickupOptions();
+    const selectedPickupId = this.state.pickupDayId || pickupOptions[0].id;
+    const selectedPickup = pickupOptions.find(o=>o.id===selectedPickupId) || pickupOptions[0];
+    const dayOptions = pickupOptions.map(o => {
+      const active = o.id===selectedPickupId;
+      return { id:o.id,
+        dateLabel: isZh?o.dateLabelZh:o.dateLabelEn, timeLabel: isZh?o.timeZh:o.timeEn,
+        placeLabel: isZh?o.shortZh:o.shortEn, cutoffLabel: isZh?o.cutoffLabelZh:o.cutoffLabelEn,
+        onSelect:()=>this.selectPickupDay(o.id),
+        style:{ display:'flex', justifyContent:'space-between', alignItems:'center', textAlign:'left', cursor:'pointer',
+          padding:'12px 14px', borderRadius:'var(--radius-sm)', fontFamily:'var(--font-body)',
+          border: active ? '1.5px solid var(--accent)' : '1.5px solid var(--line)',
+          background: active ? 'var(--accent-soft)' : 'var(--surface-2)',
+          color: active ? 'var(--accent)' : 'var(--text)' } };
+    });
+    const pickupPlace = isZh ? selectedPickup.placeZh : selectedPickup.placeEn;
+    const pickupTimeText = isZh ? (selectedPickup.dateLabelZh+' '+selectedPickup.timeZh) : (selectedPickup.dateLabelEn+' '+selectedPickup.timeEn);
+    const toastMsgText = isZh ? ('下单时间已截止，已为你自动调整到下一个可预订日期：'+selectedPickup.dateLabelZh) : ('Order window closed \u2014 we moved your pickup to '+selectedPickup.dateLabelEn+'.');
+
+    return {
+      t: L, lang, isZh, brand: this.BRAND,
+      langThumbStyle: { position:'absolute', top:'2px', bottom:'2px', left: isZh?'2px':'50%', width:'calc(50% - 2px)', borderRadius:'999px', background:'var(--accent)', transition:'left .22s ease' },
+      rootStyle, frameStyle, menu, cartItems, wechatId: this.wechat(), venmoId: this.venmo(), instagramId: this.instagram(),
+      pillars: [
+        { stat: isZh?'塔皮':'Crust', title: isZh?'200+ 层起酥工艺':'200+ Delicate Layers', note: isZh?'轻盈酥脆，层次丰富。':'Light & flaky. Crisp & airy.' },
+        { stat: isZh?'内馅':'Custard', title: isZh?'精选新鲜食材':'Fresh Ingredients', note: isZh?'浓郁蛋香，细腻顺滑。':'Rich & creamy. Smooth & silky.' },
+        { stat: isZh?'火候':'Baking', title: isZh?'小批量现烤':'Small-Batch Baked', note: isZh?'现烤现做，品质如一。':'Perfectly baked. Fresh every batch.' },
+      ],
+      steps: [
+        { n:'1', title: isZh?'加入购物车':'Add to Cart', note: isZh?'挑选喜欢的口味，加入购物车，确认总金额。':'Choose your favorite flavors, add them to your cart, and confirm the total.' },
+        { n:'2', title: isZh?'Venmo 付款':'Pay via Venmo', note: isZh?'通过 Venmo 付款给我们，截图保存你的付款确认页面。':'Pay us through Venmo, then screenshot your confirmation page.', hasQr:true, qrId:'artisan-venmo-qr', qrImg:'uploads/venmo-qr.png', qrStyle:{width:'150px',height:'150px',margin:'12px auto 0'}, qrLabel: this.venmo(), confirmShot:true },
+        { n:'3', title: isZh?'添加微信':'Message on Instagram', note: isZh?'添加我们的微信，发送付款截图确认。':'Message us on Instagram and send a screenshot of your payment.', hasQr:true, qrId:'artisan-wechat-qr', qrImg:'', qrStyle:{width:'100px',height:'100px',margin:'12px auto 0'}, qrLabel: this.wechat() },
+        { n:'4', title: isZh?'到店取货':'Pickup', hasBullets:true, pickupCards: isZh ? [
+          { day:'周六', time:'下午3:00\u20133:30', place:'Bellevue T&T 停车场', cutoff:'周四 23:00 前下单' },
+          { day:'周日', time:'下午3:00\u20133:30', place:'Bellevue T&T 停车场', cutoff:'周五 23:00 前下单' },
+        ] : [
+          { day:'Sat', time:'3:00\u20133:30 PM', place:'Bellevue T&T parking lot', cutoff:'Order by Thu 11 PM' },
+          { day:'Sun', time:'3:00\u20133:30 PM', place:'Bellevue T&T parking lot', cutoff:'Order by Fri 11 PM' },
+        ], afterNote: isZh?'过了下单截止时间？我们会自动将你的取货日顺延到下一个可预订日期。':'Order after the deadline? We\u2019ll automatically move your pickup to the next available date.' },
+      ],
+      confirmSteps: [
+        { n:'1', text: L.confirm1(this.money(total)) },
+        { n:'2', text: L.confirm2(this.state.orderNum||'', this.wechat()) },
+        { n:'3', text: L.confirm3(pickupPlace, pickupTimeText) },
+      ],
+      hasItems: cartItems.length>0,
+      cartCount: qty,
+      isEmpty: cartItems.length===0,
+      boxSlots, boxNote, hasSavings: savings>0,
+      checkoutBoxes, leftoverUnits, hasCheckoutBoxes: checkoutBoxes.length>0, hasLeftoverUnits: leftoverUnits.length>0,
+      priorBoxes, hasPriorBoxes,
+      dayOptions, toastMsg: this.state.toastMsg, toastMsgText,
+      savingsNote: isZh?('已省 $'+savings.toFixed(savings%1===0?0:2)):('You saved $'+savings.toFixed(savings%1===0?0:2)),
+      cartOpen: this.state.cartOpen,
+      isCart: this.state.step==='cart',
+      isDetails: this.state.step==='details',
+      isDone: this.state.step==='done',
+      showCartFooter: this.state.step==='cart' && cartItems.length>0,
+      showDetailsFooter: this.state.step==='details',
+      drawerTitle: this.state.step==='details' ? L.checkoutBtn : this.state.step==='done' ? (isZh?'付款并确认':'Pay & confirm') : L.bag,
+      totalLabel: this.money(total),
+      orderNum: this.state.orderNum,
+      pickupWhen: pickupTimeText,
+      pickupWhere: pickupPlace,
+      heroTartA: this.custardStyle(this.FLAVORS[0], '14%'),
+      heroTartB: this.custardStyle(this.FLAVORS[2], '15%'),
+      heroTartC: this.custardStyle(this.FLAVORS[3], '15%'),
+      drawerStyle: { position:'fixed', top:'0', right:'0', height:'100vh', width:'min(400px,94vw)',
+        zIndex:'60', display:'flex', flexDirection:'column', background:'var(--surface)',
+        boxShadow:'-20px 0 60px rgba(0,0,0,.2)', transform: this.state.cartOpen?'translateX(0)':'translateX(105%)',
+        transition:'transform .42s cubic-bezier(.22,1,.36,1)' },
+      backdropStyle: { position:'fixed', inset:'0', zIndex:'55', background:'rgba(20,12,4,.42)',
+        opacity: this.state.cartOpen?'1':'0', pointerEvents: this.state.cartOpen?'auto':'none',
+        transition:'opacity .3s ease' },
+      openCart:()=>this.openCart(), closeCart:()=>this.closeCart(),
+      goCheckout:()=>this.goCheckout(), backToCart:()=>this.backToCart(),
+      browseFromCart:()=>this.browseFromCart(),
+      startNew:()=>this.startNew(), scrollToMenu:()=>this.scrollToMenu(),
+      toggleLang:()=>this.toggleLang(),
+    };
+  }
+}
+</script>
+</body>
+</html>
