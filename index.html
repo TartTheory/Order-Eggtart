@@ -59,7 +59,7 @@
   <header style="display:grid; grid-template-columns:1fr; gap:20px; align-items:center; padding:clamp(18px,6vw,80px) clamp(16px,4vw,64px); max-width:1280px; margin:0 auto">
     <div>
       <div style="display:inline-flex; align-items:center; padding:5px 12px; border-radius:999px; background:var(--accent-soft); color:var(--accent); font-size:clamp(11px,3vw,12.5px); font-weight:700; margin-bottom:14px; max-width:100%">{{ t.kicker }}</div>
-      <h1 style="font-family:var(--font-head); font-weight:var(--head-weight); letter-spacing:var(--head-spacing); color:var(--text); font-size:clamp(34px,10vw,84px); line-height:1.1; margin:0 0 12px; white-space:pre-line; text-wrap:balance">{{ t.heroTitle }}</h1>
+      <h1 style="font-family:var(--font-head); font-weight:var(--head-weight); letter-spacing:var(--head-spacing); color:var(--text); font-size:clamp(26px,6.5vw,50px); line-height:1.2; margin:0 0 12px; max-width:520px; white-space:pre-line; text-wrap:balance">{{ t.heroTitle }}</h1>
       <p style="font-family:var(--font-body); color:var(--text); font-weight:600; font-size:clamp(17px,4.4vw,24px); line-height:1.5; max-width:460px; margin:0 0 10px; white-space:pre-line">{{ t.heroSubtitle }}</p>
       <p style="font-family:var(--font-body); color:var(--muted); font-size:clamp(15px,3.8vw,19px); line-height:1.55; max-width:460px; margin:0 0 10px; white-space:pre-line">{{ t.heroNote }}</p>
       <p style="font-family:var(--font-body); font-weight:700; color:var(--accent); font-size:clamp(12px,3.2vw,13.5px); margin:0 0 20px">{{ t.heroSmall }}</p>
@@ -396,7 +396,7 @@ class Component extends DCLogic {
       { id:'sun', weekday:0, cutoffDays:2, timeZh:'下午3:00\u20133:30', timeEn:'3:00\u20133:30 PM', placeZh:this.PICKUP_PLACE_ZH, placeEn:this.PICKUP_PLACE_EN, shortZh:'Bellevue T&T', shortEn:'Bellevue T&T' },
     ];
     this.UI = {
-      zh:{ bag:'购物车', kicker:'今天，也想吃一颗热乎乎的蛋挞。', heroTitle:'现烤出炉。', heroSubtitle:'酥到掉渣的塔皮，\n顺滑浓郁的蛋奶馅。', heroNote:'每天新鲜制作，\n每周都有新的口味。', heroSmall:'仅支持线上预订 \u00b7 定点自取', ctaLabel:'查看菜单',
+      zh:{ bag:'购物车', kicker:'今天，也想吃一颗热乎乎的蛋挞。', heroTitle:'每一颗蛋挞都是刚出炉的幸福。', heroSubtitle:'酥到掉渣的塔皮，\n顺滑浓郁的蛋奶馅。', heroNote:'每天新鲜制作，\n每周都有新的口味。', heroSmall:'仅支持线上预订 \u00b7 定点自取', ctaLabel:'查看菜单',
         menuLabel:'菜单', menuTitle:'蛋奶冻风味', menuNote:'经典口味与每周限定，任你挑选。', add:'加入',
         pickupPaymentLabel:'取货与付款', howItWorks:'使用流程', howItWorksNote:'仅限自取，微信/支付宝扫码付款，一分钟搞定。',
         brandBlurb:'一家只专注做蛋挞的小店。提前下单，扫码付款，温热取走。', pickupShopsLabel:'取货门店', hoursContactLabel:'营业时间与联系方式',
@@ -409,7 +409,7 @@ class Component extends DCLogic {
         startNewOrder:'开始新订单', checkoutBtn:'结账', totalLabel:'总计', eachSuffix:'/每个', confirmShotLabel:'付款确认截图示例',
         heroWordA:'现烤', heroWordB:'酥脆', heroWordC:'浓郁',
         confirm1:(t)=>'扫描上方二维码支付 '+t+'。', confirm2:(o,w)=>'将订单号 '+o+' 和付款截图发送到微信：'+w+'。', confirm3:(s,tm)=>'在 '+s+'，'+tm+' 取货，我们会回复确认。' },
-      en:{ bag:'Bag', kicker:'Craving a warm eggtart today?', heroTitle:'Freshly baked.', heroSubtitle:'Flaky crust.\nSilky custard.', heroNote:'Baked fresh daily.\nNew flavors every week.', heroSmall:'Pre-order for pickup.', ctaLabel:'View Menu',
+      en:{ bag:'Bag', kicker:'Craving a warm eggtart today?', heroTitle:'Handcrafted egg tarts inspired by flavors from around the world.', heroSubtitle:'Flaky crust.\nSilky custard.', heroNote:'Baked fresh daily.\nNew flavors every week.', heroSmall:'Pre-order for pickup.', ctaLabel:'View Menu',
         menuLabel:'The menu', menuTitle:'Egg Tart Flavors', menuNote:'Classic favorites and weekly specials.', add:'Add',
         pickupPaymentLabel:'Pickup & payment', howItWorks:'How it works', howItWorksNote:'Self-pickup only, paid by QR. It takes about a minute \u2014 here\u2019s the whole thing.',
         brandBlurb:'A small bakery obsessed with one pastry. Order ahead, pay by QR, collect warm.', pickupShopsLabel:'Pickup shops', hoursContactLabel:'Hours & contact',
