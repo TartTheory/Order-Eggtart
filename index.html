@@ -344,7 +344,7 @@
             <sc-if value="{{ isZh }}" hint-placeholder-val="{{ true }}">
               <div style="text-align:center; margin-bottom:14px">
                 <a href="uploads/wechat-qr.jpg" download="tart-theory-wechat-qr.jpg" style="display:inline-block">
-                  <img src="uploads/wechat-qr.jpg" alt="WeChat QR" style="width:110px; height:110px; margin:0 auto 8px; border-radius:12px; object-fit:cover; display:block" />
+                  <img src="uploads/wechat-qr.jpg" alt="WeChat QR" style="width:140px; height:140px; margin:0 auto 8px; border-radius:12px; object-fit:cover; display:block" />
                 </a>
                 <div style="font-family:var(--font-body); font-weight:700; color:var(--text); font-size:14.5px; margin-bottom:2px">{{ t.wechatLabel }}</div>
                 <div style="font-family:var(--font-body); color:var(--muted); font-size:11.5px">{{ wechatId }}</div>
@@ -610,7 +610,7 @@ class Component extends DCLogic {
       steps: [
         { n:'1', title: isZh?'加入购物车':'Add to Cart', note: isZh?'挑选喜欢的口味，加入购物车，确认总金额。':'Choose your favorite flavors, add them to your cart, and confirm the total.' },
         { n:'2', title: isZh?'Venmo 付款':'Pay via Venmo', note: isZh?'通过 Venmo 付款给我们，截图保存你的付款确认页面。':'Pay us through Venmo, then screenshot your confirmation page.', hasQr:true, hasRealQr:true, qrId:'artisan-venmo-qr', qrImg:'uploads/venmo-qr.png', qrStyle:{width:'150px',height:'150px',margin:'12px auto 0',borderRadius:'12px',objectFit:'cover',display:'block'}, qrLabel: this.venmo(), confirmShot:true },
-        { n:'3', title: isZh?'添加微信':'Message on Instagram', note: isZh?'添加我们的微信，发送付款截图确认。':'Message us on Instagram and send a screenshot of your payment.', hasQr:true, hasRealQr: isZh, qrId:'artisan-wechat-qr', qrImg: isZh?'uploads/wechat-qr.jpg':'', qrStyle:{width:'110px',height:'110px',margin:'12px auto 0',borderRadius:'12px',objectFit:'cover',display: isZh?'block':'flex'}, qrLabel: isZh?this.wechat():this.instagram() },
+        { n:'3', title: isZh?'添加微信':'Follow & Message on Instagram', note: isZh?'添加我们的微信，发送付款截图确认。':'Follow us on Instagram and message us a screenshot of your payment.', hasQr:true, hasRealQr: isZh, qrId:'artisan-wechat-qr', qrImg: isZh?'uploads/wechat-qr.jpg':'', qrStyle:{width:'150px',height:'150px',margin:'12px auto 0',borderRadius:'12px',objectFit:'cover',display: isZh?'block':'flex'}, qrLabel: isZh?this.wechat():this.instagram() },
         { n:'4', title: isZh?'到店取货':'Pickup', hasBullets:true, pickupCards: isZh ? [
           { day:'周六', time:'下午3:00\u20133:30', place:'Bellevue T&T 停车场', cutoff:'周四 23:00 前下单' },
           { day:'周日', time:'下午3:00\u20133:30', place:'Bellevue T&T 停车场', cutoff:'周五 23:00 前下单' },
