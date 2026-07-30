@@ -36,7 +36,7 @@
 <div style="{{ frameStyle }}">
 
   <!-- NAV -->
-  <nav style="position:sticky; top:0; z-index:40; display:flex; flex-wrap:wrap; row-gap:8px; align-items:center; justify-content:space-between; gap:8px; padding:13px clamp(4px,2vw,56px); background:color-mix(in srgb, var(--bg) 88%, transparent); backdrop-filter:blur(12px); border-bottom:1px solid var(--line)">
+  <nav style="position:sticky; top:0; z-index:40; display:flex; flex-wrap:wrap; row-gap:8px; align-items:center; justify-content:space-between; gap:8px; padding:13px clamp(16px,4vw,64px); background:color-mix(in srgb, var(--bg) 88%, transparent); backdrop-filter:blur(12px); border-bottom:1px solid var(--line)">
     <div style="display:flex; align-items:baseline; gap:7px; cursor:default; min-width:0">
       <span style="font-family:'Newsreader', Georgia, serif; font-weight:600; font-size:clamp(17px,4.6vw,24px); color:var(--text); white-space:nowrap">{{ brand }}</span>
       <span style="width:7px; height:7px; border-radius:50%; background:var(--accent); display:inline-block; flex:none"></span>
@@ -56,7 +56,7 @@
     </div>
   </nav>
 
-  <header style="display:grid; grid-template-columns:1fr; gap:20px; align-items:center; padding:clamp(18px,6vw,80px) clamp(4px,2vw,56px); max-width:1280px; margin:0 auto">
+  <header style="display:grid; grid-template-columns:1fr; gap:20px; align-items:center; padding:clamp(18px,6vw,80px) clamp(16px,4vw,64px); max-width:1280px; margin:0 auto">
     <div>
       <div style="display:inline-flex; align-items:center; padding:5px 12px; border-radius:999px; background:var(--accent-soft); color:var(--accent); font-size:clamp(11px,3vw,12.5px); font-weight:700; margin-bottom:14px; max-width:100%">{{ t.kicker }}</div>
       <h1 style="font-family:var(--font-head); font-weight:var(--head-weight); letter-spacing:var(--head-spacing); color:var(--text); font-size:clamp(28px,8.5vw,72px); line-height:1.1; margin:0 0 12px; white-space:pre-line; text-wrap:balance">{{ t.heroTitle }}</h1>
@@ -97,7 +97,7 @@
     </sc-for>
   </section>
 
-  <section id="tt-menu" style="padding:clamp(24px,6vw,84px) clamp(4px,2vw,56px); max-width:1280px; margin:0 auto">
+  <section id="tt-menu" style="padding:clamp(24px,6vw,84px) clamp(16px,4vw,64px); max-width:1280px; margin:0 auto">
     <div style="display:flex; align-items:flex-end; justify-content:space-between; gap:16px; margin-bottom:24px; flex-wrap:wrap">
       <div>
         <div style="font-family:var(--font-body); font-size:11.5px; font-weight:700; letter-spacing:.06em; text-transform:uppercase; color:var(--accent); margin-bottom:8px">{{ t.menuLabel }}</div>
@@ -142,7 +142,7 @@
   </section>
 
   <!-- PICKUP & PAYMENT -->
-  <section style="border-top:1px solid var(--line); background:var(--surface-2); padding:clamp(24px,6vw,72px) clamp(4px,2vw,56px)">
+  <section style="border-top:1px solid var(--line); background:var(--surface-2); padding:clamp(24px,6vw,72px) clamp(16px,4vw,64px)">
     <div style="max-width:1100px; margin:0 auto">
       <div style="font-family:var(--font-body); font-size:11.5px; font-weight:700; letter-spacing:.06em; text-transform:uppercase; color:var(--accent); margin-bottom:8px">{{ t.pickupPaymentLabel }}</div>
       <h2 style="font-family:var(--font-head); font-weight:var(--head-weight); color:var(--text); font-size:clamp(22px,5vw,40px); margin:0 0 6px">{{ t.howItWorks }}</h2>
@@ -188,7 +188,7 @@
   </section>
 
   <!-- FOOTER -->
-  <footer style="padding:26px clamp(4px,2vw,56px) 40px">
+  <footer style="padding:26px clamp(16px,4vw,64px) 40px">
     <div style="background:var(--text); border-radius:var(--radius); padding:30px 24px; text-align:center; max-width:480px; margin:0 auto">
       <div style="font-family:var(--font-head); font-weight:var(--head-weight); color:var(--bg); font-size:20px; margin-bottom:6px">{{ brand }}</div>
       <div style="font-family:var(--font-body); color:color-mix(in srgb, var(--bg) 65%, transparent); font-size:13px; line-height:1.5; max-width:300px; margin:0 auto 18px">{{ t.brandBlurb }}</div>
