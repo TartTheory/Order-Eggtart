@@ -172,7 +172,7 @@
             </sc-if>
             <sc-if value="{{ st.hasQr }}" hint-placeholder-val="">
               <sc-if value="{{ st.hasRealQr }}" hint-placeholder-val="{{ true }}">
-                <a href="{{ st.qrImg }}" download="{{ st.qrId }}" style="display:inline-block">
+                <a href="{{ st.qrImg }}" download="{{ st.qrId }}" style="display:block; width:fit-content; margin:0 auto">
                   <img src="{{ st.qrImg }}" alt="QR" style="{{ st.qrStyle }}" />
                 </a>
               </sc-if>
@@ -335,7 +335,7 @@
           <div style="text-align:left; background:var(--surface-2); border:1px solid var(--line); border-radius:var(--radius-sm); padding:15px 16px; margin-bottom:16px">
             <div style="font-family:var(--font-body); font-weight:800; font-size:11.5px; letter-spacing:.05em; text-transform:uppercase; color:var(--muted); margin-bottom:10px">{{ t.toConfirmOrderLabel }}</div>
             <div style="text-align:center; margin-bottom:14px">
-              <a href="uploads/venmo-qr.png" download="tart-theory-venmo-qr.png" style="display:inline-block">
+              <a href="uploads/venmo-qr.png" download="tart-theory-venmo-qr.png" style="display:block; width:fit-content; margin:0 auto">
                 <img src="uploads/venmo-qr.png" alt="Venmo QR" style="width:140px; height:140px; margin:0 auto 8px; border-radius:12px; object-fit:cover; display:block" />
               </a>
               <div style="font-family:var(--font-body); font-weight:700; color:var(--text); font-size:14.5px; margin-bottom:2px">{{ t.scanToPay }} {{ totalLabel }}</div>
@@ -343,7 +343,7 @@
             </div>
             <sc-if value="{{ isZh }}" hint-placeholder-val="{{ true }}">
               <div style="text-align:center; margin-bottom:14px">
-                <a href="uploads/wechat-qr.jpg" download="tart-theory-wechat-qr.jpg" style="display:inline-block">
+                <a href="uploads/wechat-qr.jpg" download="tart-theory-wechat-qr.jpg" style="display:block; width:fit-content; margin:0 auto">
                   <img src="uploads/wechat-qr.jpg" alt="WeChat QR" style="width:140px; height:140px; margin:0 auto 8px; border-radius:12px; object-fit:cover; display:block" />
                 </a>
                 <div style="font-family:var(--font-body); font-weight:700; color:var(--text); font-size:14.5px; margin-bottom:2px">{{ t.wechatLabel }}</div>
