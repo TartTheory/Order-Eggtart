@@ -10,7 +10,7 @@
 <helmet>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Hanken+Grotesk:wght@400;500;600;700;800&family=Newsreader:opsz,wght@6..72,400;6..72,500;6..72,600&family=Noto+Serif+SC:wght@500;600;700&family=Noto+Sans+SC:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;500;600;700;800&family=Noto+Sans+SC:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
   * { box-sizing: border-box; }
   html { overflow-x: hidden; }
@@ -38,7 +38,7 @@
   <!-- NAV -->
   <nav style="position:sticky; top:0; z-index:40; display:flex; flex-wrap:wrap; row-gap:8px; align-items:center; justify-content:space-between; gap:8px; padding:13px clamp(16px,4vw,64px); background:color-mix(in srgb, var(--bg) 88%, transparent); backdrop-filter:blur(12px); border-bottom:1px solid var(--line)">
     <div style="display:flex; align-items:baseline; gap:7px; cursor:default; min-width:0">
-      <span style="font-family:'Newsreader', Georgia, serif; font-weight:600; font-size:clamp(17px,4.6vw,24px); color:var(--text); white-space:nowrap">{{ brand }}</span>
+      <span style="font-family:var(--font-head); font-weight:600; font-size:clamp(17px,4.6vw,24px); color:var(--text); white-space:nowrap">{{ brand }}</span>
       <span style="width:7px; height:7px; border-radius:50%; background:var(--accent); display:inline-block; flex:none"></span>
     </div>
     <div style="display:flex; align-items:center; gap:8px; flex:none">
@@ -172,7 +172,9 @@
             </sc-if>
             <sc-if value="{{ st.hasQr }}" hint-placeholder-val="">
               <sc-if value="{{ st.hasRealQr }}" hint-placeholder-val="{{ true }}">
-                <img src="{{ st.qrImg }}" alt="QR" style="{{ st.qrStyle }}" />
+                <a href="{{ st.qrImg }}" download="{{ st.qrId }}" style="display:inline-block">
+                  <img src="{{ st.qrImg }}" alt="QR" style="{{ st.qrStyle }}" />
+                </a>
               </sc-if>
               <sc-if value="{{ !st.hasRealQr }}" hint-placeholder-val="">
                 <div class="tt-qr-placeholder" style="{{ st.qrStyle }}">QR</div>
@@ -192,9 +194,13 @@
     <div style="background:var(--text); border-radius:var(--radius); padding:30px 24px; text-align:center; max-width:480px; margin:0 auto">
       <div style="font-family:var(--font-head); font-weight:var(--head-weight); color:var(--bg); font-size:20px; margin-bottom:6px">{{ brand }}</div>
       <div style="font-family:var(--font-body); color:color-mix(in srgb, var(--bg) 65%, transparent); font-size:13px; line-height:1.5; max-width:300px; margin:0 auto 18px">{{ t.brandBlurb }}</div>
-      <div style="display:flex; justify-content:center; gap:10px; flex-wrap:wrap">
-        <span style="padding:7px 14px; border-radius:999px; background:var(--accent); color:var(--accent-text); font-size:11.5px; font-weight:700; font-family:var(--font-body)">WeChat {{ wechatId }}</span>
-        <span style="padding:7px 14px; border-radius:999px; border:1px solid color-mix(in srgb, var(--bg) 35%, transparent); color:var(--bg); font-size:11.5px; font-weight:700; font-family:var(--font-body)">Instagram {{ instagramId }}</span>
+      <div style="display:flex; flex-direction:column; align-items:center; gap:8px">
+        <button onClick="{{ copyWechat }}" style="padding:7px 14px; border-radius:999px; border:none; background:var(--accent); color:var(--accent-text); font-size:11.5px; font-weight:700; font-family:var(--font-body); cursor:pointer">
+          <sc-if value="{{ copiedWechat }}" hint-placeholder-val="">{{ t.copied }}</sc-if>
+          <sc-if value="{{ !copiedWechat }}" hint-placeholder-val="{{ true }}">WeChat {{ wechatId }}</sc-if>
+        </button>
+        <a href="{{ xiaohongshuUrl }}" target="_blank" rel="noopener noreferrer" style="padding:7px 14px; border-radius:999px; border:1px solid color-mix(in srgb, var(--bg) 35%, transparent); color:var(--bg); font-size:11.5px; font-weight:700; font-family:var(--font-body); text-decoration:none">Xiaohongshu {{ xiaohongshuId }}</a>
+        <a href="{{ instagramUrl }}" target="_blank" rel="noopener noreferrer" style="padding:7px 14px; border-radius:999px; border:1px solid color-mix(in srgb, var(--bg) 35%, transparent); color:var(--bg); font-size:11.5px; font-weight:700; font-family:var(--font-body); text-decoration:none">Instagram {{ instagramId }}</a>
       </div>
     </div>
   </footer>
@@ -329,10 +335,21 @@
           <div style="text-align:left; background:var(--surface-2); border:1px solid var(--line); border-radius:var(--radius-sm); padding:15px 16px; margin-bottom:16px">
             <div style="font-family:var(--font-body); font-weight:800; font-size:11.5px; letter-spacing:.05em; text-transform:uppercase; color:var(--muted); margin-bottom:10px">{{ t.toConfirmOrderLabel }}</div>
             <div style="text-align:center; margin-bottom:14px">
-              <img src="uploads/venmo-qr.png" alt="Venmo QR" style="width:140px; height:140px; margin:0 auto 8px; border-radius:12px; object-fit:cover; display:block" />
+              <a href="uploads/venmo-qr.png" download="tart-theory-venmo-qr.png" style="display:inline-block">
+                <img src="uploads/venmo-qr.png" alt="Venmo QR" style="width:140px; height:140px; margin:0 auto 8px; border-radius:12px; object-fit:cover; display:block" />
+              </a>
               <div style="font-family:var(--font-body); font-weight:700; color:var(--text); font-size:14.5px; margin-bottom:2px">{{ t.scanToPay }} {{ totalLabel }}</div>
               <div style="font-family:var(--font-body); color:var(--muted); font-size:11.5px">{{ venmoId }}</div>
             </div>
+            <sc-if value="{{ isZh }}" hint-placeholder-val="{{ true }}">
+              <div style="text-align:center; margin-bottom:14px">
+                <a href="uploads/wechat-qr.jpg" download="tart-theory-wechat-qr.jpg" style="display:inline-block">
+                  <img src="uploads/wechat-qr.jpg" alt="WeChat QR" style="width:110px; height:110px; margin:0 auto 8px; border-radius:12px; object-fit:cover; display:block" />
+                </a>
+                <div style="font-family:var(--font-body); font-weight:700; color:var(--text); font-size:14.5px; margin-bottom:2px">{{ t.wechatLabel }}</div>
+                <div style="font-family:var(--font-body); color:var(--muted); font-size:11.5px">{{ wechatId }}</div>
+              </div>
+            </sc-if>
             <sc-for list="{{ confirmSteps }}" as="cs" hint-placeholder-count="3">
               <div style="display:flex; gap:10px; margin-bottom:10px">
                 <span style="flex:none; width:20px; height:20px; border-radius:50%; background:var(--accent); color:var(--accent-text); font-family:var(--font-body); font-weight:800; font-size:11px; display:flex; align-items:center; justify-content:center">{{ cs.n }}</span>
@@ -360,7 +377,7 @@
 </div>
 </div>
 </x-dc>
-<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:&quot;100%&quot;,&quot;height&quot;:&quot;100%&quot;},&quot;previewMobile&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:false,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;View&quot;},&quot;wechatId&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;@TartTheory&quot;,&quot;tsType&quot;:&quot;string&quot;},&quot;venmoId&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;@tart_theory&quot;,&quot;tsType&quot;:&quot;string&quot;}}">
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:&quot;100%&quot;,&quot;height&quot;:&quot;100%&quot;},&quot;previewMobile&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:false,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;View&quot;},&quot;wechatId&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;tart_theory&quot;,&quot;tsType&quot;:&quot;string&quot;},&quot;venmoId&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;@tart_theory&quot;,&quot;tsType&quot;:&quot;string&quot;},&quot;instagramId&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;tarttheory.eggtart&quot;,&quot;tsType&quot;:&quot;string&quot;},&quot;xiaohongshuId&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;tart_theory&quot;,&quot;tsType&quot;:&quot;string&quot;}}">
 class Component extends DCLogic {
   constructor(props) {
     super(props);
@@ -384,7 +401,7 @@ class Component extends DCLogic {
         pickupPaymentLabel:'取货与付款', howItWorks:'使用流程', howItWorksNote:'仅限自取，微信/支付宝扫码付款，一分钟搞定。',
         brandBlurb:'一家只专注做蛋挞的小店。提前下单，扫码付款，温热取走。', pickupShopsLabel:'取货门店', hoursContactLabel:'营业时间与联系方式',
         hoursLine1:'周一至周五 \u00b7 8:00\u201319:00', hoursLine2:'周六至周日 \u00b7 9:00\u201318:00', wechatLabel:'微信',
-        emptyBagMsg:'你的袋子还是空的，去挑几个蛋挞吧。', selfPickupNote:'仅限自取 \u00b7 下一步扫码付款', chooseShopLabel:'选择门店', pickupTimeLabel:'取货时间', pickupDayLabel:'选择取货日期',
+        emptyBagMsg:'你的袋子还是空的，去挑几个蛋挞吧。', selfPickupNote:'仅限自取 \u00b7 下一步扫码付款', chooseShopLabel:'选择门店', pickupTimeLabel:'取货时间', pickupDayLabel:'选择取货日期', copied:'已复制微信号！',
         boxPromo:'任选 4 个，仅需 $20！', boxPromoSub:'原味蛋挞已含优惠，混搭更划算。',
         yourDetailsLabel:'你的信息', namePlaceholder:'你的姓名', wechatPlaceholder:'你的微信号', wechatMatchNote:'我们会用你的微信号核对付款截图与订单。',
         backToBag:'\u2190 返回袋子', almostThere:'就快好了', orderReserved:'订单已预留，付款确认后即可锁定。', yourOrderNumberLabel:'你的订单号',
@@ -397,7 +414,7 @@ class Component extends DCLogic {
         pickupPaymentLabel:'Pickup & payment', howItWorks:'How it works', howItWorksNote:'Self-pickup only, paid by QR. It takes about a minute \u2014 here\u2019s the whole thing.',
         brandBlurb:'A small bakery obsessed with one pastry. Order ahead, pay by QR, collect warm.', pickupShopsLabel:'Pickup shops', hoursContactLabel:'Hours & contact',
         hoursLine1:'Mon\u2013Fri \u00b7 8am\u20137pm', hoursLine2:'Sat\u2013Sun \u00b7 9am\u20136pm', wechatLabel:'Instagram',
-        emptyBagMsg:'Your bag is empty. Go pick some tarts.', selfPickupNote:'Self-pickup \u00b7 pay by QR on the next step', chooseShopLabel:'Choose a shop', pickupTimeLabel:'Pickup time', pickupDayLabel:'Choose your pickup day',
+        emptyBagMsg:'Your bag is empty. Go pick some tarts.', selfPickupNote:'Self-pickup \u00b7 pay by QR on the next step', chooseShopLabel:'Choose a shop', pickupTimeLabel:'Pickup time', pickupDayLabel:'Choose your pickup day', copied:'WeChat ID copied!',
         boxPromo:'Any 4 for $20!', boxPromoSub:'The Original is already discounted \u2014 mix and match for more.',
         yourDetailsLabel:'Your details', namePlaceholder:'Your name', wechatPlaceholder:'Your Instagram handle', wechatMatchNote:'We\u2019ll match your Instagram handle to your order when you send your payment screenshot.',
         backToBag:'\u2190 Back to bag', almostThere:'Almost there', orderReserved:'Your order is reserved. Pay & confirm to lock it in.', yourOrderNumberLabel:'Your order number',
@@ -406,15 +423,23 @@ class Component extends DCLogic {
         heroWordA:'Fresh-Baked', heroWordB:'Flaky', heroWordC:'Rich',
         confirm1:(t)=>'Scan the QR above to pay '+t+'.', confirm2:(o,w)=>'Send your order number '+o+' and the payment screenshot to us on Instagram: '+w+'.', confirm3:(s,tm)=>'Collect at '+s+', '+tm+'. We reply to confirm.' },
     };
-    this.THEME_VARS = { '--bg':'#F7EFE0','--surface':'#FFFCF4','--surface-2':'#F1E6D0','--text':'#3A2C1A','--muted':'#94826A','--line':'#E7D9BF','--accent':'#C0792A','--accent-text':'#FFF8EC','--accent-soft':'#F2E3C6','--font-head':"'Noto Serif SC', 'Newsreader', Georgia, serif",'--font-body':"'Noto Sans SC', 'Hanken Grotesk', system-ui, sans-serif",'--radius':'16px','--radius-sm':'12px','--head-weight':'600','--head-transform':'none','--head-spacing':'0','--shadow':'0 10px 30px rgba(90,60,20,.12)' };
-    this.state = { cart: {}, cartOpen: false, step: 'cart', orderNum: null, lang: 'zh', pickupDayId: null, pickupDaySelectedDate: null, toastMsg: false };
+    this.THEME_VARS = { '--bg':'#F7EFE0','--surface':'#FFFCF4','--surface-2':'#F1E6D0','--text':'#3A2C1A','--muted':'#94826A','--line':'#E7D9BF','--accent':'#C0792A','--accent-text':'#FFF8EC','--accent-soft':'#F2E3C6','--font-head':"'Noto Sans SC', 'Hanken Grotesk', system-ui, sans-serif",'--font-body':"'Noto Sans SC', 'Hanken Grotesk', system-ui, sans-serif",'--radius':'16px','--radius-sm':'12px','--head-weight':'600','--head-transform':'none','--head-spacing':'0','--shadow':'0 10px 30px rgba(90,60,20,.12)' };
+    this.state = { cart: {}, cartOpen: false, step: 'cart', orderNum: null, lang: 'zh', pickupDayId: null, pickupDaySelectedDate: null, toastMsg: false, copiedWechat: false };
   }
 
-  wechat() { return this.props.wechatId ?? '@TartTheory'; }
+  wechat() { return this.props.wechatId ?? 'tart_theory'; }
   venmo() { return this.props.venmoId ?? '@tart_theory'; }
-  instagram() { return this.props.instagramId ?? '@tarttheory'; }
+  instagram() { return this.props.instagramId ?? 'tarttheory.eggtart'; }
+  xiaohongshu() { return this.props.xiaohongshuId ?? 'tart_theory'; }
   money(n) { return (n % 1 === 0) ? ('$' + n) : ('$' + n.toFixed(2)); }
   toggleLang() { this.setState(s => ({ lang: s.lang==='zh' ? 'en' : 'zh' })); }
+
+  copyWechat() {
+    const id = this.wechat();
+    if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(id).catch(()=>{});
+    this.setState({ copiedWechat: true });
+    setTimeout(() => this.setState({ copiedWechat: false }), 1800);
+  }
 
   custardBg(f) {
     let spots = '';
@@ -574,7 +599,9 @@ class Component extends DCLogic {
     return {
       t: L, lang, isZh, brand: this.BRAND,
       langThumbStyle: { position:'absolute', top:'2px', bottom:'2px', left: isZh?'2px':'50%', width:'calc(50% - 2px)', borderRadius:'999px', background:'var(--accent)', transition:'left .22s ease' },
-      rootStyle, frameStyle, menu, cartItems, wechatId: this.wechat(), venmoId: this.venmo(), instagramId: this.instagram(),
+      rootStyle, frameStyle, menu, cartItems, wechatId: this.wechat(), venmoId: this.venmo(), instagramId: this.instagram(), xiaohongshuId: this.xiaohongshu(),
+      copyWechat: ()=>this.copyWechat(), copiedWechat: this.state.copiedWechat,
+      instagramUrl: 'https://instagram.com/'+this.instagram(), xiaohongshuUrl: 'https://xhslink.cn/m/2T218PwZEqU',
       pillars: [
         { stat: isZh?'塔皮':'Crust', title: isZh?'200+ 层起酥工艺':'200+ Delicate Layers', note: isZh?'轻盈酥脆，层次丰富。':'Light & flaky. Crisp & airy.' },
         { stat: isZh?'内馅':'Custard', title: isZh?'精选新鲜食材':'Fresh Ingredients', note: isZh?'浓郁蛋香，细腻顺滑。':'Rich & creamy. Smooth & silky.' },
@@ -583,7 +610,7 @@ class Component extends DCLogic {
       steps: [
         { n:'1', title: isZh?'加入购物车':'Add to Cart', note: isZh?'挑选喜欢的口味，加入购物车，确认总金额。':'Choose your favorite flavors, add them to your cart, and confirm the total.' },
         { n:'2', title: isZh?'Venmo 付款':'Pay via Venmo', note: isZh?'通过 Venmo 付款给我们，截图保存你的付款确认页面。':'Pay us through Venmo, then screenshot your confirmation page.', hasQr:true, hasRealQr:true, qrId:'artisan-venmo-qr', qrImg:'uploads/venmo-qr.png', qrStyle:{width:'150px',height:'150px',margin:'12px auto 0',borderRadius:'12px',objectFit:'cover',display:'block'}, qrLabel: this.venmo(), confirmShot:true },
-        { n:'3', title: isZh?'添加微信':'Message on Instagram', note: isZh?'添加我们的微信，发送付款截图确认。':'Message us on Instagram and send a screenshot of your payment.', hasQr:true, hasRealQr:false, qrId:'artisan-wechat-qr', qrImg:'', qrStyle:{width:'100px',height:'100px',margin:'12px auto 0',borderRadius:'12px',display:'flex'}, qrLabel: this.wechat() },
+        { n:'3', title: isZh?'添加微信':'Message on Instagram', note: isZh?'添加我们的微信，发送付款截图确认。':'Message us on Instagram and send a screenshot of your payment.', hasQr:true, hasRealQr: isZh, qrId:'artisan-wechat-qr', qrImg: isZh?'uploads/wechat-qr.jpg':'', qrStyle:{width:'110px',height:'110px',margin:'12px auto 0',borderRadius:'12px',objectFit:'cover',display: isZh?'block':'flex'}, qrLabel: isZh?this.wechat():this.instagram() },
         { n:'4', title: isZh?'到店取货':'Pickup', hasBullets:true, pickupCards: isZh ? [
           { day:'周六', time:'下午3:00\u20133:30', place:'Bellevue T&T 停车场', cutoff:'周四 23:00 前下单' },
           { day:'周日', time:'下午3:00\u20133:30', place:'Bellevue T&T 停车场', cutoff:'周五 23:00 前下单' },
@@ -594,7 +621,7 @@ class Component extends DCLogic {
       ],
       confirmSteps: [
         { n:'1', text: L.confirm1(this.money(total)) },
-        { n:'2', text: L.confirm2(this.state.orderNum||'', this.wechat()) },
+        { n:'2', text: L.confirm2(this.state.orderNum||'', isZh?this.wechat():this.instagram()) },
         { n:'3', text: L.confirm3(pickupPlace, pickupTimeText) },
       ],
       hasItems: cartItems.length>0,
