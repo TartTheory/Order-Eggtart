@@ -495,6 +495,25 @@ class Component extends DCLogic {
     const n = 'TT-' + Math.floor(1000 + Math.random()*9000);
     this.setState({ step:'done', orderNum:n, pickupDayId:sel.id, pickupDaySelectedDate:sel.date.toISOString(), toastMsg:bumped });
     if (bumped) setTimeout(()=>this.setState({ toastMsg:false }), 4000);
+    this.submitOrderToSheet(n, sel);
+  }
+  weekLabelFor(date) {
+    const months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+    const sat = new Date(date);
+    if (sat.getDay() === 0) sat.setDate(sat.getDate() - 1); // Sunday -> preceding Saturday
+    const sun = new Date(sat); sun.setDate(sat.getDate() + 1);
+    return months[sat.getMonth()] + ' ' + sat.getDate() + '-' + sun.getDate();
+  }
+  submitOrderToSheet(orderNum, sel) {
+    const items = this.entries().map(e => e.qty + 'x ' + e.f.en + ' ($' + e.f.price + ')').join('; ');
+    const payload = {
+      orderNum, items, total: this.money(this.total()),
+      pickupDay: sel.dateLabelEn, pickupTime: sel.timeEn, pickupPlace: sel.placeEn,
+      lang: this.state.lang, weekLabel: this.weekLabelFor(sel.date)
+    };
+    fetch('https://script.google.com/macros/s/AKfycbwe-Ee-BHG5GZ8q4vSG82J0YPIg159V6e6X9x1ptzEfFCugsWJgp_HoDX9dIkr4RXu-0A/exec', {
+      method: 'POST', mode: 'no-cors', headers: { 'Content-Type': 'text/plain' }, body: JSON.stringify(payload)
+    }).catch(() => {});
   }
   backToCart() { this.setState({ step:'cart' }); }
   browseFromCart() { this.setState({ cartOpen:false }); this.scrollToMenu(); }
