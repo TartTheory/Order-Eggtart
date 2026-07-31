@@ -248,18 +248,20 @@
             </sc-for>
           </div>
 
-          <sc-for list="{{ priorBoxes }}" as="bx" hint-placeholder-count="0">
-            <div style="margin-top:18px; padding:14px; border-radius:var(--radius); border:2px solid var(--accent); background:var(--accent-soft)">
-              <div style="display:flex; align-items:center; justify-content:center; gap:10px; margin-bottom:10px">
-                <sc-for list="{{ bx.items }}" as="it" hint-placeholder-count="4">
-                  <div style="width:40px; height:40px; border-radius:50%; position:relative; overflow:hidden; box-shadow:0 4px 8px rgba(0,0,0,.15); background:var(--surface)">
-                    <div style="{{ it.custardStyle }}"></div>
-                  </div>
-                </sc-for>
+          <div style="display:grid; grid-template-columns:repeat(2,1fr); gap:12px; margin-top:18px">
+            <sc-for list="{{ priorBoxes }}" as="bx" hint-placeholder-count="0">
+              <div style="padding:12px 8px; border-radius:var(--radius); border:2px solid var(--accent); background:var(--accent-soft)">
+                <div style="display:flex; align-items:center; justify-content:center; gap:5px; margin-bottom:9px">
+                  <sc-for list="{{ bx.items }}" as="it" hint-placeholder-count="4">
+                    <div style="width:28px; height:28px; flex:none; border-radius:50%; position:relative; overflow:hidden; box-shadow:0 4px 8px rgba(0,0,0,.15); background:var(--surface)">
+                      <div style="{{ it.custardStyle }}"></div>
+                    </div>
+                  </sc-for>
+                </div>
+                <div style="text-align:center; font-family:var(--font-body); font-weight:700; color:var(--accent); font-size:13px">{{ bx.price }}</div>
               </div>
-              <div style="text-align:center; font-family:var(--font-body); font-weight:700; color:var(--accent); font-size:13px">{{ bx.price }}</div>
-            </div>
-          </sc-for>
+            </sc-for>
+          </div>
 
           <div style="margin-top:18px; padding:14px; border-radius:var(--radius); border:2px dashed var(--line); background:var(--surface-2)">
             <div style="display:flex; align-items:center; justify-content:center; gap:10px; margin-bottom:10px">
