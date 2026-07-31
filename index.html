@@ -212,7 +212,7 @@
       <button onClick="{{ closeCart }}" style="width:32px; height:32px; border:1px solid var(--line); cursor:pointer; border-radius:50%; background:var(--surface); color:var(--text); font-size:17px; line-height:1">&times;</button>
     </div>
 
-    <div class="tt-body" style="flex:1; overflow-y:auto; padding:18px">
+    <div class="tt-body" style="flex:1; min-height:0; overflow-y:auto; padding:18px">
 
       <sc-if value="{{ isCart }}" hint-placeholder-val="{{ true }}">
         <sc-if value="{{ isEmpty }}" hint-placeholder-val="">
@@ -402,7 +402,7 @@ class Component extends DCLogic {
         boxPromo:'优惠活动: 任选四颗，仅需 $20！', boxPromoSub:'全口味自由混搭，四颗更划算',
         yourDetailsLabel:'你的信息', namePlaceholder:'你的姓名', wechatPlaceholder:'你的微信号', wechatMatchNote:'我们会用你的微信号核对付款截图与订单。',
         backToBag:'\u2190 返回袋子', orderReserved:'订单已预留，付款确认后即可锁定。', yourOrderNumberLabel:'你的订单号', screenshotThis:'请截图保存此页',
-        scanToPay:'扫码支付', wechatAlipayAccepted:'支持微信支付/支付宝', toConfirmOrderLabel:'确认订单步骤', orderLabel:'订单 ', collectAt:'取货地点：',
+        scanToPay:'请用 Venmo 扫码支付', wechatAlipayAccepted:'支持微信支付/支付宝', toConfirmOrderLabel:'确认订单步骤', orderLabel:'订单 ', collectAt:'取货地点：',
         startNewOrder:'开始新订单', checkoutBtn:'结账', totalLabel:'总计', eachSuffix:'/每个', confirmShotLabel:'付款确认截图示例',
         heroWordA:'现烤', heroWordB:'酥脆', heroWordC:'浓郁',
         confirm1:(t)=>'扫描上方二维码支付 '+t+'。', confirm2:(o,w)=>'将订单号 '+o+' 和付款截图发送到微信：'+w+'。', confirm3:(s,tm)=>'在 '+s+'，'+tm+' 取货，我们会回复确认。' },
@@ -415,7 +415,7 @@ class Component extends DCLogic {
         boxPromo:'Any 4 for $20!', boxPromoSub:'Mix & Match Any Flavors. Perfect for sharing with friends\u2014or keeping them all to yourself. We won\u2019t judge.',
         yourDetailsLabel:'Your details', namePlaceholder:'Your name', wechatPlaceholder:'Your Instagram handle', wechatMatchNote:'We\u2019ll match your Instagram handle to your order when you send your payment screenshot.',
         backToBag:'\u2190 Back to bag', orderReserved:'Your order is reserved. Pay & confirm to lock it in.', yourOrderNumberLabel:'Your order number', screenshotThis:'Screenshot this page',
-        scanToPay:'Scan to pay', wechatAlipayAccepted:'WeChat Pay / Alipay accepted', toConfirmOrderLabel:'To confirm your order', orderLabel:'Order ', collectAt:'Collect at ',
+        scanToPay:'Scan the Venmo QR to pay', wechatAlipayAccepted:'WeChat Pay / Alipay accepted', toConfirmOrderLabel:'To confirm your order', orderLabel:'Order ', collectAt:'Collect at ',
         startNewOrder:'Start a new order', checkoutBtn:'Checkout', totalLabel:'Total', eachSuffix:' each', confirmShotLabel:'Payment confirmation screenshot',
         heroWordA:'Fresh-Baked', heroWordB:'Flaky', heroWordC:'Rich',
         confirm1:(t)=>'Scan the QR above to pay '+t+'.', confirm2:(o,w)=>'Send your order number '+o+' and the payment screenshot to us on Instagram: '+w+'.', confirm3:(s,tm)=>'Collect at '+s+', '+tm+'. We reply to confirm.' },
