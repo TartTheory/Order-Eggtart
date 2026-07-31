@@ -88,11 +88,20 @@ function rebuildSummary(sheet) {
   var numCols = HEADERS.length;
   var summaryStart = findSummaryStart(sheet);
   var dataEndRow;
+  var existingNotes = {};
   if (summaryStart) {
     dataEndRow = summaryStart - 1;
-    sheet.getRange(summaryStart, 1, sheet.getMaxRows() - summaryStart + 1, numCols).clearContent();
-    sheet.getRange(summaryStart, 1, sheet.getMaxRows() - summaryStart + 1, numCols).clearDataValidations();
-    sheet.getRange(summaryStart, 1, sheet.getMaxRows() - summaryStart + 1, numCols).setBorder(false, false, false, false, false, false);
+    var oldRange = sheet.getRange(summaryStart, 1, sheet.getMaxRows() - summaryStart + 1, numCols);
+    // Preserve notes by label before wiping the block, since row positions
+    // shift as flavors/orders come and go and can't be trusted to stay put.
+    oldRange.getValues().forEach(function (r) {
+      var label = r[0];
+      var note = r[2];
+      if (label && note) existingNotes[label] = note;
+    });
+    oldRange.clearContent();
+    oldRange.clearDataValidations();
+    oldRange.setBorder(false, false, false, false, false, false);
   } else {
     dataEndRow = sheet.getLastRow();
   }
@@ -102,27 +111,32 @@ function rebuildSummary(sheet) {
 
   var dataRows = dataEndRow >= 2 ? sheet.getRange(2, 1, dataEndRow - 1, numCols).getValues() : [];
   var flavorCounts = {};
+  var flavorIncome = {};
   var flavorOrder = [];
-  var totalRevenueWebsite = 0;
+  var totalSales = 0;
   var totalReceived = 0;
   var orderCount = 0;
+  var totalTarts = 0;
 
-  dataRows.forEach(function (row) {
-    if (!row[COL.ORDER_NUM - 1]) return;
+  dataRows.forEach(function (r) {
+    if (!r[COL.ORDER_NUM - 1]) return;
     orderCount++;
-    totalRevenueWebsite += parseFloat(String(row[COL.TOTAL - 1]).replace('$', '')) || 0;
-    var received = row[COL.AMOUNT_RECEIVED - 1];
+    totalSales += parseFloat(String(r[COL.TOTAL - 1]).replace('$', '')) || 0;
+    var received = r[COL.AMOUNT_RECEIVED - 1];
     if (received !== '' && received !== null) {
       totalReceived += parseFloat(String(received).replace('$', '')) || 0;
     }
-    String(row[COL.ITEMS - 1]).split('\n').forEach(function (part) {
+    String(r[COL.ITEMS - 1]).split('\n').forEach(function (part) {
       part = part.trim();
-      var m = part.match(/^(\d+)x\s+(.+?)\s+\(\$/);
+      var m = part.match(/^(\d+)x\s+(.+?)\s+\(\$([\d.]+)\)/);
       if (m) {
         var qty = parseInt(m[1], 10);
         var name = m[2];
+        var unitPrice = parseFloat(m[3]);
         if (!(name in flavorCounts)) flavorOrder.push(name);
         flavorCounts[name] = (flavorCounts[name] || 0) + qty;
+        flavorIncome[name] = (flavorIncome[name] || 0) + qty * unitPrice;
+        totalTarts += qty;
       }
     });
   });
@@ -130,15 +144,20 @@ function rebuildSummary(sheet) {
   // Recompute even down to zero — otherwise deleting the last order rows
   // leaves a stale non-zero summary behind.
   var newSummaryStart = dataEndRow + 1;
-  var blank = ['', '', '', '', '', '', '', '', '', ''];
+  var restBlank = new Array(numCols - 3).fill('');
+  function summaryRow(label, value) {
+    return [label, value, existingNotes[label] || ''].concat(restBlank);
+  }
+
   var rows = [];
-  rows.push(['SUMMARY'].concat(blank));
-  rows.push(['Total Orders', orderCount].concat(blank.slice(1)));
-  rows.push(['Total Revenue (Website)', '$' + totalRevenueWebsite.toFixed(2)].concat(blank.slice(1)));
-  rows.push(['Total Received (After Venmo Fees)', '$' + totalReceived.toFixed(2)].concat(blank.slice(1)));
+  rows.push(['SUMMARY', '', 'Note'].concat(restBlank));
+  rows.push(summaryRow('Total Orders', orderCount));
+  rows.push(summaryRow('Total Tarts', totalTarts));
   flavorOrder.forEach(function (name) {
-    rows.push([name, flavorCounts[name]].concat(blank.slice(1)));
+    rows.push(summaryRow(name, flavorCounts[name] + ' ($' + flavorIncome[name].toFixed(2) + ')'));
   });
+  rows.push(summaryRow('Total Sales', '$' + totalSales.toFixed(2)));
+  rows.push(summaryRow('Total Received (After Venmo Fees)', '$' + totalReceived.toFixed(2)));
 
   sheet.getRange(newSummaryStart, 1, rows.length, numCols).setValues(rows);
   sheet.getRange(newSummaryStart, 1, 1, numCols).setFontWeight('bold');
