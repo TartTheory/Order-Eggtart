@@ -504,7 +504,7 @@ class Component extends DCLogic {
     return months[sat.getMonth()] + ' ' + sat.getDate() + '-' + sun.getDate();
   }
   submitOrderToSheet(orderNum, sel) {
-    const items = this.entries().map(e => e.qty + 'x ' + e.f.en + ' ($' + e.f.price + ')').join('; ');
+    const items = this.entries().map(e => e.qty + 'x ' + e.f.en + ' ($' + e.f.price + ')').join('\n');
     const payload = {
       orderNum, items, total: this.money(this.total()),
       pickupDay: sel.dateLabelEn, pickupTime: sel.timeEn, pickupPlace: sel.placeEn,
