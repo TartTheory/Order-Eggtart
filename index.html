@@ -527,7 +527,13 @@ class Component extends DCLogic {
 
   entries() { return Object.keys(this.state.cart).map(id => ({ f:this.FLAVORS.find(x=>x.id===id), qty:this.state.cart[id] })).filter(e=>e.f); }
   qtyTotal() { return this.entries().reduce((a,e)=>a+e.qty, 0); }
-  unitList() { const list=[]; this.entries().forEach(e=>{ for(let i=0;i<e.qty;i++) list.push(e.f); }); return list; }
+  unitList() {
+    const list=[]; this.entries().forEach(e=>{ for(let i=0;i<e.qty;i++) list.push(e.f); });
+    // Push the cheapest flavor to the back so $20 box-of-4 groups form from
+    // full-price items first -- the discount lands where it's worth the most.
+    list.sort((a,b)=>(a.id==='original'?1:0)-(b.id==='original'?1:0));
+    return list;
+  }
   total() {
     const units = this.unitList();
     const boxes = Math.floor(units.length/4);
