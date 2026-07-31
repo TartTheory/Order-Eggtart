@@ -152,12 +152,12 @@ function rebuildSummary(sheet) {
   var rows = [];
   rows.push(['SUMMARY', '', 'Note'].concat(restBlank));
   rows.push(summaryRow('Total Orders', orderCount));
+  rows.push(summaryRow('Total Sales', '$' + totalSales.toFixed(2)));
+  rows.push(summaryRow('Total Received (After Venmo Fees)', '$' + totalReceived.toFixed(2)));
   rows.push(summaryRow('Total Tarts', totalTarts));
   flavorOrder.forEach(function (name) {
     rows.push(summaryRow(name, flavorCounts[name] + ' ($' + flavorIncome[name].toFixed(2) + ')'));
   });
-  rows.push(summaryRow('Total Sales', '$' + totalSales.toFixed(2)));
-  rows.push(summaryRow('Total Received (After Venmo Fees)', '$' + totalReceived.toFixed(2)));
 
   sheet.getRange(newSummaryStart, 1, rows.length, numCols).setValues(rows);
   sheet.getRange(newSummaryStart, 1, 1, numCols).setFontWeight('bold');
