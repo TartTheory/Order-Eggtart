@@ -120,6 +120,7 @@ function rebuildSummary(sheet) {
 
   dataRows.forEach(function (r) {
     if (!r[COL.ORDER_NUM - 1]) return;
+    if (r[COL.PAID_VENMO - 1] !== true) return; // unpaid orders don't count toward any summary total
     orderCount++;
     totalSales += parseFloat(String(r[COL.TOTAL - 1]).replace('$', '')) || 0;
     var received = r[COL.AMOUNT_RECEIVED - 1];
