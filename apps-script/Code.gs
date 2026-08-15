@@ -1,8 +1,41 @@
 var HEADERS = ['Timestamp', 'Order #', 'Items', 'Total', 'Paid via Venmo', 'Amount Received', 'Venmo Name', 'Pickup Day', 'Pickup Time', 'Pickup Place', 'Language'];
 var COL = { TIMESTAMP: 1, ORDER_NUM: 2, ITEMS: 3, TOTAL: 4, PAID_VENMO: 5, AMOUNT_RECEIVED: 6, VENMO_NAME: 7, PICKUP_DAY: 8, PICKUP_TIME: 9, PICKUP_PLACE: 10, LANGUAGE: 11 };
 
+// Keep in sync with the FLAVORS array in index.html.
+var FLAVORS = [
+  { id: 'original', name: 'Original Portuguese Style', price: 4 },
+  { id: 'lychee', name: 'Lychee Cream Cheese Eggtart', price: 6 },
+  { id: 'matcha', name: 'Matcha Red Bean Tart', price: 6 },
+  { id: 'porkfloss', name: 'Pork Floss Salted Egg Tart', price: 6 },
+  { id: 'oreo', name: 'Oreo Brownie Egg Tart', price: 6 },
+  { id: 'taro', name: 'Purple Rice Taro Egg Tart', price: 6 }
+];
+var PICKUP_PLACE = 'Bellevue T&T Supermarket parking lot';
+var PICKUP_TIME = '3:00–3:30 PM';
+
 function doPost(e) {
   var data = JSON.parse(e.postData.contents);
+  appendOrder({
+    weekLabel: data.weekLabel,
+    orderNum: data.orderNum,
+    items: data.items,
+    total: data.total,
+    paidVenmo: false,
+    amountReceived: '',
+    venmoName: '',
+    pickupDay: data.pickupDay,
+    pickupTime: data.pickupTime,
+    pickupPlace: data.pickupPlace,
+    lang: data.lang
+  });
+  return ContentService.createTextOutput(JSON.stringify({ ok: true })).setMimeType(ContentService.MimeType.JSON);
+}
+
+// Shared by doPost (website checkout) and addManualOrder (Tart Theory > Add
+// Manual Order menu) so every order - online or hand-entered - is written in
+// the same format and the summary is rebuilt in the same call, instead of
+// relying on someone remembering to check a box or match a text format.
+function appendOrder(data) {
   var ss = SpreadsheetApp.getActiveSpreadsheet();
   var sheetName = data.weekLabel || 'Orders';
   var sheet = ss.getSheetByName(sheetName);
@@ -23,18 +56,81 @@ function doPost(e) {
 
   var newRowRange = sheet.getRange(insertAt, 1, 1, HEADERS.length);
   newRowRange.setValues([[
-    new Date(), data.orderNum, data.items, data.total, false, '', '', data.pickupDay, data.pickupTime, data.pickupPlace, data.lang
+    new Date(), data.orderNum, data.items, data.total, !!data.paidVenmo, data.amountReceived || '', data.venmoName || '', data.pickupDay, data.pickupTime, data.pickupPlace, data.lang
   ]]);
   // insertRowBefore can inherit the SUMMARY block's bold/border styling since the
   // new row is inserted directly above it — reset to plain data-row formatting.
   newRowRange.setFontWeight('normal');
   newRowRange.setBorder(false, false, false, false, false, false);
   sheet.getRange(insertAt, COL.PAID_VENMO).insertCheckboxes();
+  sheet.getRange(insertAt, COL.PAID_VENMO).setValue(!!data.paidVenmo);
 
   formatSheet(sheet);
   rebuildSummary(sheet);
 
-  return ContentService.createTextOutput(JSON.stringify({ ok: true })).setMimeType(ContentService.MimeType.JSON);
+  return sheet;
+}
+
+// Menu entry point — see onOpen(). Opens the manual-order form.
+function onOpen() {
+  SpreadsheetApp.getUi()
+    .createMenu('Tart Theory')
+    .addItem('Add Manual Order', 'showAddOrderDialog')
+    .addToUi();
+}
+
+function showAddOrderDialog() {
+  var tpl = HtmlService.createTemplateFromFile('AddOrderDialog');
+  tpl.flavors = FLAVORS;
+  tpl.pickupPlace = PICKUP_PLACE;
+  tpl.pickupTime = PICKUP_TIME;
+  var html = tpl.evaluate().setWidth(420).setHeight(560);
+  SpreadsheetApp.getUi().showModalDialog(html, 'Add Manual Order');
+}
+
+// Called from AddOrderDialog.html via google.script.run.
+function submitManualOrder(form) {
+  var lines = [];
+  var total = 0;
+  FLAVORS.forEach(function (f) {
+    var qty = parseInt(form['qty_' + f.id], 10) || 0;
+    if (qty <= 0) return;
+    lines.push(qty + 'x ' + f.name + ' ($' + f.price + ')');
+    total += qty * f.price;
+  });
+  if (lines.length === 0) throw new Error('Add at least one item.');
+
+  var overrideTotal = parseFloat(form.total);
+  var finalTotal = !isNaN(overrideTotal) && form.total !== '' ? overrideTotal : total;
+
+  var pickupDate = new Date(form.pickupDate + 'T00:00:00');
+  var weekday = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'][pickupDate.getDay()];
+  var pickupDayLabel = weekday + ' ' + (pickupDate.getMonth() + 1) + '/' + pickupDate.getDate();
+  var orderNum = 'TT-' + Math.floor(1000 + Math.random() * 9000);
+
+  appendOrder({
+    weekLabel: weekLabelFor(pickupDate),
+    orderNum: orderNum,
+    items: lines.join(';\n'),
+    total: '$' + finalTotal.toFixed(2),
+    paidVenmo: !!form.paidVenmo,
+    amountReceived: form.amountReceived ? '$' + parseFloat(form.amountReceived).toFixed(2) : '',
+    venmoName: form.venmoName || '',
+    pickupDay: pickupDayLabel,
+    pickupTime: PICKUP_TIME,
+    pickupPlace: PICKUP_PLACE,
+    lang: form.lang || 'en'
+  });
+
+  return orderNum;
+}
+
+function weekLabelFor(date) {
+  var months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+  var sat = new Date(date);
+  if (sat.getDay() === 0) sat.setDate(sat.getDate() - 1); // Sunday -> preceding Saturday
+  var sun = new Date(sat); sun.setDate(sat.getDate() + 1);
+  return months[sat.getMonth()] + ' ' + sat.getDate() + '-' + sun.getDate();
 }
 
 // Installable "On change" trigger — catches row deletions (and other structural

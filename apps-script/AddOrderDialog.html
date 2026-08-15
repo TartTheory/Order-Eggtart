@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <base target="_top">
+  <style>
+    body { font-family: Arial, sans-serif; font-size: 13px; margin: 0; padding: 16px; }
+    h3 { margin: 0 0 12px; }
+    .row { display: flex; align-items: center; justify-content: space-between; margin-bottom: 6px; }
+    .row label { flex: 1; }
+    .row input[type=number] { width: 60px; }
+    .field { margin-bottom: 10px; }
+    .field label { display: block; font-weight: bold; margin-bottom: 3px; }
+    .field input[type=text], .field input[type=date], .field input[type=number], .field select { width: 100%; box-sizing: border-box; padding: 4px; }
+    .checkline { display: flex; align-items: center; gap: 6px; margin-bottom: 10px; }
+    .checkline label { font-weight: bold; }
+    hr { margin: 14px 0; border: none; border-top: 1px solid #ddd; }
+    #total-preview { color: #666; font-size: 12px; margin-top: 4px; }
+    .actions { display: flex; justify-content: flex-end; gap: 8px; margin-top: 14px; }
+    button { padding: 6px 14px; }
+    #submit-btn { background: #4a7c3a; color: #fff; border: none; border-radius: 4px; cursor: pointer; }
+    #submit-btn:disabled { opacity: 0.6; cursor: default; }
+    #status { color: #a33; font-size: 12px; margin-top: 8px; }
+  </style>
+</head>
+<body>
+  <h3>Add Manual Order</h3>
+
+  <div class="field">
+    <label>Pickup date</label>
+    <input type="date" id="pickupDate">
+  </div>
+
+  <div class="field">
+    <label>Items</label>
+    <? for (var i = 0; i < flavors.length; i++) { ?>
+      <div class="row">
+        <label><?= flavors[i].name ?> ($<?= flavors[i].price ?>)</label>
+        <input type="number" min="0" value="0" class="qty" data-price="<?= flavors[i].price ?>" id="qty_<?= flavors[i].id ?>">
+      </div>
+    <? } ?>
+  </div>
+
+  <div class="field">
+    <label>Total charged ($)</label>
+    <input type="number" step="0.01" id="total" placeholder="auto-filled from items">
+    <div id="total-preview"></div>
+  </div>
+
+  <div class="checkline">
+    <input type="checkbox" id="paidVenmo" checked>
+    <label for="paidVenmo">Paid via Venmo</label>
+  </div>
+
+  <div class="field">
+    <label>Amount received (after fees, optional)</label>
+    <input type="number" step="0.01" id="amountReceived">
+  </div>
+
+  <div class="field">
+    <label>Venmo name (optional)</label>
+    <input type="text" id="venmoName">
+  </div>
+
+  <hr>
+
+  <div class="actions">
+    <button onclick="google.script.host.close()">Cancel</button>
+    <button id="submit-btn" onclick="submit()">Add Order</button>
+  </div>
+  <div id="status"></div>
+
+  <script>
+    // Default pickup date to the coming Saturday.
+    (function () {
+      var d = new Date();
+      var diff = (6 - d.getDay() + 7) % 7;
+      d.setDate(d.getDate() + diff);
+      document.getElementById('pickupDate').value = d.toISOString().slice(0, 10);
+    })();
+
+    function computeSuggestedTotal() {
+      var units = [];
+      document.querySelectorAll('.qty').forEach(function (el) {
+        var qty = parseInt(el.value, 10) || 0;
+        var price = parseFloat(el.dataset.price);
+        var isOriginal = el.id === 'qty_original';
+        for (var i = 0; i < qty; i++) units.push({ price: price, original: isOriginal });
+      });
+      units.sort(function (a, b) { return (a.original ? 1 : 0) - (b.original ? 1 : 0); });
+      var boxes = Math.floor(units.length / 4);
+      var sum = 0;
+      for (var b = 0; b < boxes; b++) {
+        var seg = units.slice(b * 4, b * 4 + 4);
+        var segSum = seg.reduce(function (a, f) { return a + f.price; }, 0);
+        sum += Math.min(20, segSum);
+      }
+      sum += units.slice(boxes * 4).reduce(function (a, f) { return a + f.price; }, 0);
+      return sum;
+    }
+
+    function refreshPreview() {
+      var suggested = computeSuggestedTotal();
+      document.getElementById('total-preview').textContent = 'Suggested (with $20/4 promo): $' + suggested.toFixed(2);
+      var totalField = document.getElementById('total');
+      if (!totalField.dataset.touched) totalField.value = suggested.toFixed(2);
+    }
+    document.querySelectorAll('.qty').forEach(function (el) { el.addEventListener('input', refreshPreview); });
+    document.getElementById('total').addEventListener('input', function () { this.dataset.touched = '1'; });
+    refreshPreview();
+
+    function submit() {
+      var form = { pickupDate: document.getElementById('pickupDate').value };
+      document.querySelectorAll('.qty').forEach(function (el) { form[el.id] = el.value; });
+      form.total = document.getElementById('total').value;
+      form.paidVenmo = document.getElementById('paidVenmo').checked;
+      form.amountReceived = document.getElementById('amountReceived').value;
+      form.venmoName = document.getElementById('venmoName').value;
+      form.lang = 'en';
+
+      if (!form.pickupDate) { setStatus('Pick a pickup date.'); return; }
+
+      document.getElementById('submit-btn').disabled = true;
+      setStatus('');
+      google.script.run
+        .withSuccessHandler(function (orderNum) {
+          google.script.host.close();
+        })
+        .withFailureHandler(function (err) {
+          document.getElementById('submit-btn').disabled = false;
+          setStatus(err.message || String(err));
+        })
+        .submitManualOrder(form);
+    }
+
+    function setStatus(msg) { document.getElementById('status').textContent = msg; }
+  </script>
+</body>
+</html>
