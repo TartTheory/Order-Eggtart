@@ -487,15 +487,15 @@ class Component extends DCLogic {
       let d = new Date(now.getFullYear(), now.getMonth(), now.getDate());
       const diff = (sch.weekday - d.getDay() + 7) % 7;
       d.setDate(d.getDate() + diff);
-      let cutoff = new Date(d); cutoff.setDate(cutoff.getDate()-(sch.cutoffDays||1)); cutoff.setHours(23,0,0,0);
+      let cutoff = new Date(d); cutoff.setDate(cutoff.getDate()-(sch.cutoffDays||1)); cutoff.setHours(22,0,0,0);
       if (now.getTime() > cutoff.getTime()) { d.setDate(d.getDate()+7); cutoff.setDate(cutoff.getDate()+7); }
       const skip = (this.PICKUP_SKIP && this.PICKUP_SKIP[sch.id]) || [];
       while (skip.includes(isoDate(d))) { d.setDate(d.getDate()+7); cutoff.setDate(cutoff.getDate()+7); }
       return { ...sch, date:d, cutoff,
         dateLabelZh: zhWeekday[d.getDay()]+' '+(d.getMonth()+1)+'月'+d.getDate()+'日',
         dateLabelEn: enWeekday[d.getDay()]+' '+(d.getMonth()+1)+'/'+d.getDate(),
-        cutoffLabelZh: zhWeekday[cutoff.getDay()]+' 23:00 前下单',
-        cutoffLabelEn: 'Order by '+enWeekday[cutoff.getDay()]+' 11PM' };
+        cutoffLabelZh: zhWeekday[cutoff.getDay()]+' 22:00 前下单',
+        cutoffLabelEn: 'Order by '+enWeekday[cutoff.getDay()]+' 10PM' };
     }).sort((a,b)=>a.date-b.date);
   }
   selectPickupDay(id) {
@@ -653,13 +653,13 @@ class Component extends DCLogic {
         { n:'2', title: isZh?'Venmo 付款':'Pay via Venmo', note: isZh?'通过 Venmo 付款给我们，截图保存你的付款确认页面。':'Pay us through Venmo, then screenshot your confirmation page.', hasQr:true, hasRealQr:true, qrId:'artisan-venmo-qr', qrImg:'uploads/venmo-qr.png', qrStyle:{width:'150px',height:'150px',margin:'12px auto 0',borderRadius:'12px',objectFit:'cover',display:'block'}, qrLabel: this.venmo(), confirmShot:true },
         { n:'3', title: isZh?'添加微信':'Follow & Message on Instagram', note: isZh?'添加我们的微信，发送付款截图确认。':'Follow us on Instagram and message us a screenshot of your payment.', hasQr:true, hasRealQr:true, qrId: isZh?'artisan-wechat-qr':'artisan-instagram-qr', qrImg: isZh?'uploads/wechat-qr.jpg':'uploads/instagram-qr.png', qrStyle:{width:'150px',height:'150px',margin:'12px auto 0',borderRadius:'12px',objectFit:'cover',display:'block'}, qrLabel: isZh?this.wechat():this.instagram() },
         { n:'4', title: isZh?'到店取货':'Pickup', hasBullets:true, pickupCards: isZh ? [
-          { day:'周五', time:'下午3:30\u20134:00', place:'University Village 附近', cutoff:'周四 23:00 前下单' },
-          { day:'周五', time:'下午4:30\u20135:00', place:'South Lake Union 附近', cutoff:'周四 23:00 前下单' },
-          { day:'周六', time:'下午3:00\u20133:30', place:'Bellevue T&T 停车场', cutoff:'周五 23:00 前下单' },
+          { day:'周五', time:'下午3:30\u20134:00', place:'University Village 附近', cutoff:'周四 22:00 前下单' },
+          { day:'周五', time:'下午4:30\u20135:00', place:'South Lake Union 附近', cutoff:'周四 22:00 前下单' },
+          { day:'周六', time:'下午3:00\u20133:30', place:'Bellevue T&T 停车场', cutoff:'周五 22:00 前下单' },
         ] : [
-          { day:'Fri', time:'3:30\u20134:00 PM', place:'Near University Village', cutoff:'Order by Thu 11 PM' },
-          { day:'Fri', time:'4:30\u20135:00 PM', place:'Near South Lake Union', cutoff:'Order by Thu 11 PM' },
-          { day:'Sat', time:'3:00\u20133:30 PM', place:'Bellevue T&T parking lot', cutoff:'Order by Fri 11 PM' },
+          { day:'Fri', time:'3:30\u20134:00 PM', place:'Near University Village', cutoff:'Order by Thu 10 PM' },
+          { day:'Fri', time:'4:30\u20135:00 PM', place:'Near South Lake Union', cutoff:'Order by Thu 10 PM' },
+          { day:'Sat', time:'3:00\u20133:30 PM', place:'Bellevue T&T parking lot', cutoff:'Order by Fri 10 PM' },
         ], afterNote: isZh?'过了下单截止时间？我们会自动将你的取货日顺延到下一个可预订日期。':'Order after the deadline? We\u2019ll automatically move your pickup to the next available date.' },
       ],
       confirmSteps: [
