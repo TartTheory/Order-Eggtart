@@ -407,7 +407,7 @@ class Component extends DCLogic {
       { id:'fri-slu', weekday:5, cutoffDays:1, timeZh:'下午4:30\u20135:00', timeEn:'4:30\u20135:00 PM', placeZh:this.SLU_PLACE_ZH, placeEn:this.SLU_PLACE_EN, shortZh:'SLU', shortEn:'SLU' },
       { id:'sat', weekday:6, cutoffDays:1, timeZh:'下午3:00\u20133:30', timeEn:'3:00\u20133:30 PM', placeZh:this.PICKUP_PLACE_ZH, placeEn:this.PICKUP_PLACE_EN, shortZh:'Bellevue T&T', shortEn:'Bellevue T&T' },
     ];
-    this.PICKUP_SKIP = {};
+    this.PICKUP_SKIP = { 'fri-uvillage': ['2026-08-28'], 'fri-slu': ['2026-08-28'] };
     this.UI = {
       zh:{ bag:'购物车', kicker:'今天，也想吃一颗热乎乎的蛋挞。', heroTitle:'每一颗蛋挞都是刚出炉的幸福。', heroSubtitle:'酥到掉渣的塔皮，\n顺滑浓郁的蛋奶馅。', heroNote:'每天新鲜制作，\n每周都有新的口味。', heroSmall:'仅支持线上预订 \u00b7 定点自取', ctaLabel:'查看菜单',
         menuLabel:'菜单', menuTitle:'经典口味与每周限定，任你挑选。', menuNote:'经典口味与每周限定，任你挑选。', add:'加入',
@@ -652,15 +652,10 @@ class Component extends DCLogic {
         { n:'1', title: isZh?'加入购物车':'Add to Cart', note: isZh?'挑选喜欢的口味，加入购物车，确认总金额。':'Choose your favorite flavors, add them to your cart, and confirm the total.' },
         { n:'2', title: isZh?'Venmo 付款':'Pay via Venmo', note: isZh?'通过 Venmo 付款给我们，截图保存你的付款确认页面。':'Pay us through Venmo, then screenshot your confirmation page.', hasQr:true, hasRealQr:true, qrId:'artisan-venmo-qr', qrImg:'uploads/venmo-qr.png', qrStyle:{width:'150px',height:'150px',margin:'12px auto 0',borderRadius:'12px',objectFit:'cover',display:'block'}, qrLabel: this.venmo(), confirmShot:true },
         { n:'3', title: isZh?'添加微信':'Follow & Message on Instagram', note: isZh?'添加我们的微信，发送付款截图确认。':'Follow us on Instagram and message us a screenshot of your payment.', hasQr:true, hasRealQr:true, qrId: isZh?'artisan-wechat-qr':'artisan-instagram-qr', qrImg: isZh?'uploads/wechat-qr.jpg':'uploads/instagram-qr.png', qrStyle:{width:'150px',height:'150px',margin:'12px auto 0',borderRadius:'12px',objectFit:'cover',display:'block'}, qrLabel: isZh?this.wechat():this.instagram() },
-        { n:'4', title: isZh?'到店取货':'Pickup', hasBullets:true, pickupCards: isZh ? [
-          { day:'周五', time:'下午3:30\u20134:00', place:'University Village 附近', cutoff:'周四 22:00 前下单' },
-          { day:'周五', time:'下午4:30\u20135:00', place:'South Lake Union 附近', cutoff:'周四 22:00 前下单' },
-          { day:'周六', time:'下午3:00\u20133:30', place:'Bellevue T&T 停车场', cutoff:'周五 22:00 前下单' },
-        ] : [
-          { day:'Fri', time:'3:30\u20134:00 PM', place:'Near University Village', cutoff:'Order by Thu 10 PM' },
-          { day:'Fri', time:'4:30\u20135:00 PM', place:'Near South Lake Union', cutoff:'Order by Thu 10 PM' },
-          { day:'Sat', time:'3:00\u20133:30 PM', place:'Bellevue T&T parking lot', cutoff:'Order by Fri 10 PM' },
-        ], afterNote: isZh?'过了下单截止时间？我们会自动将你的取货日顺延到下一个可预订日期。':'Order after the deadline? We\u2019ll automatically move your pickup to the next available date.' },
+        { n:'4', title: isZh?'定点自取':'Pickup', hasBullets:true, pickupCards: pickupOptions.map(o => ({
+          day: isZh ? o.dateLabelZh : o.dateLabelEn, time: isZh ? o.timeZh : o.timeEn,
+          place: isZh ? o.placeZh : o.placeEn, cutoff: isZh ? o.cutoffLabelZh : o.cutoffLabelEn,
+        })), afterNote: isZh?'过了下单截止时间？我们会自动将你的取货日顺延到下一个可预订日期。':'Order after the deadline? We\u2019ll automatically move your pickup to the next available date.' },
       ],
       confirmSteps: [
         { n:'1', text: L.confirm1(this.money(total)) },
