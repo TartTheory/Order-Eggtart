@@ -404,6 +404,7 @@ class Component extends DCLogic {
       { id:'sat', weekday:6, cutoffDays:1, timeZh:'下午3:00\u20133:30', timeEn:'3:00\u20133:30 PM', placeZh:this.PICKUP_PLACE_ZH, placeEn:this.PICKUP_PLACE_EN, shortZh:'Bellevue T&T', shortEn:'Bellevue T&T' },
       { id:'sun', weekday:0, cutoffDays:1, timeZh:'下午3:00\u20133:30', timeEn:'3:00\u20133:30 PM', placeZh:this.PICKUP_PLACE_ZH, placeEn:this.PICKUP_PLACE_EN, shortZh:'Bellevue T&T', shortEn:'Bellevue T&T' },
     ];
+    this.PICKUP_SKIP = { sun: ['2026-08-30'] };
     this.UI = {
       zh:{ bag:'购物车', kicker:'今天，也想吃一颗热乎乎的蛋挞。', heroTitle:'每一颗蛋挞都是刚出炉的幸福。', heroSubtitle:'酥到掉渣的塔皮，\n顺滑浓郁的蛋奶馅。', heroNote:'每天新鲜制作，\n每周都有新的口味。', heroSmall:'仅支持线上预订 \u00b7 定点自取', ctaLabel:'查看菜单',
         menuLabel:'菜单', menuTitle:'经典口味与每周限定，任你挑选。', menuNote:'经典口味与每周限定，任你挑选。', add:'加入',
@@ -478,12 +479,15 @@ class Component extends DCLogic {
     const now = new Date();
     const zhWeekday = ['周日','周一','周二','周三','周四','周五','周六'];
     const enWeekday = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
+    const isoDate = (dt) => dt.getFullYear()+'-'+String(dt.getMonth()+1).padStart(2,'0')+'-'+String(dt.getDate()).padStart(2,'0');
     return this.PICKUP_SCHEDULE.map(sch => {
       let d = new Date(now.getFullYear(), now.getMonth(), now.getDate());
       const diff = (sch.weekday - d.getDay() + 7) % 7;
       d.setDate(d.getDate() + diff);
       let cutoff = new Date(d); cutoff.setDate(cutoff.getDate()-(sch.cutoffDays||1)); cutoff.setHours(23,0,0,0);
       if (now.getTime() > cutoff.getTime()) { d.setDate(d.getDate()+7); cutoff.setDate(cutoff.getDate()+7); }
+      const skip = (this.PICKUP_SKIP && this.PICKUP_SKIP[sch.id]) || [];
+      while (skip.includes(isoDate(d))) { d.setDate(d.getDate()+7); cutoff.setDate(cutoff.getDate()+7); }
       return { ...sch, date:d, cutoff,
         dateLabelZh: zhWeekday[d.getDay()]+' '+(d.getMonth()+1)+'月'+d.getDate()+'日',
         dateLabelEn: enWeekday[d.getDay()]+' '+(d.getMonth()+1)+'/'+d.getDate(),
