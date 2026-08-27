@@ -293,17 +293,22 @@
 
           <div style="margin-top:18px">
             <div style="font-family:var(--font-body); font-weight:800; font-size:11.5px; letter-spacing:.05em; text-transform:uppercase; color:var(--muted); margin-bottom:10px">{{ t.pickupDayLabel }}</div>
-            <div style="display:flex; flex-direction:column; gap:8px">
-              <sc-for list="{{ dayOptions }}" as="dopt" hint-placeholder-count="3">
-                <button onClick="{{ dopt.onSelect }}" style="{{ dopt.style }}">
-                  <span style="display:flex; flex-direction:column; align-items:flex-start; gap:2px">
-                    <span style="font-weight:700; font-size:14px">{{ dopt.dateLabel }}</span>
-                    <span style="font-size:11.5px; opacity:.75">{{ dopt.timeLabel }} · {{ dopt.placeLabel }}</span>
-                  </span>
-                  <span style="font-size:10.5px; opacity:.65; white-space:nowrap">{{ dopt.cutoffLabel }}</span>
-                </button>
-              </sc-for>
-            </div>
+            <sc-if value="{{ hasPickupOptions }}" hint-placeholder-val="{{ true }}">
+              <div style="display:flex; flex-direction:column; gap:8px">
+                <sc-for list="{{ dayOptions }}" as="dopt" hint-placeholder-count="3">
+                  <button onClick="{{ dopt.onSelect }}" style="{{ dopt.style }}">
+                    <span style="display:flex; flex-direction:column; align-items:flex-start; gap:2px">
+                      <span style="font-weight:700; font-size:14px">{{ dopt.dateLabel }}</span>
+                      <span style="font-size:11.5px; opacity:.75">{{ dopt.timeLabel }} · {{ dopt.placeLabel }}</span>
+                    </span>
+                    <span style="font-size:10.5px; opacity:.65; white-space:nowrap">{{ dopt.cutoffLabel }}</span>
+                  </button>
+                </sc-for>
+              </div>
+            </sc-if>
+            <sc-if value="{{ !hasPickupOptions }}" hint-placeholder-val="">
+              <div style="font-family:var(--font-body); color:var(--muted); font-size:12.5px; line-height:1.5; background:var(--surface-2); border:1px solid var(--line); border-radius:var(--radius-sm); padding:12px 14px">{{ t.pickupOpensSunday }}</div>
+            </sc-if>
           </div>
         </sc-if>
       </sc-if>
@@ -414,7 +419,7 @@ class Component extends DCLogic {
         pickupPaymentLabel:'取货与付款', howItWorks:'提前预定，扫码付款, 仅限自取',
         brandBlurb:'一家只专注做蛋挞的小店。提前下单，扫码付款，温热取走。', pickupShopsLabel:'取货门店', hoursContactLabel:'营业时间与联系方式',
         hoursLine1:'周一至周五 \u00b7 8:00\u201319:00', hoursLine2:'周六至周日 \u00b7 9:00\u201318:00', wechatLabel:'微信',
-        emptyBagMsg:'你的袋子还是空的，去挑几个蛋挞吧。', selfPickupNote:'仅限自取 \u00b7 下一步扫码付款', chooseShopLabel:'选择门店', pickupTimeLabel:'取货时间', pickupDayLabel:'选择取货日期', copied:'已复制微信号！',
+        emptyBagMsg:'你的袋子还是空的，去挑几个蛋挞吧。', selfPickupNote:'仅限自取 \u00b7 下一步扫码付款', chooseShopLabel:'选择门店', pickupTimeLabel:'取货时间', pickupDayLabel:'选择取货日期', pickupOpensSunday:'下一周的取货时间将于周日发布，请稍后查看。', copied:'已复制微信号！',
         boxPromo:'优惠活动: 任选四颗，仅需 $20！', boxPromoSub:'全口味自由混搭，四颗更划算',
         yourDetailsLabel:'你的信息', namePlaceholder:'你的姓名', wechatPlaceholder:'你的微信号', wechatMatchNote:'我们会用你的微信号核对付款截图与订单。',
         backToBag:'\u2190 返回袋子', orderReserved:'订单已预留，付款确认后即可锁定。', yourOrderNumberLabel:'你的订单号', screenshotThis:'请截图保存此页',
@@ -427,7 +432,7 @@ class Component extends DCLogic {
         pickupPaymentLabel:'Pickup & payment', howItWorks:'Preorder for self-pickup only \u2014 scan to pay, done in a minute.',
         brandBlurb:'A small bakery obsessed with one pastry. Order ahead, pay by QR, collect warm.', pickupShopsLabel:'Pickup shops', hoursContactLabel:'Hours & contact',
         hoursLine1:'Mon\u2013Fri \u00b7 8am\u20137pm', hoursLine2:'Sat\u2013Sun \u00b7 9am\u20136pm', wechatLabel:'Instagram',
-        emptyBagMsg:'Your bag is empty. Go pick some tarts.', selfPickupNote:'Self-pickup \u00b7 pay by QR on the next step', chooseShopLabel:'Choose a shop', pickupTimeLabel:'Pickup time', pickupDayLabel:'Choose your pickup day', copied:'WeChat ID copied!',
+        emptyBagMsg:'Your bag is empty. Go pick some tarts.', selfPickupNote:'Self-pickup \u00b7 pay by QR on the next step', chooseShopLabel:'Choose a shop', pickupTimeLabel:'Pickup time', pickupDayLabel:'Choose your pickup day', pickupOpensSunday:'Next week\u2019s pickup times open Sunday \u2014 check back soon.', copied:'WeChat ID copied!',
         boxPromo:'Any 4 for $20!', boxPromoSub:'Mix & Match Any Flavors. Perfect for sharing with friends\u2014or keeping them all to yourself. We won\u2019t judge.',
         yourDetailsLabel:'Your details', namePlaceholder:'Your name', wechatPlaceholder:'Your Instagram handle', wechatMatchNote:'We\u2019ll match your Instagram handle to your order when you send your payment screenshot.',
         backToBag:'\u2190 Back to bag', orderReserved:'Your order is reserved. Pay & confirm to lock it in.', yourOrderNumberLabel:'Your order number', screenshotThis:'Screenshot this page',
@@ -485,11 +490,15 @@ class Component extends DCLogic {
     const isoDate = (dt) => dt.getFullYear()+'-'+String(dt.getMonth()+1).padStart(2,'0')+'-'+String(dt.getDate()).padStart(2,'0');
     // Pickup days are evaluated as one week block (anchored to the Saturday that
     // ends it) so customers only ever see one week's slots at a time -- never
-    // this week's Saturday alongside next week's Friday.
+    // this week's Saturday alongside next week's Friday. Each block is only
+    // released starting the Sunday before it, so there's a quiet stretch from
+    // Friday's cutoff through Saturday where nothing is bookable yet.
     let anchorSat = new Date(now.getFullYear(), now.getMonth(), now.getDate());
     anchorSat.setDate(anchorSat.getDate() + ((6 - anchorSat.getDay() + 7) % 7));
     let candidates = [];
-    for (let week = 0; week < 8 && candidates.length === 0; week++) {
+    for (let week = 0; week < 8; week++) {
+      const release = new Date(anchorSat); release.setDate(release.getDate() - 6); release.setHours(0,0,0,0);
+      if (now.getTime() < release.getTime()) break; // this block isn't released yet -- nothing to show
       candidates = this.PICKUP_SCHEDULE.map(sch => {
         const d = new Date(anchorSat); d.setDate(d.getDate() + (sch.weekday - 6));
         const cutoff = new Date(d); cutoff.setDate(cutoff.getDate()-(sch.cutoffDays||1)); cutoff.setHours(22,0,0,0);
@@ -499,7 +508,8 @@ class Component extends DCLogic {
         const skip = (this.PICKUP_SKIP && this.PICKUP_SKIP[sch.id]) || [];
         return !skip.includes(isoDate(d));
       });
-      if (candidates.length === 0) anchorSat.setDate(anchorSat.getDate() + 7);
+      if (candidates.length > 0) break;
+      anchorSat.setDate(anchorSat.getDate() + 7);
     }
     return candidates.map(({ sch, d, cutoff }) => ({ ...sch, date:d, cutoff,
       dateLabelZh: zhWeekday[d.getDay()]+' '+(d.getMonth()+1)+'月'+d.getDate()+'日',
@@ -515,6 +525,7 @@ class Component extends DCLogic {
   }
   goCheckout() {
     const opts = this.computePickupOptions();
+    if (opts.length === 0) return; // nothing bookable right now (pre-release window); button is hidden in this state anyway
     const selId = this.state.pickupDayId || opts[0].id;
     const sel = opts.find(o=>o.id===selId) || opts[0];
     const bumped = !!(this.state.pickupDaySelectedDate && this.state.pickupDaySelectedDate !== sel.date.toISOString());
@@ -629,8 +640,9 @@ class Component extends DCLogic {
       : (isZh? ('还差 '+(4-fillCount)+' 个凑成 4 个装的礼盒！') : ('Add '+(4-fillCount)+' more for a box of 4!'));
 
     const pickupOptions = this.computePickupOptions();
-    const selectedPickupId = this.state.pickupDayId || pickupOptions[0].id;
-    const selectedPickup = pickupOptions.find(o=>o.id===selectedPickupId) || pickupOptions[0];
+    const hasPickupOptions = pickupOptions.length > 0;
+    const selectedPickupId = hasPickupOptions ? (this.state.pickupDayId || pickupOptions[0].id) : null;
+    const selectedPickup = hasPickupOptions ? (pickupOptions.find(o=>o.id===selectedPickupId) || pickupOptions[0]) : null;
     const dayOptions = pickupOptions.map(o => {
       const active = o.id===selectedPickupId;
       return { id:o.id,
@@ -643,9 +655,14 @@ class Component extends DCLogic {
           background: active ? 'var(--accent-soft)' : 'var(--surface-2)',
           color: active ? 'var(--accent)' : 'var(--text)' } };
     });
-    const pickupPlace = isZh ? selectedPickup.placeZh : selectedPickup.placeEn;
-    const pickupTimeText = isZh ? (selectedPickup.dateLabelZh+' '+selectedPickup.timeZh) : (selectedPickup.dateLabelEn+' '+selectedPickup.timeEn);
-    const toastMsgText = isZh ? ('下单时间已截止，已为你自动调整到下一个可预订日期：'+selectedPickup.dateLabelZh) : ('Order window closed \u2014 we moved your pickup to '+selectedPickup.dateLabelEn+'.');
+    const pickupPlace = hasPickupOptions ? (isZh ? selectedPickup.placeZh : selectedPickup.placeEn) : '';
+    const pickupTimeText = hasPickupOptions ? (isZh ? (selectedPickup.dateLabelZh+' '+selectedPickup.timeZh) : (selectedPickup.dateLabelEn+' '+selectedPickup.timeEn)) : '';
+    const toastMsgText = hasPickupOptions ? (isZh ? ('下单时间已截止，已为你自动调整到下一个可预订日期：'+selectedPickup.dateLabelZh) : ('Order window closed \u2014 we moved your pickup to '+selectedPickup.dateLabelEn+'.')) : '';
+
+    const pickupCards = pickupOptions.map(o => ({
+      day: isZh ? o.dateLabelZh : o.dateLabelEn, time: isZh ? o.timeZh : o.timeEn,
+      place: isZh ? o.placeZh : o.placeEn, cutoff: isZh ? o.cutoffLabelZh : o.cutoffLabelEn,
+    }));
 
     return {
       t: L, lang, isZh, brand: this.BRAND,
@@ -662,10 +679,10 @@ class Component extends DCLogic {
         { n:'1', title: isZh?'加入购物车':'Add to Cart', note: isZh?'挑选喜欢的口味，加入购物车，确认总金额。':'Choose your favorite flavors, add them to your cart, and confirm the total.' },
         { n:'2', title: isZh?'Venmo 付款':'Pay via Venmo', note: isZh?'通过 Venmo 付款给我们，截图保存你的付款确认页面。':'Pay us through Venmo, then screenshot your confirmation page.', hasQr:true, hasRealQr:true, qrId:'artisan-venmo-qr', qrImg:'uploads/venmo-qr.png', qrStyle:{width:'150px',height:'150px',margin:'12px auto 0',borderRadius:'12px',objectFit:'cover',display:'block'}, qrLabel: this.venmo(), confirmShot:true },
         { n:'3', title: isZh?'添加微信':'Follow & Message on Instagram', note: isZh?'添加我们的微信，发送付款截图确认。':'Follow us on Instagram and message us a screenshot of your payment.', hasQr:true, hasRealQr:true, qrId: isZh?'artisan-wechat-qr':'artisan-instagram-qr', qrImg: isZh?'uploads/wechat-qr.jpg':'uploads/instagram-qr.png', qrStyle:{width:'150px',height:'150px',margin:'12px auto 0',borderRadius:'12px',objectFit:'cover',display:'block'}, qrLabel: isZh?this.wechat():this.instagram() },
-        { n:'4', title: isZh?'定点自取':'Pickup', hasBullets:true, pickupCards: pickupOptions.map(o => ({
-          day: isZh ? o.dateLabelZh : o.dateLabelEn, time: isZh ? o.timeZh : o.timeEn,
-          place: isZh ? o.placeZh : o.placeEn, cutoff: isZh ? o.cutoffLabelZh : o.cutoffLabelEn,
-        })), afterNote: isZh?'过了下单截止时间？我们会自动将你的取货日顺延到下一个可预订日期。':'Order after the deadline? We\u2019ll automatically move your pickup to the next available date.' },
+        { n:'4', title: isZh?'定点自取':'Pickup', hasBullets:true, pickupCards,
+          afterNote: pickupCards.length>0
+            ? (isZh?'过了下单截止时间？我们会自动将你的取货日顺延到下一个可预订日期。':'Order after the deadline? We\u2019ll automatically move your pickup to the next available date.')
+            : (isZh?'下一周的取货时间将于周日发布，请稍后查看。':'Next week\u2019s pickup times open Sunday \u2014 check back soon.') },
       ],
       confirmSteps: [
         { n:'1', text: L.confirm1(this.money(total)) },
@@ -678,13 +695,13 @@ class Component extends DCLogic {
       boxSlots, boxNote, hasSavings: savings>0,
       checkoutBoxes, leftoverUnits, hasCheckoutBoxes: checkoutBoxes.length>0, hasLeftoverUnits: leftoverUnits.length>0,
       priorBoxes, hasPriorBoxes,
-      dayOptions, toastMsg: this.state.toastMsg, toastMsgText,
+      dayOptions, hasPickupOptions, toastMsg: this.state.toastMsg, toastMsgText,
       savingsNote: isZh?('已省 $'+savings.toFixed(savings%1===0?0:2)):('You saved $'+savings.toFixed(savings%1===0?0:2)),
       cartOpen: this.state.cartOpen,
       isCart: this.state.step==='cart',
       isDetails: this.state.step==='details',
       isDone: this.state.step==='done',
-      showCartFooter: this.state.step==='cart' && cartItems.length>0,
+      showCartFooter: this.state.step==='cart' && cartItems.length>0 && hasPickupOptions,
       showDetailsFooter: this.state.step==='details',
       drawerTitle: this.state.step==='details' ? L.checkoutBtn : this.state.step==='done' ? (isZh?'付款并确认':'Pay & confirm') : L.bag,
       totalLabel: this.money(total),
