@@ -423,7 +423,7 @@ class Component extends DCLogic {
     // pickup week, keyed by the same week label weekLabelFor() produces (i.e.
     // the Sheets tab name for that week). Add/remove/edit entries as capacity
     // changes; a week with no entry here has no cap.
-    this.PICKUP_CAPS = { 'Aug 29-30': 24 };
+    this.PICKUP_CAPS = { 'Aug 28-29': 40 };
     this.SHEET_WEBHOOK_URL = 'https://script.google.com/macros/s/AKfycbwe-Ee-BHG5GZ8q4vSG82J0YPIg159V6e6X9x1ptzEfFCugsWJgp_HoDX9dIkr4RXu-0A/exec';
     this.UI = {
       zh:{ bag:'购物车', kicker:'今天，也想吃一颗热乎乎的蛋挞。', heroTitle:'每一颗蛋挞都是刚出炉的幸福。', heroSubtitle:'酥到掉渣的塔皮，\n顺滑浓郁的蛋奶馅。', heroNote:'每天新鲜制作，\n每周都有新的口味。', heroSmall:'仅支持线上预订 \u00b7 定点自取', ctaLabel:'查看菜单',
@@ -569,13 +569,14 @@ class Component extends DCLogic {
   }
   weekLabelFor(date) {
     const months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
-    // Anchor to the Saturday that ends this date's pickup week -- Friday and
-    // Saturday are the only pickup days, so both land on the same Saturday
-    // and end up in the same weekly sheet.
+    // Anchor to the Saturday that ends this date's pickup week, then label by
+    // Friday-Saturday (the actual pickup days) rather than Saturday-Sunday --
+    // both Friday and Saturday orders land on the same Saturday and end up
+    // in the same weekly sheet, named to match.
     const sat = new Date(date);
     sat.setDate(sat.getDate() + ((6 - sat.getDay() + 7) % 7));
-    const sun = new Date(sat); sun.setDate(sat.getDate() + 1);
-    return months[sat.getMonth()] + ' ' + sat.getDate() + '-' + sun.getDate();
+    const fri = new Date(sat); fri.setDate(sat.getDate() - 1);
+    return months[sat.getMonth()] + ' ' + fri.getDate() + '-' + sat.getDate();
   }
   submitOrderToSheet(orderNum, sel) {
     const items = this.entries().map(e => e.qty + 'x ' + e.f.en + ' ($' + e.f.price + ')').join(';\n');

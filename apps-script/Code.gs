@@ -164,14 +164,15 @@ function submitManualOrder(form) {
 
 function weekLabelFor(date) {
   var months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
-  // Anchor to the Saturday that ends this date's pickup week -- Friday and
-  // Saturday are the only pickup days, so both land on the same Saturday
-  // and end up in the same weekly sheet. Keep in sync with weekLabelFor()
-  // in index.html.
+  // Anchor to the Saturday that ends this date's pickup week, then label by
+  // Friday-Saturday (the actual pickup days) rather than Saturday-Sunday --
+  // both Friday and Saturday orders land on the same Saturday and end up
+  // in the same weekly sheet, named to match. Keep in sync with
+  // weekLabelFor() in index.html.
   var sat = new Date(date);
   sat.setDate(sat.getDate() + ((6 - sat.getDay() + 7) % 7));
-  var sun = new Date(sat); sun.setDate(sat.getDate() + 1);
-  return months[sat.getMonth()] + ' ' + sat.getDate() + '-' + sun.getDate();
+  var fri = new Date(sat); fri.setDate(sat.getDate() - 1);
+  return months[sat.getMonth()] + ' ' + fri.getDate() + '-' + sat.getDate();
 }
 
 // Installable "On change" trigger — catches row deletions (and other structural
