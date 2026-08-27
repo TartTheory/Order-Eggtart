@@ -483,20 +483,30 @@ class Component extends DCLogic {
     const zhWeekday = ['周日','周一','周二','周三','周四','周五','周六'];
     const enWeekday = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
     const isoDate = (dt) => dt.getFullYear()+'-'+String(dt.getMonth()+1).padStart(2,'0')+'-'+String(dt.getDate()).padStart(2,'0');
-    return this.PICKUP_SCHEDULE.map(sch => {
-      let d = new Date(now.getFullYear(), now.getMonth(), now.getDate());
-      const diff = (sch.weekday - d.getDay() + 7) % 7;
-      d.setDate(d.getDate() + diff);
-      let cutoff = new Date(d); cutoff.setDate(cutoff.getDate()-(sch.cutoffDays||1)); cutoff.setHours(22,0,0,0);
-      if (now.getTime() > cutoff.getTime()) { d.setDate(d.getDate()+7); cutoff.setDate(cutoff.getDate()+7); }
-      const skip = (this.PICKUP_SKIP && this.PICKUP_SKIP[sch.id]) || [];
-      while (skip.includes(isoDate(d))) { d.setDate(d.getDate()+7); cutoff.setDate(cutoff.getDate()+7); }
-      return { ...sch, date:d, cutoff,
-        dateLabelZh: zhWeekday[d.getDay()]+' '+(d.getMonth()+1)+'月'+d.getDate()+'日',
-        dateLabelEn: enWeekday[d.getDay()]+' '+(d.getMonth()+1)+'/'+d.getDate(),
-        cutoffLabelZh: zhWeekday[cutoff.getDay()]+' 22:00 前下单',
-        cutoffLabelEn: 'Order by '+enWeekday[cutoff.getDay()]+' 10PM' };
-    }).sort((a,b)=>a.date-b.date);
+    // Pickup days are evaluated as one week block (anchored to the Saturday that
+    // ends it) so customers only ever see one week's slots at a time -- never
+    // this week's Saturday alongside next week's Friday.
+    let anchorSat = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+    anchorSat.setDate(anchorSat.getDate() + ((6 - anchorSat.getDay() + 7) % 7));
+    let candidates = [];
+    for (let week = 0; week < 8 && candidates.length === 0; week++) {
+      candidates = this.PICKUP_SCHEDULE.map(sch => {
+        const d = new Date(anchorSat); d.setDate(d.getDate() + (sch.weekday - 6));
+        const cutoff = new Date(d); cutoff.setDate(cutoff.getDate()-(sch.cutoffDays||1)); cutoff.setHours(22,0,0,0);
+        return { sch, d, cutoff };
+      }).filter(({ sch, d, cutoff }) => {
+        if (now.getTime() > cutoff.getTime()) return false;
+        const skip = (this.PICKUP_SKIP && this.PICKUP_SKIP[sch.id]) || [];
+        return !skip.includes(isoDate(d));
+      });
+      if (candidates.length === 0) anchorSat.setDate(anchorSat.getDate() + 7);
+    }
+    return candidates.map(({ sch, d, cutoff }) => ({ ...sch, date:d, cutoff,
+      dateLabelZh: zhWeekday[d.getDay()]+' '+(d.getMonth()+1)+'月'+d.getDate()+'日',
+      dateLabelEn: enWeekday[d.getDay()]+' '+(d.getMonth()+1)+'/'+d.getDate(),
+      cutoffLabelZh: zhWeekday[cutoff.getDay()]+' 22:00 前下单',
+      cutoffLabelEn: 'Order by '+enWeekday[cutoff.getDay()]+' 10PM' }))
+      .sort((a,b)=>a.date-b.date);
   }
   selectPickupDay(id) {
     const o = this.computePickupOptions().find(x=>x.id===id);
