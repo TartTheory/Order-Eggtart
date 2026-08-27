@@ -31,6 +31,43 @@ function doPost(e) {
   return ContentService.createTextOutput(JSON.stringify({ ok: true })).setMimeType(ContentService.MimeType.JSON);
 }
 
+// Read-only endpoint the website polls to enforce a weekly baking cap
+// (index.html's PICKUP_CAPS). ?action=remaining&week=<label> returns how many
+// tarts are already committed for that week's sheet, counting every submitted
+// order regardless of paid status -- a checkout reserves baking capacity the
+// moment it's placed, not once payment is confirmed.
+function doGet(e) {
+  var action = e.parameter.action;
+  if (action === 'remaining') {
+    var week = e.parameter.week || '';
+    return ContentService.createTextOutput(JSON.stringify({ ok: true, week: week, orderedQty: orderedQtyForWeek(week) }))
+      .setMimeType(ContentService.MimeType.JSON);
+  }
+  return ContentService.createTextOutput(JSON.stringify({ ok: false, error: 'unknown action' }))
+    .setMimeType(ContentService.MimeType.JSON);
+}
+
+function orderedQtyForWeek(weekLabel) {
+  if (!weekLabel) return 0;
+  var sheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName(weekLabel);
+  if (!sheet) return 0;
+
+  var summaryStart = findSummaryStart(sheet);
+  var dataEndRow = summaryStart ? summaryStart - 1 : sheet.getLastRow();
+  if (dataEndRow < 2) return 0;
+
+  var rows = sheet.getRange(2, 1, dataEndRow - 1, HEADERS.length).getValues();
+  var totalQty = 0;
+  rows.forEach(function (r) {
+    if (!r[COL.ORDER_NUM - 1]) return;
+    String(r[COL.ITEMS - 1]).split('\n').forEach(function (part) {
+      var m = part.trim().match(/^(\d+)x\s+/);
+      if (m) totalQty += parseInt(m[1], 10);
+    });
+  });
+  return totalQty;
+}
+
 // Shared by doPost (website checkout) and addManualOrder (Tart Theory > Add
 // Manual Order menu) so every order - online or hand-entered - is written in
 // the same format and the summary is rebuilt in the same call, instead of
@@ -127,8 +164,12 @@ function submitManualOrder(form) {
 
 function weekLabelFor(date) {
   var months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+  // Anchor to the Saturday that ends this date's pickup week -- Friday and
+  // Saturday are the only pickup days, so both land on the same Saturday
+  // and end up in the same weekly sheet. Keep in sync with weekLabelFor()
+  // in index.html.
   var sat = new Date(date);
-  if (sat.getDay() === 0) sat.setDate(sat.getDate() - 1); // Sunday -> preceding Saturday
+  sat.setDate(sat.getDate() + ((6 - sat.getDay() + 7) % 7));
   var sun = new Date(sat); sun.setDate(sat.getDate() + 1);
   return months[sat.getMonth()] + ' ' + sat.getDate() + '-' + sun.getDate();
 }

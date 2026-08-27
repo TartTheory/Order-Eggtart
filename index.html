@@ -385,6 +385,12 @@
       </div>
     </sc-if>
 
+    <sc-if value="{{ capBlockedFooter }}" hint-placeholder-val="">
+      <div style="flex:none; border-top:1px solid var(--line); padding:15px 18px">
+        <div style="font-family:var(--font-body); color:var(--muted); font-size:12.5px; line-height:1.5; background:var(--surface-2); border:1px solid var(--line); border-radius:var(--radius-sm); padding:12px 14px">{{ capBlockedMsg }}</div>
+      </div>
+    </sc-if>
+
   </aside>
 </div>
 </div>
@@ -413,13 +419,19 @@ class Component extends DCLogic {
       { id:'sat', weekday:6, cutoffDays:1, timeZh:'下午3:00\u20133:30', timeEn:'3:00\u20133:30 PM', placeZh:this.PICKUP_PLACE_ZH, placeEn:this.PICKUP_PLACE_EN, shortZh:'Bellevue T&T', shortEn:'Bellevue T&T' },
     ];
     this.PICKUP_SKIP = { 'fri-udistrict': ['2026-08-28'], 'fri-slu': ['2026-08-28'] };
+    // Weekly baking cap: total tarts (all flavors combined) allowed for a given
+    // pickup week, keyed by the same week label weekLabelFor() produces (i.e.
+    // the Sheets tab name for that week). Add/remove/edit entries as capacity
+    // changes; a week with no entry here has no cap.
+    this.PICKUP_CAPS = { 'Aug 29-30': 24 };
+    this.SHEET_WEBHOOK_URL = 'https://script.google.com/macros/s/AKfycbwe-Ee-BHG5GZ8q4vSG82J0YPIg159V6e6X9x1ptzEfFCugsWJgp_HoDX9dIkr4RXu-0A/exec';
     this.UI = {
       zh:{ bag:'购物车', kicker:'今天，也想吃一颗热乎乎的蛋挞。', heroTitle:'每一颗蛋挞都是刚出炉的幸福。', heroSubtitle:'酥到掉渣的塔皮，\n顺滑浓郁的蛋奶馅。', heroNote:'每天新鲜制作，\n每周都有新的口味。', heroSmall:'仅支持线上预订 \u00b7 定点自取', ctaLabel:'查看菜单',
         menuLabel:'菜单', menuTitle:'经典口味与每周限定，任你挑选。', menuNote:'经典口味与每周限定，任你挑选。', add:'加入',
         pickupPaymentLabel:'取货与付款', howItWorks:'提前预定，扫码付款, 仅限自取',
         brandBlurb:'一家只专注做蛋挞的小店。提前下单，扫码付款，温热取走。', pickupShopsLabel:'取货门店', hoursContactLabel:'营业时间与联系方式',
         hoursLine1:'周一至周五 \u00b7 8:00\u201319:00', hoursLine2:'周六至周日 \u00b7 9:00\u201318:00', wechatLabel:'微信',
-        emptyBagMsg:'你的袋子还是空的，去挑几个蛋挞吧。', selfPickupNote:'仅限自取 \u00b7 下一步扫码付款', chooseShopLabel:'选择门店', pickupTimeLabel:'取货时间', pickupDayLabel:'选择取货日期', pickupOpensSunday:'下一周的取货时间将于周日发布，请稍后查看。', copied:'已复制微信号！',
+        emptyBagMsg:'你的袋子还是空的，去挑几个蛋挞吧。', selfPickupNote:'仅限自取 \u00b7 下一步扫码付款', chooseShopLabel:'选择门店', pickupTimeLabel:'取货时间', pickupDayLabel:'选择取货日期', pickupOpensSunday:'下一周的取货时间将于周日发布，请稍后查看。', soldOutThisWeek:'抱歉，本周的蛋挞名额已订满，请下周再来 :)', lowStockThisWeek:(n)=>'本周只剩 '+n+' 个名额，请减少数量后再试。', copied:'已复制微信号！',
         boxPromo:'优惠活动: 任选四颗，仅需 $20！', boxPromoSub:'全口味自由混搭，四颗更划算',
         yourDetailsLabel:'你的信息', namePlaceholder:'你的姓名', wechatPlaceholder:'你的微信号', wechatMatchNote:'我们会用你的微信号核对付款截图与订单。',
         backToBag:'\u2190 返回袋子', orderReserved:'订单已预留，付款确认后即可锁定。', yourOrderNumberLabel:'你的订单号', screenshotThis:'请截图保存此页',
@@ -432,7 +444,7 @@ class Component extends DCLogic {
         pickupPaymentLabel:'Pickup & payment', howItWorks:'Preorder for self-pickup only \u2014 scan to pay, done in a minute.',
         brandBlurb:'A small bakery obsessed with one pastry. Order ahead, pay by QR, collect warm.', pickupShopsLabel:'Pickup shops', hoursContactLabel:'Hours & contact',
         hoursLine1:'Mon\u2013Fri \u00b7 8am\u20137pm', hoursLine2:'Sat\u2013Sun \u00b7 9am\u20136pm', wechatLabel:'Instagram',
-        emptyBagMsg:'Your bag is empty. Go pick some tarts.', selfPickupNote:'Self-pickup \u00b7 pay by QR on the next step', chooseShopLabel:'Choose a shop', pickupTimeLabel:'Pickup time', pickupDayLabel:'Choose your pickup day', pickupOpensSunday:'Next week\u2019s pickup times open Sunday \u2014 check back soon.', copied:'WeChat ID copied!',
+        emptyBagMsg:'Your bag is empty. Go pick some tarts.', selfPickupNote:'Self-pickup \u00b7 pay by QR on the next step', chooseShopLabel:'Choose a shop', pickupTimeLabel:'Pickup time', pickupDayLabel:'Choose your pickup day', pickupOpensSunday:'Next week\u2019s pickup times open Sunday \u2014 check back soon.', soldOutThisWeek:'Sorry, we\u2019re sold out for this week \u2014 check back next week!', lowStockThisWeek:(n)=>'Only '+n+' left this week \u2014 please reduce your quantity.', copied:'WeChat ID copied!',
         boxPromo:'Any 4 for $20!', boxPromoSub:'Mix & Match Any Flavors. Perfect for sharing with friends\u2014or keeping them all to yourself. We won\u2019t judge.',
         yourDetailsLabel:'Your details', namePlaceholder:'Your name', wechatPlaceholder:'Your Instagram handle', wechatMatchNote:'We\u2019ll match your Instagram handle to your order when you send your payment screenshot.',
         backToBag:'\u2190 Back to bag', orderReserved:'Your order is reserved. Pay & confirm to lock it in.', yourOrderNumberLabel:'Your order number', screenshotThis:'Screenshot this page',
@@ -442,7 +454,7 @@ class Component extends DCLogic {
         confirm1:(t)=>'Scan the QR above to pay '+t+'.', confirm2:(o,w)=>'Send your order number '+o+' and the payment screenshot to us on Instagram: '+w+'.', confirm3:(s,tm)=>'Collect at '+s+', '+tm+'. We reply to confirm.' },
     };
     this.THEME_VARS = { '--bg':'#F7EFE0','--surface':'#FFFCF4','--surface-2':'#F1E6D0','--text':'#3A2C1A','--muted':'#94826A','--line':'#E7D9BF','--accent':'#C0792A','--accent-text':'#FFF8EC','--accent-soft':'#F2E3C6','--font-head':"'Noto Sans SC', 'Hanken Grotesk', system-ui, sans-serif",'--font-body':"'Noto Sans SC', 'Hanken Grotesk', system-ui, sans-serif",'--radius':'16px','--radius-sm':'12px','--head-weight':'600','--head-transform':'none','--head-spacing':'0','--shadow':'0 10px 30px rgba(90,60,20,.12)' };
-    this.state = { cart: {}, cartOpen: false, step: 'cart', orderNum: null, lang: 'zh', pickupDayId: null, pickupDaySelectedDate: null, toastMsg: false, copiedWechat: false };
+    this.state = { cart: {}, cartOpen: false, step: 'cart', orderNum: null, lang: 'zh', pickupDayId: null, pickupDaySelectedDate: null, toastMsg: false, copiedWechat: false, orderedQty: null, orderedQtyWeek: null };
   }
 
   wechat() { return this.props.wechatId ?? 'tart_theory'; }
@@ -481,7 +493,20 @@ class Component extends DCLogic {
   }
   inc(id) { this.setState(s => ({ cart:{ ...s.cart, [id]:(s.cart[id]||0)+1 } })); }
   dec(id) { this.setState(s => { const q=(s.cart[id]||0)-1; const c={...s.cart}; if(q<=0) delete c[id]; else c[id]=q; return { cart:c }; }); }
-  openCart() { this.setState(s => ({ cartOpen:true, step: s.step==='done'?'cart':s.step })); }
+  openCart() {
+    this.setState(s => ({ cartOpen:true, step: s.step==='done'?'cart':s.step }));
+    const opts = this.computePickupOptions();
+    if (opts[0]) this.fetchOrderedQty(this.weekLabelFor(opts[0].date));
+  }
+  // Refreshes how many tarts are already committed for a pickup week, so the
+  // weekly cap in PICKUP_CAPS can be enforced. Fails open on any network/parse
+  // error -- if the live count can't be reached, checkout is not blocked by it.
+  fetchOrderedQty(weekLabel) {
+    fetch(this.SHEET_WEBHOOK_URL + '?action=remaining&week=' + encodeURIComponent(weekLabel))
+      .then(r => r.json())
+      .then(data => { if (data && data.ok) this.setState({ orderedQty: data.orderedQty, orderedQtyWeek: weekLabel }); })
+      .catch(() => {});
+  }
   closeCart() { this.setState({ cartOpen:false }); }
   computePickupOptions() {
     const now = new Date();
@@ -528,6 +553,14 @@ class Component extends DCLogic {
     if (opts.length === 0) return; // nothing bookable right now (pre-release window); button is hidden in this state anyway
     const selId = this.state.pickupDayId || opts[0].id;
     const sel = opts.find(o=>o.id===selId) || opts[0];
+    // Belt-and-suspenders: the checkout button is already hidden client-side
+    // once the weekly cap is known to be exceeded, but re-check here in case
+    // state is stale (e.g. someone else's orders came in while this cart was open).
+    const weekLabel = this.weekLabelFor(sel.date);
+    const cap = this.PICKUP_CAPS[weekLabel];
+    if (cap != null && this.state.orderedQtyWeek === weekLabel && this.state.orderedQty != null) {
+      if (this.qtyTotal() > Math.max(0, cap - this.state.orderedQty)) return;
+    }
     const bumped = !!(this.state.pickupDaySelectedDate && this.state.pickupDaySelectedDate !== sel.date.toISOString());
     const n = 'TT-' + Math.floor(1000 + Math.random()*9000);
     this.setState({ step:'done', orderNum:n, pickupDayId:sel.id, pickupDaySelectedDate:sel.date.toISOString(), toastMsg:bumped });
@@ -536,8 +569,11 @@ class Component extends DCLogic {
   }
   weekLabelFor(date) {
     const months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+    // Anchor to the Saturday that ends this date's pickup week -- Friday and
+    // Saturday are the only pickup days, so both land on the same Saturday
+    // and end up in the same weekly sheet.
     const sat = new Date(date);
-    if (sat.getDay() === 0) sat.setDate(sat.getDate() - 1); // Sunday -> preceding Saturday
+    sat.setDate(sat.getDate() + ((6 - sat.getDay() + 7) % 7));
     const sun = new Date(sat); sun.setDate(sat.getDate() + 1);
     return months[sat.getMonth()] + ' ' + sat.getDate() + '-' + sun.getDate();
   }
@@ -548,7 +584,7 @@ class Component extends DCLogic {
       pickupDay: sel.dateLabelEn, pickupTime: sel.timeEn, pickupPlace: sel.placeEn,
       lang: this.state.lang, weekLabel: this.weekLabelFor(sel.date)
     };
-    fetch('https://script.google.com/macros/s/AKfycbwe-Ee-BHG5GZ8q4vSG82J0YPIg159V6e6X9x1ptzEfFCugsWJgp_HoDX9dIkr4RXu-0A/exec', {
+    fetch(this.SHEET_WEBHOOK_URL, {
       method: 'POST', mode: 'no-cors', headers: { 'Content-Type': 'text/plain' }, body: JSON.stringify(payload)
     }).catch(() => {});
   }
@@ -664,6 +700,16 @@ class Component extends DCLogic {
       place: isZh ? o.placeZh : o.placeEn, cutoff: isZh ? o.cutoffLabelZh : o.cutoffLabelEn,
     }));
 
+    // Weekly baking cap (see PICKUP_CAPS). `remaining` is only known once
+    // fetchOrderedQty() has resolved for the currently active week; until
+    // then the cap simply isn't enforced (fails open).
+    const activeWeekLabel = hasPickupOptions ? this.weekLabelFor(pickupOptions[0].date) : null;
+    const weekCap = activeWeekLabel != null ? this.PICKUP_CAPS[activeWeekLabel] : null;
+    const capKnown = weekCap != null && this.state.orderedQtyWeek === activeWeekLabel && this.state.orderedQty != null;
+    const remaining = capKnown ? Math.max(0, weekCap - this.state.orderedQty) : null;
+    const capBlocked = capKnown && qty > remaining;
+    const capBlockedMsg = !capBlocked ? '' : (remaining <= 0 ? L.soldOutThisWeek : L.lowStockThisWeek(remaining));
+
     return {
       t: L, lang, isZh, brand: this.BRAND,
       langThumbStyle: { position:'absolute', top:'2px', bottom:'2px', left: isZh?'2px':'50%', width:'calc(50% - 2px)', borderRadius:'999px', background:'var(--accent)', transition:'left .22s ease' },
@@ -701,7 +747,9 @@ class Component extends DCLogic {
       isCart: this.state.step==='cart',
       isDetails: this.state.step==='details',
       isDone: this.state.step==='done',
-      showCartFooter: this.state.step==='cart' && cartItems.length>0 && hasPickupOptions,
+      showCartFooter: this.state.step==='cart' && cartItems.length>0 && hasPickupOptions && !capBlocked,
+      capBlockedFooter: this.state.step==='cart' && cartItems.length>0 && hasPickupOptions && capBlocked,
+      capBlockedMsg,
       showDetailsFooter: this.state.step==='details',
       drawerTitle: this.state.step==='details' ? L.checkoutBtn : this.state.step==='done' ? (isZh?'付款并确认':'Pay & confirm') : L.bag,
       totalLabel: this.money(total),
