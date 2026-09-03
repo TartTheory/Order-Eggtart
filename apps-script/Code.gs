@@ -8,7 +8,10 @@ var FLAVORS = [
   { id: 'matcha', name: 'Matcha Red Bean Tart', price: 6 },
   { id: 'porkfloss', name: 'Pork Floss Salted Egg Tart', price: 6 },
   { id: 'oreo', name: 'Oreo Brownie Egg Tart', price: 6 },
-  { id: 'taro', name: 'Purple Rice Taro Egg Tart', price: 6 }
+  { id: 'taro', name: 'Purple Rice Taro Egg Tart', price: 6 },
+  { id: 'durian', name: 'Roasted Durian Egg Tart', price: 6 },
+  { id: 'blacksesame', name: 'Black Sesame Mochi Tart', price: 6 },
+  { id: 'soymilk', name: 'Soy Milk Mochi Egg Tart', price: 6 }
 ];
 var PICKUP_PLACE = 'Bellevue T&T Supermarket parking lot';
 var PICKUP_TIME = '3:00–3:30 PM';
