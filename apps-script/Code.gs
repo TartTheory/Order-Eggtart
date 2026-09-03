@@ -230,15 +230,18 @@ function rebuildSummary(sheet) {
   var summaryStart = findSummaryStart(sheet);
   var dataEndRow;
   var existingNotes = {};
+  var existingCost = '';
   if (summaryStart) {
     dataEndRow = summaryStart - 1;
     var oldRange = sheet.getRange(summaryStart, 1, sheet.getMaxRows() - summaryStart + 1, numCols);
-    // Preserve notes by label before wiping the block, since row positions
-    // shift as flavors/orders come and go and can't be trusted to stay put.
+    // Preserve notes by label, and the hand-entered Cost value, before wiping
+    // the block -- row positions shift as flavors/orders come and go and
+    // can't be trusted to stay put.
     oldRange.getValues().forEach(function (r) {
       var label = r[0];
       var note = r[2];
       if (label && note) existingNotes[label] = note;
+      if (label === 'Cost') existingCost = r[1];
     });
     oldRange.clearContent();
     oldRange.clearDataValidations();
@@ -291,12 +294,20 @@ function rebuildSummary(sheet) {
     return [label, value, existingNotes[label] || ''].concat(restBlank);
   }
 
+  // Cost is hand-entered (ingredient cost is a per-batch expense, not
+  // something tied to any one order), so it's carried over as-is rather than
+  // recomputed. Profit is Total Received (i.e. after Venmo fees) minus Cost.
+  var cost = parseFloat(String(existingCost).replace('$', '')) || 0;
+  var profit = totalReceived - cost;
+
   var rows = [];
   rows.push(['SUMMARY', '', 'Note'].concat(restBlank));
   rows.push(summaryRow('Total Orders', orderCount));
   rows.push(summaryRow('Total Sales', '$' + totalSales.toFixed(2)));
   rows.push(summaryRow('Total Received (After Venmo Fees)', '$' + totalReceived.toFixed(2)));
   rows.push(summaryRow('Total Tarts', totalTarts));
+  rows.push(summaryRow('Cost', existingCost));
+  rows.push(summaryRow('Profit', '$' + profit.toFixed(2)));
   flavorOrder.forEach(function (name) {
     rows.push(summaryRow(name, flavorCounts[name] + ' ($' + flavorIncome[name].toFixed(2) + ')'));
   });
