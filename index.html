@@ -518,13 +518,14 @@ class Component extends DCLogic {
     // Pickup days are evaluated as one week block (anchored to the Saturday that
     // ends it) so customers only ever see one week's slots at a time -- never
     // this week's Saturday alongside next week's Friday. Each block is only
-    // released starting the Sunday before it, so there's a quiet stretch from
-    // Friday's cutoff through Saturday where nothing is bookable yet.
+    // released starting 5 PM on the prior week's Saturday (right after that
+    // Saturday's own pickup wraps up), so there's a quiet stretch from
+    // Friday's cutoff through Saturday 5 PM where nothing is bookable yet.
     let anchorSat = new Date(now.getFullYear(), now.getMonth(), now.getDate());
     anchorSat.setDate(anchorSat.getDate() + ((6 - anchorSat.getDay() + 7) % 7));
     let candidates = [];
     for (let week = 0; week < 8; week++) {
-      const release = new Date(anchorSat); release.setDate(release.getDate() - 6); release.setHours(0,0,0,0);
+      const release = new Date(anchorSat); release.setDate(release.getDate() - 7); release.setHours(17,0,0,0);
       if (now.getTime() < release.getTime()) break; // this block isn't released yet -- nothing to show
       candidates = this.PICKUP_SCHEDULE.map(sch => {
         const d = new Date(anchorSat); d.setDate(d.getDate() + (sch.weekday - 6));
