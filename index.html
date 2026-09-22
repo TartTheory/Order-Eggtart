@@ -442,7 +442,7 @@ class Component extends DCLogic {
         scanToPay:'请用 Venmo 扫码支付', wechatAlipayAccepted:'支持微信支付/支付宝', toConfirmOrderLabel:'确认订单步骤', orderLabel:'订单 ', collectAt:'取货地点：',
         startNewOrder:'开始新订单', checkoutBtn:'结账', totalLabel:'总计', eachSuffix:'/每个', confirmShotLabel:'付款确认截图示例',
         heroWordA:'现烤', heroWordB:'酥脆', heroWordC:'浓郁',
-        confirm1:(t)=>'扫描上方二维码支付 '+t+'。', confirm2:(o,w)=>'将订单号 '+o+' 和付款截图发送到微信：'+w+'。', confirm3:(s,tm)=>'在 '+s+'，'+tm+' 取货，我们会回复确认。' },
+        confirm1:(t)=>'扫描上方二维码支付 '+t+'。', confirm2:(o,w)=>'将订单号 '+o+' 和付款截图发送到微信：'+w+'。', confirm3:(s,tm)=>'在 '+s+'，'+tm+' 取货。出示付款截图、订单号，或直接告诉我们你的 Venmo 用户名，我们会现场为你核实。' },
       en:{ bag:'Bag', kicker:'Craving a warm eggtart today?', heroTitle:'Handcrafted egg tarts inspired by flavors from around the world.', heroSubtitle:'Flaky crust.\nSilky custard.', heroNote:'Baked fresh daily.\nNew flavors every week.', heroSmall:'Pre-order for pickup.', ctaLabel:'View Menu',
         menuLabel:'The menu', menuTitle:'Classic favorites and weekly specials.', menuNote:'Classic favorites and weekly specials.', add:'Add',
         pickupPaymentLabel:'Pickup & payment', howItWorks:'Preorder for self-pickup only \u2014 scan to pay, done in a minute.',
@@ -455,7 +455,7 @@ class Component extends DCLogic {
         scanToPay:'Scan the Venmo QR to pay', wechatAlipayAccepted:'WeChat Pay / Alipay accepted', toConfirmOrderLabel:'To confirm your order', orderLabel:'Order ', collectAt:'Collect at ',
         startNewOrder:'Start a new order', checkoutBtn:'Checkout', totalLabel:'Total', eachSuffix:' each', confirmShotLabel:'Payment confirmation screenshot',
         heroWordA:'Fresh-Baked', heroWordB:'Flaky', heroWordC:'Rich',
-        confirm1:(t)=>'Scan the QR above to pay '+t+'.', confirm2:(o,w)=>'Send your order number '+o+' and the payment screenshot to us on Instagram: '+w+'.', confirm3:(s,tm)=>'Collect at '+s+', '+tm+'. We reply to confirm.' },
+        confirm1:(t)=>'Scan the QR above to pay '+t+'.', confirm2:(o,w)=>'Send your order number '+o+' and the payment screenshot to us on Instagram: '+w+'.', confirm3:(s,tm)=>'Collect at '+s+', '+tm+'. Show your screenshot, your order number, or just tell us your Venmo name — we’ll confirm you there.' },
     };
     this.THEME_VARS = { '--bg':'#F7EFE0','--surface':'#FFFCF4','--surface-2':'#F1E6D0','--text':'#3A2C1A','--muted':'#94826A','--line':'#E7D9BF','--accent':'#C0792A','--accent-text':'#FFF8EC','--accent-soft':'#F2E3C6','--font-head':"'Noto Sans SC', 'Hanken Grotesk', system-ui, sans-serif",'--font-body':"'Noto Sans SC', 'Hanken Grotesk', system-ui, sans-serif",'--radius':'16px','--radius-sm':'12px','--head-weight':'600','--head-transform':'none','--head-spacing':'0','--shadow':'0 10px 30px rgba(90,60,20,.12)' };
     this.state = { cart: {}, cartOpen: false, step: 'cart', orderNum: null, lang: 'zh', pickupDayId: null, pickupDaySelectedDate: null, toastMsg: false, copiedWechat: false, orderedQty: null, orderedQtyWeek: null };
