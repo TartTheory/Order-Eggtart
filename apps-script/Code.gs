@@ -227,6 +227,19 @@ function formatSheet(sheet) {
   }
 }
 
+// Pickup days that share a weekly sheet (see weekLabelFor) but should get
+// their own tart breakdown, since Friday and Saturday are baked/packed as
+// separate batches. Matched against the start of the Pickup Day cell (e.g.
+// "Fri 9/26", "Sat 9/27").
+var PICKUP_DAYS = ['Friday', 'Saturday'];
+
+function pickupDayBucket(pickupDayLabel) {
+  var s = String(pickupDayLabel || '');
+  if (s.indexOf('Fri') === 0) return 'Friday';
+  if (s.indexOf('Sat') === 0) return 'Saturday';
+  return null;
+}
+
 function rebuildSummary(sheet) {
   var numCols = HEADERS.length;
   var summaryStart = findSummaryStart(sheet);
@@ -256,13 +269,13 @@ function rebuildSummary(sheet) {
   if (!summaryStart && dataEndRow < 2) return;
 
   var dataRows = dataEndRow >= 2 ? sheet.getRange(2, 1, dataEndRow - 1, numCols).getValues() : [];
-  var flavorCounts = {};
-  var flavorIncome = {};
-  var flavorOrder = [];
   var totalSales = 0;
   var totalReceived = 0;
   var orderCount = 0;
   var totalTarts = 0;
+
+  var byDay = {};
+  PICKUP_DAYS.forEach(function (d) { byDay[d] = { counts: {}, income: {}, order: [], tarts: 0 }; });
 
   dataRows.forEach(function (r) {
     if (!r[COL.ORDER_NUM - 1]) return;
@@ -273,6 +286,7 @@ function rebuildSummary(sheet) {
     if (received !== '' && received !== null) {
       totalReceived += parseFloat(String(received).replace('$', '')) || 0;
     }
+    var day = byDay[pickupDayBucket(r[COL.PICKUP_DAY - 1])]; // undefined for a day outside PICKUP_DAYS
     String(r[COL.ITEMS - 1]).split('\n').forEach(function (part) {
       part = part.trim();
       var m = part.match(/^(\d+)x\s+(.+?)\s+\(\$([\d.]+)\)/);
@@ -280,10 +294,13 @@ function rebuildSummary(sheet) {
         var qty = parseInt(m[1], 10);
         var name = m[2];
         var unitPrice = parseFloat(m[3]);
-        if (!(name in flavorCounts)) flavorOrder.push(name);
-        flavorCounts[name] = (flavorCounts[name] || 0) + qty;
-        flavorIncome[name] = (flavorIncome[name] || 0) + qty * unitPrice;
         totalTarts += qty;
+        if (day) {
+          if (!(name in day.counts)) day.order.push(name);
+          day.counts[name] = (day.counts[name] || 0) + qty;
+          day.income[name] = (day.income[name] || 0) + qty * unitPrice;
+          day.tarts += qty;
+        }
       }
     });
   });
@@ -292,8 +309,8 @@ function rebuildSummary(sheet) {
   // leaves a stale non-zero summary behind.
   var newSummaryStart = dataEndRow + 1;
   var restBlank = new Array(numCols - 3).fill('');
-  function summaryRow(label, value) {
-    return [label, value, existingNotes[label] || ''].concat(restBlank);
+  function summaryRow(label, value, noteKey) {
+    return [label, value, existingNotes[noteKey || label] || ''].concat(restBlank);
   }
 
   // Cost is hand-entered (ingredient cost is a per-batch expense, not
@@ -303,6 +320,7 @@ function rebuildSummary(sheet) {
   var profit = totalReceived - cost;
 
   var rows = [];
+  var headerRowIndexes = []; // indexes into rows[] that get the same bold+border as the SUMMARY row
   rows.push(['SUMMARY', '', 'Note'].concat(restBlank));
   rows.push(summaryRow('Total Orders', orderCount));
   rows.push(summaryRow('Total Sales', '$' + totalSales.toFixed(2)));
@@ -310,13 +328,27 @@ function rebuildSummary(sheet) {
   rows.push(summaryRow('Total Tarts', totalTarts));
   rows.push(summaryRow('Cost', existingCost));
   rows.push(summaryRow('Profit', '$' + profit.toFixed(2)));
-  flavorOrder.forEach(function (name) {
-    rows.push(summaryRow(name, flavorCounts[name] + ' ($' + flavorIncome[name].toFixed(2) + ')'));
+
+  // Per-day tart breakdown -- Friday and Saturday orders share this sheet
+  // (weekLabelFor) but are baked/packed as separate batches, so each gets
+  // its own flavor breakdown instead of one merged list.
+  PICKUP_DAYS.forEach(function (d) {
+    var bucket = byDay[d];
+    headerRowIndexes.push(rows.length);
+    rows.push([d.toUpperCase() + ' TARTS', bucket.tarts, ''].concat(restBlank));
+    bucket.order.forEach(function (name) {
+      rows.push(summaryRow(name, bucket.counts[name] + ' ($' + bucket.income[name].toFixed(2) + ')', d + '|' + name));
+    });
   });
 
   sheet.getRange(newSummaryStart, 1, rows.length, numCols).setValues(rows);
   sheet.getRange(newSummaryStart, 1, 1, numCols).setFontWeight('bold');
   sheet.getRange(newSummaryStart, 1, 1, numCols).setBorder(true, false, false, false, false, false);
+  headerRowIndexes.forEach(function (idx) {
+    var r = sheet.getRange(newSummaryStart + idx, 1, 1, numCols);
+    r.setFontWeight('bold');
+    r.setBorder(true, false, false, false, false, false);
+  });
 
   formatSheet(sheet);
 }
