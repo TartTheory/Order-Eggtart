@@ -13,7 +13,8 @@ var FLAVORS = [
   { id: 'blacksesame', name: 'Black Sesame Mochi Tart', price: 6 },
   { id: 'soymilk', name: 'Soy Milk Mochi Egg Tart', price: 6 },
   { id: 'osmanthus', name: 'Osmanthus Rice Wine Egg Tart', price: 6 },
-  { id: 'lavachoc', name: 'Lava Chocolate Egg Tart', price: 6 }
+  { id: 'lavachoc', name: 'Lava Chocolate Egg Tart', price: 6 },
+  { id: 'chestnut', name: 'Chestnut Egg Tart', price: 6 }
 ];
 var PICKUP_PLACE = 'Bellevue T&T Supermarket parking lot';
 var PICKUP_TIME = '3:00–3:30 PM';
