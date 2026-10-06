@@ -31,8 +31,40 @@
   @keyframes ttPop { 0% { transform: scale(.6); opacity: 0; } 60% { transform: scale(1.12); } 100% { transform: scale(1); opacity: 1; } }
   .tt-body::-webkit-scrollbar { width: 8px; }
   .tt-body::-webkit-scrollbar-thumb { background: var(--line); border-radius: 8px; }
-  .tt-menu-grid { grid-template-columns: 1fr; }
-  @media (min-width: 640px) { .tt-menu-grid { grid-template-columns: repeat(auto-fill, minmax(170px,1fr)); } }
+  .tt-rows { border-top: 1px solid var(--line); }
+  .tt-row { display: grid; align-items: center; gap: 6px 16px; padding: 12px 4px; border-bottom: 1px solid var(--line); grid-template-columns: 64px 1fr auto; grid-template-areas: "th nm act" "th ing act"; }
+  .tt-thumb { grid-area: th; width: 64px; height: 64px; padding: 0; border-radius: 50%; border: 2px solid var(--surface); background-repeat: no-repeat; background-color: var(--surface-2); box-shadow: 0 3px 10px rgba(90,60,20,.18); cursor: zoom-in; }
+  .tt-r-name { grid-area: nm; align-self: end; font-family: var(--font-body); font-weight: 700; font-size: 15px; line-height: 1.25; color: var(--text); }
+  .tt-r-ing { grid-area: ing; align-self: start; font-family: var(--font-body); color: var(--muted); font-size: 12.5px; line-height: 1.45; }
+  .tt-r-act { grid-area: act; display: flex; align-items: center; gap: 12px; }
+  .tt-r-price { font-family: var(--font-body); font-weight: 800; font-size: 15px; min-width: 34px; text-align: right; color: var(--text); }
+  .tt-badge { display: inline-block; margin-left: 6px; font-size: 10px; font-weight: 800; letter-spacing: .04em; padding: 2px 8px; border-radius: 999px; background: var(--accent); color: var(--accent-text); vertical-align: middle; }
+  .tt-add { flex: none; width: 34px; height: 34px; border: none; cursor: pointer; border-radius: 50%; background: var(--accent); color: var(--accent-text); font-size: 18px; font-weight: 700; line-height: 1; }
+  .tt-add-lg { width: 44px; height: 44px; font-size: 22px; }
+  .tt-stepper { flex: none; display: flex; align-items: center; border: 1.5px solid var(--accent); border-radius: 999px; overflow: hidden; background: var(--surface); }
+  .tt-stepper button { width: 28px; height: 30px; border: none; cursor: pointer; background: transparent; color: var(--accent); font-size: 15px; font-weight: 700; line-height: 1; }
+  .tt-stepper button.tt-p { background: var(--accent); color: var(--accent-text); }
+  .tt-stepper span { min-width: 18px; text-align: center; font-family: var(--font-body); font-weight: 800; color: var(--text); font-size: 12.5px; }
+  .tt-stepper-lg button { width: 38px; height: 42px; font-size: 18px; }
+  .tt-stepper-lg span { min-width: 26px; font-size: 15px; }
+  @media (min-width: 860px) {
+    .tt-row { grid-template-columns: 64px minmax(190px,250px) 1fr 52px 96px; grid-template-areas: "th nm ing pr act"; padding: 10px 8px; max-width: 980px; }
+    .tt-r-name, .tt-r-ing { align-self: center; }
+    .tt-r-ing { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .tt-r-act { display: contents; }
+    .tt-r-price { grid-area: pr; }
+    .tt-r-step { grid-area: act; justify-self: end; }
+  }
+  .tt-bday-link { flex: none; border: 1.5px solid var(--accent); background: var(--accent-soft); color: var(--accent); border-radius: 999px; padding: 8px 16px; font-family: var(--font-body); font-weight: 700; font-size: 13px; cursor: pointer; }
+  .tt-bday-grid { display: grid; gap: 16px; grid-template-columns: 1fr; }
+  @media (min-width: 720px) { .tt-bday-grid { grid-template-columns: repeat(3, 1fr); } }
+  .tt-bday-card { background: var(--surface); border: 1px solid var(--line); border-radius: 20px; padding: 10px 10px 14px; box-shadow: var(--shadow); }
+  .tt-bday-photo { aspect-ratio: 4/3; border-radius: 14px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 6px; color: var(--text); }
+  .tt-lb { position: fixed; inset: 0; z-index: 60; }
+  .tt-lb-back { position: absolute; inset: 0; background: rgba(20,12,4,.62); }
+  .tt-lb-card { position: absolute; left: 50%; top: 50%; transform: translate(-50%,-50%); width: min(440px,92vw); max-height: 94vh; background: var(--surface); border-radius: 20px; padding: 10px; box-shadow: var(--shadow); display: flex; flex-direction: column; }
+  .tt-lb-img { width: 100%; aspect-ratio: 3/4; max-height: calc(94vh - 110px); border-radius: 14px; background-size: contain; background-position: center; background-repeat: no-repeat; background-color: var(--surface-2); }
+  .tt-lb-x { position: absolute; right: -10px; top: -10px; width: 34px; height: 34px; border-radius: 50%; border: none; background: var(--text); color: var(--bg); font-size: 20px; cursor: pointer; z-index: 2; }
   .tt-steps-grid { grid-template-columns: 1fr; }
   @media (min-width: 640px) { .tt-steps-grid { grid-template-columns: repeat(auto-fit, minmax(180px,1fr)); } }
   .tt-qr-placeholder { align-items: center; justify-content: center; border: 2px dashed var(--line); color: var(--muted); font-family: var(--font-body); font-size: 12px; }
@@ -111,6 +143,7 @@
         <div style="font-family:var(--font-body); font-size:11.5px; font-weight:700; letter-spacing:.06em; text-transform:uppercase; color:var(--accent); margin-bottom:8px">{{ t.menuLabel }}</div>
         <h2 style="font-family:var(--font-head); font-weight:var(--head-weight); color:var(--text); font-size:clamp(24px,5vw,46px); margin:0">{{ t.menuTitle }}</h2>
       </div>
+      <button onClick="{{ scrollToBirthday }}" class="tt-bday-link">&#127874; {{ t.birthdayLabel }} &darr;</button>
     </div>
 
     <div style="display:flex; align-items:center; gap:10px; flex-wrap:wrap; background:var(--accent-soft); color:var(--accent); border-radius:var(--radius-sm); padding:12px 16px; margin-bottom:20px">
@@ -120,30 +153,69 @@
       </div>
     </div>
 
-    <div class="tt-menu-grid" style="display:grid; gap:16px">
+    <div class="tt-rows">
       <sc-for list="{{ menu }}" as="item" hint-placeholder-count="8">
-        <div style="background:var(--surface); border-radius:20px; padding:9px; box-shadow:var(--shadow); border:1px solid var(--line)">
-          <div style="border-radius:14px; overflow:hidden; aspect-ratio:3/4">
-            <img src="{{ item.img }}" alt="{{ item.name }}" style="width:100%; height:100%; object-fit:cover; display:block" />
+        <div class="tt-row">
+          <button onClick="{{ item.onOpen }}" class="tt-thumb" style="{{ item.thumbStyle }}" aria-label="{{ item.name }}"></button>
+          <div class="tt-r-name">
+            <span>{{ item.name }}</span>
+            <sc-if value="{{ item.tag }}" hint-placeholder-val=""><span class="tt-badge">{{ item.tag }}</span></sc-if>
           </div>
-          <div style="display:flex; align-items:center; justify-content:space-between; gap:8px; padding:11px 3px 2px">
-            <div style="min-width:0">
-              <div style="font-family:var(--font-head); font-weight:var(--head-weight); color:var(--text); font-size:15.5px; line-height:1.2">{{ item.name }}</div>
-              <div style="font-family:var(--font-body); color:var(--muted); font-size:12px; margin-top:2px">{{ item.priceLabel }}</div>
+          <div class="tt-r-ing">{{ item.ingredients }}</div>
+          <div class="tt-r-act">
+            <span class="tt-r-price">{{ item.priceLabel }}</span>
+            <div class="tt-r-step">
+              <sc-if value="{{ item.outCart }}" hint-placeholder-val="{{ true }}">
+                <button onClick="{{ item.onAdd }}" class="tt-add" aria-label="+">+</button>
+              </sc-if>
+              <sc-if value="{{ item.inCart }}" hint-placeholder-val="">
+                <div class="tt-stepper">
+                  <button onClick="{{ item.onDec }}">&minus;</button>
+                  <span>{{ item.qty }}</span>
+                  <button onClick="{{ item.onInc }}" class="tt-p">+</button>
+                </div>
+              </sc-if>
             </div>
-            <sc-if value="{{ item.outCart }}" hint-placeholder-val="{{ true }}">
-              <button onClick="{{ item.onAdd }}" style="flex:none; width:34px; height:34px; border:none; cursor:pointer; border-radius:50%; background:var(--accent); color:var(--accent-text); font-size:18px; font-weight:700; line-height:1">+</button>
-            </sc-if>
-            <sc-if value="{{ item.inCart }}" hint-placeholder-val="">
-              <div style="flex:none; display:flex; align-items:center; border:1.5px solid var(--accent); border-radius:999px; overflow:hidden">
-                <button onClick="{{ item.onDec }}" style="width:26px; height:30px; border:none; cursor:pointer; background:transparent; color:var(--accent); font-size:15px; font-weight:700; line-height:1">&minus;</button>
-                <span style="min-width:16px; text-align:center; font-family:var(--font-body); font-weight:800; color:var(--text); font-size:12.5px">{{ item.qty }}</span>
-                <button onClick="{{ item.onInc }}" style="width:26px; height:30px; border:none; cursor:pointer; background:var(--accent); color:var(--accent-text); font-size:15px; font-weight:700; line-height:1">+</button>
-              </div>
-            </sc-if>
           </div>
         </div>
       </sc-for>
+    </div>
+  </section>
+
+  <!-- BIRTHDAY TARTS -->
+  <section id="tt-birthday" style="background:var(--accent-soft); border-top:1px solid var(--line); border-bottom:1px solid var(--line); padding:clamp(24px,6vw,72px) clamp(16px,4vw,64px)">
+    <div style="max-width:1100px; margin:0 auto">
+      <div style="font-family:var(--font-body); font-size:11.5px; font-weight:700; letter-spacing:.06em; text-transform:uppercase; color:var(--accent); margin-bottom:8px">{{ t.birthdayLabel }}</div>
+      <h2 style="font-family:var(--font-head); font-weight:var(--head-weight); color:var(--text); font-size:clamp(22px,5vw,40px); margin:0 0 10px">{{ t.birthdayTitle }}</h2>
+      <p style="font-family:var(--font-body); color:var(--muted); font-size:14px; line-height:1.6; margin:0 0 22px; max-width:560px">{{ t.birthdayNote }}</p>
+      <div class="tt-bday-grid">
+        <sc-for list="{{ birthday }}" as="b" hint-placeholder-count="3">
+          <div class="tt-bday-card">
+            <div class="tt-bday-photo" style="{{ b.photoStyle }}">
+              <span style="font-size:40px; line-height:1">&#127874;</span>
+              <span style="font-family:var(--font-body); font-size:11px; font-weight:700; letter-spacing:.04em; opacity:.7">{{ t.photoSoon }}</span>
+            </div>
+            <div style="padding:14px 6px 4px">
+              <div style="font-family:var(--font-head); font-weight:var(--head-weight); color:var(--text); font-size:18px; line-height:1.2">{{ b.name }}</div>
+              <div style="font-family:var(--font-body); color:var(--accent); font-size:12px; font-weight:700; margin-top:3px">{{ b.sizeLabel }}</div>
+              <div style="font-family:var(--font-body); color:var(--muted); font-size:12.5px; line-height:1.5; margin-top:6px">{{ b.desc }}</div>
+              <div style="display:flex; align-items:center; justify-content:space-between; gap:10px; margin-top:12px">
+                <span style="font-family:var(--font-head); font-weight:800; color:var(--text); font-size:18px">{{ b.priceLabel }}</span>
+                <sc-if value="{{ b.outCart }}" hint-placeholder-val="{{ true }}">
+                  <button onClick="{{ b.onAdd }}" class="tt-add" aria-label="+">+</button>
+                </sc-if>
+                <sc-if value="{{ b.inCart }}" hint-placeholder-val="">
+                  <div class="tt-stepper">
+                    <button onClick="{{ b.onDec }}">&minus;</button>
+                    <span>{{ b.qty }}</span>
+                    <button onClick="{{ b.onInc }}" class="tt-p">+</button>
+                  </div>
+                </sc-if>
+              </div>
+            </div>
+          </div>
+        </sc-for>
+      </div>
     </div>
   </section>
 
@@ -210,6 +282,33 @@
     </div>
   </footer>
 
+  <!-- POSTER POPUP -->
+  <sc-if value="{{ hasLightbox }}" hint-placeholder-val="">
+    <div class="tt-lb">
+      <div class="tt-lb-back" onClick="{{ closeLightbox }}"></div>
+      <div class="tt-lb-card">
+        <button onClick="{{ closeLightbox }}" class="tt-lb-x" aria-label="close">&times;</button>
+        <div class="tt-lb-img" style="{{ lightbox.imgStyle }}" role="img" aria-label="{{ lightbox.name }}"></div>
+        <div style="display:flex; align-items:center; justify-content:space-between; gap:10px; padding:12px 6px 4px">
+          <div style="min-width:0">
+            <div style="font-family:var(--font-head); font-weight:var(--head-weight); color:var(--text); font-size:16px">{{ lightbox.name }}</div>
+            <div style="font-family:var(--font-body); color:var(--muted); font-size:13px; margin-top:2px">{{ lightbox.priceLabel }}</div>
+          </div>
+          <sc-if value="{{ lightbox.outCart }}" hint-placeholder-val="{{ true }}">
+            <button onClick="{{ lightbox.onAdd }}" class="tt-add tt-add-lg" aria-label="+">+</button>
+          </sc-if>
+          <sc-if value="{{ lightbox.inCart }}" hint-placeholder-val="">
+            <div class="tt-stepper tt-stepper-lg">
+              <button onClick="{{ lightbox.onDec }}">&minus;</button>
+              <span>{{ lightbox.qty }}</span>
+              <button onClick="{{ lightbox.onInc }}" class="tt-p">+</button>
+            </div>
+          </sc-if>
+        </div>
+      </div>
+    </div>
+  </sc-if>
+
   <!-- BACKDROP -->
   <div class="tt-backdrop" onClick="{{ closeCart }}" style="{{ backdropStyle }}"></div>
 
@@ -256,6 +355,7 @@
             </sc-for>
           </div>
 
+          <sc-if value="{{ hasRegular }}" hint-placeholder-val="{{ true }}">
           <div style="display:grid; grid-template-columns:repeat(2,1fr); gap:12px; margin-top:18px">
             <sc-for list="{{ priorBoxes }}" as="bx" hint-placeholder-count="0">
               <div style="padding:12px 8px; border-radius:var(--radius); border:2px solid var(--accent); background:var(--accent-soft)">
@@ -289,6 +389,7 @@
 
           <sc-if value="{{ hasSavings }}" hint-placeholder-val="">
             <div style="margin-top:12px; text-align:center; font-family:var(--font-body); font-weight:700; color:var(--accent); font-size:13px">{{ savingsNote }}</div>
+          </sc-if>
           </sc-if>
 
           <div style="margin-top:18px">
@@ -415,8 +516,8 @@ class Component extends DCLogic {
       { id:'matcha', zh:'抹茶红豆蛋挞', en:'Matcha Red Bean Tart', tagZh:null, tagEn:null, descZh:'抹茶粉，嫩滑蛋奶馅，红豆沙，千层酥皮。', descEn:'Matcha powder, silky egg custard, smooth red bean paste, buttery layered crust.', center:'#C9D9A0', edge:'#7C9B4A', torched:false, price:6, img:'uploads/poster-c3d7448e.jpg' },
       { id:'porkfloss', zh:'肉松咸蛋黄蛋挞', en:'Pork Floss Salted Egg Tart', tagZh:'新品', tagEn:'New', descZh:'肉松，咸蛋黄酱，海苔点缀，千层酥皮。', descEn:'Pork floss, rich salted egg yolk sauce, seaweed, buttery layered crust.', center:'#F0B15C', edge:'#C97A22', torched:false, price:6, img:'uploads/poster-6c41623c.jpg' },
       { id:'oreo', zh:'奥利奥布朗尼蛋挞', en:'Oreo Brownie Egg Tart', tagZh:null, tagEn:null, descZh:'奥利奥饼干，巧克力酱，巧克力布朗尼馅，千层酥皮。', descEn:'Oreo cookie, rich chocolate sauce, fudgy chocolate brownie filling, buttery layered pastry.', center:'#E8D9C2', edge:'#8B6A4A', torched:false, price:6, img:'uploads/poster-59a063f4.jpg' },
-      { id:'taro', zh:'紫米芋泥蛋挞', en:'Purple Rice Taro Egg Tart', tagZh:null, tagEn:null, descZh:'', descEn:'', center:'#DCC9E8', edge:'#8E6BAF', torched:false, price:6, img:'uploads/poster-4bede6bc.jpg' },
-      { id:'durian', zh:'炙烤榴莲蛋挞', en:'Roasted Durian Egg Tart', tagZh:null, tagEn:null, descZh:'', descEn:'', center:'#F5E6A8', edge:'#C9A227', torched:false, price:6, img:'uploads/poster-936f91ca.jpg' },
+      { id:'taro', zh:'紫米芋泥蛋挞', en:'Purple Rice Taro Egg Tart', tagZh:null, tagEn:null, descZh:'紫米，香滑芋泥，丝滑蛋奶馅，千层酥皮。', descEn:'Chewy purple rice, creamy taro mash, silky egg custard, buttery layered crust.', center:'#DCC9E8', edge:'#8E6BAF', torched:false, price:6, img:'uploads/poster-4bede6bc.jpg' },
+      { id:'durian', zh:'炙烤榴莲蛋挞', en:'Roasted Durian Egg Tart', tagZh:null, tagEn:null, descZh:'榴莲果泥，丝滑蛋奶馅，千层酥皮。', descEn:'Rich durian puree, silky egg custard, buttery layered crust.', center:'#F5E6A8', edge:'#C9A227', torched:false, price:6, img:'uploads/poster-936f91ca.jpg' },
       { id:'blacksesame', zh:'黑芝麻爆浆塔', en:'Black Sesame Mochi Tart', tagZh:'新品', tagEn:'New', descZh:'黑芝麻流心麻薯，浓郁黑芝麻卡仕达酱，千层酥皮。', descEn:'Black sesame mochi, rich black sesame custard, buttery layered crust.', center:'#4B4038', edge:'#231D18', torched:false, price:6, img:'uploads/poster-ce05601c.jpg' },
       { id:'soymilk', zh:'豆乳流心蛋挞', en:'Soy Milk Mochi Egg Tart', tagZh:'新品', tagEn:'New', descZh:'糯米小团子，丝滑豆乳卡仕达，香浓黄豆粉点缀，千层酥皮。', descEn:'Chewy mochi, silky soy milk custard, fragrant soybean powder, buttery layered crust.', center:'#F5E6C8', edge:'#D9B86B', torched:false, price:6, img:'uploads/poster-285abbca.jpg' },
       { id:'osmanthus', zh:'桂花酒酿蛋挞', en:'Osmanthus Rice Wine Egg Tart', tagZh:'新品', tagEn:'New', descZh:'桂花蜜，酒酿，糯米丸子，嫩滑蛋奶馅，千层酥皮。', descEn:'Osmanthus honey, rice wine, glutinous rice balls, silky egg custard, buttery layered crust.', center:'#F0DDA0', edge:'#C08A2E', torched:false, price:6, img:'uploads/poster-05bb7c6c.jpg' },
@@ -440,13 +541,29 @@ class Component extends DCLogic {
     // changes; a week with no entry here has no cap.
     this.PICKUP_CAPS = { 'Aug 28-29': 32 };
     this.SHEET_WEBHOOK_URL = 'https://script.google.com/macros/s/AKfycbwe-Ee-BHG5GZ8q4vSG82J0YPIg159V6e6X9x1ptzEfFCugsWJgp_HoDX9dIkr4RXu-0A/exec';
+    // Birthday sets: several tarts arranged and decorated as one "cake". Sold as flat-priced
+    // line items, separate from the 4-for-$20 box. PLACEHOLDER sizes/prices -- confirm before launch.
+    this.BIRTHDAY = [
+      { id:'bday-6',  birthday:true, tarts:6,  zh:'生日挞组合 · 6 颗',  en:'Birthday Set · 6 tarts',  sizeZh:'适合 2–4 人',  sizeEn:'Serves 2-4',  descZh:'6 颗蛋挞精心摆放、装饰，小而精致的庆生之选。', descEn:'Six tarts, arranged and decorated. A small, sweet celebration.', price:45, center:'#F6E1DC', edge:'#D99C92' },
+      { id:'bday-9',  birthday:true, tarts:9,  zh:'生日挞组合 · 9 颗',  en:'Birthday Set · 9 tarts',  sizeZh:'适合 4–6 人',  sizeEn:'Serves 4-6',  descZh:'9 颗蛋挞摆放装饰，最受欢迎的尺寸。', descEn:'Nine tarts, arranged and decorated. The crowd favorite.', price:65, center:'#F0DDA0', edge:'#C08A2E' },
+      { id:'bday-12', birthday:true, tarts:12, zh:'生日挞组合 · 12 颗', en:'Birthday Set · 12 tarts', sizeZh:'适合 6–10 人', sizeEn:'Serves 6-10', descZh:'12 颗蛋挞摆放装饰，派对聚会的主角。', descEn:'Twelve tarts, arranged and decorated. Made for a party.', price:85, center:'#DCC9E8', edge:'#8E6BAF' },
+    ];
+    // Where the tart sits in each poster, so the small round thumbnails can crop to it:
+    // [centerX, centerY, tartWidth, posterHeight/posterWidth], all as fractions of the poster.
+    // A new flavor without an entry falls back to the default focus.
+    this.THUMB_FOCUS = {
+      original:[.51,.565,.73,991/700], lychee:[.50,.570,.57,1050/700], matcha:[.51,.560,.66,991/700], porkfloss:[.51,.605,.66,991/700],
+      oreo:[.51,.560,.70,991/700], taro:[.50,.575,.68,991/700], durian:[.51,.550,.66,991/700],
+      blacksesame:[.50,.600,.65,1448/1086], soymilk:[.51,.580,.64,1448/1086], osmanthus:[.51,.580,.60,1448/1086],
+      lavachoc:[.54,.587,.67,1448/1086], chestnut:[.50,.570,.62,1448/1086], lavacheese:[.52,.540,.64,1448/1086],
+    };
     this.UI = {
       zh:{ bag:'购物车', kicker:'今天，也想吃一颗热乎乎的蛋挞。', heroTitle:'每一颗蛋挞都是刚出炉的幸福。', heroSubtitle:'酥到掉渣的塔皮，\n顺滑浓郁的蛋奶馅。', heroNote:'每天新鲜制作，\n每周都有新的口味。', heroSmall:'仅支持线上预订 \u00b7 定点自取', ctaLabel:'查看菜单',
         menuLabel:'菜单', menuTitle:'经典口味与每周限定，任你挑选。', menuNote:'经典口味与每周限定，任你挑选。', add:'加入',
         pickupPaymentLabel:'取货与付款', howItWorks:'提前预定，扫码付款, 仅限自取',
         brandBlurb:'一家只专注做蛋挞的小店。提前下单，扫码付款，温热取走。', pickupShopsLabel:'取货门店', hoursContactLabel:'营业时间与联系方式',
         hoursLine1:'周一至周五 \u00b7 8:00\u201319:00', hoursLine2:'周六至周日 \u00b7 9:00\u201318:00', wechatLabel:'微信',
-        emptyBagMsg:'你的袋子还是空的，去挑几个蛋挞吧。', selfPickupNote:'仅限自取 \u00b7 下一步扫码付款', chooseShopLabel:'选择门店', pickupTimeLabel:'取货时间', pickupDayLabel:'选择取货日期', pickupOpensSunday:'下一周的取货时间将于周日发布，请稍后查看。', soldOutThisWeek:'抱歉，本周的蛋挞名额已订满，请下周再来 :)', lowStockThisWeek:(n)=>'本周只剩 '+n+' 个名额，请减少数量后再试。', copied:'已复制微信号！',
+        emptyBagMsg:'你的袋子还是空的，去挑几个蛋挞吧。', selfPickupNote:'仅限自取 \u00b7 下一步扫码付款', chooseShopLabel:'选择门店', pickupTimeLabel:'取货时间', pickupDayLabel:'选择取货日期', pickupOpensSunday:'下一周的取货时间将于周日发布，请稍后查看。', birthdayLabel:'生日挞', birthdayTitle:'把蛋挞变成生日蛋糕。', birthdayNote:'多颗蛋挞精心摆放、装饰，一份就是一个生日蛋糕。和其他蛋挞一样需提前预订。', photoSoon:'实拍图即将上线', soldOutThisWeek:'抱歉，本周的蛋挞名额已订满，请下周再来 :)', lowStockThisWeek:(n)=>'本周只剩 '+n+' 个名额，请减少数量后再试。', copied:'已复制微信号！',
         boxPromo:'优惠活动: 任选四颗，仅需 $20！', boxPromoSub:'全口味自由混搭，四颗更划算',
         yourDetailsLabel:'你的信息', namePlaceholder:'你的姓名', wechatPlaceholder:'你的微信号', wechatMatchNote:'我们会用你的微信号核对付款截图与订单。',
         backToBag:'\u2190 返回袋子', orderReserved:'订单已预留，付款确认后即可锁定。', yourOrderNumberLabel:'你的订单号', screenshotThis:'请截图保存此页',
@@ -459,7 +576,7 @@ class Component extends DCLogic {
         pickupPaymentLabel:'Pickup & payment', howItWorks:'Preorder for self-pickup only \u2014 scan to pay, done in a minute.',
         brandBlurb:'A small bakery obsessed with one pastry. Order ahead, pay by QR, collect warm.', pickupShopsLabel:'Pickup shops', hoursContactLabel:'Hours & contact',
         hoursLine1:'Mon\u2013Fri \u00b7 8am\u20137pm', hoursLine2:'Sat\u2013Sun \u00b7 9am\u20136pm', wechatLabel:'Instagram',
-        emptyBagMsg:'Your bag is empty. Go pick some tarts.', selfPickupNote:'Self-pickup \u00b7 pay by QR on the next step', chooseShopLabel:'Choose a shop', pickupTimeLabel:'Pickup time', pickupDayLabel:'Choose your pickup day', pickupOpensSunday:'Next week\u2019s pickup times open Sunday \u2014 check back soon.', soldOutThisWeek:'Sorry, we\u2019re sold out for this week \u2014 check back next week!', lowStockThisWeek:(n)=>'Only '+n+' left this week \u2014 please reduce your quantity.', copied:'WeChat ID copied!',
+        emptyBagMsg:'Your bag is empty. Go pick some tarts.', selfPickupNote:'Self-pickup \u00b7 pay by QR on the next step', chooseShopLabel:'Choose a shop', pickupTimeLabel:'Pickup time', pickupDayLabel:'Choose your pickup day', pickupOpensSunday:'Next week\u2019s pickup times open Sunday \u2014 check back soon.', birthdayLabel:'Birthday tarts', birthdayTitle:'Turn egg tarts into a birthday cake.', birthdayNote:'Several egg tarts arranged and decorated into one celebration centerpiece. Pre-order like everything else.', photoSoon:'Photo coming soon', soldOutThisWeek:'Sorry, we\u2019re sold out for this week \u2014 check back next week!', lowStockThisWeek:(n)=>'Only '+n+' left this week \u2014 please reduce your quantity.', copied:'WeChat ID copied!',
         boxPromo:'Any 4 for $20!', boxPromoSub:'Mix & Match Any Flavors. Perfect for sharing with friends\u2014or keeping them all to yourself. We won\u2019t judge.',
         yourDetailsLabel:'Your details', namePlaceholder:'Your name', wechatPlaceholder:'Your Instagram handle', wechatMatchNote:'We\u2019ll match your Instagram handle to your order when you send your payment screenshot.',
         backToBag:'\u2190 Back to bag', orderReserved:'Your order is reserved. Pay & confirm to lock it in.', yourOrderNumberLabel:'Your order number', screenshotThis:'Screenshot this page',
@@ -469,7 +586,7 @@ class Component extends DCLogic {
         confirm1:(t)=>'Scan the QR above to pay '+t+'.', confirm2:(o,w)=>'Send your order number '+o+' and the payment screenshot to us on Instagram: '+w+'.', confirm3:(s,tm)=>'Collect at '+s+', '+tm+'. Show your screenshot, your order number, or just tell us your Venmo name — we’ll confirm you there.' },
     };
     this.THEME_VARS = { '--bg':'#F7EFE0','--surface':'#FFFCF4','--surface-2':'#F1E6D0','--text':'#3A2C1A','--muted':'#94826A','--line':'#E7D9BF','--accent':'#C0792A','--accent-text':'#FFF8EC','--accent-soft':'#F2E3C6','--font-head':"'Noto Sans SC', 'Hanken Grotesk', system-ui, sans-serif",'--font-body':"'Noto Sans SC', 'Hanken Grotesk', system-ui, sans-serif",'--radius':'16px','--radius-sm':'12px','--head-weight':'600','--head-transform':'none','--head-spacing':'0','--shadow':'0 10px 30px rgba(90,60,20,.12)' };
-    this.state = { cart: {}, cartOpen: false, step: 'cart', orderNum: null, lang: 'zh', pickupDayId: null, pickupDaySelectedDate: null, toastMsg: false, copiedWechat: false, orderedQty: null, orderedQtyWeek: null };
+    this.state = { cart: {}, cartOpen: false, step: 'cart', orderNum: null, lang: 'zh', pickupDayId: null, pickupDaySelectedDate: null, toastMsg: false, copiedWechat: false, orderedQty: null, orderedQtyWeek: null, lightboxId: null };
   }
 
   wechat() { return this.props.wechatId ?? 'tart_theory'; }
@@ -508,6 +625,18 @@ class Component extends DCLogic {
   }
   inc(id) { this.setState(s => ({ cart:{ ...s.cart, [id]:(s.cart[id]||0)+1 } })); }
   dec(id) { this.setState(s => { const q=(s.cart[id]||0)-1; const c={...s.cart}; if(q<=0) delete c[id]; else c[id]=q; return { cart:c }; }); }
+  openLightbox(id) { this.setState({ lightboxId: id }); }
+  closeLightbox() { this.setState({ lightboxId: null }); }
+  itemById(id) { return this.FLAVORS.find(x=>x.id===id) || this.BIRTHDAY.find(x=>x.id===id); }
+  // Crops a poster to a square around the tart (zoomed so the tart fills ~90% of the width).
+  thumbStyle(f) {
+    const [cx, cy, tw, r] = this.THUMB_FOCUS[f.id] || [.5, .57, .65, 1.33];
+    const z = 0.9 / tw;
+    const clamp = v => Math.max(0, Math.min(100, v * 100));
+    const px = clamp((cx * z - 0.5) / (z - 1));
+    const py = clamp((cy * z * r - 0.5) / (z * r - 1));
+    return { backgroundImage:'url('+f.img+')', backgroundSize:(z*100).toFixed(1)+'% auto', backgroundPosition:px.toFixed(1)+'% '+py.toFixed(1)+'%' };
+  }
   openCart() {
     this.setState(s => ({ cartOpen:true, step: s.step==='done'?'cart':s.step }));
     const opts = this.computePickupOptions();
@@ -575,7 +704,7 @@ class Component extends DCLogic {
     const weekLabel = this.weekLabelFor(sel.date);
     const cap = this.PICKUP_CAPS[weekLabel];
     if (cap != null && this.state.orderedQtyWeek === weekLabel && this.state.orderedQty != null) {
-      if (this.qtyTotal() > Math.max(0, cap - this.state.orderedQty)) return;
+      if (this.tartUnits() > Math.max(0, cap - this.state.orderedQty)) return;
     }
     const bumped = !!(this.state.pickupDaySelectedDate && this.state.pickupDaySelectedDate !== sel.date.toISOString());
     const n = 'TT-' + Math.floor(1000 + Math.random()*9000);
@@ -616,16 +745,30 @@ class Component extends DCLogic {
     window.scrollTo({ top: el.getBoundingClientRect().top + window.scrollY - off, behavior:'smooth' });
   }
 
-  entries() { return Object.keys(this.state.cart).map(id => ({ f:this.FLAVORS.find(x=>x.id===id), qty:this.state.cart[id] })).filter(e=>e.f); }
-  qtyTotal() { return this.entries().reduce((a,e)=>a+e.qty, 0); }
+  scrollToBirthday() {
+    const el = document.getElementById('tt-birthday');
+    if (!el) return;
+    const nav = document.querySelector('.tt-root nav');
+    const off = (nav ? nav.offsetHeight : 70) + 12;
+    window.scrollTo({ top: el.getBoundingClientRect().top + window.scrollY - off, behavior:'smooth' });
+  }
+
+  entries() { return Object.keys(this.state.cart).map(id => ({ f:this.itemById(id), qty:this.state.cart[id] })).filter(e=>e.f); }
+  regularEntries() { return this.entries().filter(e=>!e.f.birthday); }
+  birthdayEntries() { return this.entries().filter(e=>e.f.birthday); }
+  // qtyTotal() counts regular tarts only -- it drives the 4-for-$20 box progress.
+  qtyTotal() { return this.regularEntries().reduce((a,e)=>a+e.qty, 0); }
+  // Every individual tart in the order (a birthday set counts as all of its tarts) -- used for the weekly cap.
+  tartUnits() { return this.qtyTotal() + this.birthdayEntries().reduce((a,e)=>a+e.f.tarts*e.qty, 0); }
   unitList() {
-    const list=[]; this.entries().forEach(e=>{ for(let i=0;i<e.qty;i++) list.push(e.f); });
+    const list=[]; this.regularEntries().forEach(e=>{ for(let i=0;i<e.qty;i++) list.push(e.f); });
     // Push the cheapest flavor to the back so $20 box-of-4 groups form from
     // full-price items first -- the discount lands where it's worth the most.
     list.sort((a,b)=>(a.id==='original'?1:0)-(b.id==='original'?1:0));
     return list;
   }
-  total() {
+  total() { return this.regularTotal() + this.birthdayEntries().reduce((a,e)=>a+e.f.price*e.qty, 0); }
+  regularTotal() {
     const units = this.unitList();
     const boxes = Math.floor(units.length/4);
     let sum = 0;
@@ -652,11 +795,28 @@ class Component extends DCLogic {
     const menu = this.FLAVORS.map((f, i) => {
       const qty = this.state.cart[f.id] || 0;
       const priceLabel = this.money(f.price);
-      return { ...f, name: isZh?f.zh:f.en, desc: isZh?f.descZh:f.descEn, tag: isZh?f.tagZh:f.tagEn,
+      const desc = isZh?f.descZh:f.descEn;
+      return { ...f, name: isZh?f.zh:f.en, desc, tag: isZh?f.tagZh:f.tagEn,
+        ingredients: desc.replace(/[。.]$/, '').split(/[，,]\s*/).filter(Boolean).join(' · '),
         qty, num: String(i+1).padStart(2,'0'), inCart:qty>0, outCart:qty===0,
-        priceLabel, custardStyle:this.custardStyle(f, '14%'), img:f.img,
+        priceLabel, custardStyle:this.custardStyle(f, '14%'), img:f.img, thumbStyle:this.thumbStyle(f),
+        onOpen:()=>this.openLightbox(f.id),
         onAdd:()=>this.add(f.id), onInc:()=>this.inc(f.id), onDec:()=>this.dec(f.id) };
     });
+
+    const birthday = this.BIRTHDAY.map(b => {
+      const q = this.state.cart[b.id] || 0;
+      return { id:b.id, name: isZh?b.zh:b.en, sizeLabel: (isZh?b.sizeZh:b.sizeEn), desc: isZh?b.descZh:b.descEn,
+        priceLabel:this.money(b.price), qty:q, inCart:q>0, outCart:q===0,
+        photoStyle:'background:linear-gradient(135deg, '+b.center+', '+b.edge+')',
+        onAdd:()=>this.add(b.id), onInc:()=>this.inc(b.id), onDec:()=>this.dec(b.id) };
+    });
+    const lbItem = this.state.lightboxId ? this.FLAVORS.find(x=>x.id===this.state.lightboxId) : null;
+    const lbQty = lbItem ? (this.state.cart[lbItem.id] || 0) : 0;
+    const lightbox = lbItem
+      ? { imgStyle:{ backgroundImage:'url('+lbItem.img+')' }, name: isZh?lbItem.zh:lbItem.en, priceLabel:this.money(lbItem.price), qty:lbQty, inCart:lbQty>0, outCart:lbQty===0,
+          onAdd:()=>this.add(lbItem.id), onInc:()=>this.inc(lbItem.id), onDec:()=>this.dec(lbItem.id) }
+      : { imgStyle:{}, name:'', priceLabel:'', qty:0, inCart:false, outCart:true, onAdd:()=>{}, onInc:()=>{}, onDec:()=>{} };
 
     const cartItems = this.entries().map(e => ({ id:e.f.id, name: isZh?e.f.zh:e.f.en, qty:e.qty,
       priceLabel:this.money(e.f.price), perEachLabel: this.money(e.f.price) + L.eachSuffix, lineLabel:this.money(e.f.price*e.qty),
@@ -666,7 +826,7 @@ class Component extends DCLogic {
     const qty = this.qtyTotal();
     const total = this.total();
     const gross = this.grossTotal();
-    const savings = gross - total;
+    const savings = gross - this.regularTotal();
 
     const units = this.unitList();
     const boxesCompleted = Math.floor(qty/4);
@@ -724,11 +884,13 @@ class Component extends DCLogic {
     const weekCap = activeWeekLabel != null ? this.PICKUP_CAPS[activeWeekLabel] : null;
     const capKnown = weekCap != null && this.state.orderedQtyWeek === activeWeekLabel && this.state.orderedQty != null;
     const remaining = capKnown ? Math.max(0, weekCap - this.state.orderedQty) : null;
-    const capBlocked = capKnown && qty > remaining;
+    const capBlocked = capKnown && this.tartUnits() > remaining;
     const capBlockedMsg = !capBlocked ? '' : (remaining <= 0 ? L.soldOutThisWeek : L.lowStockThisWeek(remaining));
 
     return {
       t: L, lang, isZh, brand: this.BRAND,
+      scrollToBirthday: ()=>this.scrollToBirthday(),
+      birthday, lightbox, hasLightbox: !!lbItem, closeLightbox: ()=>this.closeLightbox(),
       langThumbStyle: { position:'absolute', top:'2px', bottom:'2px', left: isZh?'2px':'50%', width:'calc(50% - 2px)', borderRadius:'999px', background:'var(--accent)', transition:'left .22s ease' },
       rootStyle, frameStyle, menu, cartItems, wechatId: this.wechat(), venmoId: this.venmo(), instagramId: this.instagram(), xiaohongshuId: this.xiaohongshu(),
       copyWechat: ()=>this.copyWechat(), copiedWechat: this.state.copiedWechat,
@@ -753,7 +915,8 @@ class Component extends DCLogic {
         { n:'3', text: L.confirm3(pickupPlace, pickupTimeText) },
       ],
       hasItems: cartItems.length>0,
-      cartCount: qty,
+      cartCount: qty + this.birthdayEntries().reduce((a,e)=>a+e.qty, 0),
+      hasRegular: qty>0,
       isEmpty: cartItems.length===0,
       boxSlots, boxNote, hasSavings: savings>0,
       checkoutBoxes, leftoverUnits, hasCheckoutBoxes: checkoutBoxes.length>0, hasLeftoverUnits: leftoverUnits.length>0,
