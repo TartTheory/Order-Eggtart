@@ -143,7 +143,7 @@
         <div style="font-family:var(--font-body); font-size:11.5px; font-weight:700; letter-spacing:.06em; text-transform:uppercase; color:var(--accent); margin-bottom:8px">{{ t.menuLabel }}</div>
         <h2 style="font-family:var(--font-head); font-weight:var(--head-weight); color:var(--text); font-size:clamp(24px,5vw,46px); margin:0">{{ t.menuTitle }}</h2>
       </div>
-      <button onClick="{{ scrollToBirthday }}" class="tt-bday-link">&#127874; {{ t.birthdayLabel }} &darr;</button>
+      <button onClick="{{ scrollToBirthday }}" class="tt-bday-link">{{ t.birthdayLabel }} &darr;</button>
     </div>
 
     <div style="display:flex; align-items:center; gap:10px; flex-wrap:wrap; background:var(--accent-soft); color:var(--accent); border-radius:var(--radius-sm); padding:12px 16px; margin-bottom:20px">
@@ -192,7 +192,6 @@
         <sc-for list="{{ birthday }}" as="b" hint-placeholder-count="3">
           <div class="tt-bday-card">
             <div class="tt-bday-photo" style="{{ b.photoStyle }}">
-              <span style="font-size:40px; line-height:1">&#127874;</span>
               <span style="font-family:var(--font-body); font-size:11px; font-weight:700; letter-spacing:.04em; opacity:.7">{{ t.photoSoon }}</span>
             </div>
             <div style="padding:14px 6px 4px">
@@ -418,7 +417,7 @@
         <div style="text-align:center; padding:6px 0 4px">
           <sc-if value="{{ toastMsg }}" hint-placeholder-val="">
             <div style="background:#FDECC8; border:1px solid #E8B84B; color:#7A5A12; border-radius:var(--radius-sm); padding:10px 12px; font-family:var(--font-body); font-size:12.5px; font-weight:700; margin-bottom:14px; text-align:left">
-              &#9200; {{ toastMsgText }}
+              {{ toastMsgText }}
             </div>
           </sc-if>
           <div style="width:60px; height:60px; margin:0 auto 14px; border-radius:50%; background:var(--accent); color:var(--accent-text); display:flex; align-items:center; justify-content:center; font-size:28px; animation:ttPop .5s ease both">&check;</div>
@@ -426,7 +425,7 @@
           <p style="font-family:var(--font-body); color:var(--muted); font-size:14px; margin:0 0 18px; line-height:1.5">{{ t.orderReserved }}</p>
 
           <div style="position:relative; text-align:left; background:var(--accent-soft); border:2px solid var(--accent); border-radius:var(--radius-sm); padding:20px 16px 15px; margin:18px 0 16px">
-            <div style="position:absolute; top:-13px; left:50%; transform:translateX(-50%); background:var(--accent); color:var(--accent-text); font-family:var(--font-body); font-weight:800; font-size:11.5px; padding:5px 14px; border-radius:999px; white-space:nowrap; box-shadow:var(--shadow)">&#128247; {{ t.screenshotThis }}</div>
+            <div style="position:absolute; top:-13px; left:50%; transform:translateX(-50%); background:var(--accent); color:var(--accent-text); font-family:var(--font-body); font-weight:800; font-size:11.5px; padding:5px 14px; border-radius:999px; white-space:nowrap; box-shadow:var(--shadow)">{{ t.screenshotThis }}</div>
             <div style="text-align:center; margin-bottom:12px">
               <div style="font-family:var(--font-body); font-size:11.5px; font-weight:700; letter-spacing:.06em; text-transform:uppercase; color:var(--accent); margin-bottom:4px">{{ t.yourOrderNumberLabel }}</div>
               <div style="font-family:var(--font-head); font-weight:var(--head-weight); color:var(--text); font-size:28px; letter-spacing:.02em">{{ orderNum }}</div>
@@ -849,7 +848,7 @@ class Component extends DCLogic {
     const priorBoxes = checkoutBoxes.slice(0, priorCompletedCount);
     const hasPriorBoxes = priorBoxes.length>0;
     const boxNote = showFull
-      ? (isZh? ('\ud83c\udf89 已凑成一盒，仅 $'+boxPriceNow+'！') : ('\ud83c\udf89 Box complete \u2014 just $'+boxPriceNow+'!'))
+      ? (isZh? ('已凑成一盒，仅 $'+boxPriceNow+'！') : ('Box complete \u2014 just $'+boxPriceNow+'!'))
       : (isZh? ('还差 '+(4-fillCount)+' 个凑成 4 个装的礼盒！') : ('Add '+(4-fillCount)+' more for a box of 4!'));
 
     const pickupOptions = this.computePickupOptions();
