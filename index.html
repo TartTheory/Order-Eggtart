@@ -407,7 +407,7 @@
               </div>
             </sc-if>
             <sc-if value="{{ !hasPickupOptions }}" hint-placeholder-val="">
-              <div style="font-family:var(--font-body); color:var(--muted); font-size:12.5px; line-height:1.5; background:var(--surface-2); border:1px solid var(--line); border-radius:var(--radius-sm); padding:12px 14px">{{ t.pickupOpensSunday }}</div>
+              <div style="font-family:var(--font-body); color:var(--muted); font-size:12.5px; line-height:1.5; background:var(--surface-2); border:1px solid var(--line); border-radius:var(--radius-sm); padding:12px 14px">{{ t.pickupOpensNextWeek }}</div>
             </sc-if>
           </div>
         </sc-if>
@@ -562,7 +562,7 @@ class Component extends DCLogic {
         pickupPaymentLabel:'取货与付款', howItWorks:'提前预定，扫码付款, 仅限自取',
         brandBlurb:'一家只专注做蛋挞的小店。提前下单，扫码付款，温热取走。', pickupShopsLabel:'取货门店', hoursContactLabel:'营业时间与联系方式',
         hoursLine1:'周一至周五 \u00b7 8:00\u201319:00', hoursLine2:'周六至周日 \u00b7 9:00\u201318:00', wechatLabel:'微信',
-        emptyBagMsg:'你的袋子还是空的，去挑几个蛋挞吧。', selfPickupNote:'仅限自取 \u00b7 下一步扫码付款', chooseShopLabel:'选择门店', pickupTimeLabel:'取货时间', pickupDayLabel:'选择取货日期', pickupOpensSunday:'下一周的取货时间将于周日发布，请稍后查看。', birthdayLabel:'生日挞', birthdayTitle:'把蛋挞变成生日蛋糕。', birthdayNote:'多颗蛋挞精心摆放、装饰，一份就是一个生日蛋糕。和其他蛋挞一样需提前预订。', photoSoon:'实拍图即将上线', soldOutThisWeek:'抱歉，本周的蛋挞名额已订满，请下周再来 :)', lowStockThisWeek:(n)=>'本周只剩 '+n+' 个名额，请减少数量后再试。', copied:'已复制微信号！',
+        emptyBagMsg:'你的袋子还是空的，去挑几个蛋挞吧。', selfPickupNote:'仅限自取 \u00b7 下一步扫码付款', chooseShopLabel:'选择门店', pickupTimeLabel:'取货时间', pickupDayLabel:'选择取货日期', pickupOpensNextWeek:'下一周的取货时间将于周六下午 5 点发布，请稍后查看。', birthdayLabel:'生日挞', birthdayTitle:'把蛋挞变成生日蛋糕。', birthdayNote:'多颗蛋挞精心摆放、装饰，一份就是一个生日蛋糕。和其他蛋挞一样需提前预订。', photoSoon:'实拍图即将上线', soldOutThisWeek:'抱歉，本周的蛋挞名额已订满，请下周再来 :)', lowStockThisWeek:(n)=>'本周只剩 '+n+' 个名额，请减少数量后再试。', copied:'已复制微信号！',
         boxPromo:'优惠活动: 任选四颗，仅需 $20！', boxPromoSub:'全口味自由混搭，四颗更划算',
         yourDetailsLabel:'你的信息', namePlaceholder:'你的姓名', wechatPlaceholder:'你的微信号', wechatMatchNote:'我们会用你的微信号核对付款截图与订单。',
         backToBag:'\u2190 返回袋子', orderReserved:'订单已预留，付款确认后即可锁定。', yourOrderNumberLabel:'你的订单号', screenshotThis:'请截图保存此页',
@@ -575,7 +575,7 @@ class Component extends DCLogic {
         pickupPaymentLabel:'Pickup & payment', howItWorks:'Preorder for self-pickup only \u2014 scan to pay, done in a minute.',
         brandBlurb:'A small bakery obsessed with one pastry. Order ahead, pay by QR, collect warm.', pickupShopsLabel:'Pickup shops', hoursContactLabel:'Hours & contact',
         hoursLine1:'Mon\u2013Fri \u00b7 8am\u20137pm', hoursLine2:'Sat\u2013Sun \u00b7 9am\u20136pm', wechatLabel:'Instagram',
-        emptyBagMsg:'Your bag is empty. Go pick some tarts.', selfPickupNote:'Self-pickup \u00b7 pay by QR on the next step', chooseShopLabel:'Choose a shop', pickupTimeLabel:'Pickup time', pickupDayLabel:'Choose your pickup day', pickupOpensSunday:'Next week\u2019s pickup times open Sunday \u2014 check back soon.', birthdayLabel:'Birthday tarts', birthdayTitle:'Turn egg tarts into a birthday cake.', birthdayNote:'Several egg tarts arranged and decorated into one celebration centerpiece. Pre-order like everything else.', photoSoon:'Photo coming soon', soldOutThisWeek:'Sorry, we\u2019re sold out for this week \u2014 check back next week!', lowStockThisWeek:(n)=>'Only '+n+' left this week \u2014 please reduce your quantity.', copied:'WeChat ID copied!',
+        emptyBagMsg:'Your bag is empty. Go pick some tarts.', selfPickupNote:'Self-pickup \u00b7 pay by QR on the next step', chooseShopLabel:'Choose a shop', pickupTimeLabel:'Pickup time', pickupDayLabel:'Choose your pickup day', pickupOpensNextWeek:'Next week\u2019s pickup times open Saturday at 5 PM. Check back soon.', birthdayLabel:'Birthday tarts', birthdayTitle:'Turn egg tarts into a birthday cake.', birthdayNote:'Several egg tarts arranged and decorated into one celebration centerpiece. Pre-order like everything else.', photoSoon:'Photo coming soon', soldOutThisWeek:'Sorry, we\u2019re sold out for this week \u2014 check back next week!', lowStockThisWeek:(n)=>'Only '+n+' left this week \u2014 please reduce your quantity.', copied:'WeChat ID copied!',
         boxPromo:'Any 4 for $20!', boxPromoSub:'Mix & Match Any Flavors. Perfect for sharing with friends\u2014or keeping them all to yourself. We won\u2019t judge.',
         yourDetailsLabel:'Your details', namePlaceholder:'Your name', wechatPlaceholder:'Your Instagram handle', wechatMatchNote:'We\u2019ll match your Instagram handle to your order when you send your payment screenshot.',
         backToBag:'\u2190 Back to bag', orderReserved:'Your order is reserved. Pay & confirm to lock it in.', yourOrderNumberLabel:'Your order number', screenshotThis:'Screenshot this page',
@@ -906,7 +906,7 @@ class Component extends DCLogic {
         { n:'4', title: isZh?'定点自取':'Pickup', hasBullets:true, pickupCards,
           afterNote: pickupCards.length>0
             ? (isZh?'过了下单截止时间？我们会自动将你的取货日顺延到下一个可预订日期。':'Order after the deadline? We\u2019ll automatically move your pickup to the next available date.')
-            : (isZh?'下一周的取货时间将于周日发布，请稍后查看。':'Next week\u2019s pickup times open Sunday \u2014 check back soon.') },
+            : (isZh?'下一周的取货时间将于周六下午 5 点发布，请稍后查看。':'Next week\u2019s pickup times open Saturday at 5 PM. Check back soon.') },
       ],
       confirmSteps: [
         { n:'1', text: L.confirm1(this.money(total)) },
