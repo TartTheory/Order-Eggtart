@@ -433,6 +433,8 @@ class Component extends DCLogic {
       { id:'fri-slu', weekday:5, cutoffDays:1, timeZh:'下午4:30\u20135:00', timeEn:'4:30\u20135:00 PM', placeZh:this.SLU_PLACE_ZH, placeEn:this.SLU_PLACE_EN, shortZh:'SLU', shortEn:'SLU' },
       { id:'sat', weekday:6, cutoffDays:1, timeZh:'下午3:00\u20133:30', timeEn:'3:00\u20133:30 PM', placeZh:this.PICKUP_PLACE_ZH, placeEn:this.PICKUP_PLACE_EN, shortZh:'Bellevue T&T', shortEn:'Bellevue T&T' },
     ];
+    // Orders close the night before each pickup day: 10 PM, or 9 PM for pickups on/after this date.
+    this.CUTOFF_9PM_FROM = '2026-10-16';
     this.PICKUP_SKIP = { 'fri-udistrict': ['2026-08-28'], 'fri-slu': ['2026-08-28'] };
     // Weekly baking cap: total tarts (all flavors combined) allowed for a given
     // pickup week, keyed by the same week label weekLabelFor() produces (i.e.
@@ -542,7 +544,7 @@ class Component extends DCLogic {
       if (now.getTime() < release.getTime()) break; // this block isn't released yet -- nothing to show
       candidates = this.PICKUP_SCHEDULE.map(sch => {
         const d = new Date(anchorSat); d.setDate(d.getDate() + (sch.weekday - 6));
-        const cutoff = new Date(d); cutoff.setDate(cutoff.getDate()-(sch.cutoffDays||1)); cutoff.setHours(22,0,0,0);
+        const cutoff = new Date(d); cutoff.setDate(cutoff.getDate()-(sch.cutoffDays||1)); cutoff.setHours(isoDate(d) >= this.CUTOFF_9PM_FROM ? 21 : 22,0,0,0);
         return { sch, d, cutoff };
       }).filter(({ sch, d, cutoff }) => {
         if (now.getTime() > cutoff.getTime()) return false;
@@ -555,8 +557,8 @@ class Component extends DCLogic {
     return candidates.map(({ sch, d, cutoff }) => ({ ...sch, date:d, cutoff,
       dateLabelZh: zhWeekday[d.getDay()]+' '+(d.getMonth()+1)+'月'+d.getDate()+'日',
       dateLabelEn: enWeekday[d.getDay()]+' '+(d.getMonth()+1)+'/'+d.getDate(),
-      cutoffLabelZh: zhWeekday[cutoff.getDay()]+' 22:00 前下单',
-      cutoffLabelEn: 'Order by '+enWeekday[cutoff.getDay()]+' 10PM' }))
+      cutoffLabelZh: zhWeekday[cutoff.getDay()]+' '+cutoff.getHours()+':00 前下单',
+      cutoffLabelEn: 'Order by '+enWeekday[cutoff.getDay()]+' '+(cutoff.getHours()-12)+'PM' }))
       .sort((a,b)=>a.date-b.date);
   }
   selectPickupDay(id) {
