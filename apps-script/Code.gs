@@ -55,6 +55,13 @@ function doGet(e) {
     .setMimeType(ContentService.MimeType.JSON);
 }
 
+// A row is an order if it has items in it. It used to require an Order # as
+// well, which silently dropped any order typed straight into the sheet by hand
+// (no Order # in column B) from both the summary and the weekly cap count.
+function isOrderRow(r) {
+  return String(r[COL.ITEMS - 1] || '').trim() !== '';
+}
+
 function orderedQtyForWeek(weekLabel) {
   if (!weekLabel) return 0;
   var sheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName(weekLabel);
@@ -67,7 +74,7 @@ function orderedQtyForWeek(weekLabel) {
   var rows = sheet.getRange(2, 1, dataEndRow - 1, HEADERS.length).getValues();
   var totalQty = 0;
   rows.forEach(function (r) {
-    if (!r[COL.ORDER_NUM - 1]) return;
+    if (!isOrderRow(r)) return;
     String(r[COL.ITEMS - 1]).split('\n').forEach(function (part) {
       var m = part.trim().match(/^(\d+)x\s+/);
       if (m) totalQty += parseInt(m[1], 10);
@@ -243,22 +250,62 @@ function pickupDayBucket(pickupDayLabel) {
   return null;
 }
 
+// ---- Hand-typed notes on the summary block ----
+// Anything typed to the right of a summary row's value (the Note column and
+// beyond) is kept by row key and written back after every rebuild. Flavor
+// rows are keyed by pickup day ("Friday|Name") because Friday and Saturday
+// list the same flavors. Notes are also copied into the document properties,
+// so a note on a flavor row survives that flavor dropping out of the summary
+// for a while (an order unchecked as paid, a row deleted) and comes back when
+// the row does.
+function notesStoreKey(sheet) { return 'notes:' + sheet.getName(); }
+
+function loadNotesStore(sheet) {
+  try {
+    var raw = PropertiesService.getDocumentProperties().getProperty(notesStoreKey(sheet));
+    return raw ? JSON.parse(raw) : {};
+  } catch (err) { return {}; }
+}
+
+function saveNotesStore(sheet, store) {
+  try {
+    PropertiesService.getDocumentProperties().setProperty(notesStoreKey(sheet), JSON.stringify(store));
+  } catch (err) { /* notes still live in the sheet itself */ }
+}
+
+function dayOfHeaderLabel(label) {
+  for (var i = 0; i < PICKUP_DAYS.length; i++) {
+    if (label === PICKUP_DAYS[i].toUpperCase() + ' TARTS') return PICKUP_DAYS[i];
+  }
+  return null;
+}
+
+function hasText(values) {
+  return values.some(function (v) { return String(v === null || v === undefined ? '' : v) !== ''; });
+}
+
 function rebuildSummary(sheet) {
   var numCols = HEADERS.length;
   var summaryStart = findSummaryStart(sheet);
   var dataEndRow;
-  var existingNotes = {};
+  var existingNotes = loadNotesStore(sheet); // key -> cells from the Note column onward
   var existingCost = '';
   if (summaryStart) {
     dataEndRow = summaryStart - 1;
     var oldRange = sheet.getRange(summaryStart, 1, sheet.getMaxRows() - summaryStart + 1, numCols);
-    // Preserve notes by label, and the hand-entered Cost value, before wiping
-    // the block -- row positions shift as flavors/orders come and go and
-    // can't be trusted to stay put.
+    // Preserve notes by row key, and the hand-entered Cost value, before
+    // wiping the block -- row positions shift as flavors/orders come and go
+    // and can't be trusted to stay put.
+    var section = '';
     oldRange.getValues().forEach(function (r) {
       var label = r[0];
-      var note = r[2];
-      if (label && note) existingNotes[label] = note;
+      if (!label || label === 'SUMMARY') return;
+      var header = dayOfHeaderLabel(label);
+      if (header) section = header;
+      var key = (!header && section) ? section + '|' + label : label;
+      var tail = r.slice(2);
+      if (hasText(tail)) existingNotes[key] = tail;
+      else delete existingNotes[key]; // the row is on the sheet and its note was cleared on purpose
       if (label === 'Cost') existingCost = r[1];
     });
     oldRange.clearContent();
@@ -281,7 +328,7 @@ function rebuildSummary(sheet) {
   PICKUP_DAYS.forEach(function (d) { byDay[d] = { counts: {}, income: {}, order: [], tarts: 0 }; });
 
   dataRows.forEach(function (r) {
-    if (!r[COL.ORDER_NUM - 1]) return;
+    if (!isOrderRow(r)) return;
     if (r[COL.PAID_VENMO - 1] !== true) return; // unpaid orders don't count toward any summary total
     orderCount++;
     totalSales += parseFloat(String(r[COL.TOTAL - 1]).replace('$', '')) || 0;
@@ -311,9 +358,14 @@ function rebuildSummary(sheet) {
   // Recompute even down to zero — otherwise deleting the last order rows
   // leaves a stale non-zero summary behind.
   var newSummaryStart = dataEndRow + 1;
-  var restBlank = new Array(numCols - 3).fill('');
+  var noteCols = numCols - 2;
+  var restBlank = new Array(noteCols - 1).fill('');
+  function notesFor(key) {
+    var t = existingNotes[key];
+    return t ? t.concat(new Array(Math.max(0, noteCols - t.length)).fill('')).slice(0, noteCols) : new Array(noteCols).fill('');
+  }
   function summaryRow(label, value, noteKey) {
-    return [label, value, existingNotes[noteKey || label] || ''].concat(restBlank);
+    return [label, value].concat(notesFor(noteKey || label));
   }
 
   // Cost is hand-entered (ingredient cost is a per-batch expense, not
@@ -338,13 +390,14 @@ function rebuildSummary(sheet) {
   PICKUP_DAYS.forEach(function (d) {
     var bucket = byDay[d];
     headerRowIndexes.push(rows.length);
-    rows.push([d.toUpperCase() + ' TARTS', bucket.tarts, ''].concat(restBlank));
+    rows.push(summaryRow(d.toUpperCase() + ' TARTS', bucket.tarts));
     bucket.order.forEach(function (name) {
       rows.push(summaryRow(name, bucket.counts[name] + ' ($' + bucket.income[name].toFixed(2) + ')', d + '|' + name));
     });
   });
 
   sheet.getRange(newSummaryStart, 1, rows.length, numCols).setValues(rows);
+  saveNotesStore(sheet, existingNotes);
   sheet.getRange(newSummaryStart, 1, 1, numCols).setFontWeight('bold');
   sheet.getRange(newSummaryStart, 1, 1, numCols).setBorder(true, false, false, false, false, false);
   headerRowIndexes.forEach(function (idx) {
