@@ -498,7 +498,7 @@ class Component extends DCLogic {
         emptyBagMsg:'你的袋子还是空的，去挑几个蛋挞吧。', selfPickupNote:'仅限自取 \u00b7 下一步扫码付款', chooseShopLabel:'选择门店', pickupTimeLabel:'取货时间', pickupDayLabel:'选择取货日期', pickupOpensNextWeek:'下一周的取货时间将于周六下午 5 点发布，请稍后查看。', soldOutThisWeek:'抱歉，本周的蛋挞名额已订满，请下周再来 :)', lowStockThisWeek:(n)=>'本周只剩 '+n+' 个名额，请减少数量后再试。', copied:'已复制微信号！',
         boxPromo:'优惠活动: 任选四颗，仅需 $20！', boxPromoSub:'全口味自由混搭，四颗更划算',
         yourDetailsLabel:'你的信息', namePlaceholder:'你的姓名', wechatPlaceholder:'你的微信号', wechatMatchNote:'我们会用你的微信号核对付款截图与订单。',
-        backToBag:'\u2190 返回袋子', orderReservedTitle:'订单已预留', tlPay:'付款', tlPayText:(t)=>'用 Venmo 支付 '+t+'。', tlSend:'发送截图', tlSendText:(o,n,id)=>'请把订单号截图和付款截图发送至'+n+'，客服确认后即可锁定订单。', tlPickup:'取货', tlPickupNote:'我们会在取货当天约提前 30 分钟告知确切的到达时间和停车位置。', tlPickupText:'自取时请出示订单截图，或直接告诉我们你的 Venmo 用户名。', copyVenmo:'复制 Venmo ID', copyChannelWechat:'复制微信号', copiedShort:'已复制', shotBtn:'保存订单到相册', shotBusy:'生成中…', shotHold:'长按图片，选择“存储到相册”。', shotDownload:'下载图片', shotClose:'关闭', ticketSub:'自取订单', ticketCollect:'取货', ticketFoot:'自取时请出示此订单截图，或告诉我们你的 Venmo 用户名。', yourOrderNumberLabel:'你的订单号',
+        backToBag:'\u2190 返回袋子', orderReservedTitle:'订单已预留', tlPay:'付款', tlPayText:(t)=>'用 Venmo 支付 '+t+'。', tlSend:'发送截图', tlSendText:(o,n,id)=>'请把订单号截图和付款截图发送至'+n+'，客服确认后即可锁定订单。', tlPickup:'取货', tlPickupNote:'我们会在取货当天约提前 30 分钟告知确切的到达时间和停车位置。', tlPickupText:'自取时请出示订单截图，或直接告诉我们你的 Venmo 用户名。', copyVenmo:'复制 Venmo ID', copyChannelWechat:'复制微信号', copiedShort:'已复制', shotBtn:'保存订单到相册', shotBusy:'生成中…', shotHold:'长按图片，选择“存储到相册”。', shotDownload:'下载图片', shotClose:'关闭', ticketSub:'自取订单', ticketCollect:'取货', ticketFoot:'自取时请出示订单截图，或告诉我们你的 Venmo 用户名。', yourOrderNumberLabel:'你的订单号',
         scanToPay:'请用 Venmo 扫码支付', wechatAlipayAccepted:'支持微信支付/支付宝', toConfirmOrderLabel:'确认订单步骤', orderLabel:'订单 ', collectAt:'取货地点：',
         startNewOrder:'开始新订单', checkoutBtn:'结账', totalLabel:'总计', eachSuffix:'/每个', confirmShotLabel:'付款确认截图示例',
         heroWordA:'现烤', heroWordB:'酥脆', heroWordC:'浓郁',
@@ -668,7 +668,7 @@ class Component extends DCLogic {
     const wrap = (text, maxW, font) => {
       measure.font = font; const out = []; let line = '';
       const tokens = /[　-鿿＀-￯]/.test(text) ? Array.from(text) : String(text).split(/(\s+)/);
-      for (const t of tokens) { const test = line+t; if (measure.measureText(test).width > maxW && line.trim()) { out.push(line.trim()); line = t.replace(/^\s+/,''); } else line = test; }
+      for (const t of tokens) { const test = line+t; if (measure.measureText(test).width > maxW && line.trim() && !/^[。，、；：！？）”》]$/.test(t)) { out.push(line.trim()); line = t.replace(/^\s+/,''); } else line = test; }
       if (line.trim()) out.push(line.trim()); return out;
     };
     const render = (g, dry) => {
