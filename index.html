@@ -48,7 +48,7 @@
   @media (prefers-reduced-motion: reduce) { .tt-dl { animation: none; } }
   .tt-shotbtn { display: flex; align-items: center; justify-content: center; gap: 10px; width: 100%; margin-top: 12px; padding: 12px; border: 2px solid var(--accent); border-radius: var(--radius-sm); background: var(--surface); color: var(--accent); font-family: var(--font-body); font-weight: 700; font-size: 15px; cursor: pointer; }
   .tt-shotbtn:active { background: var(--accent); color: var(--accent-text); }
-  .tt-cpy { display: inline-flex; align-items: center; gap: 6px; border: 1.5px solid var(--line); background: var(--surface); color: var(--accent); border-radius: 999px; padding: 8px 12px; font-family: var(--font-body); font-weight: 700; font-size: 13px; cursor: pointer; white-space: nowrap; }
+  .tt-cpy { display: inline-flex; align-items: center; gap: 10px; padding: 10px 16px; border: 1.5px solid var(--accent); border-radius: 999px; background: var(--surface); color: var(--text); font-family: var(--font-body); font-weight: 600; font-size: 14px; cursor: pointer; white-space: nowrap; }
   .tt-qr-placeholder { align-items: center; justify-content: center; border: 2px dashed var(--line); color: var(--muted); font-family: var(--font-body); font-size: 12px; }
 
 </style>
@@ -373,8 +373,7 @@
                 <a href="uploads/venmo-qr.png" download="tart-theory-venmo-qr.png" style="display:block">
                   <img src="uploads/venmo-qr.png" alt="Venmo QR" style="width:150px; height:150px; border-radius:12px; object-fit:cover; display:block" />
                 </a>
-                <div style="font-family:var(--font-body); color:var(--muted); font-size:13px; font-weight:600">{{ venmoId }}</div>
-                <button class="tt-cpy" onClick="{{ copyVenmo }}" style="{{ copyVenmoStyle }}"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="11" height="11" rx="2.5"/><path d="M5 15V6.5A2.5 2.5 0 0 1 7.5 4H16"/></svg><span>{{ copyVenmoLabel }}</span></button>
+                <button class="tt-cpy" onClick="{{ copyVenmo }}" style="{{ copyVenmoStyle }}" aria-label="{{ t.copyVenmo }}"><span>{{ venmoId }}</span><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="{{ copyVenmoIcoStyle }}"><rect x="9" y="9" width="11" height="11" rx="2.5"/><path d="M5 15V6.5A2.5 2.5 0 0 1 7.5 4H16"/></svg><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="{{ copyVenmoOkStyle }}"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></button>
               </div>
             </div>
 
@@ -393,8 +392,7 @@
                     <img src="uploads/instagram-qr.png" alt="Instagram QR" style="width:150px; height:150px; border-radius:12px; object-fit:cover; display:block" />
                   </a>
                 </sc-if>
-                <div style="font-family:var(--font-body); color:var(--muted); font-size:13px; font-weight:600">{{ channelId }}</div>
-                <button class="tt-cpy" onClick="{{ copyChan }}" style="{{ copyChanStyle }}"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="11" height="11" rx="2.5"/><path d="M5 15V6.5A2.5 2.5 0 0 1 7.5 4H16"/></svg><span>{{ copyChanLabel }}</span></button>
+                <button class="tt-cpy" onClick="{{ copyChan }}" style="{{ copyChanStyle }}" aria-label="{{ t.copyChannelWechat }}"><span>{{ channelId }}</span><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="{{ copyChanIcoStyle }}"><rect x="9" y="9" width="11" height="11" rx="2.5"/><path d="M5 15V6.5A2.5 2.5 0 0 1 7.5 4H16"/></svg><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="{{ copyChanOkStyle }}"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></button>
               </div>
             </div>
 
@@ -927,9 +925,10 @@ class Component extends DCLogic {
       sendText: L.tlSendText(this.state.orderNum || '', L.wechatLabel, isZh ? this.wechat() : this.instagram()),
       channelId: isZh ? this.wechat() : this.instagram(),
       copyVenmo:()=>this.copyText('venmo', this.venmo()), copyChan:()=>this.copyText('chan', isZh ? this.wechat() : this.instagram()),
-      copyVenmoLabel: this.state.copiedKey==='venmo' ? L.copiedShort : L.copyVenmo, copyChanLabel: this.state.copiedKey==='chan' ? L.copiedShort : L.copyChannelWechat,
-      copyVenmoStyle: this.state.copiedKey==='venmo' ? { background:'var(--accent)', color:'var(--accent-text)', borderColor:'var(--accent)' } : {},
-      copyChanStyle: this.state.copiedKey==='chan' ? { background:'var(--accent)', color:'var(--accent-text)', borderColor:'var(--accent)' } : {},
+      copyVenmoStyle: this.state.copiedKey==='venmo' ? { background:'var(--accent)', color:'var(--accent-text)' } : {},
+      copyChanStyle: this.state.copiedKey==='chan' ? { background:'var(--accent)', color:'var(--accent-text)' } : {},
+      copyVenmoIcoStyle: { display: this.state.copiedKey==='venmo' ? 'none' : 'inline', color: 'var(--accent)' }, copyVenmoOkStyle: { display: this.state.copiedKey==='venmo' ? 'inline' : 'none' },
+      copyChanIcoStyle: { display: this.state.copiedKey==='chan' ? 'none' : 'inline', color: 'var(--accent)' }, copyChanOkStyle: { display: this.state.copiedKey==='chan' ? 'inline' : 'none' },
       pickupMapUrl: hasPickupOptions ? 'https://www.google.com/maps/search/?api=1&query=' + encodeURIComponent(selectedPickup.mapQ || selectedPickup.placeEn) : '#',
       showShotFallback: !!this.state.shotUrl, shotUrl: this.state.shotUrl || '', shotFile: this.state.shotFile || 'tart-theory-order.png',
       saveShot:()=>this.saveShot(), closeShot:()=>this.closeShot(),
