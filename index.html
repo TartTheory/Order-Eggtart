@@ -681,6 +681,7 @@ class Component extends DCLogic {
     const n = 'TT-' + Math.floor(1000 + Math.random()*9000);
     this.setState({ step:'done', orderNum:n, itemsOpen:false, pickupDayId:sel.id, pickupDaySelectedDate:sel.date.toISOString(), toastMsg:bumped });
     if (bumped) setTimeout(()=>this.setState({ toastMsg:false }), 4000);
+    this.drawerToTop();
     this.submitOrderToSheet(n, sel);
   }
   weekLabelFor(date) {
@@ -705,7 +706,9 @@ class Component extends DCLogic {
       method: 'POST', mode: 'no-cors', headers: { 'Content-Type': 'text/plain' }, body: JSON.stringify(payload)
     }).catch(() => {});
   }
-  backToCart() { this.setState({ step:'cart' }); }
+  // The bag/confirmation share one scroll area, so switching views keeps the old scroll position; start each view at the top.
+  drawerToTop() { const go = () => { const b = document.querySelector('.tt-body'); if (b) b.scrollTop = 0; }; go(); requestAnimationFrame(go); setTimeout(go, 60); }
+  backToCart() { this.setState({ step:'cart' }); this.drawerToTop(); }
   browseFromCart() { this.setState({ cartOpen:false }); this.syncScrollLock(false); this.scrollToMenu(); }
   // ---- Save the order as an image (to the phone's photos) ----
   // The order card is drawn onto a canvas (no library, so it looks the same on every phone), then
