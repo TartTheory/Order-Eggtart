@@ -697,14 +697,26 @@ class Component extends DCLogic {
       if (navigator.canShare && navigator.canShare({ files:[file] })) {
         try { await navigator.share({ files:[file], title:'Tart Theory '+(d.orderNum||'') }); }
         catch (e) { if (!(e && e.name === 'AbortError')) throw e; } // closing the share sheet isn't an error
+      } else if (!this.isMobileBrowser()) {
+        this.downloadBlob(blob, file.name); // desktop: one click saves the image, no extra step
       } else {
-        this.openShot(blob, d);
+        this.openShot(blob, d); // phone browsers with no share sheet (e.g. in-app browsers): press-and-hold the image
       }
     } catch (e) {
       if (blob) this.openShot(blob, d);
     } finally {
       this.setState({ shotBusy: false });
     }
+  }
+  isMobileBrowser() {
+    const ua = navigator.userAgent || '';
+    return /Android|iPhone|iPad|iPod|Mobile|MicroMessenger/i.test(ua) || (navigator.maxTouchPoints > 1 && /Mac/.test(navigator.platform || ''));
+  }
+  downloadBlob(blob, name) {
+    const url = URL.createObjectURL(blob), a = document.createElement('a');
+    a.href = url; a.download = name; a.style.display = 'none';
+    document.body.appendChild(a); a.click(); a.remove();
+    setTimeout(() => URL.revokeObjectURL(url), 5000);
   }
   openShot(blob, d) {
     if (this.state.shotUrl) URL.revokeObjectURL(this.state.shotUrl);
