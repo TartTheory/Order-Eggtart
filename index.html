@@ -659,50 +659,79 @@ class Component extends DCLogic {
   // handed to the phone's share sheet, where "Save Image" puts it in Photos. Browsers can't write to
   // the camera roll silently, so where the share sheet isn't available we show the image to press-and-hold.
   async ticketBlob(d) {
-    const V = this.THEME_VARS, body = V['--font-body'], head = V['--font-head'];
-    try { await Promise.all([document.fonts.load('600 46px '+head), document.fonts.load('700 28px '+body), document.fonts.load('800 22px '+body)]); } catch (e) {}
-    const W = 750, S = 2, P = 36, IN = 36, x0 = P+IN, x1 = W-P-IN, cx = W/2;
+    const V = this.THEME_VARS, body = V['--font-body'];
+    const F = (w, px) => w + ' ' + px + 'px ' + body;
+    try { await Promise.all([document.fonts.load(F(700, 46)), document.fonts.load(F(600, 21)), document.fonts.load(F(400, 23))]); } catch (e) {}
+    const W = 750, S = 2, P = 36, x0 = P + 38, x1 = W - P - 38, cx = W / 2;
+    const bg = V['--bg'], paper = V['--surface'], acc = V['--accent'], txt = V['--text'], mut = V['--muted'], rule = V['--line'];
     const measure = document.createElement('canvas').getContext('2d');
     const wrap = (text, maxW, font) => {
       measure.font = font; const out = []; let line = '';
       const tokens = /[　-鿿＀-￯]/.test(text) ? Array.from(text) : String(text).split(/(\s+)/);
-      for (const t of tokens) { const test = line+t; if (measure.measureText(test).width > maxW && line.trim() && !/^[。，、；：！？）”》]$/.test(t)) { out.push(line.trim()); line = t.replace(/^\s+/,''); } else line = test; }
-      if (line.trim()) out.push(line.trim()); return out;
+      for (const t of tokens) {
+        const test = line + t;
+        if (measure.measureText(test).width > maxW && line.trim() && !/^[。，、；：！？）”》]$/.test(t)) { out.push(line.trim()); line = t.replace(/^\s+/, ''); } else line = test;
+      }
+      if (line.trim()) out.push(line.trim());
+      return out;
     };
-    const render = (g, dry) => {
-      let y = P+IN;
-      const T = (str, x, yy, font, color, align) => { if (dry) return; g.font = font; g.fillStyle = color; g.textAlign = align || 'left'; g.textBaseline = 'alphabetic'; g.fillText(str, x, yy); };
-      const rule = yy => { if (dry) return; g.fillStyle = V['--line']; g.fillRect(x0, yy, x1-x0, 2); };
-      T('Tart Theory', cx, y+38, '600 46px '+head, V['--text'], 'center'); y += 52;
-      T(d.L.ticketSub, cx, y+22, '700 21px '+body, V['--muted'], 'center'); y += 46;
-      // order number box
-      if (!dry) { g.fillStyle = V['--accent-soft']; g.strokeStyle = V['--accent']; g.lineWidth = 3; g.beginPath(); g.roundRect(x0, y, x1-x0, 150, 22); g.fill(); g.stroke(); }
-      T(d.L.yourOrderNumberLabel, cx, y+42, '800 21px '+body, V['--accent'], 'center');
-      T(d.orderNum || '', cx, y+112, '700 70px '+head, V['--text'], 'center'); y += 150+34;
-      // pickup
-      T(d.L.ticketCollect, x0, y+20, '800 20px '+body, V['--muted']); y += 34;
-      wrap(d.when, x1-x0, '700 31px '+body).forEach(l => { T(l, x0, y+30, '700 31px '+body, V['--text']); y += 42; });
-      wrap(d.where, x1-x0, '500 25px '+body).forEach(l => { T(l, x0, y+26, '500 25px '+body, V['--muted']); y += 34; });
-      y += 18; rule(y); y += 26;
-      // items
+    const footLines = wrap(d.L.ticketFoot, W - 2 * P - 40, F(400, 23));
+    const layout = (g, dry) => {
+      const T = (str, x, y, font, color, align) => { if (dry) return; g.font = font; g.fillStyle = color; g.textAlign = align || 'left'; g.textBaseline = 'alphabetic'; g.fillText(str, x, y); };
+      const rule1 = y => { if (dry) return; g.fillStyle = rule; g.fillRect(x0, y, x1 - x0, 2); };
+      let y = P;
+      T('Tart Theory', cx, y + 40, F(700, 46), txt, 'center');
+      T(d.L.ticketSub, cx, y + 74, F(600, 21), mut, 'center');
+      y += 100;
+      const cardTop = y;
+      y += 34;
+      T(d.L.yourOrderNumberLabel, cx, y + 22, F(600, 21), acc, 'center');
+      T(d.orderNum || '', cx, y + 100, F(700, 78), txt, 'center');
+      y += 134;
+      const tearY = y;
+      y += 34;
+      T(d.L.ticketCollect, x0, y + 20, F(600, 20), mut);
+      y += 34;
+      wrap(d.when, x1 - x0, F(600, 30)).forEach(l => { T(l, x0, y + 30, F(600, 30), txt); y += 42; });
+      wrap(d.where, x1 - x0, F(400, 25)).forEach(l => { T(l, x0, y + 24, F(400, 25), mut); y += 34; });
+      y += 16;
+      rule1(y);
+      y += 26;
       d.items.forEach(it => {
-        const lines = wrap(it.qty+'× '+it.name, x1-x0-140, '600 27px '+body);
-        lines.forEach((l, i) => { T(l, x0, y+28, '600 27px '+body, V['--text']); if (i === 0) T(it.line, x1, y+28, '600 27px '+body, V['--text'], 'right'); y += 38; });
-        y += 8;
+        wrap(it.qty + '× ' + it.name, x1 - x0 - 120, F(400, 27)).forEach((l, i) => {
+          T(l, x0, y + 29, F(400, 27), txt);
+          if (i === 0) T(it.line, x1, y + 29, F(600, 27), txt, 'right');
+          y += 39;
+        });
+        y += 4;
       });
-      y += 4; rule(y); y += 26;
-      T(d.L.totalLabel, x0, y+36, '800 32px '+body, V['--text']); T(d.total, x1, y+36, '800 38px '+body, V['--text'], 'right'); y += 66;
-      wrap(d.L.ticketFoot, x1-x0, '500 23px '+body).forEach(l => { T(l, cx, y+24, '500 23px '+body, V['--muted'], 'center'); y += 32; });
-      return y+IN;
+      y += 2;
+      rule1(y);
+      y += 22;
+      T(d.L.totalLabel, x0, y + 34, F(700, 30), txt);
+      T(d.total, x1, y + 36, F(700, 38), txt, 'right');
+      y += 64 + 30;
+      const cardBottom = y;
+      let fy = cardBottom + 30;
+      footLines.forEach(l => { T(l, cx, fy + 22, F(400, 23), mut, 'center'); fy += 33; });
+      return { cardTop, cardBottom, tearY, end: fy + 8 };
     };
-    const cardBottom = render(measure, true), H = cardBottom+P;
-    const c = document.createElement('canvas'); c.width = W*S; c.height = H*S;
+    const probe = layout(measure, true);
+    const H = Math.ceil(probe.end + 36);
+    const c = document.createElement('canvas'); c.width = W * S; c.height = H * S;
     const g = c.getContext('2d'); g.scale(S, S);
-    g.fillStyle = V['--bg']; g.fillRect(0, 0, W, H);
-    g.fillStyle = V['--surface']; g.strokeStyle = V['--accent']; g.lineWidth = 4;
-    g.beginPath(); g.roundRect(P, P, W-2*P, cardBottom-P, 30); g.fill(); g.stroke();
-    render(g, false);
-    return await new Promise((res, rej) => c.toBlob(b => b ? res(b) : rej(new Error('toBlob failed')), 'image/png'));
+    g.fillStyle = bg; g.fillRect(0, 0, W, H);
+    g.beginPath(); g.roundRect(P, probe.cardTop, W - 2 * P, probe.cardBottom - probe.cardTop, 30);
+    g.fillStyle = paper; g.fill(); g.strokeStyle = acc; g.lineWidth = 4; g.stroke();
+    layout(g, false);
+    g.save(); g.setLineDash([4, 10]); g.lineCap = 'round'; g.strokeStyle = 'rgba(192,121,42,.65)'; g.lineWidth = 3;
+    g.beginPath(); g.moveTo(P + 44, probe.tearY); g.lineTo(W - P - 44, probe.tearY); g.stroke(); g.restore();
+    [P, W - P].forEach((nx, i) => {
+      g.beginPath(); g.arc(nx, probe.tearY, 22, 0, Math.PI * 2); g.fillStyle = bg; g.fill();
+      g.beginPath(); g.arc(nx, probe.tearY, 22, i === 0 ? -Math.PI / 2 : Math.PI / 2, i === 0 ? Math.PI / 2 : -Math.PI / 2);
+      g.strokeStyle = acc; g.lineWidth = 4; g.stroke();
+    });
+    return await new Promise((res, rej) => c.toBlob(blob => blob ? res(blob) : rej(new Error('toBlob failed')), 'image/png'));
   }
   async saveShot() {
     const d = this._ticket;
