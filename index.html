@@ -29,6 +29,7 @@
   @keyframes ttFloatB { 0%,100% { transform: rotate(-8deg) translateY(0); } 50% { transform: rotate(-8deg) translateY(-9px); } }
   @keyframes ttFloatC { 0%,100% { transform: rotate(7deg) translateY(0); } 50% { transform: rotate(7deg) translateY(-10px); } }
   @keyframes ttPop { 0% { transform: scale(.6); opacity: 0; } 60% { transform: scale(1.12); } 100% { transform: scale(1); opacity: 1; } }
+  .tt-drawer, .tt-body { overscroll-behavior: contain; }
   .tt-body::-webkit-scrollbar { width: 8px; }
   .tt-body::-webkit-scrollbar-thumb { background: var(--line); border-radius: 8px; }
   .tt-menu-grid { grid-template-columns: 1fr; }
@@ -570,6 +571,19 @@ class Component extends DCLogic {
       .catch(() => {});
   }
   closeCart() { this.setState({ cartOpen:false }); }
+  // While the bag is open only the bag scrolls; the page behind it is frozen where it was.
+  syncScrollLock(lock) {
+    if (lock === !!this._scrollLocked) return;
+    this._scrollLocked = lock;
+    const h = document.documentElement, b = document.body;
+    if (lock) {
+      const sbw = window.innerWidth - h.clientWidth;
+      h.style.overflow = 'hidden'; b.style.overflow = 'hidden';
+      if (sbw > 0) b.style.paddingRight = sbw + 'px';
+    } else {
+      h.style.overflow = ''; b.style.overflow = ''; b.style.paddingRight = '';
+    }
+  }
   computePickupOptions() {
     const now = new Date();
     const zhWeekday = ['周日','周一','周二','周三','周四','周五','周六'];
@@ -653,7 +667,7 @@ class Component extends DCLogic {
     }).catch(() => {});
   }
   backToCart() { this.setState({ step:'cart' }); }
-  browseFromCart() { this.setState({ cartOpen:false }); this.scrollToMenu(); }
+  browseFromCart() { this.setState({ cartOpen:false }); this.syncScrollLock(false); this.scrollToMenu(); }
   // ---- Save the order as an image (to the phone's photos) ----
   // The order card is drawn onto a canvas (no library, so it looks the same on every phone), then
   // handed to the phone's share sheet, where "Save Image" puts it in Photos. Browsers can't write to
@@ -867,6 +881,7 @@ class Component extends DCLogic {
       ? (isZh? ('\ud83c\udf89 已凑成一盒，仅 $'+boxPriceNow+'！') : ('\ud83c\udf89 Box complete \u2014 just $'+boxPriceNow+'!'))
       : (isZh? ('还差 '+(4-fillCount)+' 个凑成 4 个装的礼盒！') : ('Add '+(4-fillCount)+' more for a box of 4!'));
 
+    this.syncScrollLock(!!this.state.cartOpen);
     const pickupOptions = this.computePickupOptions();
     const hasPickupOptions = pickupOptions.length > 0;
     const selectedPickupId = hasPickupOptions ? (this.state.pickupDayId || pickupOptions[0].id) : null;
