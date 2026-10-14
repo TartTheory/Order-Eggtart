@@ -30,6 +30,7 @@
   @keyframes ttFloatC { 0%,100% { transform: rotate(7deg) translateY(0); } 50% { transform: rotate(7deg) translateY(-10px); } }
   @keyframes ttPop { 0% { transform: scale(.6); opacity: 0; } 60% { transform: scale(1.12); } 100% { transform: scale(1); opacity: 1; } }
   .tt-drawer, .tt-body { overscroll-behavior: contain; }
+  .tt-more { display: flex; align-items: center; justify-content: center; gap: 6px; width: 100%; padding: 8px 0 2px; border: none; background: none; color: var(--accent); font-family: var(--font-body); font-weight: 600; font-size: 13px; cursor: pointer; }
   .tt-body::-webkit-scrollbar { width: 8px; }
   .tt-body::-webkit-scrollbar-thumb { background: var(--line); border-radius: 8px; }
   .tt-menu-grid { grid-template-columns: 1fr; }
@@ -349,11 +350,17 @@
               <div style="font-weight:400; font-size:13px; color:var(--muted); margin-top:3px; line-height:1.5">{{ pickupWhere }}</div>
             </div>
             <div style="border-top:1px solid color-mix(in srgb, var(--accent) 25%, transparent); padding-top:8px">
-              <sc-for list="{{ cartItems }}" as="ci" hint-placeholder-count="2">
+              <sc-for list="{{ ticketItems }}" as="ci" hint-placeholder-count="2">
                 <div style="display:flex; justify-content:space-between; gap:10px; font-family:var(--font-body); font-weight:400; font-size:14px; color:var(--text); padding:3px 0">
                   <span>{{ ci.qty }}&times; {{ ci.name }}</span><span>{{ ci.lineLabel }}</span>
                 </div>
               </sc-for>
+              <sc-if value="{{ hasMoreItems }}" hint-placeholder-val="">
+                <button class="tt-more" onClick="{{ toggleItems }}">
+                  <span>{{ moreLabel }}</span>
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="{{ moreChevStyle }}"><path d="M6 9l6 6 6-6"/></svg>
+                </button>
+              </sc-if>
             </div>
             <div style="display:flex; justify-content:space-between; font-family:var(--font-body); font-weight:700; color:var(--text); font-size:14px; border-top:1px solid color-mix(in srgb, var(--accent) 25%, transparent); margin-top:8px; padding-top:10px">
               <span>{{ t.totalLabel }}</span><span>{{ totalLabel }}</span>
@@ -497,7 +504,7 @@ class Component extends DCLogic {
         emptyBagMsg:'你的袋子还是空的，去挑几个蛋挞吧。', selfPickupNote:'仅限自取 \u00b7 下一步扫码付款', chooseShopLabel:'选择门店', pickupTimeLabel:'取货时间', pickupDayLabel:'选择取货日期', pickupOpensNextWeek:'下一周的取货时间将于周六下午 5 点发布，请稍后查看。', soldOutThisWeek:'抱歉，本周的蛋挞名额已订满，请下周再来 :)', lowStockThisWeek:(n)=>'本周只剩 '+n+' 个名额，请减少数量后再试。', copied:'已复制微信号！',
         boxPromo:'优惠活动: 任选四颗，仅需 $20！', boxPromoSub:'全口味自由混搭，四颗更划算',
         yourDetailsLabel:'你的信息', namePlaceholder:'你的姓名', wechatPlaceholder:'你的微信号', wechatMatchNote:'我们会用你的微信号核对付款截图与订单。',
-        backToBag:'\u2190 返回袋子', orderReservedTitle:'订单已预留', tlPay:'付款', tlPayText:(t)=>'用 Venmo 支付 '+t+'。', tlSend:'发送截图', tlSendText:(o,n,id)=>'请把订单号截图和付款截图发送至'+n+'，客服确认后即可锁定订单。', tlPickup:'取货', tlPickupNote:'我们会在取货当天约提前 30 分钟告知确切的到达时间和停车位置。', tlPickupText:'自取时请出示订单截图，或直接告诉我们你的 Venmo 用户名。', copyVenmo:'复制 Venmo ID', copyChannelWechat:'复制微信号', copiedShort:'已复制', shotBtn:'保存订单到相册', shotBusy:'生成中…', shotHold:'长按图片，选择“存储到相册”。', shotDownload:'下载图片', shotClose:'关闭', ticketSub:'自取订单', ticketCollect:'取货', ticketFoot:'自取时请出示订单截图，或告诉我们你的 Venmo 用户名。', yourOrderNumberLabel:'你的订单号',
+        backToBag:'\u2190 返回袋子', orderReservedTitle:'订单已预留', tlPay:'付款', tlPayText:(t)=>'用 Venmo 支付 '+t+'。', tlSend:'发送截图', tlSendText:(o,n,id)=>'请把订单号截图和付款截图发送至'+n+'，客服确认后即可锁定订单。', tlPickup:'取货', itemsMore:(n)=>'还有 '+n+' 款，点击展开', itemsLess:'收起', tlPickupNote:'我们会在取货当天约提前 30 分钟告知确切的到达时间和停车位置。', tlPickupText:'自取时请出示订单截图，或直接告诉我们你的 Venmo 用户名。', copyVenmo:'复制 Venmo ID', copyChannelWechat:'复制微信号', copiedShort:'已复制', shotBtn:'保存订单到相册', shotBusy:'生成中…', shotHold:'长按图片，选择“存储到相册”。', shotDownload:'下载图片', shotClose:'关闭', ticketSub:'自取订单', ticketCollect:'取货', ticketFoot:'自取时请出示订单截图，或告诉我们你的 Venmo 用户名。', yourOrderNumberLabel:'你的订单号',
         scanToPay:'请用 Venmo 扫码支付', wechatAlipayAccepted:'支持微信支付/支付宝', toConfirmOrderLabel:'确认订单步骤', orderLabel:'订单 ', collectAt:'取货地点：',
         startNewOrder:'开始新订单', checkoutBtn:'结账', totalLabel:'总计', eachSuffix:'/每个', confirmShotLabel:'付款确认截图示例',
         heroWordA:'现烤', heroWordB:'酥脆', heroWordC:'浓郁',
@@ -510,7 +517,7 @@ class Component extends DCLogic {
         emptyBagMsg:'Your bag is empty. Go pick some tarts.', selfPickupNote:'Self-pickup \u00b7 pay by QR on the next step', chooseShopLabel:'Choose a shop', pickupTimeLabel:'Pickup time', pickupDayLabel:'Choose your pickup day', pickupOpensNextWeek:'Next week\u2019s pickup times open Saturday at 5 PM. Check back soon.', soldOutThisWeek:'Sorry, we\u2019re sold out for this week \u2014 check back next week!', lowStockThisWeek:(n)=>'Only '+n+' left this week \u2014 please reduce your quantity.', copied:'WeChat ID copied!',
         boxPromo:'Any 4 for $20!', boxPromoSub:'Mix & Match Any Flavors. Perfect for sharing with friends\u2014or keeping them all to yourself. We won\u2019t judge.',
         yourDetailsLabel:'Your details', namePlaceholder:'Your name', wechatPlaceholder:'Your Instagram handle', wechatMatchNote:'We\u2019ll match your Instagram handle to your order when you send your payment screenshot.',
-        backToBag:'\u2190 Back to bag', orderReservedTitle:'Order reserved', tlPay:'Pay', tlPayText:(t)=>'Pay '+t+' on Venmo.', tlSend:'Send your screenshots', tlSendText:(o,n,id)=>'Please send a screenshot of your order and your payment screenshot to us on '+n+'. Our team will lock in your order once we confirm.', tlPickup:'Pickup', tlPickupNote:'We\u2019ll share the exact ETA and parking spot about 30 minutes ahead on the day.', tlPickupText:'When you pick up, please show your order screenshot, or just tell us your Venmo name.', copyVenmo:'Copy Venmo ID', copyChannelWechat:'Copy Instagram ID', copiedShort:'Copied', shotBtn:'Save order to Photos', shotBusy:'Preparing…', shotHold:'Press and hold the image, then tap Save to Photos.', shotDownload:'Download image', shotClose:'Close', ticketSub:'Pickup order', ticketCollect:'Pickup', ticketFoot:'When you pick up, please show this order screenshot, or just tell us your Venmo name.', yourOrderNumberLabel:'Your order number',
+        backToBag:'\u2190 Back to bag', orderReservedTitle:'Order reserved', tlPay:'Pay', tlPayText:(t)=>'Pay '+t+' on Venmo.', tlSend:'Send your screenshots', tlSendText:(o,n,id)=>'Please send a screenshot of your order and your payment screenshot to us on '+n+'. Our team will lock in your order once we confirm.', tlPickup:'Pickup', itemsMore:(n)=>n+' more flavors, tap to show', itemsLess:'Show less', tlPickupNote:'We\u2019ll share the exact ETA and parking spot about 30 minutes ahead on the day.', tlPickupText:'When you pick up, please show your order screenshot, or just tell us your Venmo name.', copyVenmo:'Copy Venmo ID', copyChannelWechat:'Copy Instagram ID', copiedShort:'Copied', shotBtn:'Save order to Photos', shotBusy:'Preparing…', shotHold:'Press and hold the image, then tap Save to Photos.', shotDownload:'Download image', shotClose:'Close', ticketSub:'Pickup order', ticketCollect:'Pickup', ticketFoot:'When you pick up, please show this order screenshot, or just tell us your Venmo name.', yourOrderNumberLabel:'Your order number',
         scanToPay:'Scan the Venmo QR to pay', wechatAlipayAccepted:'WeChat Pay / Alipay accepted', toConfirmOrderLabel:'To confirm your order', orderLabel:'Order ', collectAt:'Collect at ',
         startNewOrder:'Start a new order', checkoutBtn:'Checkout', totalLabel:'Total', eachSuffix:' each', confirmShotLabel:'Payment confirmation screenshot',
         heroWordA:'Fresh-Baked', heroWordB:'Flaky', heroWordC:'Rich',
@@ -572,6 +579,7 @@ class Component extends DCLogic {
   }
   closeCart() { this.setState({ cartOpen:false }); }
   // While the bag is open only the bag scrolls; the page behind it is frozen where it was.
+  toggleItems() { this.setState(st => ({ itemsOpen: !st.itemsOpen })); }
   syncScrollLock(lock) {
     if (lock === !!this._scrollLocked) return;
     this._scrollLocked = lock;
@@ -640,7 +648,7 @@ class Component extends DCLogic {
     }
     const bumped = !!(this.state.pickupDaySelectedDate && this.state.pickupDaySelectedDate !== sel.date.toISOString());
     const n = 'TT-' + Math.floor(1000 + Math.random()*9000);
-    this.setState({ step:'done', orderNum:n, pickupDayId:sel.id, pickupDaySelectedDate:sel.date.toISOString(), toastMsg:bumped });
+    this.setState({ step:'done', orderNum:n, itemsOpen:false, pickupDayId:sel.id, pickupDaySelectedDate:sel.date.toISOString(), toastMsg:bumped });
     if (bumped) setTimeout(()=>this.setState({ toastMsg:false }), 4000);
     this.submitOrderToSheet(n, sel);
   }
@@ -974,6 +982,10 @@ class Component extends DCLogic {
       copyVenmoIcoStyle: { display: this.state.copiedKey==='venmo' ? 'none' : 'inline', color: 'var(--accent)' }, copyVenmoOkStyle: { display: this.state.copiedKey==='venmo' ? 'inline' : 'none' },
       copyChanIcoStyle: { display: this.state.copiedKey==='chan' ? 'none' : 'inline', color: 'var(--accent)' }, copyChanOkStyle: { display: this.state.copiedKey==='chan' ? 'inline' : 'none' },
       pickupMapUrl: hasPickupOptions ? 'https://www.google.com/maps/search/?api=1&query=' + encodeURIComponent(selectedPickup.mapQ || selectedPickup.placeEn) : '#',
+      ticketItems: (cartItems.length > 4 && !this.state.itemsOpen) ? cartItems.slice(0, 3) : cartItems,
+      hasMoreItems: cartItems.length > 4, toggleItems: () => this.toggleItems(),
+      moreLabel: this.state.itemsOpen ? L.itemsLess : L.itemsMore(cartItems.length - 3),
+      moreChevStyle: { transform: this.state.itemsOpen ? 'rotate(180deg)' : 'none', transition: 'transform .2s' },
       showShotFallback: !!this.state.shotUrl, shotUrl: this.state.shotUrl || '', shotFile: this.state.shotFile || 'tart-theory-order.png',
       saveShot:()=>this.saveShot(), closeShot:()=>this.closeShot(),
       shotBtnLabel: this.state.shotBusy ? L.shotBusy : L.shotBtn,
