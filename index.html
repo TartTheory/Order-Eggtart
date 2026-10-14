@@ -22,6 +22,8 @@
 <style>
   * { box-sizing: border-box; }
   html { overflow-x: hidden; }
+  :root { --app-h: 100vh; }
+  @supports (height: 100dvh) { :root { --app-h: 100dvh; } }
   body { margin: 0; max-width: 100%; overflow-x: clip; }
   .tt-root *, .tt-drawer *, .tt-backdrop { transition: background-color .35s ease, color .3s ease, border-color .35s ease, box-shadow .35s ease; }
   ::placeholder { color: var(--muted); opacity: .7; }
@@ -445,8 +447,8 @@
     </div>
 
     <sc-if value="{{ showShotFallback }}" hint-placeholder-val="">
-      <div style="position:fixed; inset:0; z-index:90; background:rgba(20,12,4,.75); display:flex; align-items:center; justify-content:center; padding:16px">
-        <div style="background:var(--surface); border-radius:var(--radius); padding:14px; width:min(400px,94vw); max-height:94vh; overflow:auto; text-align:center; box-shadow:var(--shadow)">
+      <div style="position:fixed; top:0; left:0; right:0; height:var(--app-h); z-index:90; background:rgba(20,12,4,.75); display:flex; align-items:center; justify-content:center; padding:16px">
+        <div style="background:var(--surface); border-radius:var(--radius); padding:14px; width:min(400px,94vw); max-height:calc(var(--app-h) * .94); overflow:auto; text-align:center; box-shadow:var(--shadow)">
           <img src="{{ shotUrl }}" alt="" style="width:100%; border-radius:12px; display:block; margin-bottom:12px" />
           <p style="font-family:var(--font-body); font-weight:700; color:var(--text); font-size:14px; line-height:1.5; margin:0 0 12px">{{ t.shotHold }}</p>
           <a href="{{ shotUrl }}" download="{{ shotFile }}" style="display:block; padding:12px; border-radius:var(--radius-sm); background:var(--accent); color:var(--accent-text); text-decoration:none; font-family:var(--font-body); font-weight:800; font-size:14px; margin-bottom:8px">{{ t.shotDownload }}</a>
@@ -544,6 +546,7 @@ class Component extends DCLogic {
     };
     this.THEME_VARS = { '--bg':'#F7EFE0','--surface':'#FFFCF4','--surface-2':'#F1E6D0','--text':'#3A2C1A','--muted':'#94826A','--line':'#E7D9BF','--accent':'#C0792A','--accent-text':'#FFF8EC','--accent-soft':'#F2E3C6','--font-head':"'Noto Sans SC', 'Hanken Grotesk', system-ui, sans-serif",'--font-body':"'Noto Sans SC', 'Hanken Grotesk', system-ui, sans-serif",'--radius':'16px','--radius-sm':'12px','--head-weight':'600','--head-transform':'none','--head-spacing':'0','--shadow':'0 10px 30px rgba(90,60,20,.12)' };
     this.state = { cart: {}, cartOpen: false, step: 'cart', orderNum: null, lang: 'zh', pickupDayId: null, pickupDaySelectedDate: null, toastMsg: false, copiedWechat: false, orderedQty: null, orderedQtyWeek: null };
+    this.trackViewportHeight();
   }
 
   wechat() { return this.props.wechatId ?? 'tart_theory'; }
@@ -598,6 +601,15 @@ class Component extends DCLogic {
   }
   closeCart() { this.setState({ cartOpen:false }); }
   // While the bag is open only the bag scrolls; the page behind it is frozen where it was.
+  // Browser toolbars (Safari, Chrome, WeChat) overlap the bottom of a 100vh layer and hide the checkout button; size fixed layers to what is actually visible.
+  trackViewportHeight() {
+    if (typeof window === 'undefined') return;
+    const set = () => { const h = (window.visualViewport && window.visualViewport.height) || window.innerHeight; if (h > 0) document.documentElement.style.setProperty('--app-h', Math.round(h) + 'px'); };
+    set();
+    window.addEventListener('resize', set);
+    window.addEventListener('orientationchange', () => setTimeout(set, 250));
+    if (window.visualViewport) window.visualViewport.addEventListener('resize', set);
+  }
   toggleItems() { this.setState(st => ({ itemsOpen: !st.itemsOpen })); }
   syncScrollLock(lock) {
     if (lock === !!this._scrollLocked) return;
@@ -1018,7 +1030,7 @@ class Component extends DCLogic {
       heroTartA: this.custardStyle(this.FLAVORS[0], '14%'),
       heroTartB: this.custardStyle(this.FLAVORS[2], '15%'),
       heroTartC: this.custardStyle(this.FLAVORS[3], '15%'),
-      drawerStyle: { position:'fixed', top:'0', right: this.state.cartOpen ? '0' : '-450px', height:'100vh', width:'min(400px,94vw)',
+      drawerStyle: { position:'fixed', top:'0', right: this.state.cartOpen ? '0' : '-450px', height:'var(--app-h)', width:'min(400px,94vw)',
         zIndex:'60', display:'flex', flexDirection:'column', background:'var(--surface)',
         boxShadow:'-20px 0 60px rgba(0,0,0,.2)',
         transition:'right .42s cubic-bezier(.22,1,.36,1)' },
