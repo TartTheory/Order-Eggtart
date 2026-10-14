@@ -35,6 +35,11 @@
   @media (min-width: 640px) { .tt-menu-grid { grid-template-columns: repeat(auto-fill, minmax(170px,1fr)); } }
   .tt-steps-grid { grid-template-columns: 1fr; }
   @media (min-width: 640px) { .tt-steps-grid { grid-template-columns: repeat(auto-fit, minmax(180px,1fr)); } }
+  .tt-shotbtn { position: relative; overflow: hidden; display: flex; align-items: center; justify-content: center; gap: 10px; width: 100%; padding: 16px; border: none; border-radius: 14px; background: var(--accent); color: var(--accent-text); font-family: var(--font-body); font-weight: 800; font-size: 16px; cursor: pointer; box-shadow: 0 8px 18px rgba(150,90,20,.3); }
+  .tt-shotbtn:active { transform: scale(.98); }
+  .tt-shotbtn::after { content: ""; position: absolute; inset: 0; background: linear-gradient(110deg, transparent 30%, rgba(255,255,255,.35) 50%, transparent 70%); transform: translateX(-120%); animation: ttShine 3.2s ease-in-out infinite; pointer-events: none; }
+  @keyframes ttShine { 0%, 55% { transform: translateX(-120%); } 100% { transform: translateX(120%); } }
+  @media (prefers-reduced-motion: reduce) { .tt-shotbtn::after { animation: none; } }
   .tt-qr-placeholder { align-items: center; justify-content: center; border: 2px dashed var(--line); color: var(--muted); font-family: var(--font-body); font-size: 12px; }
 
 </style>
@@ -324,11 +329,7 @@
           <h3 style="font-family:var(--font-head); font-weight:var(--head-weight); color:var(--text); font-size:22px; margin:0 0 4px">{{ t.orderReservedTitle }}</h3>
           <p style="font-family:var(--font-body); color:var(--muted); font-size:14px; margin:0 0 18px; line-height:1.5">{{ t.orderReserved }}</p>
 
-          <div style="position:relative; text-align:left; background:var(--accent-soft); border:2px solid var(--accent); border-radius:var(--radius-sm); padding:26px 16px 15px; margin:22px 0 16px">
-            <button onClick="{{ saveShot }}" style="{{ shotBtnStyle }}">
-              <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 8.5A2.5 2.5 0 0 1 6.5 6h1.2a1 1 0 0 0 .8-.4l.9-1.2A1 1 0 0 1 10.2 4h3.6a1 1 0 0 1 .8.4l.9 1.2a1 1 0 0 0 .8.4h1.2A2.5 2.5 0 0 1 20 8.5v8A2.5 2.5 0 0 1 17.5 19h-11A2.5 2.5 0 0 1 4 16.5z"/><circle cx="12" cy="12.5" r="3.4"/></svg>
-              <span>{{ shotBtnLabel }}</span>
-            </button>
+          <div style="position:relative; text-align:left; background:var(--accent-soft); border:2px solid var(--accent); border-radius:var(--radius-sm); padding:20px 16px 15px; margin:18px 0 12px">
             <div style="text-align:center; margin-bottom:12px">
               <div style="font-family:var(--font-body); font-size:11.5px; font-weight:700; letter-spacing:.06em; text-transform:uppercase; color:var(--accent); margin-bottom:4px">{{ t.yourOrderNumberLabel }}</div>
               <div style="font-family:var(--font-head); font-weight:var(--head-weight); color:var(--text); font-size:28px; letter-spacing:.02em">{{ orderNum }}</div>
@@ -345,6 +346,17 @@
               <span>{{ t.totalLabel }}</span><span>{{ totalLabel }}</span>
             </div>
             <div style="font-family:var(--font-body); color:var(--muted); font-size:12.5px; margin-top:10px; line-height:1.5">{{ t.collectAt }}{{ pickupWhere }}</div>
+          </div>
+
+          <div style="display:flex; flex-direction:column; gap:8px; margin-bottom:16px">
+            <button class="tt-shotbtn" onClick="{{ saveShot }}" style="{{ shotBtnStyle }}">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 8.5A2.5 2.5 0 0 1 6.5 6h1.2a1 1 0 0 0 .8-.4l.9-1.2A1 1 0 0 1 10.2 4h3.6a1 1 0 0 1 .8.4l.9 1.2a1 1 0 0 0 .8.4h1.2A2.5 2.5 0 0 1 20 8.5v8A2.5 2.5 0 0 1 17.5 19h-11A2.5 2.5 0 0 1 4 16.5z"/><circle cx="12" cy="12.5" r="3.4"/></svg>
+              <span>{{ shotBtnLabel }}</span>
+            </button>
+            <div style="display:flex; align-items:center; justify-content:center; gap:6px; font-family:var(--font-body); color:var(--muted); font-size:12px; font-weight:600">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 4v11M7 11l5 5 5-5M5 20h14"/></svg>
+              <span>{{ t.shotHint }}</span>
+            </div>
           </div>
 
           <div style="text-align:left; background:var(--surface-2); border:1px solid var(--line); border-radius:var(--radius-sm); padding:15px 16px; margin-bottom:16px">
@@ -466,7 +478,7 @@ class Component extends DCLogic {
         emptyBagMsg:'你的袋子还是空的，去挑几个蛋挞吧。', selfPickupNote:'仅限自取 \u00b7 下一步扫码付款', chooseShopLabel:'选择门店', pickupTimeLabel:'取货时间', pickupDayLabel:'选择取货日期', pickupOpensNextWeek:'下一周的取货时间将于周六下午 5 点发布，请稍后查看。', soldOutThisWeek:'抱歉，本周的蛋挞名额已订满，请下周再来 :)', lowStockThisWeek:(n)=>'本周只剩 '+n+' 个名额，请减少数量后再试。', copied:'已复制微信号！',
         boxPromo:'优惠活动: 任选四颗，仅需 $20！', boxPromoSub:'全口味自由混搭，四颗更划算',
         yourDetailsLabel:'你的信息', namePlaceholder:'你的姓名', wechatPlaceholder:'你的微信号', wechatMatchNote:'我们会用你的微信号核对付款截图与订单。',
-        backToBag:'\u2190 返回袋子', orderReservedTitle:'订单已预留', orderReserved:'先把订单保存到相册，再扫码付款。付款确认后，订单即锁定。', shotBtn:'保存订单到相册', shotBusy:'生成中…', shotHold:'长按图片，选择“存储到相册”。', shotDownload:'下载图片', shotClose:'关闭', ticketSub:'自取订单', ticketCollect:'取货', ticketFoot:'取货时出示此图，或告诉我们你的 Venmo 名字。', yourOrderNumberLabel:'你的订单号',
+        backToBag:'\u2190 返回袋子', orderReservedTitle:'订单已预留', orderReserved:'先把订单保存到相册，再扫码付款。付款确认后，订单即锁定。', shotBtn:'保存订单到相册', shotBusy:'生成中…', shotHint:'点开后选“存储图像”', shotHold:'长按图片，选择“存储到相册”。', shotDownload:'下载图片', shotClose:'关闭', ticketSub:'自取订单', ticketCollect:'取货', ticketFoot:'取货时出示此图，或告诉我们你的 Venmo 名字。', yourOrderNumberLabel:'你的订单号',
         scanToPay:'请用 Venmo 扫码支付', wechatAlipayAccepted:'支持微信支付/支付宝', toConfirmOrderLabel:'确认订单步骤', orderLabel:'订单 ', collectAt:'取货地点：',
         startNewOrder:'开始新订单', checkoutBtn:'结账', totalLabel:'总计', eachSuffix:'/每个', confirmShotLabel:'付款确认截图示例',
         heroWordA:'现烤', heroWordB:'酥脆', heroWordC:'浓郁',
@@ -479,7 +491,7 @@ class Component extends DCLogic {
         emptyBagMsg:'Your bag is empty. Go pick some tarts.', selfPickupNote:'Self-pickup \u00b7 pay by QR on the next step', chooseShopLabel:'Choose a shop', pickupTimeLabel:'Pickup time', pickupDayLabel:'Choose your pickup day', pickupOpensNextWeek:'Next week\u2019s pickup times open Saturday at 5 PM. Check back soon.', soldOutThisWeek:'Sorry, we\u2019re sold out for this week \u2014 check back next week!', lowStockThisWeek:(n)=>'Only '+n+' left this week \u2014 please reduce your quantity.', copied:'WeChat ID copied!',
         boxPromo:'Any 4 for $20!', boxPromoSub:'Mix & Match Any Flavors. Perfect for sharing with friends\u2014or keeping them all to yourself. We won\u2019t judge.',
         yourDetailsLabel:'Your details', namePlaceholder:'Your name', wechatPlaceholder:'Your Instagram handle', wechatMatchNote:'We\u2019ll match your Instagram handle to your order when you send your payment screenshot.',
-        backToBag:'\u2190 Back to bag', orderReservedTitle:'Order reserved', orderReserved:'Save your order to your photos, then pay below. We lock it in once your payment is confirmed.', shotBtn:'Save order to Photos', shotBusy:'Preparing…', shotHold:'Press and hold the image, then tap Save to Photos.', shotDownload:'Download image', shotClose:'Close', ticketSub:'Pickup order', ticketCollect:'Pickup', ticketFoot:'Show this at pickup, or tell us your Venmo name.', yourOrderNumberLabel:'Your order number',
+        backToBag:'\u2190 Back to bag', orderReservedTitle:'Order reserved', orderReserved:'Save your order to your photos, then pay below. We lock it in once your payment is confirmed.', shotBtn:'Save order to Photos', shotBusy:'Preparing…', shotHint:'Then tap Save Image', shotHold:'Press and hold the image, then tap Save to Photos.', shotDownload:'Download image', shotClose:'Close', ticketSub:'Pickup order', ticketCollect:'Pickup', ticketFoot:'Show this at pickup, or tell us your Venmo name.', yourOrderNumberLabel:'Your order number',
         scanToPay:'Scan the Venmo QR to pay', wechatAlipayAccepted:'WeChat Pay / Alipay accepted', toConfirmOrderLabel:'To confirm your order', orderLabel:'Order ', collectAt:'Collect at ',
         startNewOrder:'Start a new order', checkoutBtn:'Checkout', totalLabel:'Total', eachSuffix:' each', confirmShotLabel:'Payment confirmation screenshot',
         heroWordA:'Fresh-Baked', heroWordB:'Flaky', heroWordC:'Rich',
@@ -874,9 +886,7 @@ class Component extends DCLogic {
       showShotFallback: !!this.state.shotUrl, shotUrl: this.state.shotUrl || '', shotFile: this.state.shotFile || 'tart-theory-order.png',
       saveShot:()=>this.saveShot(), closeShot:()=>this.closeShot(),
       shotBtnLabel: this.state.shotBusy ? L.shotBusy : L.shotBtn,
-      shotBtnStyle: { position:'absolute', top:'-20px', left:'50%', transform:'translateX(-50%)', display:'flex', alignItems:'center', gap:'7px', whiteSpace:'nowrap',
-        padding:'10px 18px', border:'none', cursor: this.state.shotBusy ? 'default' : 'pointer', borderRadius:'999px', background:'var(--accent)', color:'var(--accent-text)',
-        fontFamily:'var(--font-body)', fontWeight:'800', fontSize:'13.5px', boxShadow:'var(--shadow)', opacity: this.state.shotBusy ? '.7' : '1' },
+      shotBtnStyle: { opacity: this.state.shotBusy ? '.7' : '1', pointerEvents: this.state.shotBusy ? 'none' : 'auto' },
       heroTartA: this.custardStyle(this.FLAVORS[0], '14%'),
       heroTartB: this.custardStyle(this.FLAVORS[2], '15%'),
       heroTartC: this.custardStyle(this.FLAVORS[3], '15%'),
