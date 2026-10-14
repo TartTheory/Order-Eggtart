@@ -43,6 +43,9 @@
   .tt-steps h4 { margin: 0 0 4px; font-family: var(--font-body); font-size: 15.5px; font-weight: 800; color: var(--text); }
   .tt-steps p { margin: 0 0 12px; font-family: var(--font-body); color: var(--muted); font-size: 13px; line-height: 1.55; }
   .tt-qrcol { display: flex; flex-direction: column; align-items: center; gap: 10px; }
+  .tt-dl { animation: ttHop 3.4s ease-in-out infinite; }
+  @keyframes ttHop { 0%, 62%, 100% { transform: translateY(0); } 70% { transform: translateY(-6px); } 78% { transform: translateY(0); } 84% { transform: translateY(-3px); } 90% { transform: translateY(0); } }
+  @media (prefers-reduced-motion: reduce) { .tt-dl { animation: none; } }
   .tt-stub { position: relative; margin-top: -2px; background: var(--accent); border-radius: 0 0 var(--radius-sm) var(--radius-sm); border: 2px solid var(--accent); border-top: none; }
   .tt-stub::before { content: ""; position: absolute; left: -2px; right: -2px; top: 0; border-top: 3px dashed rgba(255,248,236,.85); }
   .tt-shotbtn { display: flex; align-items: center; justify-content: center; gap: 10px; width: 100%; padding: 17px 14px 15px; border: none; background: transparent; color: var(--accent-text); font-family: var(--font-body); font-weight: 800; font-size: 16px; cursor: pointer; border-radius: 0 0 var(--radius-sm) var(--radius-sm); }
@@ -360,7 +363,7 @@
           </div>
           <div class="tt-stub">
             <button class="tt-shotbtn" onClick="{{ saveShot }}" style="{{ shotBtnStyle }}">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 8.5A2.5 2.5 0 0 1 6.5 6h1.2a1 1 0 0 0 .8-.4l.9-1.2A1 1 0 0 1 10.2 4h3.6a1 1 0 0 1 .8.4l.9 1.2a1 1 0 0 0 .8.4h1.2A2.5 2.5 0 0 1 20 8.5v8A2.5 2.5 0 0 1 17.5 19h-11A2.5 2.5 0 0 1 4 16.5z"/><circle cx="12" cy="12.5" r="3.4"/></svg>
+              <svg class="tt-dl" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 4v11M7 11l5 5 5-5M5 20h14"/></svg>
               <span>{{ shotBtnLabel }}</span>
             </button>
           </div>
@@ -408,10 +411,14 @@
                   <span style="flex:none; width:34px; height:34px; border-radius:50%; background:var(--accent-soft); display:flex; align-items:center; justify-content:center"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--accent)" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="8.5"/><path d="M12 7.5V12l3 2"/></svg></span>
                   <span style="font-weight:800; font-size:14.5px; line-height:1.35; color:var(--text)">{{ pickupWhen }}</span>
                 </div>
-                <div style="display:flex; gap:10px; align-items:center">
+                <a href="{{ pickupMapUrl }}" target="_blank" rel="noopener noreferrer" style="display:flex; gap:10px; align-items:center; text-decoration:none; color:inherit">
                   <span style="flex:none; width:34px; height:34px; border-radius:50%; background:var(--accent-soft); display:flex; align-items:center; justify-content:center"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--accent)" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 21s7-6.2 7-11.5A7 7 0 0 0 5 9.5C5 14.8 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.5"/></svg></span>
-                  <span style="font-weight:600; font-size:14px; line-height:1.4; color:var(--text)">{{ pickupWhere }}</span>
-                </div>
+                  <span style="flex:1; min-width:0">
+                    <span style="display:block; font-weight:600; font-size:14px; line-height:1.4; color:var(--text)">{{ pickupWhere }}</span>
+                    <span style="display:block; font-weight:700; font-size:12px; color:var(--accent); margin-top:2px">{{ t.openMap }}</span>
+                  </span>
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--accent)" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17L17 7M9 7h8v8"/></svg>
+                </a>
               </div>
               <p style="margin-bottom:0">{{ t.tlPickupText }}</p>
             </div>
@@ -477,9 +484,9 @@ class Component extends DCLogic {
     this.UDISTRICT_PLACE_ZH='U District 茶千岁停车场'; this.UDISTRICT_PLACE_EN='Timeless Tea parking lot (U District)';
     this.SLU_PLACE_ZH='SLU Nitro Parking Garage'; this.SLU_PLACE_EN='Nitro Parking Garage (South Lake Union)';
     this.PICKUP_SCHEDULE = [
-      { id:'fri-udistrict', weekday:5, cutoffDays:1, timeZh:'下午3:30\u20134:00', timeEn:'3:30\u20134:00 PM', placeZh:this.UDISTRICT_PLACE_ZH, placeEn:this.UDISTRICT_PLACE_EN, shortZh:'U District', shortEn:'U District' },
-      { id:'fri-slu', weekday:5, cutoffDays:1, timeZh:'下午4:30\u20135:00', timeEn:'4:30\u20135:00 PM', placeZh:this.SLU_PLACE_ZH, placeEn:this.SLU_PLACE_EN, shortZh:'SLU', shortEn:'SLU' },
-      { id:'sat', weekday:6, cutoffDays:1, timeZh:'下午3:00\u20133:30', timeEn:'3:00\u20133:30 PM', placeZh:this.PICKUP_PLACE_ZH, placeEn:this.PICKUP_PLACE_EN, shortZh:'Bellevue T&T', shortEn:'Bellevue T&T' },
+      { id:'fri-udistrict', weekday:5, cutoffDays:1, timeZh:'下午3:30\u20134:00', timeEn:'3:30\u20134:00 PM', placeZh:this.UDISTRICT_PLACE_ZH, placeEn:this.UDISTRICT_PLACE_EN, mapQ:'Timeless Tea University District Seattle WA', shortZh:'U District', shortEn:'U District' },
+      { id:'fri-slu', weekday:5, cutoffDays:1, timeZh:'下午4:30\u20135:00', timeEn:'4:30\u20135:00 PM', placeZh:this.SLU_PLACE_ZH, placeEn:this.SLU_PLACE_EN, mapQ:'Nitro Parking Garage South Lake Union Seattle WA', shortZh:'SLU', shortEn:'SLU' },
+      { id:'sat', weekday:6, cutoffDays:1, timeZh:'下午3:00\u20133:30', timeEn:'3:00\u20133:30 PM', placeZh:this.PICKUP_PLACE_ZH, placeEn:this.PICKUP_PLACE_EN, mapQ:'T&T Supermarket Bellevue WA', shortZh:'Bellevue T&T', shortEn:'Bellevue T&T' },
     ];
     // Orders close the night before each pickup day: 10 PM, or 9 PM for pickups on/after this date.
     this.CUTOFF_9PM_FROM = '2026-10-16';
@@ -499,7 +506,7 @@ class Component extends DCLogic {
         emptyBagMsg:'你的袋子还是空的，去挑几个蛋挞吧。', selfPickupNote:'仅限自取 \u00b7 下一步扫码付款', chooseShopLabel:'选择门店', pickupTimeLabel:'取货时间', pickupDayLabel:'选择取货日期', pickupOpensNextWeek:'下一周的取货时间将于周六下午 5 点发布，请稍后查看。', soldOutThisWeek:'抱歉，本周的蛋挞名额已订满，请下周再来 :)', lowStockThisWeek:(n)=>'本周只剩 '+n+' 个名额，请减少数量后再试。', copied:'已复制微信号！',
         boxPromo:'优惠活动: 任选四颗，仅需 $20！', boxPromoSub:'全口味自由混搭，四颗更划算',
         yourDetailsLabel:'你的信息', namePlaceholder:'你的姓名', wechatPlaceholder:'你的微信号', wechatMatchNote:'我们会用你的微信号核对付款截图与订单。',
-        backToBag:'\u2190 返回袋子', orderReservedTitle:'订单已预留', orderReserved:'保存到相册，取货时出示。', tlPay:'扫码付款', tlPayText:(t)=>'用 Venmo 扫码支付 '+t+'。', tlSend:'发送付款截图', tlSendText:(o,n,id)=>'把订单号 '+o+' 和付款截图发给我们的'+n+'（'+id+'），确认后订单即锁定。', tlPickup:'取货', tlPickupText:'出示相册里保存的订单、订单号，或直接告诉我们你的 Venmo 用户名，我们会现场核实。', copyVenmo:'复制 Venmo ID', copyChannelWechat:'复制微信号', copiedShort:'已复制', shotBtn:'保存订单到相册', shotBusy:'生成中…', shotHold:'长按图片，选择“存储到相册”。', shotDownload:'下载图片', shotClose:'关闭', ticketSub:'自取订单', ticketCollect:'取货', ticketFoot:'取货时出示此图，或告诉我们你的 Venmo 名字。', yourOrderNumberLabel:'你的订单号',
+        backToBag:'\u2190 返回袋子', orderReservedTitle:'订单已预留', orderReserved:'保存到相册，取货时出示。', tlPay:'扫码付款', tlPayText:(t)=>'用 Venmo 扫码支付 '+t+'。', tlSend:'发送付款截图', tlSendText:(o,n,id)=>'把订单号 '+o+' 和付款截图发给我们的'+n+'（'+id+'），确认后订单即锁定。', tlPickup:'取货', openMap:'在 Google 地图中查看', tlPickupText:'出示相册里保存的订单、订单号，或直接告诉我们你的 Venmo 用户名，我们会现场核实。', copyVenmo:'复制 Venmo ID', copyChannelWechat:'复制微信号', copiedShort:'已复制', shotBtn:'保存订单到相册', shotBusy:'生成中…', shotHold:'长按图片，选择“存储到相册”。', shotDownload:'下载图片', shotClose:'关闭', ticketSub:'自取订单', ticketCollect:'取货', ticketFoot:'取货时出示此图，或告诉我们你的 Venmo 名字。', yourOrderNumberLabel:'你的订单号',
         scanToPay:'请用 Venmo 扫码支付', wechatAlipayAccepted:'支持微信支付/支付宝', toConfirmOrderLabel:'确认订单步骤', orderLabel:'订单 ', collectAt:'取货地点：',
         startNewOrder:'开始新订单', checkoutBtn:'结账', totalLabel:'总计', eachSuffix:'/每个', confirmShotLabel:'付款确认截图示例',
         heroWordA:'现烤', heroWordB:'酥脆', heroWordC:'浓郁',
@@ -512,7 +519,7 @@ class Component extends DCLogic {
         emptyBagMsg:'Your bag is empty. Go pick some tarts.', selfPickupNote:'Self-pickup \u00b7 pay by QR on the next step', chooseShopLabel:'Choose a shop', pickupTimeLabel:'Pickup time', pickupDayLabel:'Choose your pickup day', pickupOpensNextWeek:'Next week\u2019s pickup times open Saturday at 5 PM. Check back soon.', soldOutThisWeek:'Sorry, we\u2019re sold out for this week \u2014 check back next week!', lowStockThisWeek:(n)=>'Only '+n+' left this week \u2014 please reduce your quantity.', copied:'WeChat ID copied!',
         boxPromo:'Any 4 for $20!', boxPromoSub:'Mix & Match Any Flavors. Perfect for sharing with friends\u2014or keeping them all to yourself. We won\u2019t judge.',
         yourDetailsLabel:'Your details', namePlaceholder:'Your name', wechatPlaceholder:'Your Instagram handle', wechatMatchNote:'We\u2019ll match your Instagram handle to your order when you send your payment screenshot.',
-        backToBag:'\u2190 Back to bag', orderReservedTitle:'Order reserved', orderReserved:'Save it to your photos to show at pickup.', tlPay:'Scan to pay', tlPayText:(t)=>'Pay '+t+' on Venmo.', tlSend:'Send your payment screenshot', tlSendText:(o,n,id)=>'Send order number '+o+' and your payment screenshot to us on '+n+' ('+id+'). We lock your order in once we confirm.', tlPickup:'Pickup', tlPickupText:'Show your saved order, your order number, or just tell us your Venmo name. We confirm you there.', copyVenmo:'Copy Venmo ID', copyChannelWechat:'Copy Instagram ID', copiedShort:'Copied', shotBtn:'Save order to Photos', shotBusy:'Preparing…', shotHold:'Press and hold the image, then tap Save to Photos.', shotDownload:'Download image', shotClose:'Close', ticketSub:'Pickup order', ticketCollect:'Pickup', ticketFoot:'Show this at pickup, or tell us your Venmo name.', yourOrderNumberLabel:'Your order number',
+        backToBag:'\u2190 Back to bag', orderReservedTitle:'Order reserved', orderReserved:'Save it to your photos to show at pickup.', tlPay:'Scan to pay', tlPayText:(t)=>'Pay '+t+' on Venmo.', tlSend:'Send your payment screenshot', tlSendText:(o,n,id)=>'Send order number '+o+' and your payment screenshot to us on '+n+' ('+id+'). We lock your order in once we confirm.', tlPickup:'Pickup', openMap:'Open in Google Maps', tlPickupText:'Show your saved order, your order number, or just tell us your Venmo name. We confirm you there.', copyVenmo:'Copy Venmo ID', copyChannelWechat:'Copy Instagram ID', copiedShort:'Copied', shotBtn:'Save order to Photos', shotBusy:'Preparing…', shotHold:'Press and hold the image, then tap Save to Photos.', shotDownload:'Download image', shotClose:'Close', ticketSub:'Pickup order', ticketCollect:'Pickup', ticketFoot:'Show this at pickup, or tell us your Venmo name.', yourOrderNumberLabel:'Your order number',
         scanToPay:'Scan the Venmo QR to pay', wechatAlipayAccepted:'WeChat Pay / Alipay accepted', toConfirmOrderLabel:'To confirm your order', orderLabel:'Order ', collectAt:'Collect at ',
         startNewOrder:'Start a new order', checkoutBtn:'Checkout', totalLabel:'Total', eachSuffix:' each', confirmShotLabel:'Payment confirmation screenshot',
         heroWordA:'Fresh-Baked', heroWordB:'Flaky', heroWordC:'Rich',
@@ -931,6 +938,7 @@ class Component extends DCLogic {
       copyVenmoLabel: this.state.copiedKey==='venmo' ? L.copiedShort : L.copyVenmo, copyChanLabel: this.state.copiedKey==='chan' ? L.copiedShort : L.copyChannelWechat,
       copyVenmoStyle: this.state.copiedKey==='venmo' ? { background:'var(--accent)', color:'var(--accent-text)', borderColor:'var(--accent)' } : {},
       copyChanStyle: this.state.copiedKey==='chan' ? { background:'var(--accent)', color:'var(--accent-text)', borderColor:'var(--accent)' } : {},
+      pickupMapUrl: hasPickupOptions ? 'https://www.google.com/maps/search/?api=1&query=' + encodeURIComponent(selectedPickup.mapQ || selectedPickup.placeEn) : '#',
       showShotFallback: !!this.state.shotUrl, shotUrl: this.state.shotUrl || '', shotFile: this.state.shotFile || 'tart-theory-order.png',
       saveShot:()=>this.saveShot(), closeShot:()=>this.closeShot(),
       shotBtnLabel: this.state.shotBusy ? L.shotBusy : L.shotBtn,
