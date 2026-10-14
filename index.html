@@ -46,10 +46,8 @@
   .tt-dl { animation: ttHop 3.4s ease-in-out infinite; }
   @keyframes ttHop { 0%, 62%, 100% { transform: translateY(0); } 70% { transform: translateY(-6px); } 78% { transform: translateY(0); } 84% { transform: translateY(-3px); } 90% { transform: translateY(0); } }
   @media (prefers-reduced-motion: reduce) { .tt-dl { animation: none; } }
-  .tt-stub { position: relative; margin-top: -2px; background: var(--accent); border-radius: 0 0 var(--radius-sm) var(--radius-sm); border: 2px solid var(--accent); border-top: none; }
-  .tt-stub::before { content: ""; position: absolute; left: -2px; right: -2px; top: 0; border-top: 3px dashed rgba(255,248,236,.85); }
-  .tt-shotbtn { display: flex; align-items: center; justify-content: center; gap: 10px; width: 100%; padding: 17px 14px 15px; border: none; background: transparent; color: var(--accent-text); font-family: var(--font-body); font-weight: 700; font-size: 16px; cursor: pointer; border-radius: 0 0 var(--radius-sm) var(--radius-sm); }
-  .tt-shotbtn:active { background: rgba(0,0,0,.12); }
+  .tt-shotbtn { display: flex; align-items: center; justify-content: center; gap: 10px; width: 100%; margin-top: 12px; padding: 12px; border: 2px solid var(--accent); border-radius: var(--radius-sm); background: var(--surface); color: var(--accent); font-family: var(--font-body); font-weight: 700; font-size: 15px; cursor: pointer; }
+  .tt-shotbtn:active { background: var(--accent); color: var(--accent-text); }
   .tt-cpy { display: inline-flex; align-items: center; gap: 6px; border: 1.5px solid var(--line); background: var(--surface); color: var(--accent); border-radius: 999px; padding: 8px 12px; font-family: var(--font-body); font-weight: 700; font-size: 13px; cursor: pointer; white-space: nowrap; }
   .tt-qr-placeholder { align-items: center; justify-content: center; border: 2px dashed var(--line); color: var(--muted); font-family: var(--font-body); font-size: 12px; }
 
@@ -340,13 +338,13 @@
             <div>
               <div class="tt-badge"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></div>
               <h4 style="margin:8px 0 12px">{{ t.orderReservedTitle }}</h4>
-          <div style="text-align:left; background:var(--accent-soft); border:2px solid var(--accent); border-bottom:none; border-radius:var(--radius-sm) var(--radius-sm) 0 0; padding:16px 14px 12px">
+          <div style="text-align:left; background:var(--accent-soft); border:2px solid var(--accent); border-radius:var(--radius-sm); padding:16px 14px 14px">
             <div style="text-align:center; margin-bottom:10px">
               <div style="font-family:var(--font-body); font-size:11px; font-weight:600; letter-spacing:.06em; text-transform:uppercase; color:var(--accent); margin-bottom:3px">{{ t.yourOrderNumberLabel }}</div>
               <div style="font-family:var(--font-body); font-weight:700; color:var(--text); font-size:26px; letter-spacing:.02em; line-height:1.2">{{ orderNum }}</div>
             </div>
             <div style="font-family:var(--font-body); margin-bottom:8px; border-top:1px solid color-mix(in srgb, var(--accent) 25%, transparent); padding-top:10px">
-              <div style="font-weight:700; font-size:14px; color:var(--text); line-height:1.4">{{ pickupWhen }}</div>
+              <div style="font-weight:400; font-size:13px; color:var(--muted); line-height:1.5">{{ pickupWhen }}</div>
               <div style="font-weight:400; font-size:13px; color:var(--muted); margin-top:3px; line-height:1.5">{{ pickupWhere }}</div>
             </div>
             <div style="border-top:1px solid color-mix(in srgb, var(--accent) 25%, transparent); padding-top:8px">
@@ -359,8 +357,6 @@
             <div style="display:flex; justify-content:space-between; font-family:var(--font-body); font-weight:700; color:var(--text); font-size:14px; border-top:1px solid color-mix(in srgb, var(--accent) 25%, transparent); margin-top:8px; padding-top:10px">
               <span>{{ t.totalLabel }}</span><span>{{ totalLabel }}</span>
             </div>
-          </div>
-          <div class="tt-stub">
             <button class="tt-shotbtn" onClick="{{ saveShot }}" style="{{ shotBtnStyle }}">
               <svg class="tt-dl" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 4v11M7 11l5 5 5-5M5 20h14"/></svg>
               <span>{{ shotBtnLabel }}</span>
