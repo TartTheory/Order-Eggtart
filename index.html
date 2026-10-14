@@ -30,7 +30,7 @@
   @keyframes ttFloatC { 0%,100% { transform: rotate(7deg) translateY(0); } 50% { transform: rotate(7deg) translateY(-10px); } }
   @keyframes ttPop { 0% { transform: scale(.6); opacity: 0; } 60% { transform: scale(1.12); } 100% { transform: scale(1); opacity: 1; } }
   .tt-drawer, .tt-body { overscroll-behavior: contain; }
-  .tt-more { display: flex; align-items: center; justify-content: center; gap: 6px; width: 100%; padding: 8px 0 2px; border: none; background: none; color: var(--accent); font-family: var(--font-body); font-weight: 600; font-size: 13px; cursor: pointer; }
+  .tt-more { display: flex; align-items: center; justify-content: center; gap: 6px; width: 100%; margin-top: 6px; padding: 9px 0; border: none; border-radius: 8px; background: color-mix(in srgb, var(--accent) 14%, transparent); color: var(--accent); font-family: var(--font-body); font-weight: 600; font-size: 13px; cursor: pointer; }
   .tt-body::-webkit-scrollbar { width: 8px; }
   .tt-body::-webkit-scrollbar-thumb { background: var(--line); border-radius: 8px; }
   .tt-menu-grid { grid-template-columns: 1fr; }
@@ -1007,9 +1007,9 @@ class Component extends DCLogic {
       copyVenmoIcoStyle: { display: this.state.copiedKey==='venmo' ? 'none' : 'inline', color: 'var(--accent)' }, copyVenmoOkStyle: { display: this.state.copiedKey==='venmo' ? 'inline' : 'none' },
       copyChanIcoStyle: { display: this.state.copiedKey==='chan' ? 'none' : 'inline', color: 'var(--accent)' }, copyChanOkStyle: { display: this.state.copiedKey==='chan' ? 'inline' : 'none' },
       pickupMapUrl: hasPickupOptions ? 'https://www.google.com/maps/search/?api=1&query=' + encodeURIComponent(selectedPickup.mapQ || selectedPickup.placeEn) : '#',
-      ticketItems: (cartItems.length > 4 && !this.state.itemsOpen) ? cartItems.slice(0, 3) : cartItems,
-      hasMoreItems: cartItems.length > 4, toggleItems: () => this.toggleItems(),
-      moreLabel: this.state.itemsOpen ? L.itemsLess : L.itemsMore(cartItems.length - 3),
+      ticketItems: (cartItems.length >= 6 && !this.state.itemsOpen) ? cartItems.slice(0, 5) : cartItems,
+      hasMoreItems: cartItems.length >= 6, toggleItems: () => this.toggleItems(),
+      moreLabel: this.state.itemsOpen ? L.itemsLess : L.itemsMore(cartItems.length - 5),
       moreChevStyle: { transform: this.state.itemsOpen ? 'rotate(180deg)' : 'none', transition: 'transform .2s' },
       showShotFallback: !!this.state.shotUrl, shotUrl: this.state.shotUrl || '', shotFile: this.state.shotFile || 'tart-theory-order.png',
       saveShot:()=>this.saveShot(), closeShot:()=>this.closeShot(),
