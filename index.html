@@ -321,11 +321,14 @@
             </div>
           </sc-if>
           <div style="width:60px; height:60px; margin:0 auto 14px; border-radius:50%; background:var(--accent); color:var(--accent-text); display:flex; align-items:center; justify-content:center; font-size:28px; animation:ttPop .5s ease both">&check;</div>
-          <h3 style="font-family:var(--font-head); font-weight:var(--head-weight); color:var(--text); font-size:22px; margin:0 0 4px">{{ t.screenshotThis }}</h3>
+          <h3 style="font-family:var(--font-head); font-weight:var(--head-weight); color:var(--text); font-size:22px; margin:0 0 4px">{{ t.orderReservedTitle }}</h3>
           <p style="font-family:var(--font-body); color:var(--muted); font-size:14px; margin:0 0 18px; line-height:1.5">{{ t.orderReserved }}</p>
 
-          <div style="position:relative; text-align:left; background:var(--accent-soft); border:2px solid var(--accent); border-radius:var(--radius-sm); padding:20px 16px 15px; margin:18px 0 16px">
-            <div style="position:absolute; top:-13px; left:50%; transform:translateX(-50%); background:var(--accent); color:var(--accent-text); font-family:var(--font-body); font-weight:800; font-size:11.5px; padding:5px 14px; border-radius:999px; white-space:nowrap; box-shadow:var(--shadow)">&#128247; {{ t.screenshotThis }}</div>
+          <div style="position:relative; text-align:left; background:var(--accent-soft); border:2px solid var(--accent); border-radius:var(--radius-sm); padding:26px 16px 15px; margin:22px 0 16px">
+            <button onClick="{{ saveShot }}" style="{{ shotBtnStyle }}">
+              <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 8.5A2.5 2.5 0 0 1 6.5 6h1.2a1 1 0 0 0 .8-.4l.9-1.2A1 1 0 0 1 10.2 4h3.6a1 1 0 0 1 .8.4l.9 1.2a1 1 0 0 0 .8.4h1.2A2.5 2.5 0 0 1 20 8.5v8A2.5 2.5 0 0 1 17.5 19h-11A2.5 2.5 0 0 1 4 16.5z"/><circle cx="12" cy="12.5" r="3.4"/></svg>
+              <span>{{ shotBtnLabel }}</span>
+            </button>
             <div style="text-align:center; margin-bottom:12px">
               <div style="font-family:var(--font-body); font-size:11.5px; font-weight:700; letter-spacing:.06em; text-transform:uppercase; color:var(--accent); margin-bottom:4px">{{ t.yourOrderNumberLabel }}</div>
               <div style="font-family:var(--font-head); font-weight:var(--head-weight); color:var(--text); font-size:28px; letter-spacing:.02em">{{ orderNum }}</div>
@@ -383,6 +386,17 @@
         </div>
       </sc-if>
     </div>
+
+    <sc-if value="{{ showShotFallback }}" hint-placeholder-val="">
+      <div style="position:fixed; inset:0; z-index:90; background:rgba(20,12,4,.75); display:flex; align-items:center; justify-content:center; padding:16px">
+        <div style="background:var(--surface); border-radius:var(--radius); padding:14px; width:min(400px,94vw); max-height:94vh; overflow:auto; text-align:center; box-shadow:var(--shadow)">
+          <img src="{{ shotUrl }}" alt="" style="width:100%; border-radius:12px; display:block; margin-bottom:12px" />
+          <p style="font-family:var(--font-body); font-weight:700; color:var(--text); font-size:14px; line-height:1.5; margin:0 0 12px">{{ t.shotHold }}</p>
+          <a href="{{ shotUrl }}" download="{{ shotFile }}" style="display:block; padding:12px; border-radius:var(--radius-sm); background:var(--accent); color:var(--accent-text); text-decoration:none; font-family:var(--font-body); font-weight:800; font-size:14px; margin-bottom:8px">{{ t.shotDownload }}</a>
+          <button onClick="{{ closeShot }}" style="width:100%; padding:11px; cursor:pointer; border:1px solid var(--line); border-radius:var(--radius-sm); background:transparent; color:var(--muted); font-family:var(--font-body); font-weight:700; font-size:13.5px">{{ t.shotClose }}</button>
+        </div>
+      </div>
+    </sc-if>
 
     <sc-if value="{{ showCartFooter }}" hint-placeholder-val="">
       <div style="flex:none; border-top:1px solid var(--line); padding:15px 18px; display:flex; flex-direction:column; gap:11px">
@@ -452,11 +466,11 @@ class Component extends DCLogic {
         emptyBagMsg:'你的袋子还是空的，去挑几个蛋挞吧。', selfPickupNote:'仅限自取 \u00b7 下一步扫码付款', chooseShopLabel:'选择门店', pickupTimeLabel:'取货时间', pickupDayLabel:'选择取货日期', pickupOpensNextWeek:'下一周的取货时间将于周六下午 5 点发布，请稍后查看。', soldOutThisWeek:'抱歉，本周的蛋挞名额已订满，请下周再来 :)', lowStockThisWeek:(n)=>'本周只剩 '+n+' 个名额，请减少数量后再试。', copied:'已复制微信号！',
         boxPromo:'优惠活动: 任选四颗，仅需 $20！', boxPromoSub:'全口味自由混搭，四颗更划算',
         yourDetailsLabel:'你的信息', namePlaceholder:'你的姓名', wechatPlaceholder:'你的微信号', wechatMatchNote:'我们会用你的微信号核对付款截图与订单。',
-        backToBag:'\u2190 返回袋子', orderReserved:'订单已预留，付款确认后即可锁定。', yourOrderNumberLabel:'你的订单号', screenshotThis:'请截图保存此页',
+        backToBag:'\u2190 返回袋子', orderReservedTitle:'订单已预留', orderReserved:'先把订单保存到相册，再扫码付款。付款确认后，订单即锁定。', shotBtn:'保存订单到相册', shotBusy:'生成中…', shotHold:'长按图片，选择“存储到相册”。', shotDownload:'下载图片', shotClose:'关闭', ticketSub:'自取订单', ticketCollect:'取货', ticketFoot:'取货时出示此图，或告诉我们你的 Venmo 名字。', yourOrderNumberLabel:'你的订单号',
         scanToPay:'请用 Venmo 扫码支付', wechatAlipayAccepted:'支持微信支付/支付宝', toConfirmOrderLabel:'确认订单步骤', orderLabel:'订单 ', collectAt:'取货地点：',
         startNewOrder:'开始新订单', checkoutBtn:'结账', totalLabel:'总计', eachSuffix:'/每个', confirmShotLabel:'付款确认截图示例',
         heroWordA:'现烤', heroWordB:'酥脆', heroWordC:'浓郁',
-        confirm1:(t)=>'扫描上方二维码支付 '+t+'。', confirm2:(o,w)=>'将订单号 '+o+' 和付款截图发送到微信：'+w+'。', confirm3:(s,tm)=>'在 '+s+'，'+tm+' 取货。出示付款截图、订单号，或直接告诉我们你的 Venmo 用户名，我们会现场为你核实。' },
+        confirm1:(t)=>'扫描上方二维码支付 '+t+'。', confirm2:(o,w)=>'将订单号 '+o+' 和付款截图发送到微信：'+w+'。', confirm3:(s,tm)=>'在 '+s+'，'+tm+' 取货。出示相册里保存的订单、订单号，或直接告诉我们你的 Venmo 用户名，我们会现场为你核实。' },
       en:{ bag:'Bag', kicker:'Craving a warm eggtart today?', heroTitle:'Handcrafted egg tarts inspired by flavors from around the world.', heroSubtitle:'Flaky crust.\nSilky custard.', heroNote:'Baked fresh daily.\nNew flavors every week.', heroSmall:'Pre-order for pickup.', ctaLabel:'View Menu',
         menuLabel:'The menu', menuTitle:'Classic favorites and weekly specials.', menuNote:'Classic favorites and weekly specials.', add:'Add',
         pickupPaymentLabel:'Pickup & payment', howItWorks:'Preorder for self-pickup only \u2014 scan to pay, done in a minute.',
@@ -465,11 +479,11 @@ class Component extends DCLogic {
         emptyBagMsg:'Your bag is empty. Go pick some tarts.', selfPickupNote:'Self-pickup \u00b7 pay by QR on the next step', chooseShopLabel:'Choose a shop', pickupTimeLabel:'Pickup time', pickupDayLabel:'Choose your pickup day', pickupOpensNextWeek:'Next week\u2019s pickup times open Saturday at 5 PM. Check back soon.', soldOutThisWeek:'Sorry, we\u2019re sold out for this week \u2014 check back next week!', lowStockThisWeek:(n)=>'Only '+n+' left this week \u2014 please reduce your quantity.', copied:'WeChat ID copied!',
         boxPromo:'Any 4 for $20!', boxPromoSub:'Mix & Match Any Flavors. Perfect for sharing with friends\u2014or keeping them all to yourself. We won\u2019t judge.',
         yourDetailsLabel:'Your details', namePlaceholder:'Your name', wechatPlaceholder:'Your Instagram handle', wechatMatchNote:'We\u2019ll match your Instagram handle to your order when you send your payment screenshot.',
-        backToBag:'\u2190 Back to bag', orderReserved:'Your order is reserved. Pay & confirm to lock it in.', yourOrderNumberLabel:'Your order number', screenshotThis:'Screenshot this page',
+        backToBag:'\u2190 Back to bag', orderReservedTitle:'Order reserved', orderReserved:'Save your order to your photos, then pay below. We lock it in once your payment is confirmed.', shotBtn:'Save order to Photos', shotBusy:'Preparing…', shotHold:'Press and hold the image, then tap Save to Photos.', shotDownload:'Download image', shotClose:'Close', ticketSub:'Pickup order', ticketCollect:'Pickup', ticketFoot:'Show this at pickup, or tell us your Venmo name.', yourOrderNumberLabel:'Your order number',
         scanToPay:'Scan the Venmo QR to pay', wechatAlipayAccepted:'WeChat Pay / Alipay accepted', toConfirmOrderLabel:'To confirm your order', orderLabel:'Order ', collectAt:'Collect at ',
         startNewOrder:'Start a new order', checkoutBtn:'Checkout', totalLabel:'Total', eachSuffix:' each', confirmShotLabel:'Payment confirmation screenshot',
         heroWordA:'Fresh-Baked', heroWordB:'Flaky', heroWordC:'Rich',
-        confirm1:(t)=>'Scan the QR above to pay '+t+'.', confirm2:(o,w)=>'Send your order number '+o+' and the payment screenshot to us on Instagram: '+w+'.', confirm3:(s,tm)=>'Collect at '+s+', '+tm+'. Show your screenshot, your order number, or just tell us your Venmo name — we’ll confirm you there.' },
+        confirm1:(t)=>'Scan the QR above to pay '+t+'.', confirm2:(o,w)=>'Send your order number '+o+' and the payment screenshot to us on Instagram: '+w+'.', confirm3:(s,tm)=>'Collect at '+s+', '+tm+'. Show your saved order, your order number, or just tell us your Venmo name — we’ll confirm you there.' },
     };
     this.THEME_VARS = { '--bg':'#F7EFE0','--surface':'#FFFCF4','--surface-2':'#F1E6D0','--text':'#3A2C1A','--muted':'#94826A','--line':'#E7D9BF','--accent':'#C0792A','--accent-text':'#FFF8EC','--accent-soft':'#F2E3C6','--font-head':"'Noto Sans SC', 'Hanken Grotesk', system-ui, sans-serif",'--font-body':"'Noto Sans SC', 'Hanken Grotesk', system-ui, sans-serif",'--radius':'16px','--radius-sm':'12px','--head-weight':'600','--head-transform':'none','--head-spacing':'0','--shadow':'0 10px 30px rgba(90,60,20,.12)' };
     this.state = { cart: {}, cartOpen: false, step: 'cart', orderNum: null, lang: 'zh', pickupDayId: null, pickupDaySelectedDate: null, toastMsg: false, copiedWechat: false, orderedQty: null, orderedQtyWeek: null };
@@ -610,6 +624,85 @@ class Component extends DCLogic {
   }
   backToCart() { this.setState({ step:'cart' }); }
   browseFromCart() { this.setState({ cartOpen:false }); this.scrollToMenu(); }
+  // ---- Save the order as an image (to the phone's photos) ----
+  // The order card is drawn onto a canvas (no library, so it looks the same on every phone), then
+  // handed to the phone's share sheet, where "Save Image" puts it in Photos. Browsers can't write to
+  // the camera roll silently, so where the share sheet isn't available we show the image to press-and-hold.
+  async ticketBlob(d) {
+    const V = this.THEME_VARS, body = V['--font-body'], head = V['--font-head'];
+    try { await Promise.all([document.fonts.load('600 46px '+head), document.fonts.load('700 28px '+body), document.fonts.load('800 22px '+body)]); } catch (e) {}
+    const W = 750, S = 2, P = 36, IN = 36, x0 = P+IN, x1 = W-P-IN, cx = W/2;
+    const measure = document.createElement('canvas').getContext('2d');
+    const wrap = (text, maxW, font) => {
+      measure.font = font; const out = []; let line = '';
+      const tokens = /[　-鿿＀-￯]/.test(text) ? Array.from(text) : String(text).split(/(\s+)/);
+      for (const t of tokens) { const test = line+t; if (measure.measureText(test).width > maxW && line.trim()) { out.push(line.trim()); line = t.replace(/^\s+/,''); } else line = test; }
+      if (line.trim()) out.push(line.trim()); return out;
+    };
+    const render = (g, dry) => {
+      let y = P+IN;
+      const T = (str, x, yy, font, color, align) => { if (dry) return; g.font = font; g.fillStyle = color; g.textAlign = align || 'left'; g.textBaseline = 'alphabetic'; g.fillText(str, x, yy); };
+      const rule = yy => { if (dry) return; g.fillStyle = V['--line']; g.fillRect(x0, yy, x1-x0, 2); };
+      T('Tart Theory', cx, y+38, '600 46px '+head, V['--text'], 'center'); y += 52;
+      T(d.L.ticketSub, cx, y+22, '700 21px '+body, V['--muted'], 'center'); y += 46;
+      // order number box
+      if (!dry) { g.fillStyle = V['--accent-soft']; g.strokeStyle = V['--accent']; g.lineWidth = 3; g.beginPath(); g.roundRect(x0, y, x1-x0, 150, 22); g.fill(); g.stroke(); }
+      T(d.L.yourOrderNumberLabel, cx, y+42, '800 21px '+body, V['--accent'], 'center');
+      T(d.orderNum || '', cx, y+112, '700 70px '+head, V['--text'], 'center'); y += 150+34;
+      // pickup
+      T(d.L.ticketCollect, x0, y+20, '800 20px '+body, V['--muted']); y += 34;
+      wrap(d.when, x1-x0, '700 31px '+body).forEach(l => { T(l, x0, y+30, '700 31px '+body, V['--text']); y += 42; });
+      wrap(d.where, x1-x0, '500 25px '+body).forEach(l => { T(l, x0, y+26, '500 25px '+body, V['--muted']); y += 34; });
+      y += 18; rule(y); y += 26;
+      // items
+      d.items.forEach(it => {
+        const lines = wrap(it.qty+'× '+it.name, x1-x0-140, '600 27px '+body);
+        lines.forEach((l, i) => { T(l, x0, y+28, '600 27px '+body, V['--text']); if (i === 0) T(it.line, x1, y+28, '600 27px '+body, V['--text'], 'right'); y += 38; });
+        y += 8;
+      });
+      y += 4; rule(y); y += 26;
+      T(d.L.totalLabel, x0, y+36, '800 32px '+body, V['--text']); T(d.total, x1, y+36, '800 38px '+body, V['--text'], 'right'); y += 66;
+      wrap(d.L.ticketFoot, x1-x0, '500 23px '+body).forEach(l => { T(l, cx, y+24, '500 23px '+body, V['--muted'], 'center'); y += 32; });
+      return y+IN;
+    };
+    const cardBottom = render(measure, true), H = cardBottom+P;
+    const c = document.createElement('canvas'); c.width = W*S; c.height = H*S;
+    const g = c.getContext('2d'); g.scale(S, S);
+    g.fillStyle = V['--bg']; g.fillRect(0, 0, W, H);
+    g.fillStyle = V['--surface']; g.strokeStyle = V['--accent']; g.lineWidth = 4;
+    g.beginPath(); g.roundRect(P, P, W-2*P, cardBottom-P, 30); g.fill(); g.stroke();
+    render(g, false);
+    return await new Promise((res, rej) => c.toBlob(b => b ? res(b) : rej(new Error('toBlob failed')), 'image/png'));
+  }
+  async saveShot() {
+    const d = this._ticket;
+    if (!d || this.state.shotBusy) return;
+    this.setState({ shotBusy: true });
+    let blob = null;
+    try {
+      blob = await this.ticketBlob(d);
+      const file = new File([blob], 'tart-theory-'+(d.orderNum||'order')+'.png', { type:'image/png' });
+      if (navigator.canShare && navigator.canShare({ files:[file] })) {
+        try { await navigator.share({ files:[file], title:'Tart Theory '+(d.orderNum||'') }); }
+        catch (e) { if (!(e && e.name === 'AbortError')) throw e; } // closing the share sheet isn't an error
+      } else {
+        this.openShot(blob, d);
+      }
+    } catch (e) {
+      if (blob) this.openShot(blob, d);
+    } finally {
+      this.setState({ shotBusy: false });
+    }
+  }
+  openShot(blob, d) {
+    if (this.state.shotUrl) URL.revokeObjectURL(this.state.shotUrl);
+    this.setState({ shotUrl: URL.createObjectURL(blob), shotFile: 'tart-theory-'+((d && d.orderNum)||'order')+'.png' });
+  }
+  closeShot() {
+    if (this.state.shotUrl) URL.revokeObjectURL(this.state.shotUrl);
+    this.setState({ shotUrl: null });
+  }
+
   startNew() { this.setState({ cart:{}, step:'cart', orderNum:null, cartOpen:false, pickupDayId:null, pickupDaySelectedDate:null, toastMsg:false }); }
   scrollToMenu() {
     const el = document.getElementById('tt-menu');
@@ -714,6 +807,8 @@ class Component extends DCLogic {
     const pickupPlace = hasPickupOptions ? (isZh ? selectedPickup.placeZh : selectedPickup.placeEn) : '';
     const pickupTimeText = hasPickupOptions ? (isZh ? (selectedPickup.dateLabelZh+' '+selectedPickup.timeZh) : (selectedPickup.dateLabelEn+' '+selectedPickup.timeEn)) : '';
     const toastMsgText = hasPickupOptions ? (isZh ? ('下单时间已截止，已为你自动调整到下一个可预订日期：'+selectedPickup.dateLabelZh) : ('Order window closed \u2014 we moved your pickup to '+selectedPickup.dateLabelEn+'.')) : '';
+    this._ticket = { L, orderNum:this.state.orderNum, when:pickupTimeText, where:pickupPlace,
+      items: cartItems.map(ci => ({ qty:ci.qty, name:ci.name, line:ci.lineLabel })), total:this.money(this.total()) };
 
     const pickupCards = pickupOptions.map(o => ({
       day: isZh ? o.dateLabelZh : o.dateLabelEn, time: isZh ? o.timeZh : o.timeEn,
@@ -776,6 +871,12 @@ class Component extends DCLogic {
       orderNum: this.state.orderNum,
       pickupWhen: pickupTimeText,
       pickupWhere: pickupPlace,
+      showShotFallback: !!this.state.shotUrl, shotUrl: this.state.shotUrl || '', shotFile: this.state.shotFile || 'tart-theory-order.png',
+      saveShot:()=>this.saveShot(), closeShot:()=>this.closeShot(),
+      shotBtnLabel: this.state.shotBusy ? L.shotBusy : L.shotBtn,
+      shotBtnStyle: { position:'absolute', top:'-20px', left:'50%', transform:'translateX(-50%)', display:'flex', alignItems:'center', gap:'7px', whiteSpace:'nowrap',
+        padding:'10px 18px', border:'none', cursor: this.state.shotBusy ? 'default' : 'pointer', borderRadius:'999px', background:'var(--accent)', color:'var(--accent-text)',
+        fontFamily:'var(--font-body)', fontWeight:'800', fontSize:'13.5px', boxShadow:'var(--shadow)', opacity: this.state.shotBusy ? '.7' : '1' },
       heroTartA: this.custardStyle(this.FLAVORS[0], '14%'),
       heroTartB: this.custardStyle(this.FLAVORS[2], '15%'),
       heroTartC: this.custardStyle(this.FLAVORS[3], '15%'),
