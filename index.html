@@ -40,8 +40,8 @@
   .rv-row { overflow-x: auto; margin-bottom: 12px; scrollbar-width: none; overscroll-behavior-x: contain; -webkit-overflow-scrolling: touch; }
   .rv-row::-webkit-scrollbar { display: none; }
   .rv-track { display: flex; width: max-content; }
-  .rv-card { flex: none; height: clamp(190px, 56vw, 250px); aspect-ratio: 4 / 5; margin-right: 12px; padding: 0; border: 1px solid var(--line); border-radius: 14px; overflow: hidden; background: var(--surface); box-shadow: 0 3px 10px rgba(80,50,10,.08); cursor: zoom-in; }
-  .rv-card img { display: block; width: 100%; height: 100%; object-fit: cover; object-position: top center; } /* every card is the same size whatever the screenshot's shape; the enlarged view shows the whole image */
+  .rv-card { flex: none; height: clamp(200px, 58vw, 250px); aspect-ratio: 1 / 1; margin-right: 12px; padding: 0; border: 1px solid var(--line); border-radius: 14px; overflow: hidden; background: #EDEDED; box-shadow: 0 3px 10px rgba(80,50,10,.08); cursor: zoom-in; }
+  .rv-card img { display: block; width: 100%; height: 100%; object-fit: contain; } /* every card is the same square whatever the screenshot's shape; the grey matches WeChat's chat background, and the enlarged view shows the screenshot at its own size */
   .rv-lb { position: fixed; top: 0; left: 0; right: 0; height: var(--app-h); z-index: 95; background: rgba(20,12,4,.82); display: flex; align-items: center; justify-content: center; touch-action: none; }
   .rv-lb img { max-width: 92vw; max-height: calc(var(--app-h) - 120px); border-radius: 12px; display: block; background: var(--surface); }
   .rv-btn { position: absolute; border: none; border-radius: 50%; width: 44px; height: 44px; background: rgba(255,252,244,.92); color: var(--text); font-size: 22px; font-weight: 700; display: flex; align-items: center; justify-content: center; cursor: pointer; }
@@ -643,7 +643,10 @@ class Component extends DCLogic {
         confirm1:(t)=>'Scan the QR above to pay '+t+'.', confirm2:(o,w)=>'Send your order number '+o+' and the payment screenshot to us on Instagram: '+w+'.', confirm3:(s,tm)=>'Collect at '+s+', '+tm+'. Show your saved order, your order number, or just tell us your Venmo name — we’ll confirm you there.' },
     };
     // Customer review screenshots: { src:'uploads/reviews/01.jpg' }. Section stays hidden while this is empty.
-    this.REVIEWS = [];
+    this.REVIEWS = [
+      { src:'uploads/reviews/01.jpg' }, { src:'uploads/reviews/02.jpg' }, { src:'uploads/reviews/03.jpg' }, { src:'uploads/reviews/04.jpg' },
+      { src:'uploads/reviews/05.jpg' }, { src:'uploads/reviews/06.jpg' }, { src:'uploads/reviews/07.jpg' },
+    ];
     this.THEME_VARS = { '--bg':'#F7EFE0','--surface':'#FFFCF4','--surface-2':'#F1E6D0','--text':'#3A2C1A','--muted':'#94826A','--line':'#E7D9BF','--accent':'#C0792A','--accent-text':'#FFF8EC','--accent-soft':'#F2E3C6','--font-head':"'Noto Sans SC', 'Hanken Grotesk', system-ui, sans-serif",'--font-body':"'Noto Sans SC', 'Hanken Grotesk', system-ui, sans-serif",'--radius':'16px','--radius-sm':'12px','--head-weight':'600','--head-transform':'none','--head-spacing':'0','--shadow':'0 10px 30px rgba(90,60,20,.12)' };
     this.state = { cart: {}, cartOpen: false, step: 'cart', orderNum: null, lang: 'zh', pickupDayId: null, pickupDaySelectedDate: null, reviewIdx: null, toastMsg: false, copiedWechat: false, orderedQty: null, orderedQtyWeek: null };
     this.trackViewportHeight();
