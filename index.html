@@ -37,15 +37,11 @@
   .tt-body::-webkit-scrollbar-thumb { background: var(--line); border-radius: 8px; }
   .tt-menu-grid { grid-template-columns: 1fr; }
   @media (min-width: 640px) { .tt-menu-grid { grid-template-columns: repeat(auto-fill, minmax(170px,1fr)); } }
-  .rv-row { overflow: hidden; margin-bottom: 12px; }
-  .rv-track { display: flex; width: max-content; will-change: transform; animation: rvLeft 70s linear infinite; }
-  .rv-track.rv-r { animation-name: rvRight; animation-duration: 80s; }
-  .rv-row:hover .rv-track, .rv-row:active .rv-track { animation-play-state: paused; }
-  @keyframes rvLeft { from { transform: translateX(0); } to { transform: translateX(-50%); } }
-  @keyframes rvRight { from { transform: translateX(-50%); } to { transform: translateX(0); } }
-  .rv-card { flex: none; height: clamp(180px, 52vw, 240px); margin-right: 12px; padding: 0; border: 1px solid var(--line); border-radius: 14px; overflow: hidden; background: var(--surface); box-shadow: 0 3px 10px rgba(80,50,10,.08); cursor: zoom-in; }
-  .rv-card img { display: block; height: 100%; width: auto; }
-  @media (prefers-reduced-motion: reduce) { .rv-row { overflow-x: auto; } .rv-track, .rv-track.rv-r { animation: none; } }
+  .rv-row { overflow-x: auto; margin-bottom: 12px; scrollbar-width: none; overscroll-behavior-x: contain; -webkit-overflow-scrolling: touch; }
+  .rv-row::-webkit-scrollbar { display: none; }
+  .rv-track { display: flex; width: max-content; }
+  .rv-card { flex: none; height: clamp(190px, 56vw, 250px); aspect-ratio: 4 / 5; margin-right: 12px; padding: 0; border: 1px solid var(--line); border-radius: 14px; overflow: hidden; background: var(--surface); box-shadow: 0 3px 10px rgba(80,50,10,.08); cursor: zoom-in; }
+  .rv-card img { display: block; width: 100%; height: 100%; object-fit: cover; object-position: top center; } /* every card is the same size whatever the screenshot's shape; the enlarged view shows the whole image */
   .rv-lb { position: fixed; top: 0; left: 0; right: 0; height: var(--app-h); z-index: 95; background: rgba(20,12,4,.82); display: flex; align-items: center; justify-content: center; touch-action: none; }
   .rv-lb img { max-width: 92vw; max-height: calc(var(--app-h) - 120px); border-radius: 12px; display: block; background: var(--surface); }
   .rv-btn { position: absolute; border: none; border-radius: 50%; width: 44px; height: 44px; background: rgba(255,252,244,.92); color: var(--text); font-size: 22px; font-weight: 700; display: flex; align-items: center; justify-content: center; cursor: pointer; }
@@ -267,7 +263,7 @@
       </div>
       <sc-if value="{{ hasReviewRow2 }}" hint-placeholder-val="">
         <div class="rv-row">
-          <div class="rv-track rv-r">
+          <div class="rv-track">
             <sc-for list="{{ reviewRow2 }}" as="rv" hint-placeholder-count="3">
               <button class="rv-card" onClick="{{ rv.onOpen }}" aria-label="{{ t.reviewsOpen }}"><img src="{{ rv.src }}" alt="" loading="lazy" /></button>
             </sc-for>
@@ -599,7 +595,7 @@ class Component extends DCLogic {
     this.UI = {
       zh:{ bag:'购物车', kicker:'今天，也想吃一颗热乎乎的蛋挞。', heroTitle:'每一颗蛋挞都是刚出炉的幸福。', heroSubtitle:'酥到掉渣的塔皮，\n顺滑浓郁的蛋奶馅。', heroNote:'每天新鲜制作，\n每周都有新的口味。', heroSmall:'仅支持线上预订 \u00b7 定点自取', ctaLabel:'查看菜单',
         menuLabel:'菜单', menuTitle:'经典口味与每周限定，任你挑选。', menuNote:'经典口味与每周限定，任你挑选。', add:'加入',
-        pickupPaymentLabel:'取货与付款', faqLabel:'常见问题', faqTitle:'常见问题', reviewsLabel:'真实评价', reviewsTitle:'顾客好评', reviewsHint:'轻点放大，按住暂停', reviewsOpen:'查看评价截图',
+        pickupPaymentLabel:'取货与付款', faqLabel:'常见问题', faqTitle:'常见问题', reviewsLabel:'真实评价', reviewsTitle:'顾客好评', reviewsHint:'轻点放大，左右滑动查看更多', reviewsOpen:'查看评价截图',
         faq:[
           { q:'怎么下单和付款？', a:'在网站选好口味并结账，用 Venmo 付款，再把订单号截图和付款截图发送至微信，客服确认后即可锁定订单。' },
           { q:'可以用其他方式付款吗？', a:(c)=>'我们推荐使用 Venmo，也接受 Zelle。请添加我们的微信 '+c.wechat+'，我们会把 Zelle 信息发给你。' },
@@ -623,7 +619,7 @@ class Component extends DCLogic {
         confirm1:(t)=>'扫描上方二维码支付 '+t+'。', confirm2:(o,w)=>'将订单号 '+o+' 和付款截图发送到微信：'+w+'。', confirm3:(s,tm)=>'在 '+s+'，'+tm+' 取货。出示相册里保存的订单、订单号，或直接告诉我们你的 Venmo 用户名，我们会现场为你核实。' },
       en:{ bag:'Bag', kicker:'Craving a warm eggtart today?', heroTitle:'Handcrafted egg tarts inspired by flavors from around the world.', heroSubtitle:'Flaky crust.\nSilky custard.', heroNote:'Baked fresh daily.\nNew flavors every week.', heroSmall:'Pre-order for pickup.', ctaLabel:'View Menu',
         menuLabel:'The menu', menuTitle:'Classic favorites and weekly specials.', menuNote:'Classic favorites and weekly specials.', add:'Add',
-        pickupPaymentLabel:'Pickup & payment', faqLabel:'FAQ', faqTitle:'Frequently asked questions', reviewsLabel:'Reviews', reviewsTitle:'What customers say', reviewsHint:'Tap to enlarge, press to pause', reviewsOpen:'View review screenshot',
+        pickupPaymentLabel:'Pickup & payment', faqLabel:'FAQ', faqTitle:'Frequently asked questions', reviewsLabel:'Reviews', reviewsTitle:'What customers say', reviewsHint:'Tap to enlarge, swipe to see more', reviewsOpen:'View review screenshot',
         faq:[
           { q:'How do I order and pay?', a:'Pick your flavors and check out on this page, pay on Venmo, then send a screenshot of your order number and your payment to us on WeChat. Your order is locked in once we confirm.' },
           { q:'Can I pay another way?', a:(c)=>'We encourage Venmo, but we accept Zelle as well. Add us on Instagram @'+c.instagram+' and we will send you our Zelle details.' },
@@ -652,6 +648,7 @@ class Component extends DCLogic {
     this.state = { cart: {}, cartOpen: false, step: 'cart', orderNum: null, lang: 'zh', pickupDayId: null, pickupDaySelectedDate: null, reviewIdx: null, toastMsg: false, copiedWechat: false, orderedQty: null, orderedQtyWeek: null };
     this.trackViewportHeight();
     this.bindReviewKeys();
+    this.startReviewDrift();
   }
 
   wechat() { return this.props.wechatId ?? 'tart_theory'; }
@@ -722,6 +719,42 @@ class Component extends DCLogic {
     if (!mine.length) return [];
     const half = []; while (half.length < 8) mine.forEach(m => half.push(m));
     return half.concat(half).map(m => ({ src: m.src, onOpen: () => this.openReview(m.idx) }));
+  }
+  // The review rows drift on their own and can be swiped by hand: both rows are plain scrollable strips (content repeated twice, so the position wraps at half width). Drift pauses while touched, hovered or just scrolled by hand, and resumes after a short idle.
+  startReviewDrift() {
+    if (typeof window === 'undefined') return;
+    const R = this._rv = { pressed: false, hover: false, lastUser: 0, pos: [null, null], expected: [0, 0], el: [null, null] };
+    const rows = () => Array.from(document.querySelectorAll('.rv-row'));
+    const now = () => performance.now();
+    const inRow = e => e.target && e.target.closest && e.target.closest('.rv-row');
+    document.addEventListener('pointerdown', e => { if (inRow(e)) { R.pressed = true; R.lastUser = now(); } });
+    ['pointerup', 'pointercancel'].forEach(t => document.addEventListener(t, () => { if (R.pressed) { R.pressed = false; R.lastUser = now(); } }));
+    document.addEventListener('mouseover', e => { if (inRow(e)) R.hover = true; });
+    document.addEventListener('mouseout', e => { if (inRow(e) && !(e.relatedTarget && e.relatedTarget.closest && e.relatedTarget.closest('.rv-row'))) { R.hover = false; R.lastUser = now(); } });
+    document.addEventListener('wheel', e => { if (inRow(e)) R.lastUser = now(); }, { passive: true });
+    document.addEventListener('scroll', e => {
+      const el = e.target; if (!el || !el.classList || !el.classList.contains('rv-row')) return;
+      const i = rows().indexOf(el), half = el.scrollWidth / 2;
+      if (i < 0 || half <= 0) return;
+      if (Math.abs(el.scrollLeft - R.expected[i]) > 2) R.lastUser = now(); // moved by the person, not by the drift
+      if (el.scrollLeft >= half + 1) el.scrollLeft -= half; else if (el.scrollLeft < 1) el.scrollLeft += half; // stay inside [1, half + 1) so the two cases can never undo each other
+      R.expected[i] = R.pos[i] = el.scrollLeft;
+    }, true);
+    const reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    let last = now();
+    const frame = t => {
+      const dt = Math.min(64, t - last) / 1000; last = t;
+      if (!reduce && !document.hidden) rows().forEach((el, i) => {
+        const half = el.scrollWidth / 2; if (half <= 0) return;
+        if (R.el[i] !== el) { R.el[i] = el; if (R.pos[i] == null) R.pos[i] = i === 0 ? 1 : half; el.scrollLeft = R.pos[i]; R.expected[i] = el.scrollLeft; }
+        if (R.pressed || R.hover || t - R.lastUser < 2500) { R.pos[i] = el.scrollLeft; R.expected[i] = el.scrollLeft; return; }
+        let p = R.pos[i] + (i === 0 ? 1 : -1) * 32 * dt;
+        if (p >= half + 1) p -= half; if (p < 1) p += half;
+        R.pos[i] = p; el.scrollLeft = p; R.expected[i] = el.scrollLeft;
+      });
+      requestAnimationFrame(frame);
+    };
+    requestAnimationFrame(frame);
   }
   openReview(i) { this.setState({ reviewIdx: i }); }
   closeReview() { this.setState({ reviewIdx: null }); }
