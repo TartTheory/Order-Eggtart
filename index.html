@@ -643,9 +643,10 @@ class Component extends DCLogic {
         confirm1:(t)=>'Scan the QR above to pay '+t+'.', confirm2:(o,w)=>'Send your order number '+o+' and the payment screenshot to us on Instagram: '+w+'.', confirm3:(s,tm)=>'Collect at '+s+', '+tm+'. Show your saved order, your order number, or just tell us your Venmo name — we’ll confirm you there.' },
     };
     // Customer review screenshots: { src:'uploads/reviews/01.jpg' }. Section stays hidden while this is empty.
+    // lang: which version of the site shows the screenshot ('zh' or 'en'); a language with none hides the whole section.
     this.REVIEWS = [
-      { src:'uploads/reviews/01.jpg' }, { src:'uploads/reviews/02.jpg' }, { src:'uploads/reviews/03.jpg' }, { src:'uploads/reviews/04.jpg' },
-      { src:'uploads/reviews/05.jpg' }, { src:'uploads/reviews/06.jpg' }, { src:'uploads/reviews/07.jpg' },
+      { src:'uploads/reviews/01.jpg', lang:'zh' }, { src:'uploads/reviews/02.jpg', lang:'zh' }, { src:'uploads/reviews/03.jpg', lang:'zh' }, { src:'uploads/reviews/04.jpg', lang:'zh' },
+      { src:'uploads/reviews/05.jpg', lang:'zh' }, { src:'uploads/reviews/06.jpg', lang:'zh' }, { src:'uploads/reviews/07.jpg', lang:'zh' },
     ];
     this.THEME_VARS = { '--bg':'#F7EFE0','--surface':'#FFFCF4','--surface-2':'#F1E6D0','--text':'#3A2C1A','--muted':'#94826A','--line':'#E7D9BF','--accent':'#C0792A','--accent-text':'#FFF8EC','--accent-soft':'#F2E3C6','--font-head':"'Noto Sans SC', 'Hanken Grotesk', system-ui, sans-serif",'--font-body':"'Noto Sans SC', 'Hanken Grotesk', system-ui, sans-serif",'--radius':'16px','--radius-sm':'12px','--head-weight':'600','--head-transform':'none','--head-spacing':'0','--shadow':'0 10px 30px rgba(90,60,20,.12)' };
     this.state = { cart: {}, cartOpen: false, step: 'cart', orderNum: null, lang: 'zh', pickupDayId: null, pickupDaySelectedDate: null, reviewIdx: null, toastMsg: false, copiedWechat: false, orderedQty: null, orderedQtyWeek: null };
@@ -717,7 +718,7 @@ class Component extends DCLogic {
   }
   // Row 0/1 of the auto-scrolling strip: screenshots alternate between rows (one row if fewer than 4), repeated so each half is wider than any screen, then doubled for a seamless loop.
   reviewRow(row) {
-    const all = this.REVIEWS.map((r, i) => ({ src: r.src, idx: i }));
+    const all = this.reviewList().map((r, i) => ({ src: r.src, idx: i }));
     const mine = all.length >= 4 ? all.filter((_, i) => i % 2 === row) : (row === 0 ? all : []);
     if (!mine.length) return [];
     const half = []; while (half.length < 8) mine.forEach(m => half.push(m));
@@ -759,9 +760,10 @@ class Component extends DCLogic {
     };
     requestAnimationFrame(frame);
   }
+  reviewList() { return this.REVIEWS.filter(r => r.lang === this.state.lang); }
   openReview(i) { this.setState({ reviewIdx: i }); }
   closeReview() { this.setState({ reviewIdx: null }); }
-  stepReview(d) { const n = this.REVIEWS.length; this.setState(st => ({ reviewIdx: st.reviewIdx == null ? null : (st.reviewIdx + d + n) % n })); }
+  stepReview(d) { const n = this.reviewList().length; this.setState(st => ({ reviewIdx: st.reviewIdx == null ? null : (st.reviewIdx + d + n) % n })); }
   bindReviewKeys() {
     if (typeof window === 'undefined') return;
     window.addEventListener('keydown', e => {
@@ -1137,13 +1139,13 @@ class Component extends DCLogic {
         { stat: isZh?'内馅':'Custard', title: isZh?'精选新鲜食材':'Fresh Ingredients', note: isZh?'浓郁蛋香，细腻顺滑。':'Rich & creamy. Smooth & silky.' },
         { stat: isZh?'火候':'Baking', title: isZh?'小批量现烤':'Small-Batch Baked', note: isZh?'现烤现做，品质如一。':'Perfectly baked. Fresh every batch.' },
       ],
-      hasReviews: this.REVIEWS.length > 0,
-      hasReviewRow2: this.REVIEWS.length >= 4,
+      hasReviews: this.reviewList().length > 0,
+      hasReviewRow2: this.reviewList().length >= 4,
       reviewRow1: this.reviewRow(0), reviewRow2: this.reviewRow(1),
-      reviewOpen: this.state.reviewIdx != null && !!this.REVIEWS[this.state.reviewIdx],
-      reviewSrc: (this.REVIEWS[this.state.reviewIdx] || {}).src || '',
-      hasManyReviews: this.REVIEWS.length > 1,
-      reviewCounter: this.state.reviewIdx != null ? (this.state.reviewIdx + 1) + ' / ' + this.REVIEWS.length : '',
+      reviewOpen: this.state.reviewIdx != null && !!this.reviewList()[this.state.reviewIdx],
+      reviewSrc: (this.reviewList()[this.state.reviewIdx] || {}).src || '',
+      hasManyReviews: this.reviewList().length > 1,
+      reviewCounter: this.state.reviewIdx != null ? (this.state.reviewIdx + 1) + ' / ' + this.reviewList().length : '',
       closeReview: () => this.closeReview(), prevReview: e => { e && e.stopPropagation && e.stopPropagation(); this.stepReview(-1); }, nextReview: e => { e && e.stopPropagation && e.stopPropagation(); this.stepReview(1); },
       stopClick: e => { e && e.stopPropagation && e.stopPropagation(); },
       faqs: L.faq.map(f => ({ q: f.q, a: typeof f.a === 'function' ? f.a({ wechat: this.wechat(), instagram: this.instagram() }) : f.a })),
