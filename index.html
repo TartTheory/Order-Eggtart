@@ -37,6 +37,19 @@
   .tt-body::-webkit-scrollbar-thumb { background: var(--line); border-radius: 8px; }
   .tt-menu-grid { grid-template-columns: 1fr; }
   @media (min-width: 640px) { .tt-menu-grid { grid-template-columns: repeat(auto-fill, minmax(170px,1fr)); } }
+  .rv-row { overflow: hidden; margin-bottom: 12px; }
+  .rv-track { display: flex; width: max-content; will-change: transform; animation: rvLeft 70s linear infinite; }
+  .rv-track.rv-r { animation-name: rvRight; animation-duration: 80s; }
+  .rv-row:hover .rv-track, .rv-row:active .rv-track { animation-play-state: paused; }
+  @keyframes rvLeft { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+  @keyframes rvRight { from { transform: translateX(-50%); } to { transform: translateX(0); } }
+  .rv-card { flex: none; height: clamp(180px, 52vw, 240px); margin-right: 12px; padding: 0; border: 1px solid var(--line); border-radius: 14px; overflow: hidden; background: var(--surface); box-shadow: 0 3px 10px rgba(80,50,10,.08); cursor: zoom-in; }
+  .rv-card img { display: block; height: 100%; width: auto; }
+  @media (prefers-reduced-motion: reduce) { .rv-row { overflow-x: auto; } .rv-track, .rv-track.rv-r { animation: none; } }
+  .rv-lb { position: fixed; top: 0; left: 0; right: 0; height: var(--app-h); z-index: 95; background: rgba(20,12,4,.82); display: flex; align-items: center; justify-content: center; touch-action: none; }
+  .rv-lb img { max-width: 92vw; max-height: calc(var(--app-h) - 120px); border-radius: 12px; display: block; background: var(--surface); }
+  .rv-btn { position: absolute; border: none; border-radius: 50%; width: 44px; height: 44px; background: rgba(255,252,244,.92); color: var(--text); font-size: 22px; font-weight: 700; display: flex; align-items: center; justify-content: center; cursor: pointer; }
+  .rv-count { position: absolute; bottom: 22px; left: 0; right: 0; text-align: center; color: #FFF8EC; font-family: var(--font-body); font-weight: 700; font-size: 13px; }
   .tt-faq { border-top: 1px solid var(--line); }
   .tt-faq:last-child { border-bottom: 1px solid var(--line); }
   .tt-faq summary { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 11px 2px; cursor: pointer; list-style: none; font-family: var(--font-body); font-weight: 600; font-size: 13.5px; line-height: 1.35; color: var(--text); }
@@ -236,6 +249,33 @@
 
     </div>
   </section>
+
+  <!-- REVIEWS -->
+  <sc-if value="{{ hasReviews }}" hint-placeholder-val="">
+    <section style="border-top:1px solid var(--line); padding:clamp(24px,6vw,72px) 0">
+      <div style="max-width:1100px; margin:0 auto; padding:0 clamp(16px,4vw,64px)">
+        <div style="font-family:var(--font-body); font-size:11.5px; font-weight:700; letter-spacing:.06em; text-transform:uppercase; color:var(--accent); margin-bottom:8px">{{ t.reviewsLabel }}</div>
+        <h2 style="font-family:var(--font-head); font-weight:var(--head-weight); color:var(--text); font-size:clamp(22px,5vw,40px); margin:0 0 6px">{{ t.reviewsTitle }}</h2>
+        <div style="font-family:var(--font-body); font-size:12px; color:var(--muted); margin-bottom:16px">{{ t.reviewsHint }}</div>
+      </div>
+      <div class="rv-row">
+        <div class="rv-track">
+          <sc-for list="{{ reviewRow1 }}" as="rv" hint-placeholder-count="3">
+            <button class="rv-card" onClick="{{ rv.onOpen }}" aria-label="{{ t.reviewsOpen }}"><img src="{{ rv.src }}" alt="" loading="lazy" /></button>
+          </sc-for>
+        </div>
+      </div>
+      <sc-if value="{{ hasReviewRow2 }}" hint-placeholder-val="">
+        <div class="rv-row">
+          <div class="rv-track rv-r">
+            <sc-for list="{{ reviewRow2 }}" as="rv" hint-placeholder-count="3">
+              <button class="rv-card" onClick="{{ rv.onOpen }}" aria-label="{{ t.reviewsOpen }}"><img src="{{ rv.src }}" alt="" loading="lazy" /></button>
+            </sc-for>
+          </div>
+        </div>
+      </sc-if>
+    </section>
+  </sc-if>
 
   <!-- FAQ -->
   <section style="border-top:1px solid var(--line); padding:clamp(24px,6vw,72px) clamp(16px,4vw,64px)">
@@ -474,6 +514,18 @@
       </sc-if>
     </div>
 
+    <sc-if value="{{ reviewOpen }}" hint-placeholder-val="">
+      <div class="rv-lb" onClick="{{ closeReview }}">
+        <img src="{{ reviewSrc }}" alt="" onClick="{{ stopClick }}" />
+        <button class="rv-btn" style="top:16px; right:16px" onClick="{{ closeReview }}" aria-label="close">&times;</button>
+        <sc-if value="{{ hasManyReviews }}" hint-placeholder-val="">
+          <button class="rv-btn" style="left:12px; top:50%; margin-top:-22px" onClick="{{ prevReview }}" aria-label="previous">&lsaquo;</button>
+          <button class="rv-btn" style="right:12px; top:50%; margin-top:-22px" onClick="{{ nextReview }}" aria-label="next">&rsaquo;</button>
+          <div class="rv-count">{{ reviewCounter }}</div>
+        </sc-if>
+      </div>
+    </sc-if>
+
     <sc-if value="{{ showShotFallback }}" hint-placeholder-val="">
       <div style="position:fixed; top:0; left:0; right:0; height:var(--app-h); z-index:90; background:rgba(20,12,4,.75); display:flex; align-items:center; justify-content:center; padding:16px">
         <div style="background:var(--surface); border-radius:var(--radius); padding:14px; width:min(400px,94vw); max-height:calc(var(--app-h) * .94); overflow:auto; text-align:center; box-shadow:var(--shadow)">
@@ -547,7 +599,7 @@ class Component extends DCLogic {
     this.UI = {
       zh:{ bag:'购物车', kicker:'今天，也想吃一颗热乎乎的蛋挞。', heroTitle:'每一颗蛋挞都是刚出炉的幸福。', heroSubtitle:'酥到掉渣的塔皮，\n顺滑浓郁的蛋奶馅。', heroNote:'每天新鲜制作，\n每周都有新的口味。', heroSmall:'仅支持线上预订 \u00b7 定点自取', ctaLabel:'查看菜单',
         menuLabel:'菜单', menuTitle:'经典口味与每周限定，任你挑选。', menuNote:'经典口味与每周限定，任你挑选。', add:'加入',
-        pickupPaymentLabel:'取货与付款', faqLabel:'常见问题', faqTitle:'常见问题',
+        pickupPaymentLabel:'取货与付款', faqLabel:'常见问题', faqTitle:'常见问题', reviewsLabel:'顾客评价', reviewsTitle:'顾客怎么说', reviewsHint:'轻点放大，按住暂停', reviewsOpen:'查看评价截图',
         faq:[
           { q:'怎么下单和付款？', a:'在网站选好口味并结账，用 Venmo 付款，再把订单号截图和付款截图发送至微信，客服确认后即可锁定订单。' },
           { q:'可以用其他方式付款吗？', a:(c)=>'我们推荐使用 Venmo，也接受 Zelle。请添加我们的微信 '+c.wechat+'，我们会把 Zelle 信息发给你。' },
@@ -571,7 +623,7 @@ class Component extends DCLogic {
         confirm1:(t)=>'扫描上方二维码支付 '+t+'。', confirm2:(o,w)=>'将订单号 '+o+' 和付款截图发送到微信：'+w+'。', confirm3:(s,tm)=>'在 '+s+'，'+tm+' 取货。出示相册里保存的订单、订单号，或直接告诉我们你的 Venmo 用户名，我们会现场为你核实。' },
       en:{ bag:'Bag', kicker:'Craving a warm eggtart today?', heroTitle:'Handcrafted egg tarts inspired by flavors from around the world.', heroSubtitle:'Flaky crust.\nSilky custard.', heroNote:'Baked fresh daily.\nNew flavors every week.', heroSmall:'Pre-order for pickup.', ctaLabel:'View Menu',
         menuLabel:'The menu', menuTitle:'Classic favorites and weekly specials.', menuNote:'Classic favorites and weekly specials.', add:'Add',
-        pickupPaymentLabel:'Pickup & payment', faqLabel:'FAQ', faqTitle:'Frequently asked questions',
+        pickupPaymentLabel:'Pickup & payment', faqLabel:'FAQ', faqTitle:'Frequently asked questions', reviewsLabel:'Reviews', reviewsTitle:'What customers say', reviewsHint:'Tap to enlarge, press to pause', reviewsOpen:'View review screenshot',
         faq:[
           { q:'How do I order and pay?', a:'Pick your flavors and check out on this page, pay on Venmo, then send a screenshot of your order number and your payment to us on WeChat. Your order is locked in once we confirm.' },
           { q:'Can I pay another way?', a:(c)=>'We encourage Venmo, but we accept Zelle as well. Add us on Instagram @'+c.instagram+' and we will send you our Zelle details.' },
@@ -594,9 +646,12 @@ class Component extends DCLogic {
         heroWordA:'Fresh-Baked', heroWordB:'Flaky', heroWordC:'Rich',
         confirm1:(t)=>'Scan the QR above to pay '+t+'.', confirm2:(o,w)=>'Send your order number '+o+' and the payment screenshot to us on Instagram: '+w+'.', confirm3:(s,tm)=>'Collect at '+s+', '+tm+'. Show your saved order, your order number, or just tell us your Venmo name — we’ll confirm you there.' },
     };
+    // Customer review screenshots: { src:'uploads/reviews/01.jpg' }. Section stays hidden while this is empty.
+    this.REVIEWS = [];
     this.THEME_VARS = { '--bg':'#F7EFE0','--surface':'#FFFCF4','--surface-2':'#F1E6D0','--text':'#3A2C1A','--muted':'#94826A','--line':'#E7D9BF','--accent':'#C0792A','--accent-text':'#FFF8EC','--accent-soft':'#F2E3C6','--font-head':"'Noto Sans SC', 'Hanken Grotesk', system-ui, sans-serif",'--font-body':"'Noto Sans SC', 'Hanken Grotesk', system-ui, sans-serif",'--radius':'16px','--radius-sm':'12px','--head-weight':'600','--head-transform':'none','--head-spacing':'0','--shadow':'0 10px 30px rgba(90,60,20,.12)' };
-    this.state = { cart: {}, cartOpen: false, step: 'cart', orderNum: null, lang: 'zh', pickupDayId: null, pickupDaySelectedDate: null, toastMsg: false, copiedWechat: false, orderedQty: null, orderedQtyWeek: null };
+    this.state = { cart: {}, cartOpen: false, step: 'cart', orderNum: null, lang: 'zh', pickupDayId: null, pickupDaySelectedDate: null, reviewIdx: null, toastMsg: false, copiedWechat: false, orderedQty: null, orderedQtyWeek: null };
     this.trackViewportHeight();
+    this.bindReviewKeys();
   }
 
   wechat() { return this.props.wechatId ?? 'tart_theory'; }
@@ -659,6 +714,24 @@ class Component extends DCLogic {
     window.addEventListener('resize', set);
     window.addEventListener('orientationchange', () => setTimeout(set, 250));
     if (window.visualViewport) window.visualViewport.addEventListener('resize', set);
+  }
+  // Row 0/1 of the auto-scrolling strip: screenshots alternate between rows (one row if fewer than 4), repeated so each half is wider than any screen, then doubled for a seamless loop.
+  reviewRow(row) {
+    const all = this.REVIEWS.map((r, i) => ({ src: r.src, idx: i }));
+    const mine = all.length >= 4 ? all.filter((_, i) => i % 2 === row) : (row === 0 ? all : []);
+    if (!mine.length) return [];
+    const half = []; while (half.length < 8) mine.forEach(m => half.push(m));
+    return half.concat(half).map(m => ({ src: m.src, onOpen: () => this.openReview(m.idx) }));
+  }
+  openReview(i) { this.setState({ reviewIdx: i }); }
+  closeReview() { this.setState({ reviewIdx: null }); }
+  stepReview(d) { const n = this.REVIEWS.length; this.setState(st => ({ reviewIdx: st.reviewIdx == null ? null : (st.reviewIdx + d + n) % n })); }
+  bindReviewKeys() {
+    if (typeof window === 'undefined') return;
+    window.addEventListener('keydown', e => {
+      if (this.state.reviewIdx == null) return;
+      if (e.key === 'Escape') this.closeReview(); else if (e.key === 'ArrowLeft') this.stepReview(-1); else if (e.key === 'ArrowRight') this.stepReview(1);
+    });
   }
   toggleItems() { this.setState(st => ({ itemsOpen: !st.itemsOpen })); }
   syncScrollLock(lock) {
@@ -1028,6 +1101,15 @@ class Component extends DCLogic {
         { stat: isZh?'内馅':'Custard', title: isZh?'精选新鲜食材':'Fresh Ingredients', note: isZh?'浓郁蛋香，细腻顺滑。':'Rich & creamy. Smooth & silky.' },
         { stat: isZh?'火候':'Baking', title: isZh?'小批量现烤':'Small-Batch Baked', note: isZh?'现烤现做，品质如一。':'Perfectly baked. Fresh every batch.' },
       ],
+      hasReviews: this.REVIEWS.length > 0,
+      hasReviewRow2: this.REVIEWS.length >= 4,
+      reviewRow1: this.reviewRow(0), reviewRow2: this.reviewRow(1),
+      reviewOpen: this.state.reviewIdx != null && !!this.REVIEWS[this.state.reviewIdx],
+      reviewSrc: (this.REVIEWS[this.state.reviewIdx] || {}).src || '',
+      hasManyReviews: this.REVIEWS.length > 1,
+      reviewCounter: this.state.reviewIdx != null ? (this.state.reviewIdx + 1) + ' / ' + this.REVIEWS.length : '',
+      closeReview: () => this.closeReview(), prevReview: e => { e && e.stopPropagation && e.stopPropagation(); this.stepReview(-1); }, nextReview: e => { e && e.stopPropagation && e.stopPropagation(); this.stepReview(1); },
+      stopClick: e => { e && e.stopPropagation && e.stopPropagation(); },
       faqs: L.faq.map(f => ({ q: f.q, a: typeof f.a === 'function' ? f.a({ wechat: this.wechat(), instagram: this.instagram() }) : f.a })),
       steps: [
         { n:'1', title: isZh?'加入购物车':'Add to Cart', note: isZh?'挑选喜欢的口味，加入购物车，确认总金额。':'Choose your favorite flavors, add them to your cart, and confirm the total.' },
