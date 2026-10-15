@@ -37,6 +37,12 @@
   .tt-body::-webkit-scrollbar-thumb { background: var(--line); border-radius: 8px; }
   .tt-menu-grid { grid-template-columns: 1fr; }
   @media (min-width: 640px) { .tt-menu-grid { grid-template-columns: repeat(auto-fill, minmax(170px,1fr)); } }
+  .tt-faq { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); }
+  .tt-faq summary { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 15px 16px; cursor: pointer; list-style: none; font-family: var(--font-body); font-weight: 700; font-size: 14px; line-height: 1.4; color: var(--text); }
+  .tt-faq summary::-webkit-details-marker { display: none; }
+  .tt-fchev { flex: none; color: var(--accent); transition: transform .2s; }
+  .tt-faq[open] .tt-fchev { transform: rotate(180deg); }
+  .tt-fa { padding: 0 16px 15px; font-family: var(--font-body); font-size: 13px; line-height: 1.65; color: var(--muted); white-space: pre-line; }
   .tt-steps-grid { grid-template-columns: 1fr; }
   @media (min-width: 640px) { .tt-steps-grid { grid-template-columns: repeat(auto-fit, minmax(180px,1fr)); } }
   .tt-steps { text-align: center; }
@@ -225,6 +231,25 @@
         </sc-for>
       </div>
 
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section style="border-top:1px solid var(--line); padding:clamp(24px,6vw,72px) clamp(16px,4vw,64px)">
+    <div style="max-width:760px; margin:0 auto">
+      <div style="font-family:var(--font-body); font-size:11.5px; font-weight:700; letter-spacing:.06em; text-transform:uppercase; color:var(--accent); margin-bottom:8px">{{ t.faqLabel }}</div>
+      <h2 style="font-family:var(--font-head); font-weight:var(--head-weight); color:var(--text); font-size:clamp(22px,5vw,40px); margin:0 0 20px">{{ t.faqTitle }}</h2>
+      <div style="display:flex; flex-direction:column; gap:10px">
+        <sc-for list="{{ faqs }}" as="fq" hint-placeholder-count="4">
+          <details class="tt-faq">
+            <summary>
+              <span>{{ fq.q }}</span>
+              <svg class="tt-fchev" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg>
+            </summary>
+            <div class="tt-fa">{{ fq.a }}</div>
+          </details>
+        </sc-for>
+      </div>
     </div>
   </section>
 
@@ -519,7 +544,18 @@ class Component extends DCLogic {
     this.UI = {
       zh:{ bag:'购物车', kicker:'今天，也想吃一颗热乎乎的蛋挞。', heroTitle:'每一颗蛋挞都是刚出炉的幸福。', heroSubtitle:'酥到掉渣的塔皮，\n顺滑浓郁的蛋奶馅。', heroNote:'每天新鲜制作，\n每周都有新的口味。', heroSmall:'仅支持线上预订 \u00b7 定点自取', ctaLabel:'查看菜单',
         menuLabel:'菜单', menuTitle:'经典口味与每周限定，任你挑选。', menuNote:'经典口味与每周限定，任你挑选。', add:'加入',
-        pickupPaymentLabel:'取货与付款', howItWorks:'提前预定，扫码付款, 仅限自取',
+        pickupPaymentLabel:'取货与付款', faqLabel:'常见问题', faqTitle:'常见问题',
+        faq:[
+          { q:'怎么下单和付款？', a:'在网站选好口味并结账，用 Venmo 付款，再把订单号截图和付款截图发送至微信，客服确认后即可锁定订单。' },
+          { q:'可以用其他方式付款吗？', a:(c)=>'我们推荐使用 Venmo，也接受 Zelle。请添加我们的微信 '+c.wechat+'，我们会把 Zelle 信息发给你。' },
+          { q:'什么时候截止下单？', a:'取货前一天晚上 9 点截止。错过截止时间的话，我们会自动把取货日顺延到下一个可预订日期。' },
+          { q:'在哪里取货？', a:'每周有 U District、SLU 和 Bellevue 三个取货点，具体时间在下单时选择。确切的到达时间和停车位置，我们会在取货当天约提前 30 分钟告知。目前仅限自取，不提供配送。' },
+          { q:'如果所有取货时间和地点都不方便怎么办？', a:(c)=>'请添加我们的微信 '+c.wechat+'，问问能否另约时间，在唐人街取货。' },
+          { q:'有什么优惠吗？', a:'任选四颗只要 $20，口味可以随意混搭。' },
+          { q:'蛋挞是每天新鲜烘烤的吗？', a:'是的，我们每天新鲜烘烤，按预订数量制作。' },
+          { q:'买回去怎么保存？', a:'放入冷藏，可保存 2-3 天。' },
+          { q:'怎么加热？', a:'微波炉：先取下锡纸壳，加热 30 秒。\n烤箱 / 空气炸锅：无需取下锡纸壳，180°C（350°F）加热 3-5 分钟。' }
+        ], howItWorks:'提前预定，扫码付款, 仅限自取',
         brandBlurb:'一家只专注做蛋挞的小店。提前下单，扫码付款，温热取走。', pickupShopsLabel:'取货门店', hoursContactLabel:'营业时间与联系方式',
         hoursLine1:'周一至周五 \u00b7 8:00\u201319:00', hoursLine2:'周六至周日 \u00b7 9:00\u201318:00', wechatLabel:'微信',
         emptyBagMsg:'你的袋子还是空的，去挑几个蛋挞吧。', selfPickupNote:'仅限自取 \u00b7 下一步扫码付款', chooseShopLabel:'选择门店', pickupTimeLabel:'取货时间', pickupDayLabel:'选择取货日期', pickupOpensNextWeek:'下一周的取货时间将于周六下午 5 点发布，请稍后查看。', soldOutThisWeek:'抱歉，本周的蛋挞名额已订满，请下周再来 :)', lowStockThisWeek:(n)=>'本周只剩 '+n+' 个名额，请减少数量后再试。', copied:'已复制微信号！',
@@ -532,7 +568,18 @@ class Component extends DCLogic {
         confirm1:(t)=>'扫描上方二维码支付 '+t+'。', confirm2:(o,w)=>'将订单号 '+o+' 和付款截图发送到微信：'+w+'。', confirm3:(s,tm)=>'在 '+s+'，'+tm+' 取货。出示相册里保存的订单、订单号，或直接告诉我们你的 Venmo 用户名，我们会现场为你核实。' },
       en:{ bag:'Bag', kicker:'Craving a warm eggtart today?', heroTitle:'Handcrafted egg tarts inspired by flavors from around the world.', heroSubtitle:'Flaky crust.\nSilky custard.', heroNote:'Baked fresh daily.\nNew flavors every week.', heroSmall:'Pre-order for pickup.', ctaLabel:'View Menu',
         menuLabel:'The menu', menuTitle:'Classic favorites and weekly specials.', menuNote:'Classic favorites and weekly specials.', add:'Add',
-        pickupPaymentLabel:'Pickup & payment', howItWorks:'Preorder for self-pickup only \u2014 scan to pay, done in a minute.',
+        pickupPaymentLabel:'Pickup & payment', faqLabel:'FAQ', faqTitle:'Frequently asked questions',
+        faq:[
+          { q:'How do I order and pay?', a:'Pick your flavors and check out on this page, pay on Venmo, then send a screenshot of your order number and your payment to us on WeChat. Your order is locked in once we confirm.' },
+          { q:'Can I pay another way?', a:(c)=>'We encourage Venmo, but we accept Zelle as well. Add us on Instagram @'+c.instagram+' and we will send you our Zelle details.' },
+          { q:'What is the order deadline?', a:'9 PM the night before pickup. If you order after the deadline, we automatically move your pickup to the next available date.' },
+          { q:'Where do I pick up?', a:'Each week we pick up at U District, SLU and Bellevue; you choose a time slot when you order. We share the exact arrival time and parking spot about 30 minutes ahead on the day. Pickup only for now, no delivery.' },
+          { q:'What if none of the pickup times and locations work for me?', a:(c)=>'Add us on Instagram @'+c.instagram+' and ask if we can arrange a pickup in Chinatown at another time.' },
+          { q:'Is there a deal?', a:'Any 4 tarts for $20, mix and match any flavors.' },
+          { q:'Are the tarts baked fresh daily?', a:'Yes, we bake fresh daily, in the amounts that are pre-ordered.' },
+          { q:'How do I store them?', a:'Keep them in the fridge for 2-3 days.' },
+          { q:'How do I reheat them?', a:'Microwave: take the tart out of its foil tin first, then heat for 30 seconds.\nOven or air fryer: leave it in the foil tin and heat at 350\u00b0F (180\u00b0C) for 3-5 minutes.' }
+        ], howItWorks:'Preorder for self-pickup only \u2014 scan to pay, done in a minute.',
         brandBlurb:'A small bakery obsessed with one pastry. Order ahead, pay by QR, collect warm.', pickupShopsLabel:'Pickup shops', hoursContactLabel:'Hours & contact',
         hoursLine1:'Mon\u2013Fri \u00b7 8am\u20137pm', hoursLine2:'Sat\u2013Sun \u00b7 9am\u20136pm', wechatLabel:'Instagram',
         emptyBagMsg:'Your bag is empty. Go pick some tarts.', selfPickupNote:'Self-pickup \u00b7 pay by QR on the next step', chooseShopLabel:'Choose a shop', pickupTimeLabel:'Pickup time', pickupDayLabel:'Choose your pickup day', pickupOpensNextWeek:'Next week\u2019s pickup times open Saturday at 5 PM. Check back soon.', soldOutThisWeek:'Sorry, we\u2019re sold out for this week \u2014 check back next week!', lowStockThisWeek:(n)=>'Only '+n+' left this week \u2014 please reduce your quantity.', copied:'WeChat ID copied!',
@@ -978,6 +1025,7 @@ class Component extends DCLogic {
         { stat: isZh?'内馅':'Custard', title: isZh?'精选新鲜食材':'Fresh Ingredients', note: isZh?'浓郁蛋香，细腻顺滑。':'Rich & creamy. Smooth & silky.' },
         { stat: isZh?'火候':'Baking', title: isZh?'小批量现烤':'Small-Batch Baked', note: isZh?'现烤现做，品质如一。':'Perfectly baked. Fresh every batch.' },
       ],
+      faqs: L.faq.map(f => ({ q: f.q, a: typeof f.a === 'function' ? f.a({ wechat: this.wechat(), instagram: this.instagram() }) : f.a })),
       steps: [
         { n:'1', title: isZh?'加入购物车':'Add to Cart', note: isZh?'挑选喜欢的口味，加入购物车，确认总金额。':'Choose your favorite flavors, add them to your cart, and confirm the total.' },
         { n:'2', title: isZh?'Venmo 付款':'Pay via Venmo', note: isZh?'通过 Venmo 付款给我们，截图保存你的付款确认页面。':'Pay us through Venmo, then screenshot your confirmation page.', hasQr:true, hasRealQr:true, qrId:'artisan-venmo-qr', qrImg:'uploads/venmo-qr.png', qrStyle:{width:'150px',height:'150px',margin:'12px auto 0',borderRadius:'12px',objectFit:'cover',display:'block'}, qrLabel: this.venmo(), confirmShot:true },
