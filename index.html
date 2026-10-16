@@ -145,15 +145,18 @@
     </div>
   </header>
 
-  <section style="display:grid; grid-template-columns:repeat(auto-fit,minmax(200px,1fr)); gap:1px; background:var(--line); border-top:1px solid var(--line); border-bottom:1px solid var(--line)">
-    <sc-for list="{{ pillars }}" as="p" hint-placeholder-count="3">
-      <div style="background:var(--bg); padding:22px clamp(16px,4vw,32px); text-align:center">
-        <div style="font-family:var(--font-head); font-weight:var(--head-weight); font-size:20px; color:var(--accent); margin-bottom:4px">{{ p.stat }}</div>
-        <div style="font-family:var(--font-body); font-weight:700; color:var(--text); font-size:14.5px; margin-bottom:4px">{{ p.title }}</div>
-        <div style="font-family:var(--font-body); color:var(--muted); font-size:13px; line-height:1.45">{{ p.note }}</div>
-      </div>
-    </sc-for>
-  </section>
+  <!-- Info strip (crust / custard / baking): hidden for now; set showPillars to true in renderVals to bring it back. -->
+  <sc-if value="{{ showPillars }}" hint-placeholder-val="">
+    <section style="display:grid; grid-template-columns:repeat(auto-fit,minmax(200px,1fr)); gap:1px; background:var(--line); border-top:1px solid var(--line); border-bottom:1px solid var(--line)">
+      <sc-for list="{{ pillars }}" as="p" hint-placeholder-count="3">
+        <div style="background:var(--bg); padding:22px clamp(16px,4vw,32px); text-align:center">
+          <div style="font-family:var(--font-head); font-weight:var(--head-weight); font-size:20px; color:var(--accent); margin-bottom:4px">{{ p.stat }}</div>
+          <div style="font-family:var(--font-body); font-weight:700; color:var(--text); font-size:14.5px; margin-bottom:4px">{{ p.title }}</div>
+          <div style="font-family:var(--font-body); color:var(--muted); font-size:13px; line-height:1.45">{{ p.note }}</div>
+        </div>
+      </sc-for>
+    </section>
+  </sc-if>
 
   <section id="tt-menu" style="padding:clamp(24px,6vw,84px) clamp(16px,4vw,64px); max-width:1280px; margin:0 auto">
     <div style="display:flex; align-items:flex-end; justify-content:space-between; gap:16px; margin-bottom:24px; flex-wrap:wrap">
@@ -1135,6 +1138,7 @@ class Component extends DCLogic {
       rootStyle, frameStyle, menu, cartItems, wechatId: this.wechat(), venmoId: this.venmo(), instagramId: this.instagram(), xiaohongshuId: this.xiaohongshu(),
       copyWechat: ()=>this.copyWechat(), copiedWechat: this.state.copiedWechat,
       instagramUrl: 'https://instagram.com/'+this.instagram(), xiaohongshuUrl: 'https://xhslink.cn/m/2T218PwZEqU',
+      showPillars: false,
       pillars: [
         { stat: isZh?'塔皮':'Crust', title: isZh?'200+ 层起酥工艺':'200+ Delicate Layers', note: isZh?'轻盈酥脆，层次丰富。':'Light & flaky. Crisp & airy.' },
         { stat: isZh?'内馅':'Custard', title: isZh?'精选新鲜食材':'Fresh Ingredients', note: isZh?'浓郁蛋香，细腻顺滑。':'Rich & creamy. Smooth & silky.' },
