@@ -643,6 +643,7 @@ class Component extends DCLogic {
         confirm1:(t)=>'Scan the QR above to pay '+t+'.', confirm2:(o,w)=>'Send your order number '+o+' and the payment screenshot to us on Instagram: '+w+'.', confirm3:(s,tm)=>'Collect at '+s+', '+tm+'. Show your saved order, your order number, or just tell us your Venmo name — we’ll confirm you there.' },
     };
     // Customer review screenshots: { src:'uploads/reviews/01.jpg' }. Section stays hidden while this is empty.
+    this.REVIEW_TWO_ROWS_FROM = 12; // one row until there are this many screenshots in a language, then two
     // lang: which version of the site shows the screenshot ('zh' or 'en'); a language with none hides the whole section.
     this.REVIEWS = [
       { src:'uploads/reviews/01.jpg', lang:'zh' }, { src:'uploads/reviews/02.jpg', lang:'zh' }, { src:'uploads/reviews/03.jpg', lang:'zh' }, { src:'uploads/reviews/04.jpg', lang:'zh' },
@@ -716,10 +717,10 @@ class Component extends DCLogic {
     window.addEventListener('orientationchange', () => setTimeout(set, 250));
     if (window.visualViewport) window.visualViewport.addEventListener('resize', set);
   }
-  // Row 0/1 of the auto-scrolling strip: screenshots alternate between rows (one row if fewer than 4), repeated so each half is wider than any screen, then doubled for a seamless loop.
+  // Row 0/1 of the auto-scrolling strip: screenshots alternate between rows (one row until REVIEW_TWO_ROWS_FROM), repeated so each half is wider than any screen, then doubled for a seamless loop.
   reviewRow(row) {
     const all = this.reviewList().map((r, i) => ({ src: r.src, idx: i }));
-    const mine = all.length >= 4 ? all.filter((_, i) => i % 2 === row) : (row === 0 ? all : []);
+    const mine = all.length >= this.REVIEW_TWO_ROWS_FROM ? all.filter((_, i) => i % 2 === row) : (row === 0 ? all : []);
     if (!mine.length) return [];
     const half = []; while (half.length < 8) mine.forEach(m => half.push(m));
     return half.concat(half).map(m => ({ src: m.src, onOpen: () => this.openReview(m.idx) }));
@@ -747,7 +748,7 @@ class Component extends DCLogic {
     const reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     let last = now();
     const frame = t => {
-      const dt = Math.min(64, t - last) / 1000; last = t;
+      const dt = Math.min(250, t - last) / 1000; last = t; // cap only guards against long pauses; a slow frame rate should not slow the drift
       if (!reduce && !document.hidden) rows().forEach((el, i) => {
         const half = el.scrollWidth / 2; if (half <= 0) return;
         if (R.el[i] !== el) { R.el[i] = el; if (R.pos[i] == null) R.pos[i] = i === 0 ? 1 : half; el.scrollLeft = R.pos[i]; R.expected[i] = el.scrollLeft; }
@@ -1140,7 +1141,7 @@ class Component extends DCLogic {
         { stat: isZh?'火候':'Baking', title: isZh?'小批量现烤':'Small-Batch Baked', note: isZh?'现烤现做，品质如一。':'Perfectly baked. Fresh every batch.' },
       ],
       hasReviews: this.reviewList().length > 0,
-      hasReviewRow2: this.reviewList().length >= 4,
+      hasReviewRow2: this.reviewList().length >= this.REVIEW_TWO_ROWS_FROM,
       reviewRow1: this.reviewRow(0), reviewRow2: this.reviewRow(1),
       reviewOpen: this.state.reviewIdx != null && !!this.reviewList()[this.state.reviewIdx],
       reviewSrc: (this.reviewList()[this.state.reviewIdx] || {}).src || '',
