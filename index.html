@@ -732,42 +732,47 @@ class Component extends DCLogic {
   // The review rows drift on their own and can be swiped by hand: both rows are plain scrollable strips (content repeated twice, so the position wraps at half width). Drift pauses while touched, hovered or just scrolled by hand, and resumes after a short idle.
   startReviewDrift() {
     if (typeof window === 'undefined') return;
-    const R = this._rv = { pressed: false, hover: false, lastUser: 0, pos: [null, null], expected: [0, 0], el: [null, null] };
+    const R = this._rv = { pressed: false, pressedAt: 0, hover: false, driving: false, set: [null, null], lastUser: 0, pos: [null, null], el: [null, null] };
+    const RESUME_MS = 4500; // after the last touch or scroll, wait this long (time to read a screenshot) before drifting again
+    const canHover = !!(window.matchMedia && window.matchMedia('(hover: hover) and (pointer: fine)').matches); // a tap on a phone also fires mouse events; only a real mouse counts as hovering
     const rows = () => Array.from(document.querySelectorAll('.rv-row'));
     const now = () => performance.now();
     const inRow = e => e.target && e.target.closest && e.target.closest('.rv-row');
-    document.addEventListener('pointerdown', e => { if (inRow(e)) { R.pressed = true; R.lastUser = now(); } });
+    document.addEventListener('pointerdown', e => { if (inRow(e)) { R.pressed = true; R.pressedAt = R.lastUser = now(); } });
     ['pointerup', 'pointercancel'].forEach(t => document.addEventListener(t, () => { if (R.pressed) { R.pressed = false; R.lastUser = now(); } }));
-    document.addEventListener('mouseover', e => { if (inRow(e)) R.hover = true; });
-    document.addEventListener('mouseout', e => { if (inRow(e) && !(e.relatedTarget && e.relatedTarget.closest && e.relatedTarget.closest('.rv-row'))) { R.hover = false; R.lastUser = now(); } });
+    document.addEventListener('mouseover', e => { if (canHover && inRow(e)) R.hover = true; });
+    document.addEventListener('mouseout', e => { if (canHover && inRow(e) && !(e.relatedTarget && e.relatedTarget.closest && e.relatedTarget.closest('.rv-row'))) { R.hover = false; R.lastUser = now(); } });
     document.addEventListener('wheel', e => { if (inRow(e)) R.lastUser = now(); }, { passive: true });
     document.addEventListener('scroll', e => {
       const el = e.target; if (!el || !el.classList || !el.classList.contains('rv-row')) return;
       const i = rows().indexOf(el), half = el.scrollWidth / 2;
       if (i < 0 || half <= 0) return;
-      if (Math.abs(el.scrollLeft - R.expected[i]) > 2) R.lastUser = now(); // moved by the person, not by the drift
+      const ours = R.driving && R.set[i] != null && Math.abs(el.scrollLeft - R.set[i]) <= 2;
+      if (!ours) R.lastUser = now(); // any scroll that the drift itself did not cause is the person scrolling, momentum included
       if (el.scrollLeft >= half + 1) el.scrollLeft -= half; else if (el.scrollLeft < 1) el.scrollLeft += half; // stay inside [1, half + 1) so the two cases can never undo each other
-      R.expected[i] = R.pos[i] = el.scrollLeft;
+      R.pos[i] = el.scrollLeft;
     }, true);
     const reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     let last = now();
     const frame = t => {
+      R.driving = false; // scroll events caused by the previous frame's drift have been delivered by now
+      if (R.pressed && now() - R.pressedAt > 8000) R.pressed = false; // safety net if a release event was missed
       const dt = Math.min(250, t - last) / 1000; last = t; // cap only guards against long pauses; a slow frame rate should not slow the drift
       if (!reduce && !document.hidden) rows().forEach((el, i) => {
         const half = el.scrollWidth / 2; if (half <= 0) return;
-        if (R.el[i] !== el) { R.el[i] = el; if (R.pos[i] == null) R.pos[i] = i === 0 ? 1 : half; el.scrollLeft = R.pos[i]; R.expected[i] = el.scrollLeft; }
-        if (R.pressed || R.hover || t - R.lastUser < 2500) { R.pos[i] = el.scrollLeft; R.expected[i] = el.scrollLeft; return; }
+        if (R.el[i] !== el) { R.el[i] = el; if (R.pos[i] == null) R.pos[i] = i === 0 ? 1 : half; R.driving = true; el.scrollLeft = R.pos[i]; R.set[i] = el.scrollLeft; }
+        if (R.pressed || R.hover || R.lightbox || now() - R.lastUser < RESUME_MS) { R.pos[i] = el.scrollLeft; return; }
         let p = R.pos[i] + (i === 0 ? 1 : -1) * 32 * dt;
         if (p >= half + 1) p -= half; if (p < 1) p += half;
-        R.pos[i] = p; el.scrollLeft = p; R.expected[i] = el.scrollLeft;
+        R.pos[i] = p; R.driving = true; el.scrollLeft = p; R.set[i] = el.scrollLeft;
       });
       requestAnimationFrame(frame);
     };
     requestAnimationFrame(frame);
   }
   reviewList() { return this.REVIEWS.filter(r => r.lang === this.state.lang); }
-  openReview(i) { this.setState({ reviewIdx: i }); }
-  closeReview() { this.setState({ reviewIdx: null }); }
+  openReview(i) { if (this._rv) this._rv.lightbox = true; this.setState({ reviewIdx: i }); }
+  closeReview() { if (this._rv) { this._rv.lightbox = false; this._rv.lastUser = performance.now(); } this.setState({ reviewIdx: null }); } // the drift waits a while after the large view closes
   stepReview(d) { const n = this.reviewList().length; this.setState(st => ({ reviewIdx: st.reviewIdx == null ? null : (st.reviewIdx + d + n) % n })); }
   bindReviewKeys() {
     if (typeof window === 'undefined') return;
