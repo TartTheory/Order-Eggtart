@@ -89,12 +89,22 @@ function orderedQtyForWeek(weekLabel) {
 // the same format and the summary is rebuilt in the same call, instead of
 // relying on someone remembering to check a box or match a text format.
 function appendOrder(data) {
+  var lock = LockService.getDocumentLock();
+  lock.waitLock(30000);
+  try {
+    return appendOrderLocked_(data);
+  } finally {
+    lock.releaseLock();
+  }
+}
+
+function appendOrderLocked_(data) {
   var ss = SpreadsheetApp.getActiveSpreadsheet();
   var sheetName = data.weekLabel || 'Orders';
   var sheet = ss.getSheetByName(sheetName);
 
   if (!sheet) {
-    sheet = ss.insertSheet(sheetName);
+    sheet = ss.insertSheet(sheetName, 0); // newest week is the first tab
   }
   ensureHeaders(sheet);
 
@@ -119,7 +129,7 @@ function appendOrder(data) {
   sheet.getRange(insertAt, COL.PAID_VENMO).setValue(!!data.paidVenmo);
 
   formatSheet(sheet);
-  rebuildSummary(sheet);
+  rebuildSummaryLocked_(sheet);
 
   return sheet;
 }
@@ -129,7 +139,13 @@ function onOpen() {
   SpreadsheetApp.getUi()
     .createMenu('Tart Theory')
     .addItem('Add Manual Order', 'showAddOrderDialog')
+    .addItem('Refresh Summary (this sheet)', 'refreshActiveSummary')
     .addToUi();
+}
+
+// Rebuilds the summary on the sheet you're looking at, e.g. to clean up old formatting.
+function refreshActiveSummary() {
+  rebuildSummary(SpreadsheetApp.getActiveSheet());
 }
 
 function showAddOrderDialog() {
@@ -201,7 +217,26 @@ function weekLabelFor(date) {
 function onSheetChange(e) {
   var sheet = SpreadsheetApp.getActiveSheet();
   if (!sheet) return;
+  // A hand-typed note: just remember it. Rebuilding here would rewrite the very
+  // cells being edited and could drop what was typed.
+  if (e && e.changeType === 'EDIT' && isNoteEdit(sheet)) {
+    var lock = LockService.getDocumentLock();
+    try { lock.waitLock(30000); } catch (err) { return; }
+    try {
+      var start = findSummaryStart(sheet);
+      var store = loadNotesStore(sheet);
+      readNotesFromBlock(sheet.getRange(start, 1, sheet.getMaxRows() - start + 1, HEADERS.length).getValues(), store);
+      saveNotesStore(sheet, store);
+    } finally { lock.releaseLock(); }
+    return;
+  }
   rebuildSummary(sheet);
+}
+
+function isNoteEdit(sheet) {
+  var r = sheet.getActiveRange();
+  var start = findSummaryStart(sheet);
+  return !!(r && start && r.getRow() >= start && r.getColumn() >= 3);
 }
 
 function ensureHeaders(sheet) {
@@ -285,33 +320,54 @@ function hasText(values) {
   return values.some(function (v) { return String(v === null || v === undefined ? '' : v) !== ''; });
 }
 
+// Reads hand-typed notes (Note column onward) out of the summary block into
+// `store`, keyed by row (flavor rows by "Day|Name"). A row whose note was
+// cleared on purpose drops out of the store.
+function readNotesFromBlock(block, store) {
+  var section = '';
+  block.forEach(function (r) {
+    var label = r[0];
+    if (!label || label === 'SUMMARY') return;
+    var header = dayOfHeaderLabel(label);
+    if (header) section = header;
+    var key = (!header && section) ? section + '|' + label : label;
+    var tail = r.slice(2);
+    if (hasText(tail)) store[key] = tail;
+    else delete store[key];
+  });
+  return store;
+}
+
+// Only one rebuild at a time: an order, its row-insert change trigger and an
+// edit can all fire together, and overlapping rebuilds used to overwrite each
+// other (and the notes).
 function rebuildSummary(sheet) {
+  var lock = LockService.getDocumentLock();
+  try { lock.waitLock(30000); } catch (err) { return; }
+  try {
+    rebuildSummaryLocked_(sheet);
+  } finally {
+    lock.releaseLock();
+  }
+}
+
+function rebuildSummaryLocked_(sheet) {
   var numCols = HEADERS.length;
   var summaryStart = findSummaryStart(sheet);
   var dataEndRow;
   var existingNotes = loadNotesStore(sheet); // key -> cells from the Note column onward
   var existingCost = '';
+  var oldBlock = [];
   if (summaryStart) {
     dataEndRow = summaryStart - 1;
     var oldRange = sheet.getRange(summaryStart, 1, sheet.getMaxRows() - summaryStart + 1, numCols);
-    // Preserve notes by row key, and the hand-entered Cost value, before
-    // wiping the block -- row positions shift as flavors/orders come and go
-    // and can't be trusted to stay put.
-    var section = '';
-    oldRange.getValues().forEach(function (r) {
-      var label = r[0];
-      if (!label || label === 'SUMMARY') return;
-      var header = dayOfHeaderLabel(label);
-      if (header) section = header;
-      var key = (!header && section) ? section + '|' + label : label;
-      var tail = r.slice(2);
-      if (hasText(tail)) existingNotes[key] = tail;
-      else delete existingNotes[key]; // the row is on the sheet and its note was cleared on purpose
-      if (label === 'Cost') existingCost = r[1];
-    });
-    oldRange.clearContent();
-    oldRange.clearDataValidations();
-    oldRange.setBorder(false, false, false, false, false, false);
+    // Preserve notes by row key, and the hand-entered Cost value -- row
+    // positions shift as flavors/orders come and go and can't be trusted to
+    // stay put. Nothing is cleared yet: if the layout is unchanged only the
+    // numbers are rewritten, so notes are never touched.
+    oldBlock = oldRange.getValues();
+    readNotesFromBlock(oldBlock, existingNotes);
+    oldBlock.forEach(function (r) { if (r[0] === 'Cost') existingCost = r[1]; });
   } else {
     dataEndRow = sheet.getLastRow();
   }
@@ -393,12 +449,30 @@ function rebuildSummary(sheet) {
     headerRowIndexes.push(rows.length);
     rows.push(summaryRow(d.toUpperCase() + ' TARTS', bucket.tarts));
     bucket.order.forEach(function (name) {
-      rows.push(summaryRow(name, bucket.counts[name] + ' ($' + bucket.income[name].toFixed(2) + ')', d + '|' + name));
+      rows.push(summaryRow(name, bucket.counts[name], d + '|' + name));
     });
   });
 
-  sheet.getRange(newSummaryStart, 1, rows.length, numCols).setValues(rows);
+  var sameLayout = !!summaryStart && summaryStart === newSummaryStart
+    && rows.every(function (r, i) { return oldBlock[i] && String(oldBlock[i][0]) === String(r[0]); })
+    && oldBlock.slice(rows.length).every(function (r) { return String(r[0]) === ''; });
+  var block = sheet.getRange(newSummaryStart, 1, rows.length, numCols);
+  if (sameLayout) {
+    // Same rows as before: refresh the numbers only, leave the Note cells alone.
+    sheet.getRange(newSummaryStart, 2, rows.length, 1).setValues(rows.map(function (r) { return [r[1]]; }));
+  } else {
+    if (summaryStart) {
+      var oldRange2 = sheet.getRange(summaryStart, 1, sheet.getMaxRows() - summaryStart + 1, numCols);
+      oldRange2.clearContent();
+      oldRange2.clearDataValidations();
+      oldRange2.setBorder(false, false, false, false, false, false);
+    }
+    block.setValues(rows);
+  }
   saveNotesStore(sheet, existingNotes);
+  // Reset to regular first: rows shift, so cells that used to hold a bold header
+  // would otherwise leave flavor names bold. Only the headers are bold.
+  block.setFontWeight('normal');
   sheet.getRange(newSummaryStart, 1, 1, numCols).setFontWeight('bold');
   sheet.getRange(newSummaryStart, 1, 1, numCols).setBorder(true, false, false, false, false, false);
   headerRowIndexes.forEach(function (idx) {
