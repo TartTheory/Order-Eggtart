@@ -193,7 +193,10 @@
       <h1 style="font-family:var(--font-head); font-weight:var(--head-weight); letter-spacing:var(--head-spacing); color:var(--text); font-size:clamp(30px,7.2vw,58px); line-height:1.2; margin:0 0 12px; max-width:640px; white-space:pre-line; text-wrap:balance">{{ t.heroTitle }}</h1>
       <p style="font-family:var(--font-body); color:var(--text); font-weight:600; font-size:clamp(19px,4.8vw,27px); line-height:1.5; max-width:580px; margin:0 0 10px; white-space:pre-line">{{ t.heroSubtitle }}</p>
       <p style="font-family:var(--font-body); color:var(--muted); font-size:clamp(16px,4.1vw,21px); line-height:1.55; max-width:580px; margin:0 0 10px; white-space:pre-line">{{ t.heroNote }}</p>
-      <p style="font-family:var(--font-body); font-weight:700; color:var(--accent); font-size:clamp(13px,3.4vw,14.5px); margin:0 0 20px">{{ t.heroSmall }}</p>
+      <div style="display:inline-flex; align-items:center; gap:7px; max-width:100%; padding:8px 14px; margin:0 0 20px; border-radius:999px; background:var(--accent-soft); color:var(--accent); font-family:var(--font-body); font-weight:700; font-size:clamp(12.5px,3.4vw,14px); line-height:1.3">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex:none"><rect x="3.5" y="5" width="17" height="15.5" rx="2.5"/><path d="M3.5 10h17M8 3v4M16 3v4"/></svg>
+        <span>{{ t.heroSmall }}</span>
+      </div>
       <div style="display:flex; flex-wrap:wrap; gap:10px">
         <button onClick="{{ scrollToMenu }}" style="padding:12px clamp(18px,5vw,26px); border:2px solid var(--accent); cursor:pointer; border-radius:var(--radius-sm); background:var(--accent); color:var(--accent-text); font-family:var(--font-body); font-weight:700; font-size:clamp(15px,4vw,16.5px)">{{ t.ctaLabel }}</button>
         <button onClick="{{ scrollToHow }}" style="padding:12px clamp(18px,5vw,26px); border:2px solid var(--accent); cursor:pointer; border-radius:var(--radius-sm); background:transparent; color:var(--accent); font-family:var(--font-body); font-weight:700; font-size:clamp(15px,4vw,16.5px)">{{ t.ctaHow }}</button>
@@ -677,7 +680,7 @@ class Component extends DCLogic {
     this.PICKUP_CAPS = { 'Aug 28-29': 32 };
     this.SHEET_WEBHOOK_URL = 'https://script.google.com/macros/s/AKfycbwe-Ee-BHG5GZ8q4vSG82J0YPIg159V6e6X9x1ptzEfFCugsWJgp_HoDX9dIkr4RXu-0A/exec';
     this.UI = {
-      zh:{ bag:'购物车', kicker:'今天，也想吃一颗热乎乎的蛋挞。', ctaHow:'下单说明', ingTitle:'成分', boxNeedShort:(n)=>'还差 '+n+' 个', receiptDeal:'任选四颗优惠', ingAllergen:'含过敏原：', heroTitle:'每一颗蛋挞都是刚出炉的幸福。', heroSubtitle:'酥到掉渣的塔皮，\n顺滑浓郁的蛋奶馅。', heroNote:'每天新鲜制作，\n每周都有新的口味。', heroSmall:'仅支持线上预订 \u00b7 定点自取', ctaLabel:'查看菜单',
+      zh:{ bag:'购物车', kicker:'今天，也想吃一颗热乎乎的蛋挞。', ctaHow:'下单说明', ingTitle:'成分', boxNeedShort:(n)=>'还差 '+n+' 个', receiptDeal:'任选四颗优惠', ingAllergen:'含过敏原：', heroTitle:'每一颗蛋挞都是刚出炉的幸福。', heroSubtitle:'酥到掉渣的塔皮，\n顺滑浓郁的蛋奶馅。', heroNote:'每天新鲜制作，\n每周都有新的口味。', heroSmall:'线上预订 \u00b7 仅限每周五、周六自取', ctaLabel:'查看菜单',
         menuLabel:'菜单', menuTitle:'多种口味任你挑选。', menuNote:'多种口味任你挑选。', add:'加入',
         pickupPaymentLabel:'取货与付款', faqLabel:'常见问题', faqTitle:'常见问题', reviewsLabel:'真实评价', reviewsTitle:'顾客好评', reviewsHint:'轻点放大，左右滑动查看更多', reviewsOpen:'查看评价截图',
         faq:[
@@ -701,7 +704,7 @@ class Component extends DCLogic {
         startNewOrder:'开始新订单', checkoutBtn:'结账', nextBtn:'下一步', stepBag:'确认口味', stepPickup:'选择取货时间', pickupTitle:'取货', totalLabel:'总计', eachSuffix:'/每个', confirmShotLabel:'付款确认截图示例',
         heroWordA:'现烤', heroWordB:'酥脆', heroWordC:'浓郁',
         confirm1:(t)=>'扫描上方二维码支付 '+t+'。', confirm2:(o,w)=>'将订单号 '+o+' 和付款截图发送到微信：'+w+'。', confirm3:(s,tm)=>'在 '+s+'，'+tm+' 取货。出示相册里保存的订单、订单号，或直接告诉我们你的 Venmo 用户名，我们会现场为你核实。' },
-      en:{ bag:'Bag', kicker:'Craving a warm egg tart?', ctaHow:'How to order', ingTitle:'INGREDIENTS', boxNeedShort:(n)=>n+' to go', receiptDeal:'Any 4 for $20', ingAllergen:'Contains: ', heroTitle:'Handmade egg tarts with flavors from around the world.', heroSubtitle:'Flaky crust.\nSilky custard.', heroNote:'Baked fresh daily.\nNew flavors every week.', heroSmall:'Pre-order for pickup.', ctaLabel:'View Menu',
+      en:{ bag:'Bag', kicker:'Craving a warm egg tart?', ctaHow:'How to order', ingTitle:'INGREDIENTS', boxNeedShort:(n)=>n+' to go', receiptDeal:'Any 4 for $20', ingAllergen:'Contains: ', heroTitle:'Handmade egg tarts with flavors from around the world.', heroSubtitle:'Flaky crust.\nSilky custard.', heroNote:'Baked fresh daily.\nNew flavors every week.', heroSmall:'Pre-order online \u00b7 Pickup Fridays & Saturdays only', ctaLabel:'View Menu',
         menuLabel:'The menu', menuTitle:'Something for every craving.', menuNote:'Something for every craving.', add:'Add',
         pickupPaymentLabel:'Pickup & payment', faqLabel:'FAQ', faqTitle:'Frequently asked questions', reviewsLabel:'Reviews', reviewsTitle:'What our customers say', reviewsHint:'Tap to enlarge. Swipe for more.', reviewsOpen:'View review screenshot',
         faq:[
