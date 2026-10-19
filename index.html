@@ -424,8 +424,8 @@
                 <sc-for list="{{ dayOptions }}" as="dopt" hint-placeholder-count="3">
                   <button onClick="{{ dopt.onSelect }}" style="{{ dopt.style }}">
                     <span style="display:flex; flex-direction:column; align-items:flex-start; gap:2px">
-                      <span style="font-weight:700; font-size:14px">{{ dopt.dateLabel }}</span>
-                      <span style="font-size:11.5px; opacity:.75">{{ dopt.timeLabel }} · {{ dopt.placeLabel }}</span>
+                      <span style="font-weight:700; font-size:14px; text-align:left">{{ dopt.dateLabel }} · {{ dopt.timeLabel }}</span>
+                      <span style="font-size:11.5px; opacity:.75; text-align:left">{{ dopt.fullPlace }}</span>
                     </span>
                     <span style="font-size:10.5px; opacity:.65; white-space:nowrap">{{ dopt.cutoffLabel }}</span>
                   </button>
@@ -1195,7 +1195,7 @@ class Component extends DCLogic {
       const active = o.id===selectedPickupId;
       return { id:o.id,
         dateLabel: isZh?o.dateLabelZh:o.dateLabelEn, timeLabel: isZh?o.timeZh:o.timeEn,
-        placeLabel: isZh?o.shortZh:o.shortEn, cutoffLabel: isZh?o.cutoffLabelZh:o.cutoffLabelEn,
+        placeLabel: isZh?o.shortZh:o.shortEn, fullPlace: isZh?o.placeZh:o.placeEn, cutoffLabel: isZh?o.cutoffLabelZh:o.cutoffLabelEn,
         onSelect:()=>this.selectPickupDay(o.id),
         style:{ display:'flex', justifyContent:'space-between', alignItems:'center', textAlign:'left', cursor:'pointer',
           padding:'12px 14px', borderRadius:'var(--radius-sm)', fontFamily:'var(--font-body)',
