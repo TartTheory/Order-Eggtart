@@ -40,7 +40,7 @@
   .tt-mcard { display: flex; flex-direction: column; flex: 0 0 min(60vw, 240px); scroll-snap-align: start; background: var(--surface); border: 1px solid var(--line); border-radius: 22px; padding: 0 14px 14px; text-align: center; box-shadow: var(--shadow); }
   .tt-ilab { position: relative; margin: 14px 0 12px; padding: 9px 9px 6px; border: 1px solid var(--line); border-radius: 8px; text-align: left; font-family: var(--font-body); color: var(--muted); }
   .tt-ilab h5 { position: absolute; left: 8px; top: -7px; margin: 0; padding: 0 5px; background: var(--surface); font-size: 9.5px; font-weight: 600; letter-spacing: .12em; color: var(--muted); }
-  .tt-ilist { font-size: 11px; line-height: 1.5; min-height: 33px; }
+  .tt-ilist { font-size: 11px; line-height: 1.5; }
   .tt-ial { margin-top: 4px; padding-top: 3px; border-top: 1px dashed var(--line); font-size: 10px; line-height: 1.4; opacity: .9; }
   .tt-step { display: flex; align-items: center; justify-content: space-between; box-sizing: border-box; width: 112px; height: 34px; padding: 0 3px; border: 1.5px solid var(--accent); border-radius: 999px; background: var(--surface); }
   .tt-step button { display: flex; align-items: center; justify-content: center; width: 26px; height: 26px; padding: 0; border: none; border-radius: 50%; background: var(--accent-soft); color: var(--accent); font-size: 17px; font-weight: 700; line-height: 1; cursor: pointer; }
@@ -201,7 +201,7 @@
             <sc-if value="{{ item.ingredients }}" hint-placeholder-val="">
               <div class="tt-ilab">
                 <h5>{{ t.ingTitle }}</h5>
-                <div class="tt-ilist">{{ item.ingredients }}</div>
+                <div class="tt-ilist" style="{{ item.ilistStyle }}">{{ item.ingredients }}</div>
                 <div class="tt-ial">{{ t.ingAllergen }}</div>
               </div>
             </sc-if>
@@ -680,20 +680,20 @@ class Component extends DCLogic {
     ];
     // Short ingredient lines shown under each menu card.
     this.INGREDIENTS = {
-      original:{ zh:'焦糖 · 鸡蛋 · 牛奶 · 黄油', en:'Caramel · Egg · Milk · Butter' },
-      lychee:{ zh:'荔枝 · 奶油奶酪 · 玫瑰花瓣 · 鸡蛋 · 牛奶 · 黄油', en:'Lychee · Cream cheese · Rose petal · Egg · Milk · Butter' },
-      matcha:{ zh:'抹茶 · 红豆 · 鸡蛋 · 牛奶 · 黄油', en:'Matcha · Red bean · Egg · Milk · Butter' },
-      porkfloss:{ zh:'肉松 · 咸蛋黄 · 海苔 · 鸡蛋 · 牛奶 · 黄油', en:'Pork floss · Salted egg yolk · Seaweed · Egg · Milk · Butter' },
-      oreo:{ zh:'奥利奥 · 巧克力 · 布朗尼 · 鸡蛋 · 牛奶 · 黄油', en:'Oreo · Chocolate · Brownie · Egg · Milk · Butter' },
-      taro:{ zh:'芋泥 · 紫米 · 鸡蛋 · 牛奶 · 黄油', en:'Taro · Purple rice · Egg · Milk · Butter' },
-      durian:{ zh:'榴莲 · 鸡蛋 · 牛奶 · 黄油', en:'Durian · Egg · Milk · Butter' },
-      blacksesame:{ zh:'黑芝麻 · 麻薯 · 鸡蛋 · 牛奶 · 黄油', en:'Black sesame · Mochi · Egg · Milk · Butter' },
-      soymilk:{ zh:'豆乳 · 糯米 · 黄豆粉 · 鸡蛋 · 牛奶 · 黄油', en:'Soy milk · Glutinous rice · Soybean powder · Egg · Milk · Butter' },
-      osmanthus:{ zh:'桂花 · 酒酿 · 糯米 · 鸡蛋 · 牛奶 · 黄油', en:'Osmanthus · Rice wine · Glutinous rice · Egg · Milk · Butter' },
-      lavachoc:{ zh:'巧克力 · 可可 · 鸡蛋 · 牛奶 · 黄油', en:'Chocolate · Cocoa · Egg · Milk · Butter' },
-      chestnut:{ zh:'栗子 · 鸡蛋 · 牛奶 · 黄油', en:'Chestnut · Egg · Milk · Butter' },
-      lavacheese:{ zh:'芝士 · 奶油奶酪 · 鸡蛋 · 牛奶 · 黄油', en:'Cheese · Cream cheese · Egg · Milk · Butter' },
-      corn:{ zh:'玉米 · 鸡蛋 · 牛奶 · 黄油', en:'Corn · Egg · Milk · Butter' },
+      original:{ zh:'鸡蛋 · 牛奶 · 淡奶油 · 黄油', en:'Egg · Milk · Heavy whipping cream · Butter' },
+      lychee:{ zh:'荔枝 · 奶油奶酪 · 玫瑰花瓣 · 鸡蛋 · 牛奶 · 淡奶油 · 黄油', en:'Lychee · Cream cheese · Rose petal · Egg · Milk · Heavy whipping cream · Butter' },
+      matcha:{ zh:'抹茶 · 红豆 · 鸡蛋 · 牛奶 · 淡奶油 · 黄油', en:'Matcha · Red bean · Egg · Milk · Heavy whipping cream · Butter' },
+      porkfloss:{ zh:'肉松 · 咸蛋黄 · 海苔 · 鸡蛋 · 牛奶 · 淡奶油 · 黄油', en:'Pork floss · Salted egg yolk · Seaweed · Egg · Milk · Heavy whipping cream · Butter' },
+      oreo:{ zh:'奥利奥 · 鸡蛋 · 牛奶 · 淡奶油 · 黄油', en:'Oreo · Egg · Milk · Heavy whipping cream · Butter' },
+      taro:{ zh:'芋泥 · 紫米 · 炼乳 · 鸡蛋 · 牛奶 · 淡奶油 · 黄油', en:'Taro · Purple rice · Condensed milk · Egg · Milk · Heavy whipping cream · Butter' },
+      durian:{ zh:'榴莲 · 鸡蛋 · 牛奶 · 淡奶油 · 黄油', en:'Durian · Egg · Milk · Heavy whipping cream · Butter' },
+      blacksesame:{ zh:'黑芝麻酱 · 麻薯 · 糯米粉 · 鸡蛋 · 牛奶 · 淡奶油 · 黄油', en:'Black sesame paste · Mochi · Glutinous rice flour · Egg · Milk · Heavy whipping cream · Butter' },
+      soymilk:{ zh:'豆乳 · 糯米 · 糯米粉 · 黄豆粉 · 鸡蛋 · 牛奶 · 淡奶油 · 黄油', en:'Soy milk · Glutinous rice · Glutinous rice flour · Soybean powder · Egg · Milk · Heavy whipping cream · Butter' },
+      osmanthus:{ zh:'桂花 · 酒酿 · 糯米 · 鸡蛋 · 牛奶 · 淡奶油 · 黄油', en:'Osmanthus · Rice wine · Glutinous rice · Egg · Milk · Heavy whipping cream · Butter' },
+      lavachoc:{ zh:'巧克力 · 可可 · 鸡蛋 · 牛奶 · 淡奶油 · 黄油', en:'Chocolate · Cocoa · Egg · Milk · Heavy whipping cream · Butter' },
+      chestnut:{ zh:'栗子 · 鸡蛋 · 牛奶 · 淡奶油 · 黄油', en:'Chestnut · Egg · Milk · Heavy whipping cream · Butter' },
+      lavacheese:{ zh:'奶油奶酪 · 鸡蛋 · 牛奶 · 淡奶油 · 黄油', en:'Cream cheese · Egg · Milk · Heavy whipping cream · Butter' },
+      corn:{ zh:'玉米 · 玉米卡仕达 · 鸡蛋 · 牛奶 · 淡奶油 · 黄油', en:'Corn · Corn custard · Egg · Milk · Heavy whipping cream · Butter' },
     };
     this.THEME_VARS = { '--bg':'#F7EFE0','--surface':'#FFFCF4','--surface-2':'#F1E6D0','--text':'#3A2C1A','--muted':'#94826A','--line':'#E7D9BF','--accent':'#C0792A','--accent-text':'#FFF8EC','--accent-soft':'#F2E3C6','--font-head':"'Noto Sans SC', 'Hanken Grotesk', system-ui, sans-serif",'--font-body':"'Noto Sans SC', 'Hanken Grotesk', system-ui, sans-serif",'--radius':'16px','--radius-sm':'12px','--head-weight':'600','--head-transform':'none','--head-spacing':'0','--shadow':'0 10px 30px rgba(90,60,20,.12)' };
     this.state = { cart: {}, cartOpen: false, step: 'cart', orderNum: null, lang: 'zh', pickupDayId: null, pickupDaySelectedDate: null, reviewIdx: null, toastMsg: false, copiedWechat: false, orderedQty: null, orderedQtyWeek: null };
@@ -1123,7 +1123,7 @@ class Component extends DCLogic {
       const priceLabel = this.money(f.price);
       return { ...f, name: isZh?f.zh:f.en, desc: isZh?f.descZh:f.descEn, tag: isZh?f.tagZh:f.tagEn,
         qty, num: String(i+1).padStart(2,'0'), inCart:qty>0, outCart:qty===0,
-        priceLabel, custardStyle:this.custardStyle(f, '14%'), img:f.img, topImg:'uploads/top/'+f.id+'.webp', ingredients:((this.INGREDIENTS[f.id] || {})[isZh?'zh':'en'] || '').split(' · ').join(isZh?'、':', '),
+        priceLabel, custardStyle:this.custardStyle(f, '14%'), img:f.img, topImg:'uploads/top/'+f.id+'.webp', ingredients:((this.INGREDIENTS[f.id] || {})[isZh?'zh':'en'] || '').split(' · ').join(isZh?'、':', '), ilistStyle:{ minHeight:(isZh?33:66)+'px' },
         onAdd:()=>this.add(f.id), onInc:()=>this.inc(f.id), onDec:()=>this.dec(f.id) };
     });
 
