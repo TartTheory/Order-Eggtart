@@ -671,7 +671,7 @@ class Component extends DCLogic {
         confirm1:(t)=>'Scan the QR above to pay '+t+'.', confirm2:(o,w)=>'Send your order number '+o+' and the payment screenshot to us on Instagram: '+w+'.', confirm3:(s,tm)=>'Collect at '+s+', '+tm+'. Show your saved order, your order number, or just tell us your Venmo name — we’ll confirm you there.' },
     };
     // Customer review screenshots: { src:'uploads/reviews/01.jpg' }. Section stays hidden while this is empty.
-    this.REVIEW_TWO_ROWS_FROM = 12; // one row until there are this many screenshots in a language, then two
+    this.REVIEW_TWO_ROWS_FROM = Infinity; // always one row (the shop prefers a single row)
     // lang: which version of the site shows the screenshot ('zh' or 'en'); a language with none hides the whole section.
     this.REVIEWS = [
       { src:'uploads/reviews/01.jpg', lang:'zh' }, { src:'uploads/reviews/02.jpg', lang:'zh' }, { src:'uploads/reviews/03.jpg', lang:'zh' }, { src:'uploads/reviews/04.jpg', lang:'zh' },
