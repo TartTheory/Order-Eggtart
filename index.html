@@ -38,10 +38,10 @@
   .tt-mrow { display: flex; align-items: stretch; gap: 14px; overflow-x: auto; scroll-snap-type: x proximity; scrollbar-width: none; -webkit-overflow-scrolling: touch; padding: 70px 14px 12px; scroll-padding-left: 14px; }
   .tt-mrow::-webkit-scrollbar { display: none; }
   .tt-mcard { display: flex; flex-direction: column; flex: 0 0 min(60vw, 240px); scroll-snap-align: start; background: var(--surface); border: 1px solid var(--line); border-radius: 22px; padding: 0 14px 14px; text-align: center; box-shadow: var(--shadow); }
-  .tt-ilab { position: relative; margin: 14px 0 12px; padding: 9px 9px 6px; border: 1px solid var(--line); border-radius: 8px; text-align: left; font-family: var(--font-body); color: var(--muted); }
-  .tt-ilab h5 { position: absolute; left: 8px; top: -7px; margin: 0; padding: 0 5px; background: var(--surface); font-size: 9.5px; font-weight: 600; letter-spacing: .12em; color: var(--muted); }
-  .tt-ilist { font-size: 11px; line-height: 1.5; }
-  .tt-ial { margin-top: 4px; padding-top: 3px; border-top: 1px dashed var(--line); font-size: 10px; line-height: 1.4; opacity: .9; }
+  .tt-ilab { position: relative; margin: 14px 0 12px; padding: 8px 8px 5px; border: 1px solid color-mix(in srgb, var(--line) 70%, transparent); border-radius: 8px; text-align: left; font-family: var(--font-body); color: color-mix(in srgb, var(--muted) 72%, var(--surface)); }
+  .tt-ilab h5 { position: absolute; left: 8px; top: -7px; margin: 0; padding: 0 5px; background: var(--surface); font-size: 8.5px; font-weight: 600; letter-spacing: .12em; color: color-mix(in srgb, var(--muted) 65%, var(--surface)); }
+  .tt-ilist { font-size: 9.5px; line-height: 1.5; }
+  .tt-ial { margin-top: 3px; padding-top: 3px; border-top: 1px dashed color-mix(in srgb, var(--line) 80%, transparent); font-size: 9px; line-height: 1.4; }
   .tt-step { display: flex; align-items: center; justify-content: space-between; box-sizing: border-box; width: 112px; height: 34px; padding: 0 3px; border: 1.5px solid var(--accent); border-radius: 999px; background: var(--surface); }
   .tt-step button { display: flex; align-items: center; justify-content: center; width: 26px; height: 26px; padding: 0; border: none; border-radius: 50%; background: var(--accent-soft); color: var(--accent); font-size: 17px; font-weight: 700; line-height: 1; cursor: pointer; }
   .tt-step button.tt-stp { background: var(--accent); color: var(--accent-text); }
@@ -1136,7 +1136,7 @@ class Component extends DCLogic {
       const priceLabel = this.money(f.price);
       return { ...f, name: isZh?f.zh:f.en, desc: isZh?f.descZh:f.descEn, tag: isZh?f.tagZh:f.tagEn,
         qty, num: String(i+1).padStart(2,'0'), inCart:qty>0, outCart:qty===0,
-        priceLabel, custardStyle:this.custardStyle(f, '14%'), img:f.img, topImg:'uploads/top/'+f.id+'.webp', ingredients:((this.INGREDIENTS[f.id] || {})[isZh?'zh':'en'] || '').split(' · ').join(isZh?'、':', '), ilistStyle:{ minHeight:(isZh?33:66)+'px' }, allergenLine:L.ingAllergen + this.allergensFor(f.id, isZh), ialStyle:{ minHeight:(isZh?14:28)+'px' },
+        priceLabel, custardStyle:this.custardStyle(f, '14%'), img:f.img, topImg:'uploads/top/'+f.id+'.webp', ingredients:((this.INGREDIENTS[f.id] || {})[isZh?'zh':'en'] || '').split(' · ').join(isZh?'、':', '), ilistStyle:{ minHeight:(isZh?29:43)+'px' }, allergenLine:L.ingAllergen + this.allergensFor(f.id, isZh), ialStyle:{ minHeight:'13px' },
         onAdd:()=>this.add(f.id), onInc:()=>this.inc(f.id), onDec:()=>this.dec(f.id) };
     });
 
