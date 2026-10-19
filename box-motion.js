@@ -44,9 +44,10 @@
   .bx-num.roll { animation: bxRoll .4s ${OUT}; }
   @keyframes bxRoll { from { transform:translateY(60%); opacity:0 } }
   .bx-crumb { position:fixed; width:7px; height:7px; border-radius:2px; pointer-events:none; z-index:200; }
-  .bx-d { display:grid !important; position:sticky !important; bottom:12px; z-index:30; overflow:hidden; margin:18px 0 0 !important; box-shadow:none; transition: background-color .5s, color .4s; }
+  .bx-d { display:grid !important; position:relative !important; bottom:12px; z-index:30; overflow:hidden; margin:18px 0 0 !important; box-shadow:none; transition: background-color .5s, color .4s; }
   .bx-d > * { grid-area:1/1; transition: opacity .35s, transform .55s ${OUT}; }
   .bx-d .bx-d-box { display:flex; flex-direction:column; gap:8px; opacity:0; transform:translateY(12px); pointer-events:none; cursor:pointer; }
+  .bx-d.show { position:sticky !important; } /* only follows the scroll once a tart is in the box */
   .bx-d.show .bx-d-promo { opacity:0; transform:translateY(-12px); }
   .bx-d.show .bx-d-box { opacity:1; transform:none; pointer-events:auto; }
   .bx-slots { display:grid; grid-template-columns:repeat(4, minmax(0, 36px)); gap:6px; margin-left:auto; flex:1 1 auto; min-width:0; justify-content:end; }
