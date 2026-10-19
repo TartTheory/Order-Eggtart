@@ -116,8 +116,7 @@
     const changed = left !== lastLeft; lastLeft = left;
     let html;
     if (box.length === 4) html = T('这盒已满！', 'Box complete!') + '<small>' + T('已省 ', 'You saved ') + money(saved(box)) + '</small>';
-    else if (box.length === 0 && sealed.length) html = T('开始下一盒', 'Start your next box') + '<small>' + T('再选四颗仅 $20', 'Any 4 for $20') + '</small>';
-    else html = T('还差 ', 'Add ') + '<span class="bx-num' + (changed ? ' roll' : '') + '">' + left + '</span>' + T(' 个', ' more') + '<small>' + T('任选四颗 $20', 'Any 4 for $20') + '</small>';
+    else html = T('任选四颗 $20', 'Any 4 for $20') + (sealed.length && !box.length ? '<small>' + T('开始下一盒', 'Start your next box') + '</small>' : '');
     txtEl.innerHTML = html;
     promo.classList.toggle('show', box.length > 0 || sealed.length > 0 || pending > 0);
     if (animIdx != null && slotsEl.children[animIdx]) {
