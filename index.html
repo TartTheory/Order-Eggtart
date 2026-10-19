@@ -264,7 +264,7 @@
       </div>
     </div>
 
-    <div style="position:relative">
+    <div class="tt-cards-anchor" style="position:relative">
       <button class="tt-marr" style="left:-6px" onClick="{{ menuPrev }}" aria-label="previous">&lsaquo;</button>
       <div class="tt-mrow">
         <sc-for list="{{ menu }}" as="item" hint-placeholder-count="8">
@@ -1409,5 +1409,21 @@ class Component extends DCLogic {
 }
 </script>
 <script src="./box-motion.js"></script>
+<script>
+// Soft snap to the menu cards: let the phone's natural momentum finish first, then, if the
+// page came to rest close to the cards, ease it the last few pixels so the tart sits just
+// under the nav (with room for the deal box below). CSS scroll-snap cuts momentum short.
+(() => {
+  const RANGE = 110, GAP = 54;
+  let t = null, settling = false;
+  const settle = () => {
+    const el = document.querySelector('.tt-cards-anchor');
+    if (!el || document.body.style.overflow === 'hidden') return;
+    const d = el.getBoundingClientRect().top - GAP;
+    if (Math.abs(d) > 2 && Math.abs(d) < RANGE) { settling = true; window.scrollBy({ top: d, behavior: 'smooth' }); setTimeout(() => { settling = false; }, 600); }
+  };
+  window.addEventListener('scroll', () => { if (settling) return; clearTimeout(t); t = setTimeout(settle, 180); }, { passive: true });
+})();
+</script>
 </body>
 </html>
