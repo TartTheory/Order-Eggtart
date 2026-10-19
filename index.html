@@ -135,6 +135,15 @@
   .tt-shotbtn[data-saved="1"] .tt-lb .l1 { transform: translateY(-100%); opacity: 0; }
   .tt-shotbtn[data-saved="1"] .tt-lb .l2 { transform: none; opacity: 1; }
   @keyframes ttCkPop { 0% { opacity: 0; transform: scale(.3); } 100% { opacity: 1; transform: scale(1); } }
+  .tt-rc-done { margin: 14px 0 10px; text-align: left; }
+  .tt-rco { text-align: center; padding: 12px 0 10px; border-bottom: 1px dotted #e0d3ba; }
+  .tt-rcol { font-size: 11px; font-weight: 600; letter-spacing: .06em; text-transform: uppercase; color: var(--muted); margin-bottom: 2px; }
+  .tt-rcon { font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace; font-weight: 800; font-size: 24px; letter-spacing: .04em; color: var(--text); }
+  .tt-rcw { padding: 9px 0; border-bottom: 1px dotted #e0d3ba; font-size: 12.5px; line-height: 1.5; color: var(--muted); }
+  .tt-shotbtn.tt-shotlink { width: auto; margin: 12px auto 0; padding: 4px 6px; border: none; background: transparent; font-size: 13px; color: var(--accent); }
+  .tt-shotbtn.tt-shotlink::before { display: none; }
+  .tt-shotbtn.tt-shotlink:active { background: transparent; color: var(--accent); }
+  .tt-shotbtn.tt-shotlink[data-saved="1"] { color: #2E7D4F; }
   @media (prefers-reduced-motion: reduce) { .tt-shotbtn, .tt-shotbtn::before, .tt-lb span, .tt-ic .tt-dl { transition: none; } .tt-shotbtn[data-saved="1"] .tt-ck { animation: none; opacity: 1; } }
   .tt-cpy { display: inline-flex; align-items: center; gap: 10px; padding: 10px 16px; border: 1.5px solid var(--accent); border-radius: 999px; background: var(--surface); color: var(--text); font-family: var(--font-body); font-weight: 600; font-size: 14px; cursor: pointer; white-space: nowrap; }
   .tt-qr-placeholder { align-items: center; justify-content: center; border: 2px dashed var(--line); color: var(--muted); font-family: var(--font-body); font-size: 12px; }
@@ -470,35 +479,36 @@
             <div>
               <div class="tt-badge"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></div>
               <h4 style="margin:8px 0 12px">{{ t.orderReservedTitle }}</h4>
-          <div style="text-align:left; background:var(--accent-soft); border:2px solid var(--accent); border-radius:var(--radius-sm); padding:16px 14px 14px">
-            <div style="text-align:center; margin-bottom:10px">
-              <div style="font-family:var(--font-body); font-size:11px; font-weight:600; letter-spacing:.06em; text-transform:uppercase; color:var(--accent); margin-bottom:3px">{{ t.yourOrderNumberLabel }}</div>
-              <div style="font-family:var(--font-body); font-weight:700; color:var(--text); font-size:26px; letter-spacing:.02em; line-height:1.2">{{ orderNum }}</div>
+          <div class="tt-rc tt-rc-done">
+            <div class="tt-rch">{{ brand }}</div>
+            <div class="tt-rco">
+              <div class="tt-rcol">{{ t.yourOrderNumberLabel }}</div>
+              <div class="tt-rcon">{{ orderNum }}</div>
             </div>
-            <div style="font-family:var(--font-body); margin-bottom:8px; border-top:1px solid color-mix(in srgb, var(--accent) 25%, transparent); padding-top:10px">
-              <div style="font-weight:400; font-size:13px; color:var(--muted); line-height:1.5">{{ pickupWhen }}</div>
-              <div style="font-weight:400; font-size:13px; color:var(--muted); margin-top:3px; line-height:1.5; white-space:pre-line">{{ pickupWhere }}</div>
+            <div class="tt-rcw">
+              <div>{{ pickupWhen }}</div>
+              <div style="white-space:pre-line">{{ pickupWhere }}</div>
             </div>
-            <div style="border-top:1px solid color-mix(in srgb, var(--accent) 25%, transparent); padding-top:8px">
-              <sc-for list="{{ ticketItems }}" as="ci" hint-placeholder-count="2">
-                <div style="display:flex; justify-content:space-between; gap:10px; font-family:var(--font-body); font-weight:400; font-size:14px; color:var(--text); padding:3px 0">
-                  <span>{{ ci.qty }}&times; {{ ci.name }}</span><span>{{ ci.lineLabel }}</span>
+            <sc-for list="{{ ticketItems }}" as="ci" hint-placeholder-count="2">
+              <div class="tt-rcl">
+                <img src="{{ ci.topImg }}" alt="" style="width:34px; height:34px; flex:none; object-fit:contain; filter:drop-shadow(0 2px 3px rgba(60,35,5,.3))" />
+                <div class="tt-rcm" style="display:flex; justify-content:space-between; align-items:center; gap:10px">
+                  <div class="tt-rcn">{{ ci.qty }}&times; {{ ci.name }}</div>
+                  <div class="tt-rcp">{{ ci.lineLabel }}</div>
                 </div>
-              </sc-for>
-              <sc-if value="{{ hasMoreItems }}" hint-placeholder-val="">
-                <button class="tt-more" onClick="{{ toggleItems }}">
-                  <span>{{ moreLabel }}</span>
-                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="{{ moreChevStyle }}"><path d="M6 9l6 6 6-6"/></svg>
-                </button>
-              </sc-if>
-            </div>
-            <div style="display:flex; justify-content:space-between; font-family:var(--font-body); font-weight:700; color:var(--text); font-size:14px; border-top:1px solid color-mix(in srgb, var(--accent) 25%, transparent); margin-top:8px; padding-top:10px">
-              <span>{{ t.totalLabel }}</span><span>{{ totalLabel }}</span>
-            </div>
-            <button class="tt-shotbtn" data-saved="{{ shotSavedAttr }}" onClick="{{ saveShot }}" style="{{ shotBtnStyle }}">
+              </div>
+            </sc-for>
+            <sc-if value="{{ hasMoreItems }}" hint-placeholder-val="">
+              <button class="tt-more" onClick="{{ toggleItems }}">
+                <span>{{ moreLabel }}</span>
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="{{ moreChevStyle }}"><path d="M6 9l6 6 6-6"/></svg>
+              </button>
+            </sc-if>
+            <div class="tt-rct"><span>{{ t.totalLabel }}</span><span>{{ totalLabel }}</span></div>
+            <button class="tt-shotbtn tt-shotlink" data-saved="{{ shotSavedAttr }}" onClick="{{ saveShot }}" style="{{ shotBtnStyle }}">
               <span class="tt-ic">
-                <svg class="tt-dl" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 4v11M7 11l5 5 5-5M5 20h14"/></svg>
-                <svg class="tt-ck" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>
+                <svg class="tt-dl" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 4v11M7 11l5 5 5-5M5 20h14"/></svg>
+                <svg class="tt-ck" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>
               </span>
               <span class="tt-lb"><span class="l1">{{ shotBtnLabel }}</span><span class="l2">{{ shotSavedLabel }}</span></span>
             </button>
