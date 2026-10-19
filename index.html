@@ -202,7 +202,7 @@
               <div class="tt-ilab">
                 <h5>{{ t.ingTitle }}</h5>
                 <div class="tt-ilist" style="{{ item.ilistStyle }}">{{ item.ingredients }}</div>
-                <div class="tt-ial">{{ t.ingAllergen }}</div>
+                <div class="tt-ial" style="{{ item.ialStyle }}">{{ item.allergenLine }}</div>
               </div>
             </sc-if>
             <div style="display:flex; justify-content:center; margin-top:auto">
@@ -621,7 +621,7 @@ class Component extends DCLogic {
     this.PICKUP_CAPS = { 'Aug 28-29': 32 };
     this.SHEET_WEBHOOK_URL = 'https://script.google.com/macros/s/AKfycbwe-Ee-BHG5GZ8q4vSG82J0YPIg159V6e6X9x1ptzEfFCugsWJgp_HoDX9dIkr4RXu-0A/exec';
     this.UI = {
-      zh:{ bag:'购物车', kicker:'今天，也想吃一颗热乎乎的蛋挞。', ctaHow:'下单说明', ingTitle:'成分', ingAllergen:'含过敏原：蛋、乳', heroTitle:'每一颗蛋挞都是刚出炉的幸福。', heroSubtitle:'酥到掉渣的塔皮，\n顺滑浓郁的蛋奶馅。', heroNote:'每天新鲜制作，\n每周都有新的口味。', heroSmall:'仅支持线上预订 \u00b7 定点自取', ctaLabel:'查看菜单',
+      zh:{ bag:'购物车', kicker:'今天，也想吃一颗热乎乎的蛋挞。', ctaHow:'下单说明', ingTitle:'成分', ingAllergen:'含过敏原：', heroTitle:'每一颗蛋挞都是刚出炉的幸福。', heroSubtitle:'酥到掉渣的塔皮，\n顺滑浓郁的蛋奶馅。', heroNote:'每天新鲜制作，\n每周都有新的口味。', heroSmall:'仅支持线上预订 \u00b7 定点自取', ctaLabel:'查看菜单',
         menuLabel:'菜单', menuTitle:'经典口味与每周限定，任你挑选。', menuNote:'经典口味与每周限定，任你挑选。', add:'加入',
         pickupPaymentLabel:'取货与付款', faqLabel:'常见问题', faqTitle:'常见问题', reviewsLabel:'真实评价', reviewsTitle:'顾客好评', reviewsHint:'轻点放大，左右滑动查看更多', reviewsOpen:'查看评价截图',
         faq:[
@@ -645,7 +645,7 @@ class Component extends DCLogic {
         startNewOrder:'开始新订单', checkoutBtn:'结账', totalLabel:'总计', eachSuffix:'/每个', confirmShotLabel:'付款确认截图示例',
         heroWordA:'现烤', heroWordB:'酥脆', heroWordC:'浓郁',
         confirm1:(t)=>'扫描上方二维码支付 '+t+'。', confirm2:(o,w)=>'将订单号 '+o+' 和付款截图发送到微信：'+w+'。', confirm3:(s,tm)=>'在 '+s+'，'+tm+' 取货。出示相册里保存的订单、订单号，或直接告诉我们你的 Venmo 用户名，我们会现场为你核实。' },
-      en:{ bag:'Bag', kicker:'Craving a warm eggtart today?', ctaHow:'How to order', ingTitle:'INGREDIENTS', ingAllergen:'Contains: egg, milk', heroTitle:'Handcrafted egg tarts inspired by flavors from around the world.', heroSubtitle:'Flaky crust.\nSilky custard.', heroNote:'Baked fresh daily.\nNew flavors every week.', heroSmall:'Pre-order for pickup.', ctaLabel:'View Menu',
+      en:{ bag:'Bag', kicker:'Craving a warm eggtart today?', ctaHow:'How to order', ingTitle:'INGREDIENTS', ingAllergen:'Contains: ', heroTitle:'Handcrafted egg tarts inspired by flavors from around the world.', heroSubtitle:'Flaky crust.\nSilky custard.', heroNote:'Baked fresh daily.\nNew flavors every week.', heroSmall:'Pre-order for pickup.', ctaLabel:'View Menu',
         menuLabel:'The menu', menuTitle:'Classic favorites and weekly specials.', menuNote:'Classic favorites and weekly specials.', add:'Add',
         pickupPaymentLabel:'Pickup & payment', faqLabel:'FAQ', faqTitle:'Frequently asked questions', reviewsLabel:'Reviews', reviewsTitle:'What customers say', reviewsHint:'Tap to enlarge, swipe to see more', reviewsOpen:'View review screenshot',
         faq:[
@@ -678,6 +678,15 @@ class Component extends DCLogic {
       { src:'uploads/reviews/05.jpg', lang:'zh' }, { src:'uploads/reviews/06.jpg', lang:'zh' }, { src:'uploads/reviews/07.jpg', lang:'zh' },
       { src:'uploads/reviews/08.jpg', lang:'zh', bg:'#111111' }, { src:'uploads/reviews/09.jpg', lang:'zh', bg:'#111111' }, // bg: card color behind a screenshot that isn't WeChat's light grey (dark mode)
     ];
+    // Major allergens per tart (FDA list: milk, egg, fish, shellfish, tree nuts, peanuts, wheat, soy, sesame). All tarts: milk, egg and wheat (wheat from the tart shell; confirm against the shell's package).
+    // Extras only where an ingredient is itself an allergen. Still to confirm with supplier labels: chocolate, brownie, pork floss and other bought-in items (soy / wheat / fish).
+    this.ALLERGEN_BASE = { zh:['\u4e73', '\u86cb', '\u5c0f\u9ea6'], en:['milk', 'egg', 'wheat'] };
+    this.ALLERGEN_EXTRA = {
+      oreo:{ zh:['\u5927\u8c46'], en:['soy'] },
+      soymilk:{ zh:['\u5927\u8c46'], en:['soy'] },
+      blacksesame:{ zh:['\u829d\u9ebb'], en:['sesame'] },
+      chestnut:{ zh:['\u575a\u679c'], en:['tree nuts'] },
+    };
     // Short ingredient lines shown under each menu card.
     this.INGREDIENTS = {
       original:{ zh:'鸡蛋 · 牛奶 · 淡奶油 · 黄油', en:'Egg · Milk · Heavy whipping cream · Butter' },
@@ -1076,6 +1085,10 @@ class Component extends DCLogic {
   }
 
   startNew() { this.setState({ cart:{}, step:'cart', orderNum:null, cartOpen:false, pickupDayId:null, pickupDaySelectedDate:null, toastMsg:false }); }
+  allergensFor(id, isZh) {
+    const k = isZh ? 'zh' : 'en', extra = (this.ALLERGEN_EXTRA[id] || {})[k] || [];
+    return this.ALLERGEN_BASE[k].concat(extra).join(isZh ? '\u3001' : ', ');
+  }
   scrollToHow() { this.scrollToMenu('tt-how'); }
   scrollToMenu(id) {
     const el = document.getElementById(typeof id === 'string' ? id : 'tt-menu');
@@ -1123,7 +1136,7 @@ class Component extends DCLogic {
       const priceLabel = this.money(f.price);
       return { ...f, name: isZh?f.zh:f.en, desc: isZh?f.descZh:f.descEn, tag: isZh?f.tagZh:f.tagEn,
         qty, num: String(i+1).padStart(2,'0'), inCart:qty>0, outCart:qty===0,
-        priceLabel, custardStyle:this.custardStyle(f, '14%'), img:f.img, topImg:'uploads/top/'+f.id+'.webp', ingredients:((this.INGREDIENTS[f.id] || {})[isZh?'zh':'en'] || '').split(' · ').join(isZh?'、':', '), ilistStyle:{ minHeight:(isZh?33:66)+'px' },
+        priceLabel, custardStyle:this.custardStyle(f, '14%'), img:f.img, topImg:'uploads/top/'+f.id+'.webp', ingredients:((this.INGREDIENTS[f.id] || {})[isZh?'zh':'en'] || '').split(' · ').join(isZh?'、':', '), ilistStyle:{ minHeight:(isZh?33:66)+'px' }, allergenLine:L.ingAllergen + this.allergensFor(f.id, isZh), ialStyle:{ minHeight:(isZh?14:28)+'px' },
         onAdd:()=>this.add(f.id), onInc:()=>this.inc(f.id), onDec:()=>this.dec(f.id) };
     });
 
