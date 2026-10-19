@@ -136,7 +136,7 @@
   .tt-shotbtn[data-saved="1"] .tt-lb .l2 { transform: none; opacity: 1; }
   @keyframes ttCkPop { 0% { opacity: 0; transform: scale(.3); } 100% { opacity: 1; transform: scale(1); } }
   .tt-rc-done { margin: 14px 0 10px; text-align: left; }
-  .tt-rco { text-align: center; padding: 12px 0 10px; border-bottom: 1px dotted #e0d3ba; }
+  .tt-rco { text-align: center; padding: 2px 0 10px; border-bottom: 1px dotted #e0d3ba; }
   .tt-rcol { font-size: 11px; font-weight: 600; letter-spacing: .06em; text-transform: uppercase; color: var(--muted); margin-bottom: 2px; }
   .tt-rcon { font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace; font-weight: 800; font-size: 24px; letter-spacing: .04em; color: var(--text); }
   .tt-rcw { padding: 9px 0; border-bottom: 1px dotted #e0d3ba; font-size: 12.5px; line-height: 1.5; color: var(--muted); }
@@ -408,7 +408,6 @@
         </sc-if>
         <sc-if value="{{ hasItems }}" hint-placeholder-val="">
           <div class="tt-rc">
-            <div class="tt-rch">{{ brand }}</div>
             <sc-for list="{{ cartItems }}" as="ci" hint-placeholder-count="2">
               <div class="tt-rcl">
                 <img src="{{ ci.topImg }}" alt="" style="width:34px; height:34px; flex:none; object-fit:contain; filter:drop-shadow(0 2px 3px rgba(60,35,5,.3))" />
@@ -480,7 +479,6 @@
               <div class="tt-badge"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></div>
               <h4 style="margin:8px 0 12px">{{ t.orderReservedTitle }}</h4>
           <div class="tt-rc tt-rc-done">
-            <div class="tt-rch">{{ brand }}</div>
             <div class="tt-rco">
               <div class="tt-rcol">{{ t.yourOrderNumberLabel }}</div>
               <div class="tt-rcon">{{ orderNum }}</div>
