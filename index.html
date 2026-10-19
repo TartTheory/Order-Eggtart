@@ -136,10 +136,6 @@
   .tt-stsep { color: var(--line); font-weight: 800; }
   .tt-steppill { display: inline-block; margin: 0 0 12px; padding: 4px 10px; border-radius: 999px; background: var(--accent-soft); color: var(--accent); font-family: var(--font-body); font-size: 11.5px; font-weight: 800; letter-spacing: .03em; }
   .tt-backlink { display: inline-flex; align-items: center; gap: 4px; margin: 0 0 14px; padding: 0; border: none; background: none; cursor: pointer; font-family: var(--font-body); font-size: 13.5px; font-weight: 600; color: var(--muted); }
-  /* Gentle scroll snapping: when scrolling stops near a section, it settles at the top under the nav. */
-  html { scroll-snap-type: y proximity; }
-  .tt-snap { scroll-snap-align: start; scroll-margin-top: 58px; }
-  .tt-snap-cards { scroll-margin-top: 54px; } /* menu snaps to the cards, not the heading, so the tart sits just under the nav and the box builder clears the add button */
   .tt-qrmore summary { list-style: none; cursor: pointer; font-family: var(--font-body); font-size: 13px; font-weight: 600; color: var(--accent); text-decoration: underline; text-underline-offset: 3px; }
   .tt-qrmore summary::-webkit-details-marker { display: none; }
   .tt-qrmore[open] summary { color: var(--muted); }
@@ -268,7 +264,7 @@
       </div>
     </div>
 
-    <div class="tt-snap tt-snap-cards" style="position:relative">
+    <div style="position:relative">
       <button class="tt-marr" style="left:-6px" onClick="{{ menuPrev }}" aria-label="previous">&lsaquo;</button>
       <div class="tt-mrow">
         <sc-for list="{{ menu }}" as="item" hint-placeholder-count="8">
