@@ -5,6 +5,7 @@ var COL = { TIMESTAMP: 1, ORDER_NUM: 2, ITEMS: 3, TOTAL: 4, PAID_VENMO: 5, AMOUN
 var FLAVORS = [
   { id: 'original', name: 'Original Portuguese Style', price: 4 },
   { id: 'lychee', name: 'Lychee Cream Cheese Eggtart', price: 6 },
+  { id: 'persimmon', name: 'Persimmon Egg Tart', price: 6 },
   { id: 'matcha', name: 'Matcha Red Bean Tart', price: 6 },
   { id: 'porkfloss', name: 'Pork Floss Salted Egg Tart', price: 6 },
   { id: 'oreo', name: 'Oreo Brownie Egg Tart', price: 6 },
