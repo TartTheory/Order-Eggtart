@@ -260,7 +260,7 @@
       <div class="rv-row">
         <div class="rv-track">
           <sc-for list="{{ reviewRow1 }}" as="rv" hint-placeholder-count="3">
-            <button class="rv-card" onClick="{{ rv.onOpen }}" aria-label="{{ t.reviewsOpen }}"><img src="{{ rv.src }}" alt="" loading="lazy" /></button>
+            <button class="rv-card" onClick="{{ rv.onOpen }}" style="{{ rv.cardStyle }}" aria-label="{{ t.reviewsOpen }}"><img src="{{ rv.src }}" alt="" loading="lazy" /></button>
           </sc-for>
         </div>
       </div>
@@ -268,7 +268,7 @@
         <div class="rv-row">
           <div class="rv-track">
             <sc-for list="{{ reviewRow2 }}" as="rv" hint-placeholder-count="3">
-              <button class="rv-card" onClick="{{ rv.onOpen }}" aria-label="{{ t.reviewsOpen }}"><img src="{{ rv.src }}" alt="" loading="lazy" /></button>
+              <button class="rv-card" onClick="{{ rv.onOpen }}" style="{{ rv.cardStyle }}" aria-label="{{ t.reviewsOpen }}"><img src="{{ rv.src }}" alt="" loading="lazy" /></button>
             </sc-for>
           </div>
         </div>
@@ -651,6 +651,7 @@ class Component extends DCLogic {
     this.REVIEWS = [
       { src:'uploads/reviews/01.jpg', lang:'zh' }, { src:'uploads/reviews/02.jpg', lang:'zh' }, { src:'uploads/reviews/03.jpg', lang:'zh' }, { src:'uploads/reviews/04.jpg', lang:'zh' },
       { src:'uploads/reviews/05.jpg', lang:'zh' }, { src:'uploads/reviews/06.jpg', lang:'zh' }, { src:'uploads/reviews/07.jpg', lang:'zh' },
+      { src:'uploads/reviews/08.jpg', lang:'zh', bg:'#111111' }, { src:'uploads/reviews/09.jpg', lang:'zh', bg:'#111111' }, // bg: card color behind a screenshot that isn't WeChat's light grey (dark mode)
     ];
     this.THEME_VARS = { '--bg':'#F7EFE0','--surface':'#FFFCF4','--surface-2':'#F1E6D0','--text':'#3A2C1A','--muted':'#94826A','--line':'#E7D9BF','--accent':'#C0792A','--accent-text':'#FFF8EC','--accent-soft':'#F2E3C6','--font-head':"'Noto Sans SC', 'Hanken Grotesk', system-ui, sans-serif",'--font-body':"'Noto Sans SC', 'Hanken Grotesk', system-ui, sans-serif",'--radius':'16px','--radius-sm':'12px','--head-weight':'600','--head-transform':'none','--head-spacing':'0','--shadow':'0 10px 30px rgba(90,60,20,.12)' };
     this.state = { cart: {}, cartOpen: false, step: 'cart', orderNum: null, lang: 'zh', pickupDayId: null, pickupDaySelectedDate: null, reviewIdx: null, toastMsg: false, copiedWechat: false, orderedQty: null, orderedQtyWeek: null };
@@ -722,11 +723,11 @@ class Component extends DCLogic {
   }
   // Row 0/1 of the auto-scrolling strip: screenshots alternate between rows (one row until REVIEW_TWO_ROWS_FROM), repeated so each half is wider than any screen, then doubled for a seamless loop.
   reviewRow(row) {
-    const all = this.reviewList().map((r, i) => ({ src: r.src, idx: i }));
+    const all = this.reviewList().map((r, i) => ({ src: r.src, idx: i, bg: r.bg }));
     const mine = all.length >= this.REVIEW_TWO_ROWS_FROM ? all.filter((_, i) => i % 2 === row) : (row === 0 ? all : []);
     if (!mine.length) return [];
     const half = []; while (half.length < 8) mine.forEach(m => half.push(m));
-    return half.concat(half).map(m => ({ src: m.src, onOpen: () => this.openReview(m.idx) }));
+    return half.concat(half).map(m => ({ src: m.src, cardStyle: m.bg ? { background: m.bg } : {}, onOpen: () => this.openReview(m.idx) }));
   }
   // The review rows drift on their own and can be swiped by hand: both rows are plain scrollable strips (content repeated twice, so the position wraps at half width). Drift pauses while touched, hovered or just scrolled by hand, and resumes after a short idle.
   startReviewDrift() {
