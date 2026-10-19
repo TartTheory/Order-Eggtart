@@ -37,14 +37,14 @@
   .bx-slot.em { border:2px dashed color-mix(in srgb, var(--accent) 45%, transparent); }
   .bx-slot.next { animation: bxBreathe 1.6s ease-in-out infinite; }
   @keyframes bxBreathe { 50% { transform:scale(1.1); } }
-  .bx-slot.full { filter:drop-shadow(0 3px 4px rgba(60,35,5,.35)); }
+  .bx-slot.full { filter:none; }
   .bx-txt { font-family:var(--font-body); font-weight:700; font-size:15px; color:var(--accent); line-height:1.25; white-space:nowrap; }
   .bx-txt small { display:block; font-weight:500; font-size:11.5px; opacity:.8; }
   .bx-num { display:inline-block; }
   .bx-num.roll { animation: bxRoll .4s ${OUT}; }
   @keyframes bxRoll { from { transform:translateY(60%); opacity:0 } }
   .bx-crumb { position:fixed; width:7px; height:7px; border-radius:2px; pointer-events:none; z-index:200; }
-  .bx-d { display:grid !important; position:sticky !important; bottom:12px; z-index:30; overflow:hidden; margin:18px 0 0 !important; box-shadow:0 10px 26px rgba(90,60,20,.2); transition: background-color .5s, color .4s; }
+  .bx-d { display:grid !important; position:sticky !important; bottom:12px; z-index:30; overflow:hidden; margin:18px 0 0 !important; box-shadow:none; transition: background-color .5s, color .4s; }
   .bx-d > * { grid-area:1/1; transition: opacity .35s, transform .55s ${OUT}; }
   .bx-d .bx-d-box { display:flex; flex-direction:column; gap:8px; opacity:0; transform:translateY(12px); pointer-events:none; cursor:pointer; }
   .bx-d.show .bx-d-promo { opacity:0; transform:translateY(-12px); }
@@ -55,7 +55,7 @@
   .bx-done:empty { display:none; }
   .bx-drow { display:flex; align-items:center; gap:6px; padding-top:6px; border-top:1px dashed color-mix(in srgb, var(--accent) 30%, transparent); font-family:var(--font-body); font-size:12.5px; font-weight:700; color:var(--accent); white-space:nowrap; overflow:hidden; }
   .bx-drow .bx-mini { display:flex; gap:2px; flex:none; }
-  .bx-drow .bx-mini i { width:16px; height:16px; border-radius:50%; background-size:contain; background-position:center; background-repeat:no-repeat; filter:drop-shadow(0 2px 2px rgba(60,35,5,.3)); }
+  .bx-drow .bx-mini i { width:16px; height:16px; border-radius:50%; background-size:contain; background-position:center; background-repeat:no-repeat; }
   .bx-drow .lbl { flex:1; text-align:left; min-width:0; overflow:hidden; text-overflow:ellipsis; }
   .bx-drow .sv { flex:none; padding:2px 8px; border-radius:999px; background:var(--accent); color:var(--accent-text); font-size:11px; }
   .bx-drow.in { animation: bxRowIn .55s ${SPRING}; }
