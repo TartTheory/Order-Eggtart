@@ -668,20 +668,20 @@ class Component extends DCLogic {
     ];
     // Short ingredient lines shown under each menu card.
     this.INGREDIENTS = {
-      original:{ zh:'焦糖表层 · 蛋奶馅 · 千层酥皮', en:'Caramelized top · Egg custard · Layered crust' },
-      lychee:{ zh:'荔枝 · 奶酪馅 · 玫瑰花瓣 · 千层酥皮', en:'Lychee · Cream cheese · Rose petal · Layered crust' },
-      matcha:{ zh:'抹茶 · 蛋奶馅 · 红豆沙 · 千层酥皮', en:'Matcha · Egg custard · Red bean paste · Layered crust' },
-      porkfloss:{ zh:'肉松 · 咸蛋黄酱 · 海苔 · 千层酥皮', en:'Pork floss · Salted egg yolk · Seaweed · Layered crust' },
-      oreo:{ zh:'奥利奥 · 巧克力酱 · 布朗尼馅 · 千层酥皮', en:'Oreo · Chocolate sauce · Brownie filling · Layered crust' },
-      taro:{ zh:'芋泥 · 蛋奶馅 · 紫米', en:'Taro mash · Egg custard · Purple rice' },
-      durian:{ zh:'榴莲果泥 · 蛋奶馅', en:'Durian puree · Egg custard' },
-      blacksesame:{ zh:'黑芝麻麻薯 · 黑芝麻卡仕达 · 千层酥皮', en:'Black sesame mochi · Black sesame custard · Layered crust' },
-      soymilk:{ zh:'糯米团子 · 豆乳卡仕达 · 黄豆粉 · 千层酥皮', en:'Mochi · Soy milk custard · Soybean powder · Layered crust' },
-      osmanthus:{ zh:'桂花蜜 · 酒酿 · 糯米丸子 · 蛋奶馅 · 千层酥皮', en:'Osmanthus honey · Rice wine · Rice balls · Egg custard · Layered crust' },
-      lavachoc:{ zh:'巧克力流心 · 蛋奶馅 · 可可粉 · 千层酥皮', en:'Chocolate lava · Egg custard · Cocoa · Layered crust' },
-      chestnut:{ zh:'栗子 · 栗子泥 · 蛋奶馅 · 千层酥皮', en:'Chestnut · Chestnut puree · Egg custard · Layered crust' },
-      lavacheese:{ zh:'芝士烤顶 · 奶酪流心 · 酥脆挞皮', en:'Baked cheese · Cream cheese filling · Flaky crust' },
-      corn:{ zh:'烤玉米粒 · 玉米卡仕达 · 酥脆挞皮', en:'Grilled corn · Corn custard · Flaky crust' },
+      original:{ zh:'鸡蛋 · 牛奶 · 焦糖', en:'Egg · Milk · Caramel' },
+      lychee:{ zh:'荔枝 · 奶油奶酪 · 玫瑰花瓣', en:'Lychee · Cream cheese · Rose petal' },
+      matcha:{ zh:'抹茶 · 红豆 · 鸡蛋 · 牛奶', en:'Matcha · Red bean · Egg · Milk' },
+      porkfloss:{ zh:'肉松 · 咸蛋黄 · 海苔', en:'Pork floss · Salted egg yolk · Seaweed' },
+      oreo:{ zh:'奥利奥 · 巧克力 · 布朗尼', en:'Oreo · Chocolate · Brownie' },
+      taro:{ zh:'芋泥 · 紫米 · 鸡蛋 · 牛奶', en:'Taro · Purple rice · Egg · Milk' },
+      durian:{ zh:'榴莲 · 鸡蛋 · 牛奶', en:'Durian · Egg · Milk' },
+      blacksesame:{ zh:'黑芝麻 · 麻薯 · 鸡蛋 · 牛奶', en:'Black sesame · Mochi · Egg · Milk' },
+      soymilk:{ zh:'豆乳 · 糯米 · 黄豆粉 · 鸡蛋', en:'Soy milk · Glutinous rice · Soybean powder · Egg' },
+      osmanthus:{ zh:'桂花 · 酒酿 · 糯米 · 鸡蛋 · 牛奶', en:'Osmanthus · Rice wine · Glutinous rice · Egg · Milk' },
+      lavachoc:{ zh:'巧克力 · 可可 · 鸡蛋 · 牛奶', en:'Chocolate · Cocoa · Egg · Milk' },
+      chestnut:{ zh:'栗子 · 鸡蛋 · 牛奶', en:'Chestnut · Egg · Milk' },
+      lavacheese:{ zh:'芝士 · 奶油奶酪', en:'Cheese · Cream cheese' },
+      corn:{ zh:'玉米 · 鸡蛋 · 牛奶', en:'Corn · Egg · Milk' },
     };
     this.THEME_VARS = { '--bg':'#F7EFE0','--surface':'#FFFCF4','--surface-2':'#F1E6D0','--text':'#3A2C1A','--muted':'#94826A','--line':'#E7D9BF','--accent':'#C0792A','--accent-text':'#FFF8EC','--accent-soft':'#F2E3C6','--font-head':"'Noto Sans SC', 'Hanken Grotesk', system-ui, sans-serif",'--font-body':"'Noto Sans SC', 'Hanken Grotesk', system-ui, sans-serif",'--radius':'16px','--radius-sm':'12px','--head-weight':'600','--head-transform':'none','--head-spacing':'0','--shadow':'0 10px 30px rgba(90,60,20,.12)' };
     this.state = { cart: {}, cartOpen: false, step: 'cart', orderNum: null, lang: 'zh', pickupDayId: null, pickupDaySelectedDate: null, reviewIdx: null, toastMsg: false, copiedWechat: false, orderedQty: null, orderedQtyWeek: null };
