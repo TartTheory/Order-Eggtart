@@ -351,9 +351,7 @@
       <sc-if value="{{ isCart }}" hint-placeholder-val="{{ true }}">
         <sc-if value="{{ isEmpty }}" hint-placeholder-val="">
           <div style="text-align:center; padding:44px 10px">
-            <div style="width:78px; height:78px; margin:0 auto 16px; border-radius:50%; background:repeating-conic-gradient(from 0deg, #EABE83 0deg 6deg, #D3A263 6deg 12deg); position:relative; opacity:.5">
-              <div style="position:absolute; inset:15%; border-radius:50%; background:radial-gradient(circle at 42% 34%, #FFE9AE 0%, #E7A93A 80%)"></div>
-            </div>
+            <img src="uploads/top/original.webp" alt="" style="display:block; width:84px; height:84px; margin:0 auto 14px; object-fit:contain; opacity:.55; filter:drop-shadow(0 6px 8px rgba(60,35,5,.25))" />
             <p style="font-family:var(--font-body); color:var(--muted); font-size:14.5px; margin:0 0 14px">{{ t.emptyBagMsg }}</p>
             <div style="display:inline-flex; align-items:center; gap:8px; padding:9px 14px; border-radius:999px; background:var(--accent-soft); color:var(--accent); font-family:var(--font-body); font-weight:700; font-size:13px; margin-bottom:18px">{{ t.boxPromo }}</div>
             <div>
@@ -365,9 +363,7 @@
           <div style="display:flex; flex-direction:column; gap:14px">
             <sc-for list="{{ cartItems }}" as="ci" hint-placeholder-count="2">
               <div style="display:flex; gap:12px; align-items:center">
-                <div style="width:48px; height:48px; flex:none; border-radius:50%; background:repeating-conic-gradient(from 0deg, #EABE83 0deg 6deg, #D3A263 6deg 12deg); position:relative">
-                  <div style="{{ ci.custardStyle }}"></div>
-                </div>
+                <img src="{{ ci.topImg }}" alt="" style="width:54px; height:54px; flex:none; object-fit:contain; filter:drop-shadow(0 3px 4px rgba(60,35,5,.3))" />
                 <div style="flex:1; min-width:0">
                   <div style="font-family:var(--font-body); font-weight:700; color:var(--text); font-size:14.5px">{{ ci.name }}</div>
                   <div style="font-family:var(--font-body); color:var(--muted); font-size:12.5px">{{ ci.perEachLabel }}</div>
@@ -387,9 +383,7 @@
               <div style="padding:12px 8px; border-radius:var(--radius); border:2px solid var(--accent); background:var(--accent-soft)">
                 <div style="display:flex; align-items:center; justify-content:center; gap:5px; margin-bottom:9px">
                   <sc-for list="{{ bx.items }}" as="it" hint-placeholder-count="4">
-                    <div style="width:28px; height:28px; flex:none; border-radius:50%; position:relative; overflow:hidden; box-shadow:0 4px 8px rgba(0,0,0,.15); background:var(--surface)">
-                      <div style="{{ it.custardStyle }}"></div>
-                    </div>
+                    <img src="{{ it.topImg }}" alt="" style="width:32px; height:32px; flex:none; object-fit:contain; filter:drop-shadow(0 2px 3px rgba(60,35,5,.3))" />
                   </sc-for>
                 </div>
                 <div style="text-align:center; font-family:var(--font-body); font-weight:700; color:var(--accent); font-size:13px">{{ bx.price }}</div>
@@ -401,9 +395,7 @@
             <div style="display:flex; align-items:center; justify-content:center; gap:10px; margin-bottom:10px">
               <sc-for list="{{ boxSlots }}" as="bs" hint-placeholder-count="4">
                 <sc-if value="{{ bs.filled }}" hint-placeholder-val="">
-                  <div style="width:40px; height:40px; border-radius:50%; position:relative; overflow:hidden; box-shadow:0 4px 8px rgba(0,0,0,.15); background:var(--surface)">
-                    <div style="{{ bs.custardStyle }}"></div>
-                  </div>
+                  <img src="{{ bs.topImg }}" alt="" style="width:44px; height:44px; flex:none; object-fit:contain; margin:-2px; filter:drop-shadow(0 3px 4px rgba(60,35,5,.3))" />
                 </sc-if>
                 <sc-if value="{{ bs.empty }}" hint-placeholder-val="{{ true }}">
                   <div style="width:40px; height:40px; border-radius:50%; border:2px dashed var(--line); background:var(--surface)"></div>
@@ -1142,7 +1134,7 @@ class Component extends DCLogic {
 
     const cartItems = this.entries().map(e => ({ id:e.f.id, name: isZh?e.f.zh:e.f.en, qty:e.qty,
       priceLabel:this.money(e.f.price), perEachLabel: this.money(e.f.price) + L.eachSuffix, lineLabel:this.money(e.f.price*e.qty),
-      custardStyle:this.custardStyle(e.f, '13%'),
+      custardStyle:this.custardStyle(e.f, '13%'), topImg:'uploads/top/'+e.f.id+'.webp',
       onInc:()=>this.inc(e.f.id), onDec:()=>this.dec(e.f.id) }));
 
     const qty = this.qtyTotal();
@@ -1158,15 +1150,15 @@ class Component extends DCLogic {
     const segStart = showFull ? (boxesCompleted-1)*4 : boxesCompleted*4;
     const segment = units.slice(segStart, segStart+4);
     const boxSlots = Array.from({length:4}, (_,i) => i<displayFill
-      ? { filled:true, empty:false, custardStyle:this.custardStyle(segment[i], '20%') }
+      ? { filled:true, empty:false, custardStyle:this.custardStyle(segment[i], '20%'), topImg:'uploads/top/'+segment[i].id+'.webp' }
       : { filled:false, empty:true });
     const boxPriceNow = showFull ? Math.min(20, segment.reduce((a,f)=>a+f.price,0)) : null;
     const checkoutBoxes = Array.from({length:boxesCompleted}, (_,b) => {
       const segItems = units.slice(b*4,(b*4)+4);
       return { price: this.money(Math.min(20, segItems.reduce((a,f)=>a+f.price,0))),
-        items: segItems.map(f=>({custardStyle:this.custardStyle(f,'20%')})) };
+        items: segItems.map(f=>({custardStyle:this.custardStyle(f,'20%'), topImg:'uploads/top/'+f.id+'.webp'})) };
     });
-    const leftoverUnits = units.slice(boxesCompleted*4).map(f=>({custardStyle:this.custardStyle(f,'20%')}));
+    const leftoverUnits = units.slice(boxesCompleted*4).map(f=>({custardStyle:this.custardStyle(f,'20%'), topImg:'uploads/top/'+f.id+'.webp'}));
     const priorCompletedCount = showFull ? boxesCompleted-1 : boxesCompleted;
     const priorBoxes = checkoutBoxes.slice(0, priorCompletedCount);
     const hasPriorBoxes = priorBoxes.length>0;
