@@ -33,7 +33,7 @@
   @keyframes bxSquash { 30% { transform: scale(1.2,.84); } 60% { transform: scale(.94,1.06); } }
   .bx-ring { position:absolute; inset:0; border-radius:50%; border:2px solid var(--accent); pointer-events:none; animation: bxRing .6s ease-out forwards; }
   @keyframes bxRing { from { transform:scale(.6); opacity:.9 } to { transform:scale(1.9); opacity:0 } }
-  .bx-slot { width:36px; height:36px; flex:none; border-radius:50%; position:relative; background-repeat:no-repeat; background-size:contain; background-position:center; }
+  .bx-slot { width:100%; aspect-ratio:1; flex:none; border-radius:50%; position:relative; background-repeat:no-repeat; background-size:contain; background-position:center; }
   .bx-slot.em { border:2px dashed color-mix(in srgb, var(--accent) 45%, transparent); }
   .bx-slot.next { animation: bxBreathe 1.6s ease-in-out infinite; }
   @keyframes bxBreathe { 50% { transform:scale(1.1); } }
@@ -49,15 +49,15 @@
   .bx-d .bx-d-box { display:flex; flex-direction:column; gap:8px; opacity:0; transform:translateY(12px); pointer-events:none; cursor:pointer; }
   .bx-d.show .bx-d-promo { opacity:0; transform:translateY(-12px); }
   .bx-d.show .bx-d-box { opacity:1; transform:none; pointer-events:auto; }
-  .bx-slots { display:flex; gap:6px; margin-left:auto; flex:none; }
-  .bx-act { display:flex; align-items:center; gap:14px; }
+  .bx-slots { display:grid; grid-template-columns:repeat(4, minmax(0, 36px)); gap:6px; margin-left:auto; flex:1 1 auto; min-width:0; justify-content:end; }
+  .bx-act { display:flex; align-items:center; gap:12px; min-width:0; }
   .bx-done { display:flex; flex-direction:column; gap:6px; }
   .bx-done:empty { display:none; }
-  .bx-drow { display:flex; align-items:center; gap:8px; padding-top:6px; border-top:1px dashed color-mix(in srgb, var(--accent) 30%, transparent); font-family:var(--font-body); font-size:12.5px; font-weight:700; color:var(--accent); white-space:nowrap; overflow:hidden; }
-  .bx-drow .bx-mini { display:flex; gap:3px; flex:none; }
-  .bx-drow .bx-mini i { width:20px; height:20px; border-radius:50%; background-size:contain; background-position:center; background-repeat:no-repeat; filter:drop-shadow(0 2px 2px rgba(60,35,5,.3)); }
+  .bx-drow { display:flex; align-items:center; gap:6px; padding-top:6px; border-top:1px dashed color-mix(in srgb, var(--accent) 30%, transparent); font-family:var(--font-body); font-size:12.5px; font-weight:700; color:var(--accent); white-space:nowrap; overflow:hidden; }
+  .bx-drow .bx-mini { display:flex; gap:2px; flex:none; }
+  .bx-drow .bx-mini i { width:16px; height:16px; border-radius:50%; background-size:contain; background-position:center; background-repeat:no-repeat; filter:drop-shadow(0 2px 2px rgba(60,35,5,.3)); }
   .bx-drow .lbl { flex:1; text-align:left; min-width:0; overflow:hidden; text-overflow:ellipsis; }
-  .bx-drow .sv { flex:none; padding:2px 9px; border-radius:999px; background:var(--accent); color:var(--accent-text); font-size:11.5px; }
+  .bx-drow .sv { flex:none; padding:2px 8px; border-radius:999px; background:var(--accent); color:var(--accent-text); font-size:11px; }
   .bx-drow.in { animation: bxRowIn .55s ${SPRING}; }
   @keyframes bxRowIn { from { max-height:0; opacity:0; transform:translateY(14px) scale(.96); } to { max-height:36px; opacity:1; } }
   .bx-d.win { background:var(--accent) !important; }
