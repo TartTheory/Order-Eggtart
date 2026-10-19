@@ -50,10 +50,11 @@
   .tt-rcs button { width: 24px; height: 26px; padding: 0; border: none; background: transparent; color: var(--text); font-size: 14px; line-height: 1; cursor: pointer; }
   .tt-rcs span { min-width: 20px; text-align: center; font-weight: 800; font-size: 12px; color: var(--text); }
   .tt-rcp { flex: none; text-align: right; font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace; font-weight: 700; font-size: 12.5px; color: var(--text); }
-  .tt-rbx { margin: 10px 0 0; padding: 8px 8px 7px; border-radius: 6px; }
-  .tt-rbh { display: flex; justify-content: space-between; margin-bottom: 6px; font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace; font-size: 11.5px; font-weight: 700; letter-spacing: .1em; }
-  .tt-rbs { display: flex; justify-content: center; gap: 10px; }
-  .tt-rbe { width: 34px; height: 34px; border-radius: 50%; border: 2px dashed #cdbb9c; background: #fff; }
+  .tt-rbx { display: flex; align-items: center; gap: 10px; margin: 10px 0 0; padding: 10px 12px; border-radius: var(--radius-sm); background: var(--accent-soft); }
+  .tt-rbh { flex: 1; min-width: 0; display: flex; flex-direction: column; align-items: flex-start; gap: 5px; font-family: var(--font-body); font-size: 13.5px; font-weight: 700; color: var(--accent); white-space: nowrap; }
+  .tt-rsv { padding: 2px 8px; border-radius: 999px; background: var(--accent); color: var(--accent-text); font-size: 11px; font-weight: 700; }
+  .tt-rbs { display: flex; justify-content: flex-end; gap: 5px; flex: none; }
+  .tt-rbe { width: 28px; height: 28px; border-radius: 50%; border: 2px dashed color-mix(in srgb, var(--accent) 45%, transparent); }
   .tt-rcd { display: flex; justify-content: space-between; padding: 10px 0 3px; color: var(--accent); font-weight: 700; font-size: 13px; }
   .tt-rct { display: flex; justify-content: space-between; margin-top: 6px; padding-top: 8px; border-top: 1px dashed #cdbb9c; font-weight: 800; font-size: 15px; color: var(--text); }
   .tt-ilab { position: relative; margin: 14px 0 12px; padding: 8px 8px 5px; border: 1px solid color-mix(in srgb, var(--line) 70%, transparent); border-radius: 8px; text-align: left; font-family: var(--font-body); color: color-mix(in srgb, var(--muted) 72%, var(--surface)); }
@@ -360,7 +361,8 @@
 
   <!-- CART DRAWER -->
   <aside class="tt-drawer" style="{{ drawerStyle }}">
-    <div style="display:flex; align-items:center; justify-content:space-between; padding:18px 18px; border-bottom:1px solid var(--line); flex:none">
+    <div style="width:38px; height:4px; border-radius:2px; background:var(--line); margin:10px auto 0; flex:none"></div>
+    <div style="display:flex; align-items:center; justify-content:space-between; padding:12px 18px 14px; border-bottom:1px solid var(--line); flex:none">
       <span style="font-family:var(--font-head); font-weight:var(--head-weight); color:var(--text); font-size:21px">{{ drawerTitle }}</span>
       <button onClick="{{ closeCart }}" style="width:32px; height:32px; border:1px solid var(--line); cursor:pointer; border-radius:50%; background:var(--surface); color:var(--text); font-size:17px; line-height:1">&times;</button>
     </div>
@@ -399,11 +401,11 @@
             </sc-for>
             <sc-for list="{{ boxesList }}" as="bx" hint-placeholder-count="0">
               <div class="tt-rbx" style="{{ bx.style }}">
-                <div class="tt-rbh" style="{{ bx.headStyle }}"><span>{{ bx.title }}</span><span>{{ bx.headRight }}</span></div>
+                <div class="tt-rbh"><span>{{ bx.title }}</span><sc-if value="{{ bx.hasSaved }}" hint-placeholder-val=""><span class="tt-rsv">{{ bx.savedLabel }}</span></sc-if></div>
                 <div class="tt-rbs">
                   <sc-for list="{{ bx.slots }}" as="sl" hint-placeholder-count="4">
                     <sc-if value="{{ sl.filled }}" hint-placeholder-val="">
-                      <img src="{{ sl.topImg }}" alt="" style="width:34px; height:34px; flex:none; object-fit:contain; filter:drop-shadow(0 2px 3px rgba(60,35,5,.3))" />
+                      <img src="{{ sl.topImg }}" alt="" style="width:28px; height:28px; flex:none; object-fit:contain; filter:drop-shadow(0 3px 4px rgba(60,35,5,.35))" />
                     </sc-if>
                     <sc-if value="{{ sl.empty }}" hint-placeholder-val="{{ true }}">
                       <div class="tt-rbe"></div>
@@ -1172,12 +1174,12 @@ class Component extends DCLogic {
     const boxesList = [];
     for (let i = 0; i < units.length; i += 4) {
       const g = units.slice(i, i + 4), full = g.length === 4;
+      const boxSum = g.reduce((a, f) => a + f.price, 0), boxSaved = full ? Math.max(0, boxSum - 20) : 0;
       boxesList.push({
-        title: 'BOX ' + (boxesList.length + 1), full,
-        headRight: full ? this.money(Math.min(20, g.reduce((a, f) => a + f.price, 0))) : L.boxNeedShort(4 - g.length),
+        title: full ? (isZh ? '第 ' + (boxesList.length + 1) + ' 盒 \u00b7 ' : 'Box ' + (boxesList.length + 1) + ' \u00b7 ') + this.money(Math.min(20, boxSum)) : (isZh ? '任选四颗 $20' : 'Any 4 for $20'),
+        hasSaved: boxSaved > 0, savedLabel: (isZh ? '已省 ' : 'Saved ') + this.money(boxSaved), full,
         slots: [0, 1, 2, 3].map(k => g[k] ? { filled:true, empty:false, topImg:'uploads/top/' + g[k].id + '.webp' } : { filled:false, empty:true }),
-        style: full ? { border:'1.5px solid var(--accent)', background:'var(--accent-soft)' } : { border:'1.5px dashed #cdbb9c', background:'#faf6ec' },
-        headStyle: { color: full ? 'var(--accent)' : 'var(--muted)' }
+        style: {}
       });
     }
     const priorCompletedCount = showFull ? boxesCompleted-1 : boxesCompleted;
@@ -1303,10 +1305,12 @@ class Component extends DCLogic {
       heroTartA: this.custardStyle(this.FLAVORS.find(f=>f.id==='original'), '14%'),
       heroTartB: this.custardStyle(this.FLAVORS.find(f=>f.id==='matcha'), '15%'),
       heroTartC: this.custardStyle(this.FLAVORS.find(f=>f.id==='porkfloss'), '15%'),
-      drawerStyle: { position:'fixed', top:'0', right: this.state.cartOpen ? '0' : '-450px', height:'var(--app-h)', width:'min(400px,94vw)',
-        zIndex:'60', display:'flex', flexDirection:'column', background:'var(--surface)',
-        boxShadow:'-20px 0 60px rgba(0,0,0,.2)',
-        transition:'right .42s cubic-bezier(.22,1,.36,1)' },
+      drawerStyle: { position:'fixed', left:'0', right:'0', bottom:'0', margin:'0 auto', height:'min(680px, calc(var(--app-h) - 36px))', width:'min(440px,100vw)',
+        zIndex:'60', display:'flex', flexDirection:'column', background:'var(--surface)', borderRadius:'24px 24px 0 0',
+        boxShadow:'0 -16px 50px rgba(0,0,0,.22)',
+        transform: this.state.cartOpen ? 'translateY(0)' : 'translateY(105%)',
+        visibility: this.state.cartOpen ? 'visible' : 'hidden',
+        transition: this.state.cartOpen ? 'transform .5s cubic-bezier(.22,1,.36,1), visibility 0s' : 'transform .45s cubic-bezier(.4,0,.2,1), visibility 0s linear .45s' },
       backdropStyle: { position:'fixed', inset:'0', zIndex:'55', background:'rgba(20,12,4,.42)', touchAction:'none',
         opacity: this.state.cartOpen?'1':'0', pointerEvents: this.state.cartOpen?'auto':'none',
         transition:'opacity .3s ease' },
