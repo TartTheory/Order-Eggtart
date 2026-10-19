@@ -584,9 +584,9 @@ class Component extends DCLogic {
     this.UDISTRICT_PLACE_ZH='U District 茶千岁停车场'; this.UDISTRICT_PLACE_EN='Timeless Tea parking lot (U District)';
     this.SLU_PLACE_ZH='SLU Nitro Parking Garage (South) · P1 电梯间'; this.SLU_PLACE_EN='SLU Nitro Parking Garage (South) · P1 elevator lobby';
     this.PICKUP_SCHEDULE = [
-      { id:'fri-udistrict', weekday:5, cutoffDays:1, timeZh:'下午3:30\u20134:00', timeEn:'3:30\u20134:00 PM', placeZh:this.UDISTRICT_PLACE_ZH, placeEn:this.UDISTRICT_PLACE_EN, mapQ:'Timeless Tea University District Seattle WA', shortZh:'U District', shortEn:'U District' },
-      { id:'fri-slu', weekday:5, cutoffDays:1, timeZh:'下午4:30\u20135:00', timeEn:'4:30\u20135:00 PM', placeZh:this.SLU_PLACE_ZH, placeEn:this.SLU_PLACE_EN, mapQ:'Nitro South Parking Garage 7th Ave Seattle WA', shortZh:'SLU', shortEn:'SLU' },
-      { id:'sat', weekday:6, cutoffDays:1, timeZh:'下午3:00\u20133:30', timeEn:'3:00\u20133:30 PM', placeZh:this.PICKUP_PLACE_ZH, placeEn:this.PICKUP_PLACE_EN, mapQ:'T&T Supermarket Bellevue WA', shortZh:'Bellevue T&T', shortEn:'Bellevue T&T' },
+      { id:'fri-udistrict', weekday:5, cutoffDays:1, timeZh:'下午3:30\u20134:00', timeEn:'3:30\u20134:00 PM', placeZh:this.UDISTRICT_PLACE_ZH, placeEn:this.UDISTRICT_PLACE_EN, mapQ:'Timeless Tea University District Seattle WA', shortZh:'U District 茶千岁', shortEn:'U District · Timeless Tea' },
+      { id:'fri-slu', weekday:5, cutoffDays:1, timeZh:'下午4:30\u20135:00', timeEn:'4:30\u20135:00 PM', placeZh:this.SLU_PLACE_ZH, placeEn:this.SLU_PLACE_EN, mapQ:'Nitro South Parking Garage 7th Ave Seattle WA', shortZh:'SLU Nitro 停车场', shortEn:'SLU · Nitro Parking Garage' },
+      { id:'sat', weekday:6, cutoffDays:1, timeZh:'下午3:00\u20133:30', timeEn:'3:00\u20133:30 PM', placeZh:this.PICKUP_PLACE_ZH, placeEn:this.PICKUP_PLACE_EN, mapQ:'T&T Supermarket Bellevue WA', shortZh:'Bellevue 大统华', shortEn:'Bellevue · T&T' },
     ];
     // Orders close the night before each pickup day: 10 PM, or 9 PM for pickups on/after this date.
     this.CUTOFF_9PM_FROM = '2026-10-16';
