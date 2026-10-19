@@ -179,7 +179,7 @@
         <span style="flex:1; text-align:center; z-index:1; font-family:var(--font-body); font-weight:700; font-size:clamp(10.5px,3.1vw,11.5px); color:var(--text)">中</span>
         <span style="flex:1; text-align:center; z-index:1; font-family:var(--font-body); font-weight:700; font-size:clamp(10.5px,3.1vw,11.5px); color:var(--text)">EN</span>
       </button>
-      <button onClick="{{ openCart }}" style="position:relative; display:flex; align-items:center; gap:6px; padding:6px 12px; border:none; cursor:pointer; border-radius:999px; background:var(--accent); color:var(--accent-text); font-family:var(--font-body); font-weight:700; font-size:13px; white-space:nowrap">
+      <button onClick="{{ openCart }}" style="position:relative; display:flex; align-items:center; gap:6px; height:27px; box-sizing:border-box; padding:0 11px; border:none; cursor:pointer; border-radius:999px; background:var(--accent); color:var(--accent-text); font-family:var(--font-body); font-weight:700; font-size:12px; line-height:1; white-space:nowrap">
         {{ t.bag }}
         <sc-if value="{{ hasItems }}" hint-placeholder-val="{{ true }}">
           <span style="min-width:18px; height:18px; padding:0 4px; display:inline-flex; align-items:center; justify-content:center; border-radius:999px; background:var(--accent-text); color:var(--accent); font-size:10.5px; font-weight:800">{{ cartCount }}</span>
