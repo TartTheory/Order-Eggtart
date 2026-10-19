@@ -53,7 +53,7 @@
   .bx-act { display:flex; align-items:center; gap:14px; }
   .bx-done { display:flex; flex-direction:column; gap:6px; }
   .bx-done:empty { display:none; }
-  .bx-drow { display:flex; align-items:center; gap:8px; padding-bottom:6px; border-bottom:1px dashed color-mix(in srgb, var(--accent) 30%, transparent); font-family:var(--font-body); font-size:12.5px; font-weight:700; color:var(--accent); white-space:nowrap; overflow:hidden; }
+  .bx-drow { display:flex; align-items:center; gap:8px; padding-top:6px; border-top:1px dashed color-mix(in srgb, var(--accent) 30%, transparent); font-family:var(--font-body); font-size:12.5px; font-weight:700; color:var(--accent); white-space:nowrap; overflow:hidden; }
   .bx-drow .bx-mini { display:flex; gap:3px; flex:none; }
   .bx-drow .bx-mini i { width:20px; height:20px; border-radius:50%; background-size:contain; background-position:center; background-repeat:no-repeat; filter:drop-shadow(0 2px 2px rgba(60,35,5,.3)); }
   .bx-drow .lbl { flex:1; text-align:left; min-width:0; overflow:hidden; text-overflow:ellipsis; }
@@ -74,7 +74,7 @@
   while (promo.firstChild) inner.appendChild(promo.firstChild);
   promo.appendChild(inner);
   const face = document.createElement('div'); face.className = 'bx-d-box';
-  face.innerHTML = '<div class="bx-done"></div><div class="bx-act"><div class="bx-txt"></div><div class="bx-slots"></div></div>';
+  face.innerHTML = '<div class="bx-act"><div class="bx-txt"></div><div class="bx-slots"></div></div><div class="bx-done"></div>';
   promo.appendChild(face);
   promo.classList.add('bx-d');
   track.after(promo);
@@ -203,8 +203,10 @@
   }
 
   // The card steppers are the source of truth. If the total drifts (bag edits, language switch), rebuild.
+  let lastZh = isZh();
   function sync() {
     if (pending || sealing) return;
+    if (isZh() !== lastZh) { lastZh = isZh(); render(); }
     const units = [];
     document.querySelectorAll('.tt-mcard').forEach(c => {
       const q = parseInt((c.querySelector('.tt-step span') || {}).textContent, 10) || 0;
