@@ -363,17 +363,16 @@
           <div style="display:flex; flex-direction:column; gap:14px">
             <sc-for list="{{ cartItems }}" as="ci" hint-placeholder-count="2">
               <div style="display:flex; gap:14px; align-items:center">
-                <img src="{{ ci.topImg }}" alt="" style="width:56px; height:56px; flex:none; object-fit:contain; filter:drop-shadow(0 3px 4px rgba(60,35,5,.3))" />
+                <img src="{{ ci.topImg }}" alt="" style="width:44px; height:44px; flex:none; object-fit:contain; filter:drop-shadow(0 2px 3px rgba(60,35,5,.3))" />
                 <div style="flex:1; min-width:0">
                   <div style="font-family:var(--font-body); font-weight:700; color:var(--text); font-size:14.5px; line-height:1.3">{{ ci.name }}</div>
                   <div style="display:flex; align-items:center; justify-content:space-between; gap:10px; margin-top:7px">
-                    <div style="display:flex; align-items:center; gap:10px">
+                    <div style="display:flex; align-items:center">
                       <div style="display:flex; align-items:center; border:1px solid var(--line); border-radius:var(--radius-sm); overflow:hidden">
                         <button onClick="{{ ci.onDec }}" style="width:30px; height:30px; border:none; cursor:pointer; background:transparent; color:var(--text); font-size:16px; line-height:1">&minus;</button>
                         <span style="min-width:24px; text-align:center; font-family:var(--font-body); font-weight:800; color:var(--text); font-size:13.5px">{{ ci.qty }}</span>
                         <button onClick="{{ ci.onInc }}" style="width:30px; height:30px; border:none; cursor:pointer; background:transparent; color:var(--text); font-size:15px; line-height:1">+</button>
                       </div>
-                      <div style="font-family:var(--font-body); color:var(--muted); font-size:12px">{{ ci.perEachLabel }}</div>
                     </div>
                     <div style="font-family:var(--font-body); font-weight:800; color:var(--text); font-size:15px">{{ ci.lineLabel }}</div>
                   </div>
@@ -387,7 +386,7 @@
               <div style="padding:12px 8px; border-radius:var(--radius); border:2px solid var(--accent); background:var(--accent-soft)">
                 <div style="display:flex; align-items:center; justify-content:center; gap:5px; margin-bottom:9px">
                   <sc-for list="{{ bx.items }}" as="it" hint-placeholder-count="4">
-                    <img src="{{ it.topImg }}" alt="" style="width:32px; height:32px; flex:none; object-fit:contain; filter:drop-shadow(0 2px 3px rgba(60,35,5,.3))" />
+                    <img src="{{ it.topImg }}" alt="" style="width:26px; height:26px; flex:none; object-fit:contain; filter:drop-shadow(0 2px 3px rgba(60,35,5,.3))" />
                   </sc-for>
                 </div>
                 <div style="text-align:center; font-family:var(--font-body); font-weight:700; color:var(--accent); font-size:13px">{{ bx.price }}</div>
@@ -399,7 +398,7 @@
             <div style="display:flex; align-items:center; justify-content:center; gap:10px; margin-bottom:10px">
               <sc-for list="{{ boxSlots }}" as="bs" hint-placeholder-count="4">
                 <sc-if value="{{ bs.filled }}" hint-placeholder-val="">
-                  <img src="{{ bs.topImg }}" alt="" style="width:44px; height:44px; flex:none; object-fit:contain; margin:-2px; filter:drop-shadow(0 3px 4px rgba(60,35,5,.3))" />
+                  <img src="{{ bs.topImg }}" alt="" style="width:36px; height:36px; flex:none; object-fit:contain; margin:2px; filter:drop-shadow(0 2px 3px rgba(60,35,5,.3))" />
                 </sc-if>
                 <sc-if value="{{ bs.empty }}" hint-placeholder-val="{{ true }}">
                   <div style="width:40px; height:40px; border-radius:50%; border:2px dashed var(--line); background:var(--surface)"></div>
