@@ -41,7 +41,7 @@
   .tt-ilab { position: relative; margin: 14px 0 12px; padding: 9px 9px 6px; border: 1px solid var(--line); border-radius: 8px; text-align: left; font-family: var(--font-body); color: var(--muted); }
   .tt-ilab h5 { position: absolute; left: 8px; top: -7px; margin: 0; padding: 0 5px; background: var(--surface); font-size: 9.5px; font-weight: 600; letter-spacing: .12em; color: var(--muted); }
   .tt-ilist { font-size: 11px; line-height: 1.5; min-height: 33px; }
-  .tt-ilegend { margin-top: 8px; text-align: center; font-family: var(--font-body); font-size: 11px; color: var(--muted); }
+  .tt-ial { margin-top: 4px; padding-top: 3px; border-top: 1px dashed var(--line); font-size: 10px; line-height: 1.4; opacity: .9; }
   .tt-step { display: flex; align-items: center; justify-content: space-between; box-sizing: border-box; width: 112px; height: 34px; padding: 0 3px; border: 1.5px solid var(--accent); border-radius: 999px; background: var(--surface); }
   .tt-step button { display: flex; align-items: center; justify-content: center; width: 26px; height: 26px; padding: 0; border: none; border-radius: 50%; background: var(--accent-soft); color: var(--accent); font-size: 17px; font-weight: 700; line-height: 1; cursor: pointer; }
   .tt-step button.tt-stp { background: var(--accent); color: var(--accent-text); }
@@ -201,7 +201,8 @@
             <sc-if value="{{ item.ingredients }}" hint-placeholder-val="">
               <div class="tt-ilab">
                 <h5>{{ t.ingTitle }}</h5>
-                <div class="tt-ilist"><sc-for list="{{ item.ingParts }}" as="g"><span style="{{ g.style }}">{{ g.t }}</span></sc-for></div>
+                <div class="tt-ilist">{{ item.ingredients }}</div>
+                <div class="tt-ial">{{ t.ingAllergen }}</div>
               </div>
             </sc-if>
             <div style="display:flex; justify-content:center; margin-top:auto">
@@ -222,7 +223,6 @@
       <button class="tt-marr" style="right:-6px" onClick="{{ menuNext }}" aria-label="next">&rsaquo;</button>
     </div>
     <div class="tt-mtrk"><i></i></div>
-    <div class="tt-ilegend">{{ t.ingNote }}</div>
   </section>
 
   <!-- PICKUP & PAYMENT -->
@@ -621,7 +621,7 @@ class Component extends DCLogic {
     this.PICKUP_CAPS = { 'Aug 28-29': 32 };
     this.SHEET_WEBHOOK_URL = 'https://script.google.com/macros/s/AKfycbwe-Ee-BHG5GZ8q4vSG82J0YPIg159V6e6X9x1ptzEfFCugsWJgp_HoDX9dIkr4RXu-0A/exec';
     this.UI = {
-      zh:{ bag:'购物车', kicker:'今天，也想吃一颗热乎乎的蛋挞。', ctaHow:'下单说明', ingTitle:'成分', ingAllergen:'含过敏原：蛋、乳', ingNote:'成分中加粗的为过敏原', heroTitle:'每一颗蛋挞都是刚出炉的幸福。', heroSubtitle:'酥到掉渣的塔皮，\n顺滑浓郁的蛋奶馅。', heroNote:'每天新鲜制作，\n每周都有新的口味。', heroSmall:'仅支持线上预订 \u00b7 定点自取', ctaLabel:'查看菜单',
+      zh:{ bag:'购物车', kicker:'今天，也想吃一颗热乎乎的蛋挞。', ctaHow:'下单说明', ingTitle:'成分', ingAllergen:'含过敏原：蛋、乳', heroTitle:'每一颗蛋挞都是刚出炉的幸福。', heroSubtitle:'酥到掉渣的塔皮，\n顺滑浓郁的蛋奶馅。', heroNote:'每天新鲜制作，\n每周都有新的口味。', heroSmall:'仅支持线上预订 \u00b7 定点自取', ctaLabel:'查看菜单',
         menuLabel:'菜单', menuTitle:'经典口味与每周限定，任你挑选。', menuNote:'经典口味与每周限定，任你挑选。', add:'加入',
         pickupPaymentLabel:'取货与付款', faqLabel:'常见问题', faqTitle:'常见问题', reviewsLabel:'真实评价', reviewsTitle:'顾客好评', reviewsHint:'轻点放大，左右滑动查看更多', reviewsOpen:'查看评价截图',
         faq:[
@@ -645,7 +645,7 @@ class Component extends DCLogic {
         startNewOrder:'开始新订单', checkoutBtn:'结账', totalLabel:'总计', eachSuffix:'/每个', confirmShotLabel:'付款确认截图示例',
         heroWordA:'现烤', heroWordB:'酥脆', heroWordC:'浓郁',
         confirm1:(t)=>'扫描上方二维码支付 '+t+'。', confirm2:(o,w)=>'将订单号 '+o+' 和付款截图发送到微信：'+w+'。', confirm3:(s,tm)=>'在 '+s+'，'+tm+' 取货。出示相册里保存的订单、订单号，或直接告诉我们你的 Venmo 用户名，我们会现场为你核实。' },
-      en:{ bag:'Bag', kicker:'Craving a warm eggtart today?', ctaHow:'How to order', ingTitle:'INGREDIENTS', ingAllergen:'Contains: egg, milk', ingNote:'Allergens are in bold', heroTitle:'Handcrafted egg tarts inspired by flavors from around the world.', heroSubtitle:'Flaky crust.\nSilky custard.', heroNote:'Baked fresh daily.\nNew flavors every week.', heroSmall:'Pre-order for pickup.', ctaLabel:'View Menu',
+      en:{ bag:'Bag', kicker:'Craving a warm eggtart today?', ctaHow:'How to order', ingTitle:'INGREDIENTS', ingAllergen:'Contains: egg, milk', heroTitle:'Handcrafted egg tarts inspired by flavors from around the world.', heroSubtitle:'Flaky crust.\nSilky custard.', heroNote:'Baked fresh daily.\nNew flavors every week.', heroSmall:'Pre-order for pickup.', ctaLabel:'View Menu',
         menuLabel:'The menu', menuTitle:'Classic favorites and weekly specials.', menuNote:'Classic favorites and weekly specials.', add:'Add',
         pickupPaymentLabel:'Pickup & payment', faqLabel:'FAQ', faqTitle:'Frequently asked questions', reviewsLabel:'Reviews', reviewsTitle:'What customers say', reviewsHint:'Tap to enlarge, swipe to see more', reviewsOpen:'View review screenshot',
         faq:[
@@ -1076,12 +1076,6 @@ class Component extends DCLogic {
   }
 
   startNew() { this.setState({ cart:{}, step:'cart', orderNum:null, cartOpen:false, pickupDayId:null, pickupDaySelectedDate:null, toastMsg:false }); }
-  // Ingredient list for a menu card: allergens are set in bold inside the list (the way food packaging does it) instead of repeating them on a second line.
-  ingParts(id, isZh) {
-    const items = ((this.INGREDIENTS[id] || {})[isZh ? 'zh' : 'en'] || '').split(' \u00b7 ').filter(Boolean);
-    const allergens = isZh ? ['\u9e21\u86cb', '\u725b\u5976', '\u9ec4\u6cb9'] : ['Egg', 'Milk', 'Butter'];
-    return items.map((t, i) => ({ t: t + (i < items.length - 1 ? (isZh ? '\u3001' : ', ') : ''), style: allergens.includes(t) ? { fontWeight: '800', color: '#5F4F38' } : {} }));
-  }
   scrollToHow() { this.scrollToMenu('tt-how'); }
   scrollToMenu(id) {
     const el = document.getElementById(typeof id === 'string' ? id : 'tt-menu');
@@ -1129,7 +1123,7 @@ class Component extends DCLogic {
       const priceLabel = this.money(f.price);
       return { ...f, name: isZh?f.zh:f.en, desc: isZh?f.descZh:f.descEn, tag: isZh?f.tagZh:f.tagEn,
         qty, num: String(i+1).padStart(2,'0'), inCart:qty>0, outCart:qty===0,
-        priceLabel, custardStyle:this.custardStyle(f, '14%'), img:f.img, topImg:'uploads/top/'+f.id+'.webp', ingredients:((this.INGREDIENTS[f.id] || {})[isZh?'zh':'en'] || '').split(' · ').join(isZh?'、':', '), ingParts:this.ingParts(f.id, isZh),
+        priceLabel, custardStyle:this.custardStyle(f, '14%'), img:f.img, topImg:'uploads/top/'+f.id+'.webp', ingredients:((this.INGREDIENTS[f.id] || {})[isZh?'zh':'en'] || '').split(' · ').join(isZh?'、':', '),
         onAdd:()=>this.add(f.id), onInc:()=>this.inc(f.id), onDec:()=>this.dec(f.id) };
     });
 
