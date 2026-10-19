@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://tarttheory.github.io/Order-Eggtart/sitemap.xml
