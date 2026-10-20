@@ -193,8 +193,8 @@
     <div style="display:flex; align-items:center; gap:8px; flex:none">
       <button onClick="{{ toggleLang }}" style="position:relative; display:flex; align-items:center; padding:2px; border:1.5px solid var(--line); cursor:pointer; border-radius:999px; background:var(--surface); width:clamp(58px,15.5vw,68px); height:27px; flex:none">
         <span style="{{ langThumbStyle }}"></span>
-        <span style="flex:1; text-align:center; z-index:1; font-family:var(--font-body); font-weight:700; font-size:clamp(10.5px,3.1vw,11.5px); color:var(--text)">中</span>
-        <span style="flex:1; text-align:center; z-index:1; font-family:var(--font-body); font-weight:700; font-size:clamp(10.5px,3.1vw,11.5px); color:var(--text)">EN</span>
+        <span style="{{ langZhStyle }}">中</span>
+        <span style="{{ langEnStyle }}">EN</span>
       </button>
       <button onClick="{{ openCart }}" style="position:relative; display:flex; align-items:center; gap:6px; height:27px; box-sizing:border-box; padding:0 11px; border:none; cursor:pointer; border-radius:999px; background:var(--accent); color:var(--accent-text); font-family:var(--font-body); font-weight:700; font-size:12px; line-height:1; white-space:nowrap">
         {{ t.bag }}
@@ -782,7 +782,7 @@ class Component extends DCLogic {
       lavacheese:{ zh:'奶油奶酪 · 鸡蛋 · 牛奶 · 淡奶油 · 黄油', en:'Cream cheese · Egg · Milk · Heavy whipping cream · Butter' },
       corn:{ zh:'玉米 · 玉米卡仕达 · 鸡蛋 · 牛奶 · 淡奶油 · 黄油', en:'Corn · Corn custard · Egg · Milk · Heavy whipping cream · Butter' },
     };
-    this.THEME_VARS = { '--bg':'#FFFFFF','--surface':'#FAFAF8','--surface-2':'#F4F3F0','--text':'#3A2C1A','--muted':'#94826A','--line':'#ECEAE5','--accent':'#C0792A','--accent-text':'#FFF8EC','--accent-soft':'#F2E3C6','--font-head':"'Noto Sans SC', 'Hanken Grotesk', system-ui, sans-serif",'--font-body':"'Noto Sans SC', 'Hanken Grotesk', system-ui, sans-serif",'--radius':'16px','--radius-sm':'12px','--head-weight':'600','--head-transform':'none','--head-spacing':'0','--shadow':'0 10px 30px rgba(90,60,20,.12)' };
+    this.THEME_VARS = { '--bg':'#FFFFFF','--surface':'#FAFAF8','--surface-2':'#F4F3F0','--text':'#3A2C1A','--muted':'#94826A','--line':'#ECEAE5','--accent':'#C24F0C','--accent-text':'#FFF8EC','--accent-soft':'#F7DDCB','--font-head':"'Noto Sans SC', 'Hanken Grotesk', system-ui, sans-serif",'--font-body':"'Noto Sans SC', 'Hanken Grotesk', system-ui, sans-serif",'--radius':'16px','--radius-sm':'12px','--head-weight':'600','--head-transform':'none','--head-spacing':'0','--shadow':'0 10px 30px rgba(90,60,20,.12)' };
     this.state = { cart: {}, cartOpen: false, step: 'cart', orderNum: null, lang: 'zh', pickupDayId: null, pickupDaySelectedDate: null, reviewIdx: null, toastMsg: false, copiedWechat: false, orderedQty: null, orderedQtyWeek: null };
     this.trackViewportHeight();
     this.bindReviewKeys();
@@ -1324,6 +1324,8 @@ class Component extends DCLogic {
 
     return {
       t: L, lang, isZh, brand: this.BRAND,
+      langZhStyle: { flex:1, textAlign:'center', zIndex:1, fontFamily:'var(--font-body)', fontWeight:700, fontSize:'clamp(10.5px,3.1vw,11.5px)', color: isZh?'var(--accent-text)':'var(--text)', transition:'color .22s ease' },
+      langEnStyle: { flex:1, textAlign:'center', zIndex:1, fontFamily:'var(--font-body)', fontWeight:700, fontSize:'clamp(10.5px,3.1vw,11.5px)', color: isZh?'var(--text)':'var(--accent-text)', transition:'color .22s ease' },
       langThumbStyle: { position:'absolute', top:'2px', bottom:'2px', left: isZh?'2px':'50%', width:'calc(50% - 2px)', borderRadius:'999px', background:'var(--accent)', transition:'left .22s ease' },
       rootStyle, frameStyle, menu, cartItems, wechatId: this.wechat(), venmoId: this.venmo(), instagramId: this.instagram(), xiaohongshuId: this.xiaohongshu(),
       copyWechat: ()=>this.copyWechat(), copiedWechat: this.state.copiedWechat,
