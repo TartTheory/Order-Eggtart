@@ -180,16 +180,11 @@
   .tt-hero-h { font-family: 'Anton', 'Noto Sans SC', sans-serif; font-weight: 400; text-transform: uppercase; color: var(--text); font-size: clamp(62px,18.5vw,176px); line-height: .84; letter-spacing: -.012em; margin: 0 auto 18px; max-width: 1100px; text-wrap: balance; white-space: pre-line; }
   .tt-hero-h em { font-style: normal; color: var(--accent); }
   .tt-hero-row { display: flex; justify-content: center; align-items: center; margin: 22px -18vw 0; }
-  .tt-ht { display: block; position: relative; width: 46%; max-width: 330px; margin: 0 -5%; will-change: transform; }
+  .tt-ht { display: block; position: relative; width: 46%; max-width: 330px; margin: 0 -5%; }
   .tt-ht:nth-child(2) { width: 56%; max-width: 400px; z-index: 2; }
-  .tt-hf { display: block; animation: ttBob 3.6s ease-in-out infinite; }
+  .tt-hf { display: block; }
   .tt-hf img { display: block; width: 100%; }
-  .tt-ht::after { content: ""; position: absolute; left: 22%; right: 22%; bottom: -3%; height: 7%; border-radius: 50%; background: rgba(60,30,5,.2); filter: blur(7px); z-index: -1; animation: ttShadow 3.6s ease-in-out infinite; }
-  .tt-ht:nth-child(1) .tt-hf, .tt-ht:nth-child(1)::after { animation-delay: -1.2s; }
-  .tt-ht:nth-child(3) .tt-hf, .tt-ht:nth-child(3)::after { animation-delay: -2.4s; }
-  @keyframes ttBob { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
-  @keyframes ttShadow { 0%,100% { transform: scale(1); opacity: 1; } 50% { transform: scale(.8); opacity: .55; } }
-  @media (prefers-reduced-motion: reduce) { .tt-hf, .tt-ht::after { animation: none; } }
+  .tt-ht::after { content: ""; position: absolute; left: 22%; right: 22%; bottom: -3%; height: 7%; border-radius: 50%; background: rgba(60,30,5,.2); filter: blur(7px); z-index: -1; }
   @media (min-width: 860px) { .tt-hero-row { margin: 28px auto 0; } }
   .tt-foot { position: relative; isolation: isolate; overflow: hidden; background: #fff; border: 1px solid var(--line); border-radius: var(--radius); padding: 34px 24px; text-align: center; max-width: 480px; margin: 0 auto; }
   .tt-foot-pat { position: absolute; inset: -20px; z-index: -2; background: var(--accent); opacity: .5; -webkit-mask: url(./tart-outline.svg) 0 0/36px 36px repeat; mask: url(./tart-outline.svg) 0 0/36px 36px repeat; }
@@ -198,7 +193,7 @@
   .tt-hero-hw { position: relative; max-width: 1100px; margin: 0 auto clamp(18px,3vw,36px); }
   .tt-stk { position: absolute; z-index: 3; display: grid; place-items: center; text-align: center; width: clamp(60px,16vw,128px); height: clamp(60px,16vw,128px); padding: 6px; font-family: var(--font-body); font-weight: 800; font-size: clamp(11px,3vw,19px); line-height: 1.15; color: #24180C; white-space: pre-line; animation: ttStk 5s ease-in-out infinite; }
   .tt-stk-a { left: -3%; top: -4%; background: #8FCB94; -webkit-mask: url(./tart.svg) center/contain no-repeat; mask: url(./tart.svg) center/contain no-repeat; --r: -12deg; width: clamp(76px,21vw,150px); height: clamp(76px,21vw,150px); }
-  .tt-stk-b { left: 80%; top: 66%; width: clamp(70px,19vw,140px); height: clamp(70px,19vw,140px); background: #F2C14E; clip-path: polygon(50% 0,61% 13%,77% 7%,80% 23%,96% 26%,90% 41%,100% 54%,87% 63%,90% 79%,74% 80%,68% 95%,54% 87%,40% 98%,32% 84%,16% 88%,15% 72%,2% 64%,10% 50%,1% 36%,15% 28%,15% 12%,31% 14%,39% 1%); --r: 10deg; animation-delay: -1.5s; }
+  .tt-stk-b { left: 77%; top: 62%; width: clamp(84px,23vw,160px); height: clamp(84px,23vw,160px); padding: clamp(14px,3.6vw,26px); font-size: clamp(10.5px,2.8vw,18px); background: #F2C14E; clip-path: polygon(50% 0,61% 13%,77% 7%,80% 23%,96% 26%,90% 41%,100% 54%,87% 63%,90% 79%,74% 80%,68% 95%,54% 87%,40% 98%,32% 84%,16% 88%,15% 72%,2% 64%,10% 50%,1% 36%,15% 28%,15% 12%,31% 14%,39% 1%); --r: 10deg; animation-delay: -1.5s; }
   @media (min-width: 860px) { .tt-stk-a { left: 4%; top: -6%; } .tt-stk-b { left: 84%; top: -4%; } }
   @keyframes ttStk { 0%,100% { transform: rotate(var(--r)) translateY(0); } 50% { transform: rotate(calc(var(--r) + 4deg)) translateY(-4px); } }
   @media (prefers-reduced-motion: reduce) { .tt-stk { animation: none; transform: rotate(var(--r)); } }
@@ -1453,23 +1448,6 @@ class Component extends DCLogic {
     if (Math.abs(d) > 2 && Math.abs(d) < RANGE) { settling = true; window.scrollBy({ top: d, behavior: 'smooth' }); setTimeout(() => { settling = false; }, 600); }
   };
   window.addEventListener('scroll', () => { if (settling) return; clearTimeout(t); t = setTimeout(settle, 180); }, { passive: true });
-})();
-</script>
-<script>
-// Hero: as the page scrolls, the side tarts drift apart and turn while the middle one rises.
-(function () {
-  if (window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-  let queued = false;
-  const apply = () => {
-    queued = false;
-    const ts = document.querySelectorAll('.tt-hero-row .tt-ht');
-    if (ts.length !== 3) return;
-    const k = Math.min(window.scrollY, 360) / 360;
-    ts[0].style.transform = 'translateX(' + (-60 * k) + 'px) rotate(' + (-40 * k) + 'deg)';
-    ts[2].style.transform = 'translateX(' + (60 * k) + 'px) rotate(' + (40 * k) + 'deg)';
-    ts[1].style.transform = 'translateY(' + (-30 * k) + 'px) scale(' + (1 + 0.08 * k) + ')';
-  };
-  window.addEventListener('scroll', () => { if (!queued) { queued = true; requestAnimationFrame(apply); } }, { passive: true });
 })();
 </script>
 </body>
