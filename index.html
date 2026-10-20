@@ -202,8 +202,20 @@
   .tt-stk-silky { --w: 96.612; --h: 95.722; --cx: 11.95%; --cy: 152.64; --r: -27.18deg; --dx: -0.7; --dy: 1.7; }
   .tt-stk-silky .tt-stk-bg { left: calc(12.74 * var(--u)); top: calc(13.89 * var(--u)); width: calc(70.97 * var(--u)); height: calc(68.7 * var(--u)); }
   .tt-stk-flaky { --w: 92; --h: 92; --cx: 89.94%; --cy: 195.29; --r: 10deg; --dx: -1.7; --dy: 4.5; }
-  [data-lang="zh"] .tt-stk-silky { --cx: 9%; --cy: 236; }
-  [data-lang="zh"] .tt-stk-flaky { --cx: 91%; --cy: 226; }
+  /* Chinese hero, built to its own Figma frame */
+  [data-lang="zh"] .tt-hero-hw { align-items: flex-start; padding-top: calc(10 * var(--u)); margin-bottom: calc(10 * var(--u)); }
+  [data-lang="zh"] .tt-stk-t { font-size: calc(15 * var(--u)); }
+  [data-lang="zh"] .tt-stk-fresh { --cx: 86.9%; --cy: 9.85; --dx: -1.75; --dy: -1.9; }
+  [data-lang="zh"] .tt-stk-silky { --cx: 6.62%; --cy: 167.64; --dx: -1.24; --dy: 3.2; }
+  [data-lang="zh"] .tt-stk-flaky { --cx: 92.88%; --cy: 249.29; --dx: -1.67; --dy: 6.05; }
+  [data-lang="zh"] .tt-pill { height: calc(26.4 * var(--u)); font-size: calc(11 * var(--u)); margin-bottom: calc(18.6 * var(--u)); }
+  [data-lang="zh"] .tt-hbtns { gap: calc(11 * var(--u)); margin-bottom: calc(54.9 * var(--u)); }
+  [data-lang="zh"] .tt-hbtn { height: calc(50 * var(--u)); min-width: calc(101.5 * var(--u)); padding: 0 calc(14 * var(--u)); }
+  [data-lang="zh"] .tt-hero-row { height: calc(235 * var(--u)); }
+  [data-lang="zh"] .tt-ht { width: calc(193 * var(--u)); top: calc(21 * var(--u)); left: calc(50% - 262.9 * var(--u)); }
+  [data-lang="zh"] .tt-ht:nth-child(2) { width: calc(235 * var(--u)); top: 0; left: calc(50% - 117.6 * var(--u)); }
+  [data-lang="zh"] .tt-ht:nth-child(3) { left: calc(50% + 69.8 * var(--u)); }
+  [data-lang="zh"] .tt-ht:nth-child(3) img { transform: rotate(24deg) scaleX(-1) !important; }
   @keyframes ttStk { 0%,100% { transform: rotate(var(--r)); } 50% { transform: rotate(calc(var(--r) + 4deg)) translateY(calc(-5 * var(--u))); } }
   @media (prefers-reduced-motion: reduce) { .tt-stk { animation: none; } }
   .tt-pill { display: inline-flex; align-items: center; justify-content: center; flex: none; height: calc(27 * var(--u)); padding: 0 calc(12 * var(--u)); margin: 0 auto calc(15 * var(--u)); max-width: 100%; border-radius: 999px; background: var(--accent-soft); color: var(--accent); font-family: var(--font-body); font-weight: 700; font-size: calc(11.5 * var(--u)); line-height: 1; white-space: nowrap; }
@@ -734,7 +746,7 @@ class Component extends DCLogic {
     this.PICKUP_CAPS = { 'Aug 28-29': 32 };
     this.SHEET_WEBHOOK_URL = 'https://script.google.com/macros/s/AKfycbwe-Ee-BHG5GZ8q4vSG82J0YPIg159V6e6X9x1ptzEfFCugsWJgp_HoDX9dIkr4RXu-0A/exec';
     this.UI = {
-      zh:{ stkFlaky:'千层', stkCrispy:'酥脆', stkSilky:'嫩滑', stkFresh:'现烤', stkHand:'手作', bag:'购物车', ctaHow:'下单说明', ingTitle:'成分', receiptDeal:'任选四颗优惠', ingAllergen:'含过敏原：', heroTitle:'每一颗蛋挞都是刚出炉的幸福。',  heroTitleA:'', heroTitleB:'可颂蛋挞', heroTitleC:'\n每周现烤', heroSubtitle:'酥到掉渣的塔皮，\n顺滑浓郁的蛋奶馅。', heroNote:'每天新鲜制作，\n每周都有新的口味。', heroSmall:'线上预订 \u00b7 仅限每周五、周六自取', ctaLabel:'查看菜单',
+      zh:{ stkFlaky:'酥脆', stkCrispy:'酥脆', stkSilky:'嫩滑', stkFresh:'现烤', stkHand:'手作', bag:'购物车', ctaHow:'如何下单', ingTitle:'成分', receiptDeal:'任选四颗优惠', ingAllergen:'含过敏原：', heroTitle:'每一颗蛋挞都是刚出炉的幸福。',  heroTitleA:'外酥里嫩\n', heroTitleB:'可颂蛋挞', heroTitleC:'\n每周现烤', heroSubtitle:'酥到掉渣的塔皮，\n顺滑浓郁的蛋奶馅。', heroNote:'每天新鲜制作，\n每周都有新的口味。', heroSmall:'线上预订 \u00b7 仅限每周五、周六自取', ctaLabel:'查看菜单',
         menuLabel:'菜单', menuTitle:'多种口味任你挑选。', add:'加入',
         pickupPaymentLabel:'取货与付款', faqLabel:'常见问题', faqTitle:'常见问题', reviewsLabel:'真实评价', reviewsTitle:'顾客好评', reviewsHint:'轻点放大，左右滑动查看更多', reviewsOpen:'查看评价截图',
         faq:[
@@ -1359,7 +1371,7 @@ class Component extends DCLogic {
     return {
       t: L, lang, isZh, brand: this.BRAND,
       heroLang: (document.documentElement.setAttribute('data-lang', isZh ? 'zh' : 'en'), isZh ? 'zh' : 'en'),
-      heroHStyle: isZh ? { fontFamily:"'Noto Sans SC', sans-serif", fontWeight:900, fontSize:'calc(76 * var(--u))', lineHeight:1.02, letterSpacing:'.01em' } : {},
+      heroHStyle: isZh ? { fontFamily:"'Noto Sans SC', sans-serif", fontWeight:900, fontSize:'calc(75 * var(--u))', lineHeight:1.02, letterSpacing:'.01em' } : {},
       langZhStyle: { flex:1, textAlign:'center', zIndex:1, fontFamily:'var(--font-body)', fontWeight:700, fontSize:'clamp(10.5px,3.1vw,11.5px)', color: isZh?'var(--accent-text)':'var(--text)', transition:'color .22s ease' },
       langEnStyle: { flex:1, textAlign:'center', zIndex:1, fontFamily:'var(--font-body)', fontWeight:700, fontSize:'clamp(10.5px,3.1vw,11.5px)', color: isZh?'var(--text)':'var(--accent-text)', transition:'color .22s ease' },
       langThumbStyle: { position:'absolute', top:'2px', bottom:'2px', left: isZh?'2px':'50%', width:'calc(50% - 2px)', borderRadius:'999px', background:'var(--accent)', transition:'left .22s ease' },
