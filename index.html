@@ -582,6 +582,7 @@
               <div>{{ pickupWhen }}</div>
               <div style="white-space:pre-line">{{ pickupWhere }}</div>
             </div>
+            <div style="{{ itemsBoxStyle }}">
             <sc-for list="{{ ticketItems }}" as="ci" hint-placeholder-count="2">
               <div class="tt-rcl">
                 <img src="{{ ci.topImg }}" alt="" style="width:34px; height:34px; flex:none; object-fit:contain; filter:drop-shadow(0 2px 3px rgba(60,35,5,.3))" />
@@ -591,6 +592,7 @@
                 </div>
               </div>
             </sc-for>
+            </div>
             <sc-if value="{{ hasMoreItems }}" hint-placeholder-val="">
               <button class="tt-more" onClick="{{ toggleItems }}">
                 <span>{{ moreLabel }}</span>
@@ -612,7 +614,6 @@
             <div class="tt-card">
               <div class="tt-ring tt-badge ol">2</div>
               <h4>{{ t.tlPay }}</h4>
-              <a href="{{ venmoPayUrl }}" target="_blank" rel="noopener noreferrer" style="display:block; width:100%; box-sizing:border-box; margin:4px 0 14px; padding:15px; border-radius:var(--radius-sm); background:var(--accent); color:var(--accent-text); font-family:var(--font-body); font-weight:700; font-size:15px; text-align:center; text-decoration:none">{{ venmoPayLabel }}</a>
               <details class="tt-qrmore">
               <summary>{{ t.venmoQrNote }}</summary>
               <div class="tt-qrcol" style="margin-top:12px">
@@ -694,6 +695,12 @@
           <span>{{ totalLabel }}</span>
         </div>
         <button onClick="{{ onNext }}" style="width:100%; padding:15px; border:none; cursor:pointer; border-radius:var(--radius-sm); background:var(--accent); color:var(--accent-text); font-family:var(--font-body); font-weight:700; font-size:15px">{{ t.nextBtn }}</button>
+      </div>
+    </sc-if>
+
+    <sc-if value="{{ isDone }}" hint-placeholder-val="">
+      <div style="flex:none; border-top:1px solid var(--line); padding:12px 18px 14px; background:var(--surface)">
+        <a href="{{ venmoPayUrl }}" target="_blank" rel="noopener noreferrer" style="display:block; width:100%; box-sizing:border-box; padding:15px; border-radius:var(--radius-sm); background:var(--accent); color:var(--accent-text); font-family:var(--font-body); font-weight:700; font-size:15px; text-align:center; text-decoration:none">{{ venmoPayLabel }}</a>
       </div>
     </sc-if>
 
@@ -1453,9 +1460,10 @@ class Component extends DCLogic {
       copyVenmoIcoStyle: { display: this.state.copiedKey==='venmo' ? 'none' : 'inline', color: 'var(--accent)' }, copyVenmoOkStyle: { display: this.state.copiedKey==='venmo' ? 'inline' : 'none' },
       copyChanIcoStyle: { display: this.state.copiedKey==='chan' ? 'none' : 'inline', color: 'var(--accent)' }, copyChanOkStyle: { display: this.state.copiedKey==='chan' ? 'inline' : 'none' },
       pickupMapUrl: hasPickupOptions ? 'https://www.google.com/maps/search/?api=1&query=' + encodeURIComponent(selectedPickup.mapQ || selectedPickup.placeEn) : '#',
-      ticketItems: (cartItems.length >= 6 && !this.state.itemsOpen) ? cartItems.slice(0, 5) : cartItems,
-      hasMoreItems: cartItems.length >= 6, toggleItems: () => this.toggleItems(),
-      moreLabel: this.state.itemsOpen ? L.itemsLess : L.itemsMore(cartItems.length - 5),
+      ticketItems: (cartItems.length >= 5 && !this.state.itemsOpen) ? cartItems.slice(0, 4) : cartItems,
+      itemsBoxStyle: (cartItems.length >= 5 && this.state.itemsOpen) ? { maxHeight:'232px', overflowY:'auto' } : {},
+      hasMoreItems: cartItems.length >= 5, toggleItems: () => this.toggleItems(),
+      moreLabel: this.state.itemsOpen ? L.itemsLess : L.itemsMore(cartItems.length - 4),
       moreChevStyle: { transform: this.state.itemsOpen ? 'rotate(180deg)' : 'none', transition: 'transform .2s' },
       showShotFallback: !!this.state.shotUrl, shotUrl: this.state.shotUrl || '', shotFile: this.state.shotFile || 'tart-theory-order.png',
       saveShot:()=>this.saveShot(), closeShot:()=>this.closeShot(),
