@@ -7,6 +7,7 @@ var FLAVORS = [
   { id: 'lychee', name: 'Lychee Cream Cheese Eggtart', price: 6 },
   { id: 'persimmon', name: 'Persimmon Egg Tart', price: 6 },
   { id: 'matcha', name: 'Matcha Red Bean Tart', price: 6 },
+  { id: 'tiramisu', name: 'Tiramisu Egg Tart', price: 6 },
   { id: 'porkfloss', name: 'Pork Floss Salted Egg Tart', price: 6 },
   { id: 'oreo', name: 'Oreo Brownie Egg Tart', price: 6 },
   { id: 'taro', name: 'Purple Rice Taro Egg Tart', price: 6 },
