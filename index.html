@@ -52,7 +52,7 @@
   .tt-body::-webkit-scrollbar-thumb { background: var(--line); border-radius: 8px; }
   .tt-mrow { display: flex; align-items: stretch; gap: 14px; overflow-x: auto; scroll-snap-type: x proximity; scrollbar-width: none; -webkit-overflow-scrolling: touch; /* bleed to the screen edges so the next card slides off-screen instead of being clipped, first card still lines up with the heading */ margin: 0 calc(-1 * clamp(16px,4vw,64px)); padding: 70px clamp(16px,4vw,64px) 12px; scroll-padding-left: clamp(16px,4vw,64px); }
   .tt-mrow::-webkit-scrollbar { display: none; }
-  .tt-mcard { display: flex; flex-direction: column; flex: 0 0 min(60vw, 240px); scroll-snap-align: start; background: var(--surface); border: 1px solid var(--line); border-radius: 22px; padding: 0 14px 14px; text-align: center; }
+  .tt-mcard { position: relative; display: flex; flex-direction: column; flex: 0 0 min(60vw, 240px); scroll-snap-align: start; background: var(--surface); border: 1px solid var(--line); border-radius: 22px; padding: 0 14px 14px; text-align: center; }
   .tt-rc { position: relative; margin: 8px 0 4px; padding: 14px 12px 14px; background: #fff; border-radius: 3px; box-shadow: 0 2px 8px rgba(60,35,5,.12); font-family: var(--font-body); }
   .tt-rc:before, .tt-rc:after { content: ""; position: absolute; left: 0; right: 0; height: 8px; background: radial-gradient(circle at 6px 0, transparent 5px, #fff 5.5px) repeat-x; background-size: 12px 8px; }
   .tt-rc:before { top: -7px; transform: scaleY(-1); } .tt-rc:after { bottom: -7px; }
@@ -193,11 +193,12 @@
   .tt-sticker { display: inline-flex; align-items: center; justify-content: center; max-width: 100%; padding: 7px 14px; margin: 0 0 20px; border-radius: 10px; background: var(--accent-soft); color: var(--accent); font-family: var(--font-body); font-weight: 800; font-size: clamp(10.5px,2.95vw,13px); line-height: 1.3; white-space: nowrap; border: 3px solid #fff; box-shadow: 0 0 0 1px rgba(194,79,12,.18), 0 6px 14px rgba(90,45,5,.16); transform: rotate(-3deg); }
   .tt-hero-hw { position: relative; width: 100%; max-width: 1100px; margin: 0 auto clamp(18px,3vw,36px); padding: clamp(70px,19vw,96px) 0 clamp(40px,11.2vw,66px); }
   .tt-stk { position: absolute; z-index: 3; display: grid; place-items: center; text-align: center; width: clamp(60px,16vw,128px); height: clamp(60px,16vw,128px); padding: 6px; font-family: var(--font-body); font-weight: 800; font-size: clamp(11px,3vw,19px); line-height: 1.15; color: #24180C; white-space: pre-line; animation: ttStk 5s ease-in-out infinite; }
-  .tt-stk-a { left: -2%; top: 12px; background: #8FCB94; -webkit-mask: url(./tart.svg) center/contain no-repeat; mask: url(./tart.svg) center/contain no-repeat; --r: -12deg; width: clamp(76px,21vw,150px); height: clamp(76px,21vw,150px); }
-  .tt-stk-b { right: 0; bottom: clamp(16px,5.6vw,30px); width: clamp(84px,23vw,160px); height: clamp(84px,23vw,160px); padding: clamp(14px,3.6vw,26px); font-size: clamp(10.5px,2.8vw,18px); background: #F2C14E; clip-path: polygon(50% 0,61% 13%,77% 7%,80% 23%,96% 26%,90% 41%,100% 54%,87% 63%,90% 79%,74% 80%,68% 95%,54% 87%,40% 98%,32% 84%,16% 88%,15% 72%,2% 64%,10% 50%,1% 36%,15% 28%,15% 12%,31% 14%,39% 1%); --r: 10deg; animation-delay: -1.5s; }
+  .tt-stk-a { left: -6%; top: 12px; background: #8FCB94; -webkit-mask: url(./tart.svg) center/contain no-repeat; mask: url(./tart.svg) center/contain no-repeat; --r: -12deg; width: clamp(76px,21vw,150px); height: clamp(76px,21vw,150px); }
+  .tt-stk-b { right: -9%; bottom: clamp(16px,5.6vw,30px); width: clamp(84px,23vw,160px); height: clamp(84px,23vw,160px); padding: clamp(14px,3.6vw,26px); font-size: clamp(10.5px,2.8vw,18px); background: #F2C14E; clip-path: polygon(50% 0,61% 13%,77% 7%,80% 23%,96% 26%,90% 41%,100% 54%,87% 63%,90% 79%,74% 80%,68% 95%,54% 87%,40% 98%,32% 84%,16% 88%,15% 72%,2% 64%,10% 50%,1% 36%,15% 28%,15% 12%,31% 14%,39% 1%); --r: 10deg; animation-delay: -1.5s; }
   @media (min-width: 860px) { .tt-hero-hw { padding: 70px 0 0; } .tt-stk-a { left: 4%; top: 0; } .tt-stk-b { right: 4%; top: 0; bottom: auto; } }
   @keyframes ttStk { 0%,100% { transform: rotate(var(--r)) translateY(0); } 50% { transform: rotate(calc(var(--r) + 4deg)) translateY(-4px); } }
   @media (prefers-reduced-motion: reduce) { .tt-stk { animation: none; transform: rotate(var(--r)); } }
+  .tt-mtag { position: absolute; z-index: 3; left: -6px; top: 10px; transform: rotate(-8deg); background: #E8742A; color: #fff; font-family: var(--font-body); font-weight: 800; font-size: 12px; line-height: 1; padding: 7px 11px; border-radius: 999px; white-space: nowrap; box-shadow: 0 4px 10px rgba(120,50,5,.18); }
   .tt-qr-placeholder { align-items: center; justify-content: center; border: 2px dashed var(--line); color: var(--muted); font-family: var(--font-body); font-size: 12px; }
 
 </style>
@@ -277,6 +278,7 @@
       <div class="tt-mrow">
         <sc-for list="{{ menu }}" as="item" hint-placeholder-count="8">
           <div class="tt-mcard">
+            <sc-if value="{{ item.cardTag }}" hint-placeholder-val=""><span class="tt-mtag">{{ item.cardTag }}</span></sc-if>
             <div class="tt-mpop"><img src="{{ item.topImg }}" alt="{{ item.name }}" loading="lazy" /></div>
             <div style="font-family:var(--font-head); font-weight:var(--head-weight); color:var(--text); font-size:16px; line-height:1.25; margin-top:4px; min-height:40px; display:flex; align-items:center; justify-content:center">{{ item.name }}</div>
             <div style="font-family:var(--font-head); color:var(--accent); font-weight:800; font-size:24px; line-height:1.1; margin-top:2px">{{ item.priceLabel }}</div>
@@ -673,8 +675,8 @@ class Component extends DCLogic {
     super(props);
     this.BRAND = 'Tart Theory';
     this.FLAVORS = [
+      { id:'persimmon', zh:'柿柿如意挞', en:'Persimmon Egg Tart', tagZh:'秋季限定', tagEn:'Autumn Limited', cardTag:true, descZh:'柿子果肉，丝滑蛋奶馅，千层酥皮。', descEn:'Sweet persimmon, silky egg custard, buttery layered crust.', center:'#F6B04A', edge:'#E08A1E', torched:false, price:6, img:'uploads/top/persimmon.webp' },
       { id:'lychee', zh:'荔枝奶酪蛋挞', en:'Lychee Cream Cheese Egg Tart', tagZh:null, tagEn:null, descZh:'新鲜荔枝，丝滑奶酪馅，玫瑰花瓣点缀，千层酥皮。', descEn:'Fresh lychee, silky cream cheese, aromatic rose petal, buttery layered crust.', center:'#F6E1DC', edge:'#D99C92', torched:false, price:6, img:'uploads/poster-82d88b98.jpg' },
-      { id:'persimmon', zh:'柿柿如意挞', en:'Persimmon Egg Tart', tagZh:'新品', tagEn:'New', descZh:'柿子果肉，丝滑蛋奶馅，千层酥皮。', descEn:'Sweet persimmon, silky egg custard, buttery layered crust.', center:'#F6B04A', edge:'#E08A1E', torched:false, price:6, img:'uploads/top/persimmon.webp' },
       { id:'chestnut', zh:'栗子蛋挞', en:'Chestnut Egg Tart', tagZh:'新品', tagEn:'New', descZh:'栗子，栗子泥，嫩滑蛋奶馅，千层酥皮。', descEn:'Whole chestnut, chestnut puree, silky egg custard, buttery layered crust.', center:'#D4AD78', edge:'#9C7340', torched:false, price:6, img:'uploads/poster-1d724995.jpg' },
       { id:'corn', zh:'玉米蛋挞', en:'Corn Egg Tart', tagZh:'新品', tagEn:'New', descZh:'烤玉米粒，玉米卡仕达，酥脆挞皮。', descEn:'Grilled corn kernels, sweet corn custard, flaky pastry crust.', center:'#FBE38A', edge:'#E0A92E', torched:true, price:6, img:'uploads/poster-a5c47257.jpg' },
       { id:'osmanthus', zh:'桂花酒酿蛋挞', en:'Osmanthus Rice Wine Egg Tart', tagZh:'新品', tagEn:'New', descZh:'桂花蜜，酒酿，糯米丸子，嫩滑蛋奶馅，千层酥皮。', descEn:'Osmanthus honey, rice wine, glutinous rice balls, silky egg custard, buttery layered crust.', center:'#F0DDA0', edge:'#C08A2E', torched:false, price:6, img:'uploads/poster-05bb7c6c.jpg' },
@@ -1236,7 +1238,7 @@ class Component extends DCLogic {
     const menu = this.FLAVORS.map((f, i) => {
       const qty = this.state.cart[f.id] || 0;
       const priceLabel = this.money(f.price);
-      return { ...f, name: isZh?f.zh:f.en, desc: isZh?f.descZh:f.descEn, tag: isZh?f.tagZh:f.tagEn,
+      return { ...f, name: isZh?f.zh:f.en, desc: isZh?f.descZh:f.descEn, tag: isZh?f.tagZh:f.tagEn, cardTag: f.cardTag ? (isZh?f.tagZh:f.tagEn) : null,
         qty, num: String(i+1).padStart(2,'0'), inCart:qty>0, outCart:qty===0,
         priceLabel, custardStyle:this.custardStyle(f, '14%'), img:f.img, topImg:'uploads/top/'+f.id+'.webp', ingredients:((this.INGREDIENTS[f.id] || {})[isZh?'zh':'en'] || '').split(' · ').join(isZh?'、':', '), ilistStyle:{ minHeight:(isZh?29:43)+'px' }, allergenLine:L.ingAllergen + this.allergensFor(f.id, isZh), ialStyle:{ minHeight:'13px' },
         onAdd:()=>this.add(f.id), onInc:()=>this.inc(f.id), onDec:()=>this.dec(f.id) };
