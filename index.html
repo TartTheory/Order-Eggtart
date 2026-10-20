@@ -57,7 +57,7 @@
   .tt-rc:before, .tt-rc:after { content: ""; position: absolute; left: 0; right: 0; height: 8px; background: radial-gradient(circle at 6px 0, transparent 5px, #fff 5.5px) repeat-x; background-size: 12px 8px; }
   .tt-rc:before { top: -7px; transform: scaleY(-1); } .tt-rc:after { bottom: -7px; }
   .tt-rch { text-align: center; padding-bottom: 8px; border-bottom: 1px dashed #cdbb9c; font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace; font-size: 12px; font-weight: 700; letter-spacing: .2em; text-transform: uppercase; color: var(--text); }
-  .tt-rcl { display: flex; align-items: center; gap: 10px; padding: 8px 0; border-bottom: 1px dotted #e0d3ba; }
+  .tt-rcl { display: flex; align-items: center; gap: 10px; padding: 6px 0; }
   .tt-rcm { flex: 1; min-width: 0; }
   .tt-rcr { display: flex; align-items: center; justify-content: space-between; margin-top: 6px; }
   .tt-rcn { font-weight: 700; font-size: 13.5px; line-height: 1.3; color: var(--text); }
@@ -128,7 +128,7 @@
   .tt-card .tt-badge { position: absolute; left: 50%; top: -16px; transform: translateX(-50%); }
   .tt-steps h4 { margin: 0 0 4px; font-family: var(--font-body); font-size: 16px; font-weight: 700; color: var(--text); line-height: 1.3; }
   .tt-steps p { margin: 0 0 12px; font-family: var(--font-body); color: var(--muted); font-size: 13px; font-weight: 400; line-height: 1.55; }
-  .tt-stepper { display: flex; align-items: center; gap: 8px; margin: 0 0 14px; font-family: var(--font-body); font-size: 13px; font-weight: 700; color: var(--muted); }
+  .tt-stepper { display: flex; align-items: center; gap: 6px; white-space: nowrap; margin: 0 0 14px; font-family: var(--font-body); font-size: 13px; font-weight: 700; color: var(--muted); }
   .tt-st { display: inline-flex; align-items: center; gap: 6px; padding: 0; border: none; background: none; font: inherit; color: inherit; }
   .tt-stn { width: 22px; height: 22px; background: var(--line); --ring-w: 1.5px; --ring-fill: var(--surface); display: grid; place-items: center; font-size: 11px; font-weight: 800; }
   .tt-st.on { color: var(--text); }
@@ -487,7 +487,7 @@
         </sc-if>
         <sc-if value="{{ hasItems }}" hint-placeholder-val="">
           <sc-if value="{{ isBagView }}" hint-placeholder-val="{{ true }}">
-          <sc-if value="{{ hasPickupOptions }}" hint-placeholder-val="{{ true }}"><div class="tt-stepper"><span class="tt-st on"><span class="tt-ring tt-stn">1</span>{{ t.stepBag }}</span><span class="tt-stsep">›</span><span class="tt-st"><span class="tt-ring tt-stn">2</span>{{ t.stepPickup }}</span></div></sc-if>
+          <sc-if value="{{ hasPickupOptions }}" hint-placeholder-val="{{ true }}"><div class="tt-stepper"><span class="tt-st on"><span class="tt-ring tt-stn">1</span>{{ t.stepBag }}</span><span class="tt-stsep">›</span><span class="tt-st"><span class="tt-ring tt-stn">2</span>{{ t.stepPickup }}</span><span class="tt-stsep">›</span><span class="tt-st"><span class="tt-ring tt-stn">3</span>{{ t.stepPay }}</span></div></sc-if>
           <div class="tt-rc">
             <sc-for list="{{ cartItems }}" as="ci" hint-placeholder-count="2">
               <div class="tt-rcl">
@@ -529,7 +529,7 @@
 
           <sc-if value="{{ showPickupSection }}" hint-placeholder-val="">
           <sc-if value="{{ isPickupView }}" hint-placeholder-val="">
-            <div class="tt-stepper"><button onClick="{{ backToBag }}" class="tt-st done" aria-label="{{ t.backToBag }}"><span class="tt-ring tt-stn">1</span>{{ t.stepBag }}</button><span class="tt-stsep">›</span><span class="tt-st on"><span class="tt-ring tt-stn">2</span>{{ t.stepPickup }}</span></div>
+            <div class="tt-stepper"><button onClick="{{ backToBag }}" class="tt-st done" aria-label="{{ t.backToBag }}"><span class="tt-ring tt-stn">1</span>{{ t.stepBag }}</button><span class="tt-stsep">›</span><span class="tt-st on"><span class="tt-ring tt-stn">2</span>{{ t.stepPickup }}</span><span class="tt-stsep">›</span><span class="tt-st"><span class="tt-ring tt-stn">3</span>{{ t.stepPay }}</span></div>
           </sc-if>
           <div id="tt-pickup" style="margin-top:{{ pickupTopGap }}">
             <sc-if value="{{ !isPickupView }}" hint-placeholder-val="{{ true }}"><div style="display:flex; align-items:center; gap:8px; font-family:var(--font-body); font-weight:800; font-size:16px; color:var(--text); margin-bottom:4px">
@@ -772,7 +772,7 @@ class Component extends DCLogic {
         copiedId:'已复制', emptyBagMsg:'你的袋子还是空的，去挑几个蛋挞吧。', sendingOrder:'正在提交订单...', pickupDayLabel:'选择取货时间', pickupOpensNextWeek:'下一周的取货时间将于周六下午 5 点发布，请稍后查看。', soldOutThisWeek:'抱歉，本周的蛋挞名额已订满，请下周再来 :)', lowStockThisWeek:(n)=>'本周只剩 '+n+' 个名额，请减少数量后再试。', copied:'已复制微信号！',
         boxPromo:'优惠活动: 任选四颗，仅需 $20！', boxPromoSub:'全口味自由混搭，四颗更划算',
         backToBag:'\u2190 返回购物车', orderReservedTitle:'订单已预留', venmoPayBtn:(t)=>'在 Venmo 支付 '+t, venmoQrNote:'无法跳转到 Venmo？点这里', tlPay:'付款', tlPayText:(t)=>'用 Venmo 支付 '+t+'。', tlSend:'发送截图', tlSendText:(o,n,id)=>'请把订单号截图和付款截图发送至'+n+'，客服确认后即可锁定订单。', tlPickup:'取货', itemsMore:(n)=>'还有 '+n+' 款，点击展开', itemsLess:'收起', tlPickupNote:'我们会在取货当天约提前 30 分钟告知确切的到达时间和停车位置。', tlPickupText:'自取时请出示订单截图，或直接告诉我们你的 Venmo 用户名。', copyVenmo:'复制 Venmo ID', copyChannelWechat:'复制微信号', shotBtn:'保存订单到相册', shotBusy:'生成中…', shotSaved:'已保存至相册', shotHold:'长按图片，选择“存储到相册”。', shotDownload:'下载图片', shotClose:'关闭', ticketSub:'自取订单', careTitle:'保存与加热小贴士', careLines:['当天享用口感最佳。吃不完可放冰箱冷藏2-3天，吃前可复热：','微波炉：先取下锡纸壳，加热 30 秒。','烤箱 / 空气炸锅：无需取下锡纸壳，180°C（350°F）加热 3-5 分钟。'], ticketFoot:'自取时请出示订单截图，或告诉我们你的 Venmo 用户名。', yourOrderNumberLabel:'你的订单号',
-        nextBtn:'下一步', stepBag:'确认口味', stepPickup:'选择取货时间', pickupTitle:'取货', totalLabel:'总计', eachSuffix:'/每个', heroWordA:'现烤', heroWordB:'酥脆', heroWordC:'浓郁',
+        nextBtn:'下一步', stepBag:'确认口味', stepPickup:'选择取货时间', stepPay:'结账', pickupTitle:'取货', totalLabel:'总计', eachSuffix:'/每个', heroWordA:'现烤', heroWordB:'酥脆', heroWordC:'浓郁',
         confirm1:(t)=>'扫描上方二维码支付 '+t+'。', confirm2:(o,w)=>'将订单号 '+o+' 和付款截图发送到微信：'+w+'。', confirm3:(s,tm)=>'在 '+s+'，'+tm+' 取货。出示相册里保存的订单、订单号，或直接告诉我们你的 Venmo 用户名，我们会现场为你核实。' },
       en:{ stkFlaky:'Flaky', stkCrispy:'Crispy', stkSilky:'Silky', stkFresh:'Fresh', stkHand:'Handmade', bag:'Bag', ctaHow:'How to order', ingTitle:'INGREDIENTS', receiptDeal:'Any 4 for $20', ingAllergen:'Contains: ', heroTitle:'Handmade egg tarts with flavors from around the world.',  heroTitleA:'Asian fusion\n', heroTitleB:'egg tarts', heroTitleC:'\nevery\nweekend', heroSubtitle:'Flaky crust.\nSilky custard.', heroNote:'Baked fresh daily.\nNew flavors every week.', heroSmall:'Pre-order online \u00b7 Pickup Fridays & Saturdays only', ctaLabel:'View Menu',
         menuLabel:'The menu', menuTitle:'Something for every craving.', add:'Add',
@@ -792,7 +792,7 @@ class Component extends DCLogic {
         copiedId:'Copied', emptyBagMsg:'Your bag is empty. Time to pick some tarts!', sendingOrder:'Sending your order...', pickupDayLabel:'Choose your pickup time', pickupOpensNextWeek:'Next week\u2019s pickup times open Saturday at 5 PM. Check back soon.', soldOutThisWeek:'Sorry, we\u2019re sold out this week. Check back next week!', lowStockThisWeek:(n)=>'Only '+n+' left this week. Please lower your quantity.', copied:'WeChat ID copied!',
         boxPromo:'Any 4 for $20!', boxPromoSub:'Mix and match any flavors. Perfect for sharing, or keeping all to yourself. We won\u2019t judge.',
         backToBag:'\u2190 Back to bag', orderReservedTitle:'Order reserved', venmoPayBtn:(t)=>'Pay '+t+' on Venmo', venmoQrNote:'Can\u2019t open Venmo? Tap here', tlPay:'Pay', tlPayText:(t)=>'Pay '+t+' on Venmo.', tlSend:'Send us your screenshots', tlSendText:(o,n,id)=>'DM us a screenshot of your order and your Venmo payment on '+n+'. We\u2019ll confirm your order once we see them.', tlPickup:'Pickup', itemsMore:(n)=>'Show '+n+' more', itemsLess:'Show less', tlPickupNote:'On pickup day, we\u2019ll send the exact arrival time and parking spot about 30 minutes ahead.', tlPickupText:'Show your order screenshot at pickup, or just give us your Venmo name.', copyVenmo:'Copy Venmo ID', copyChannelWechat:'Copy Instagram ID', shotBtn:'Save order to Photos', shotBusy:'Preparing…', shotSaved:'Saved to Photos', shotHold:'Press and hold the image, then tap Save to Photos.', shotDownload:'Download image', shotClose:'Close', ticketSub:'Pickup order', careTitle:'Storing & reheating', careLines:['Egg tarts are best the day you get them. Refrigerate leftovers for up to 3 days. Reheat before serving:','Microwave: Remove the foil cup and heat for 30 seconds.','Oven or air fryer: Leave the foil cup on and bake at 350\u00b0F for 3\u20135 minutes.'], ticketFoot:'Show this at pickup, or just give us your Venmo name.', yourOrderNumberLabel:'Your order number',
-        nextBtn:'Next', stepBag:'Your bag', stepPickup:'Pickup time', pickupTitle:'Pickup', totalLabel:'Total', eachSuffix:' each', heroWordA:'Fresh-Baked', heroWordB:'Flaky', heroWordC:'Rich',
+        nextBtn:'Next', stepBag:'Your bag', stepPickup:'Pickup time', stepPay:'Checkout', pickupTitle:'Pickup', totalLabel:'Total', eachSuffix:' each', heroWordA:'Fresh-Baked', heroWordB:'Flaky', heroWordC:'Rich',
         confirm1:(t)=>'Scan the QR above to pay '+t+'.', confirm2:(o,w)=>'Send your order number '+o+' and the payment screenshot to us on Instagram: '+w+'.', confirm3:(s,tm)=>'Collect at '+s+', '+tm+'. Show your saved order, your order number, or just tell us your Venmo name — we’ll confirm you there.' },
     };
     // Customer review screenshots: { src:'uploads/reviews/01.jpg' }. Section stays hidden while this is empty.
