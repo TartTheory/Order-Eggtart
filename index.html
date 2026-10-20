@@ -33,7 +33,7 @@
 <helmet>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;500;600;700;800&family=Noto+Sans+SC:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Hanken+Grotesk:wght@400;500;600;700;800&family=Noto+Sans+SC:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
   * { box-sizing: border-box; }
   html { overflow-x: hidden; }
@@ -176,6 +176,13 @@
   .tt-ring::before { content: ""; position: absolute; inset: var(--ring-w, 0px); z-index: -1; background: var(--ring-fill, transparent); -webkit-mask: url(./tart.svg) center/contain no-repeat; mask: url(./tart.svg) center/contain no-repeat; }
   .tt-tart { -webkit-mask: url(./tart.svg) center/contain no-repeat; mask: url(./tart.svg) center/contain no-repeat; }
   @keyframes ttSpin { to { transform: rotate(360deg); } }
+  .tt-hero { text-align: center; padding: clamp(20px,6vw,64px) clamp(16px,4vw,64px) clamp(24px,6vw,56px); max-width: 1280px; margin: 0 auto; overflow: hidden; }
+  .tt-hero-h { font-family: 'Anton', 'Noto Sans SC', sans-serif; font-weight: 400; text-transform: uppercase; color: var(--text); font-size: clamp(50px,15vw,128px); line-height: .95; letter-spacing: .005em; margin: 0 auto 16px; max-width: 980px; text-wrap: balance; white-space: pre-line; }
+  .tt-hero-h em { font-style: normal; color: var(--accent); }
+  .tt-hero-row { display: flex; justify-content: center; align-items: center; margin: 4px -18vw 20px; }
+  .tt-hero-row img { width: 46%; max-width: 330px; margin: 0 -5%; filter: drop-shadow(0 16px 18px rgba(60,30,5,.22)); }
+  .tt-hero-row img:nth-child(2) { width: 56%; max-width: 400px; position: relative; z-index: 2; }
+  @media (min-width: 860px) { .tt-hero-row { margin: 8px auto 28px; } }
   .tt-qr-placeholder { align-items: center; justify-content: center; border: 2px dashed var(--line); color: var(--muted); font-family: var(--font-body); font-size: 12px; }
 
 </style>
@@ -205,40 +212,21 @@
     </div>
   </nav>
 
-  <header style="display:grid; grid-template-columns:1fr; gap:20px; align-items:center; padding:clamp(18px,6vw,80px) clamp(16px,4vw,64px); max-width:1280px; margin:0 auto">
-    <div>
-      <h1 style="font-family:var(--font-head); font-weight:var(--head-weight); letter-spacing:var(--head-spacing); color:var(--text); font-size:clamp(30px,7.2vw,58px); line-height:1.2; margin:0 0 12px; max-width:640px; white-space:pre-line; text-wrap:balance">{{ t.heroTitle }}</h1>
-      <p style="font-family:var(--font-body); color:var(--text); font-weight:600; font-size:clamp(19px,4.8vw,27px); line-height:1.5; max-width:580px; margin:0 0 10px; white-space:pre-line">{{ t.heroSubtitle }}</p>
-      <p style="font-family:var(--font-body); color:var(--muted); font-size:clamp(16px,4.1vw,21px); line-height:1.55; max-width:580px; margin:0 0 10px; white-space:pre-line">{{ t.heroNote }}</p>
-      <div style="display:inline-flex; align-items:center; gap:7px; max-width:100%; padding:8px 14px; margin:0 0 20px; border-radius:999px; background:var(--accent-soft); color:var(--accent); font-family:var(--font-body); font-weight:700; font-size:clamp(12.5px,3.4vw,14px); line-height:1.3">
+  <header class="tt-hero">
+    <h1 class="tt-hero-h" style="{{ heroHStyle }}">{{ t.heroTitleA }}<em>{{ t.heroTitleB }}</em>{{ t.heroTitleC }}</h1>
+      <div style="display:inline-flex; align-items:center; gap:7px; max-width:100%; padding:8px 14px; margin:0 0 18px; border-radius:999px; background:var(--accent-soft); color:var(--accent); font-family:var(--font-body); font-weight:700; font-size:clamp(12.5px,3.4vw,14px); line-height:1.3">
         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex:none"><rect x="3.5" y="5" width="17" height="15.5" rx="2.5"/><path d="M3.5 10h17M8 3v4M16 3v4"/></svg>
         <span>{{ t.heroSmall }}</span>
       </div>
-      <div style="display:flex; flex-wrap:wrap; gap:10px">
+    <div class="tt-hero-row" aria-hidden="true">
+      <img src="uploads/top/lavachoc.webp" alt="" />
+      <img src="uploads/top/original.webp" alt="" />
+      <img src="uploads/top/lavachoc.webp" alt="" style="transform:scaleX(-1) rotate(24deg)" />
+    </div>
+      <div style="display:flex; flex-wrap:wrap; gap:10px; justify-content:center">
         <button onClick="{{ scrollToMenu }}" style="padding:12px clamp(18px,5vw,26px); border:2px solid var(--accent); cursor:pointer; border-radius:var(--radius-sm); background:var(--accent); color:var(--accent-text); font-family:var(--font-body); font-weight:700; font-size:clamp(15px,4vw,16.5px)">{{ t.ctaLabel }}</button>
         <button onClick="{{ scrollToHow }}" style="padding:12px clamp(18px,5vw,26px); border:2px solid var(--accent); cursor:pointer; border-radius:var(--radius-sm); background:transparent; color:var(--accent); font-family:var(--font-body); font-weight:700; font-size:clamp(15px,4vw,16.5px)">{{ t.ctaHow }}</button>
       </div>
-    </div>
-    <div style="position:relative; aspect-ratio:1; min-height:220px; max-width:480px; width:100%; justify-self:center; margin-bottom:clamp(60px,13vw,84px)">
-      <div style="position:absolute; width:42%; left:0%; top:32%; opacity:.92; animation:ttFloatB 5.5s ease-in-out infinite">
-        <div style="position:relative; width:100%; aspect-ratio:1; border-radius:50%; background:repeating-conic-gradient(from 0deg, #E7B97F 0deg 6deg, #D1A061 6deg 12deg); box-shadow:0 12px 26px rgba(80,50,20,.2)">
-          <div style="{{ heroTartB }}"></div>
-        </div>
-        <div style="position:absolute; bottom:-4px; left:50%; transform:translateX(-50%); background:var(--surface); border:1px solid var(--line); box-shadow:var(--shadow); border-radius:var(--radius-sm); padding:5px 10px; font-family:var(--font-head); font-weight:var(--head-weight); color:var(--text); font-size:12px; white-space:nowrap">{{ t.heroWordB }}</div>
-      </div>
-      <div style="position:absolute; width:40%; right:8%; top:-2%; opacity:.92; animation:ttFloatC 6.5s ease-in-out infinite">
-        <div style="position:relative; width:100%; aspect-ratio:1; border-radius:50%; background:repeating-conic-gradient(from 0deg, #E7B97F 0deg 6deg, #D1A061 6deg 12deg); box-shadow:0 12px 26px rgba(80,50,20,.2)">
-          <div style="{{ heroTartC }}"></div>
-        </div>
-        <div style="position:absolute; bottom:-4px; left:50%; transform:translateX(-50%); background:var(--surface); border:1px solid var(--line); box-shadow:var(--shadow); border-radius:var(--radius-sm); padding:5px 10px; font-family:var(--font-head); font-weight:var(--head-weight); color:var(--text); font-size:12px; white-space:nowrap">{{ t.heroWordC }}</div>
-      </div>
-      <div style="position:absolute; width:60%; left:60%; top:68%; transform:translate(-50%,-50%); animation:ttFloat 6s ease-in-out infinite">
-        <div style="position:relative; width:100%; aspect-ratio:1; border-radius:50%; background:repeating-conic-gradient(from 0deg, #EABE83 0deg 6deg, #D3A263 6deg 12deg); box-shadow:0 24px 50px rgba(80,50,20,.28)">
-          <div style="{{ heroTartA }}"></div>
-        </div>
-        <div style="position:absolute; bottom:-6px; left:-14px; background:var(--surface); border:1px solid var(--line); box-shadow:var(--shadow); border-radius:var(--radius-sm); padding:7px 12px; font-family:var(--font-head); font-weight:var(--head-weight); color:var(--text); font-size:14.5px; white-space:nowrap">{{ t.heroWordA }}</div>
-      </div>
-    </div>
   </header>
 
   <!-- Info strip (crust / custard / baking): hidden for now; set showPillars to true in renderVals to bring it back. -->
@@ -705,7 +693,7 @@ class Component extends DCLogic {
     this.PICKUP_CAPS = { 'Aug 28-29': 32 };
     this.SHEET_WEBHOOK_URL = 'https://script.google.com/macros/s/AKfycbwe-Ee-BHG5GZ8q4vSG82J0YPIg159V6e6X9x1ptzEfFCugsWJgp_HoDX9dIkr4RXu-0A/exec';
     this.UI = {
-      zh:{ bag:'购物车', ctaHow:'下单说明', ingTitle:'成分', receiptDeal:'任选四颗优惠', ingAllergen:'含过敏原：', heroTitle:'每一颗蛋挞都是刚出炉的幸福。', heroSubtitle:'酥到掉渣的塔皮，\n顺滑浓郁的蛋奶馅。', heroNote:'每天新鲜制作，\n每周都有新的口味。', heroSmall:'线上预订 \u00b7 仅限每周五、周六自取', ctaLabel:'查看菜单',
+      zh:{ bag:'购物车', ctaHow:'下单说明', ingTitle:'成分', receiptDeal:'任选四颗优惠', ingAllergen:'含过敏原：', heroTitle:'每一颗蛋挞都是刚出炉的幸福。', heroTitleA:'每个周末\n', heroTitleB:'新鲜蛋挞', heroTitleC:'\n现烤出炉', heroSubtitle:'酥到掉渣的塔皮，\n顺滑浓郁的蛋奶馅。', heroNote:'每天新鲜制作，\n每周都有新的口味。', heroSmall:'线上预订 \u00b7 仅限每周五、周六自取', ctaLabel:'查看菜单',
         menuLabel:'菜单', menuTitle:'多种口味任你挑选。', add:'加入',
         pickupPaymentLabel:'取货与付款', faqLabel:'常见问题', faqTitle:'常见问题', reviewsLabel:'真实评价', reviewsTitle:'顾客好评', reviewsHint:'轻点放大，左右滑动查看更多', reviewsOpen:'查看评价截图',
         faq:[
@@ -725,7 +713,7 @@ class Component extends DCLogic {
         backToBag:'\u2190 返回购物车', orderReservedTitle:'订单已预留', venmoPayBtn:(t)=>'在 Venmo 支付 '+t, venmoQrNote:'无法跳转到 Venmo？点这里', tlPay:'付款', tlPayText:(t)=>'用 Venmo 支付 '+t+'。', tlSend:'发送截图', tlSendText:(o,n,id)=>'请把订单号截图和付款截图发送至'+n+'，客服确认后即可锁定订单。', tlPickup:'取货', itemsMore:(n)=>'还有 '+n+' 款，点击展开', itemsLess:'收起', tlPickupNote:'我们会在取货当天约提前 30 分钟告知确切的到达时间和停车位置。', tlPickupText:'自取时请出示订单截图，或直接告诉我们你的 Venmo 用户名。', copyVenmo:'复制 Venmo ID', copyChannelWechat:'复制微信号', shotBtn:'保存订单到相册', shotBusy:'生成中…', shotSaved:'已保存至相册', shotHold:'长按图片，选择“存储到相册”。', shotDownload:'下载图片', shotClose:'关闭', ticketSub:'自取订单', careTitle:'保存与加热小贴士', careLines:['当天享用口感最佳。吃不完可放冰箱冷藏2-3天，吃前可复热：','微波炉：先取下锡纸壳，加热 30 秒。','烤箱 / 空气炸锅：无需取下锡纸壳，180°C（350°F）加热 3-5 分钟。'], ticketFoot:'自取时请出示订单截图，或告诉我们你的 Venmo 用户名。', yourOrderNumberLabel:'你的订单号',
         nextBtn:'下一步', stepBag:'确认口味', stepPickup:'选择取货时间', pickupTitle:'取货', totalLabel:'总计', eachSuffix:'/每个', heroWordA:'现烤', heroWordB:'酥脆', heroWordC:'浓郁',
         confirm1:(t)=>'扫描上方二维码支付 '+t+'。', confirm2:(o,w)=>'将订单号 '+o+' 和付款截图发送到微信：'+w+'。', confirm3:(s,tm)=>'在 '+s+'，'+tm+' 取货。出示相册里保存的订单、订单号，或直接告诉我们你的 Venmo 用户名，我们会现场为你核实。' },
-      en:{ bag:'Bag', ctaHow:'How to order', ingTitle:'INGREDIENTS', receiptDeal:'Any 4 for $20', ingAllergen:'Contains: ', heroTitle:'Handmade egg tarts with flavors from around the world.', heroSubtitle:'Flaky crust.\nSilky custard.', heroNote:'Baked fresh daily.\nNew flavors every week.', heroSmall:'Pre-order online \u00b7 Pickup Fridays & Saturdays only', ctaLabel:'View Menu',
+      en:{ bag:'Bag', ctaHow:'How to order', ingTitle:'INGREDIENTS', receiptDeal:'Any 4 for $20', ingAllergen:'Contains: ', heroTitle:'Handmade egg tarts with flavors from around the world.', heroTitleA:'Fresh ', heroTitleB:'egg tarts', heroTitleC:' every weekend', heroSubtitle:'Flaky crust.\nSilky custard.', heroNote:'Baked fresh daily.\nNew flavors every week.', heroSmall:'Pre-order online \u00b7 Pickup Fridays & Saturdays only', ctaLabel:'View Menu',
         menuLabel:'The menu', menuTitle:'Something for every craving.', add:'Add',
         pickupPaymentLabel:'Pickup & payment', faqLabel:'FAQ', faqTitle:'Frequently asked questions', reviewsLabel:'Reviews', reviewsTitle:'What our customers say', reviewsHint:'Tap to enlarge. Swipe for more.', reviewsOpen:'View review screenshot',
         faq:[
@@ -1324,6 +1312,7 @@ class Component extends DCLogic {
 
     return {
       t: L, lang, isZh, brand: this.BRAND,
+      heroHStyle: isZh ? { fontFamily:"'Noto Sans SC', sans-serif", fontWeight:900, fontSize:'clamp(42px,12vw,104px)', lineHeight:1.12, letterSpacing:'.02em' } : {},
       langZhStyle: { flex:1, textAlign:'center', zIndex:1, fontFamily:'var(--font-body)', fontWeight:700, fontSize:'clamp(10.5px,3.1vw,11.5px)', color: isZh?'var(--accent-text)':'var(--text)', transition:'color .22s ease' },
       langEnStyle: { flex:1, textAlign:'center', zIndex:1, fontFamily:'var(--font-body)', fontWeight:700, fontSize:'clamp(10.5px,3.1vw,11.5px)', color: isZh?'var(--text)':'var(--accent-text)', transition:'color .22s ease' },
       langThumbStyle: { position:'absolute', top:'2px', bottom:'2px', left: isZh?'2px':'50%', width:'calc(50% - 2px)', borderRadius:'999px', background:'var(--accent)', transition:'left .22s ease' },
