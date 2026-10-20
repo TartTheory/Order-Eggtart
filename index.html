@@ -183,6 +183,9 @@
   .tt-hero-row img { width: 46%; max-width: 330px; margin: 0 -5%; filter: drop-shadow(0 16px 18px rgba(60,30,5,.22)); }
   .tt-hero-row img:nth-child(2) { width: 56%; max-width: 400px; position: relative; z-index: 2; }
   @media (min-width: 860px) { .tt-hero-row { margin: 8px auto 28px; } }
+  .tt-foot { position: relative; isolation: isolate; overflow: hidden; background: #fff; border: 1px solid var(--line); border-radius: var(--radius); padding: 34px 24px; text-align: center; max-width: 480px; margin: 0 auto; }
+  .tt-foot-pat { position: absolute; inset: -20px; z-index: -2; background: var(--accent); opacity: .5; -webkit-mask: url(./tart-outline.svg) 0 0/36px 36px repeat; mask: url(./tart-outline.svg) 0 0/36px 36px repeat; }
+  .tt-foot-veil { position: absolute; inset: 0; z-index: -1; background: radial-gradient(closest-side, #fff 55%, rgba(255,255,255,0)); }
   .tt-qr-placeholder { align-items: center; justify-content: center; border: 2px dashed var(--line); color: var(--muted); font-family: var(--font-body); font-size: 12px; }
 
 </style>
@@ -388,16 +391,16 @@
 
   <!-- FOOTER -->
   <footer style="padding:26px clamp(16px,4vw,64px) 40px">
-    <div style="background:var(--text); border-radius:var(--radius); padding:30px 24px; text-align:center; max-width:480px; margin:0 auto">
-      <div style="font-family:var(--font-head); font-weight:var(--head-weight); color:var(--bg); font-size:20px; margin-bottom:6px">{{ brand }}</div>
-      <div style="font-family:var(--font-body); color:color-mix(in srgb, var(--bg) 65%, transparent); font-size:13px; line-height:1.5; max-width:300px; margin:0 auto 18px">{{ t.brandBlurb }}</div>
+    <div class="tt-foot">
+      <div class="tt-foot-pat"></div><div class="tt-foot-veil"></div>
+      <div style="font-family:var(--font-head); font-weight:var(--head-weight); color:var(--text); font-size:20px; margin-bottom:16px">{{ brand }}</div>
       <div style="display:flex; flex-direction:column; align-items:center; gap:8px">
         <button onClick="{{ copyWechat }}" style="padding:7px 14px; border-radius:999px; border:none; background:var(--accent); color:var(--accent-text); font-size:11.5px; font-weight:700; font-family:var(--font-body); cursor:pointer">
           <sc-if value="{{ copiedWechat }}" hint-placeholder-val="">{{ t.copied }}</sc-if>
           <sc-if value="{{ !copiedWechat }}" hint-placeholder-val="{{ true }}">WeChat {{ wechatId }}</sc-if>
         </button>
-        <a href="{{ xiaohongshuUrl }}" target="_blank" rel="noopener noreferrer" style="padding:7px 14px; border-radius:999px; border:1px solid color-mix(in srgb, var(--bg) 35%, transparent); color:var(--bg); font-size:11.5px; font-weight:700; font-family:var(--font-body); text-decoration:none">Xiaohongshu {{ xiaohongshuId }}</a>
-        <a href="{{ instagramUrl }}" target="_blank" rel="noopener noreferrer" style="padding:7px 14px; border-radius:999px; border:1px solid color-mix(in srgb, var(--bg) 35%, transparent); color:var(--bg); font-size:11.5px; font-weight:700; font-family:var(--font-body); text-decoration:none">Instagram {{ instagramId }}</a>
+        <a href="{{ xiaohongshuUrl }}" target="_blank" rel="noopener noreferrer" style="padding:7px 14px; border-radius:999px; border:1px solid #EBC9B3; background:var(--surface); color:var(--accent); font-size:11.5px; font-weight:700; font-family:var(--font-body); text-decoration:none">Xiaohongshu {{ xiaohongshuId }}</a>
+        <a href="{{ instagramUrl }}" target="_blank" rel="noopener noreferrer" style="padding:7px 14px; border-radius:999px; border:1px solid #EBC9B3; background:var(--surface); color:var(--accent); font-size:11.5px; font-weight:700; font-family:var(--font-body); text-decoration:none">Instagram {{ instagramId }}</a>
       </div>
     </div>
   </footer>
