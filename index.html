@@ -161,7 +161,7 @@
   .tt-shotbtn[data-saved="1"] .tt-lb .l1 { transform: translateY(-100%); opacity: 0; }
   .tt-shotbtn[data-saved="1"] .tt-lb .l2 { transform: none; opacity: 1; }
   @keyframes ttCkPop { 0% { opacity: 0; transform: scale(.3); } 100% { opacity: 1; transform: scale(1); } }
-  .tt-rc-done { margin: 14px 0 10px; text-align: left; }
+  .tt-rc-done { margin: 8px 0 10px; text-align: left; }
   .tt-rco { text-align: center; padding: 2px 0 10px; border-bottom: 1px dotted #e0d3ba; }
   .tt-rcol { font-size: 11px; font-weight: 600; letter-spacing: .06em; text-transform: uppercase; color: var(--muted); margin-bottom: 2px; }
   .tt-rcon { font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace; font-weight: 800; font-size: 24px; letter-spacing: .04em; color: var(--text); }
@@ -571,8 +571,7 @@
           </sc-if>
           <div class="tt-steps">
             <div>
-              <div class="tt-ring tt-badge">1</div>
-              <div style="height:12px"></div>
+              <div class="tt-ring tt-badge" style="position:relative; z-index:3; margin:0 auto -18px">1</div>
           <div class="tt-rc tt-rc-done">
             <div class="tt-rco">
               <div class="tt-rcol">{{ t.yourOrderNumberLabel }}</div>
