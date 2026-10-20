@@ -740,7 +740,7 @@ class Component extends DCLogic {
       { id:'original', zh:'原味葡式蛋挞', en:'Classic Portuguese Egg Tart', tagZh:'畅销', tagEn:'Best Seller', descZh:'焦糖表面，嫩滑蛋奶馅，千层酥皮，完美烘烤。', descEn:'Caramelized top, silky egg custard, buttery layered crust, baked to perfection.', center:'#FFE9AE', edge:'#E7A93A', torched:true, price:4, img:'uploads/poster.jpg' },
     ];
     this.PICKUP_PLACE_ZH='Bellevue 大统华停车场'; this.PICKUP_PLACE_EN='Bellevue T&T Supermarket parking lot';
-    this.DOWNTOWN_PLACE_ZH='西雅图市中心（具体地点将通过 Instagram/微信 告知）'; this.DOWNTOWN_PLACE_EN='Downtown Seattle (exact spot shared via Instagram/WeChat)';
+    this.DOWNTOWN_PLACE_ZH='西雅图市中心（具体地点将通过 Instagram/微信告知）'; this.DOWNTOWN_PLACE_EN='Downtown Seattle (exact spot shared via Instagram/WeChat)';
     this.UDISTRICT_PLACE_ZH='U District 茶千岁停车场'; this.UDISTRICT_PLACE_EN='Timeless Tea parking lot (U District)';
     this.SLU_PLACE_ZH='SLU Nitro Parking Garage (South) · P1 电梯间'; this.SLU_PLACE_EN='SLU Nitro Parking Garage (South) · P1 elevator lobby';
     this.PICKUP_SCHEDULE = [
@@ -771,10 +771,10 @@ class Component extends DCLogic {
           { q:'蛋挞是每天新鲜烘烤的吗？', a:'是的，我们每天新鲜烘烤，按预订数量制作。' },
           { q:'买回去怎么保存？', a:'放入冷藏，可保存 2-3 天。' },
           { q:'怎么加热？', a:'微波炉：先取下锡纸壳，加热 30 秒。\n烤箱 / 空气炸锅：无需取下锡纸壳，180°C（350°F）加热 3-5 分钟。' }
-        ], howItWorks:'提前预定，扫码付款, 仅限自取',
+        ], howItWorks:'提前预定，扫码付款，仅限自取',
         brandBlurb:'一家只专注做蛋挞的小店。提前下单，扫码付款，温热取走。', wechatLabel:'微信',
-        copiedId:'已复制', emptyBagMsg:'你的袋子还是空的，去挑几个蛋挞吧。', sendingOrder:'正在提交订单...', pickupDayLabel:'选择取货时间', pickupOpensNextWeek:'下一周的取货时间将于周六下午 5 点发布，请稍后查看。', soldOutThisWeek:'抱歉，本周的蛋挞名额已订满，请下周再来 :)', lowStockThisWeek:(n)=>'本周只剩 '+n+' 个名额，请减少数量后再试。', copied:'已复制微信号！',
-        boxPromo:'优惠活动: 任选四颗，仅需 $20！', boxPromoSub:'全口味自由混搭，四颗更划算',
+        copiedId:'已复制', emptyBagMsg:'你的袋子还是空的，去挑几个蛋挞吧。', sendingOrder:'正在提交订单…', pickupDayLabel:'选择取货时间', pickupOpensNextWeek:'下一周的取货时间将于周六下午 5 点发布，请稍后查看。', soldOutThisWeek:'抱歉，本周的蛋挞名额已订满，请下周再来 :)', lowStockThisWeek:(n)=>'本周只剩 '+n+' 个名额，请减少数量后再试。', copied:'已复制微信号！',
+        boxPromo:'优惠活动：任选四颗，仅需 $20！', boxPromoSub:'全口味自由混搭，四颗更划算',
         backToBag:'\u2190 返回购物车', orderReservedTitle:'订单已预留', venmoPayBtn:(t)=>'在 Venmo 支付 '+t, venmoQrNote:'无法跳转到 Venmo？点这里', tlPay:'付款', tlPayText:(t)=>'用 Venmo 支付 '+t+'。', tlSend:'发送截图', tlSendText:(o,n,id)=>'请把订单号截图和付款截图发送至'+n+'，客服确认后即可锁定订单。', tlPickup:'取货', itemsMore:(n)=>'还有 '+n+' 款，点击展开', itemsLess:'收起', tlPickupNote:'我们会在取货当天约提前 30 分钟告知确切的到达时间和停车位置。', tlPickupText:'自取时请出示订单截图，或直接告诉我们你的 Venmo 用户名。', copyVenmo:'复制 Venmo ID', copyChannelWechat:'复制微信号', shotBtn:'保存订单到相册', shotBusy:'生成中…', shotSaved:'已保存至相册', shotHold:'长按图片，选择“存储到相册”。', shotDownload:'下载图片', shotClose:'关闭', ticketSub:'自取订单', careTitle:'保存与加热小贴士', careLines:['当天享用口感最佳。吃不完可放冰箱冷藏2-3天，吃前可复热：','微波炉：先取下锡纸壳，加热 30 秒。','烤箱 / 空气炸锅：无需取下锡纸壳，180°C（350°F）加热 3-5 分钟。'], ticketFoot:'自取时请出示订单截图，或告诉我们你的 Venmo 用户名。', yourOrderNumberLabel:'你的订单号',
         nextBtn:'下一步', stepBag:'确认口味', stepPickup:'选择取货时间', stepPay:'结账', pickupTitle:'取货', totalLabel:'总计', eachSuffix:'/每个', heroWordA:'现烤', heroWordB:'酥脆', heroWordC:'浓郁',
         confirm1:(t)=>'扫描上方二维码支付 '+t+'。', confirm2:(o,w)=>'将订单号 '+o+' 和付款截图发送到微信：'+w+'。', confirm3:(s,tm)=>'在 '+s+'，'+tm+' 取货。出示相册里保存的订单、订单号，或直接告诉我们你的 Venmo 用户名，我们会现场为你核实。' },
@@ -783,21 +783,21 @@ class Component extends DCLogic {
         pickupPaymentLabel:'Pickup & payment', faqLabel:'FAQ', faqTitle:'Frequently asked questions', reviewsLabel:'Reviews', reviewsTitle:'What our customers say', reviewsHint:'Tap to enlarge. Swipe for more.', reviewsOpen:'View review screenshot',
         faq:[
           { q:'How do I order and pay?', a:'Choose your tarts, check out here, and pay on Venmo. Then DM us a screenshot of your order number and payment on Instagram. Your order is confirmed once we reply.' },
-          { q:'Can I pay another way?', a:(c)=>'Venmo is preferred, but we also take Zelle. DM us on Instagram @'+c.instagram+' and we\u2019ll send you our Zelle info.' },
-          { q:'What\u2019s the order deadline?', a:'9 PM the night before pickup. Orders placed after that move to the next available pickup.' },
-          { q:'Where do I pick up?', a:'We do weekly pickups in the U District, South Lake Union and Bellevue. Choose a time slot when you order. On pickup day, we\u2019ll send the exact arrival time and parking spot about 30 minutes ahead. Pickup only for now, no delivery.' },
-          { q:'What if none of the pickup times work for me?', a:(c)=>'DM us on Instagram @'+c.instagram+' and we\u2019ll see if we can set up a Chinatown pickup at another time.' },
+          { q:'Can I pay another way?', a:(c)=>'Venmo is preferred, but we also take Zelle. DM us on Instagram @'+c.instagram+' and we\'ll send you our Zelle info.' },
+          { q:'What\'s the order deadline?', a:'9 PM the night before pickup. Orders placed after that move to the next available pickup.' },
+          { q:'Where do I pick up?', a:'We do weekly pickups in the U District, South Lake Union and Bellevue. Choose a time slot when you order. On pickup day, we\'ll send the exact arrival time and parking spot about 30 minutes ahead. Pickup only for now, no delivery.' },
+          { q:'What if none of the pickup times work for me?', a:(c)=>'DM us on Instagram @'+c.instagram+' and we\'ll see if we can set up a Chinatown pickup at another time.' },
           { q:'Do you have any deals?', a:'Any 4 tarts for $20. Mix and match any flavors.' },
           { q:'Are the tarts baked fresh?', a:'Yes. We bake every day, and only as many as are pre-ordered.' },
           { q:'How do I store them?', a:'Keep them in the fridge for up to 3 days.' },
           { q:'How do I reheat them?', a:'Microwave: Remove the foil cup and heat for 30 seconds.\nOven or air fryer: Leave the foil cup on and bake at 350\u00b0F for 3\u20135 minutes.' }
         ], howItWorks:'Preorder for self-pickup only \u2014 scan to pay, done in a minute.',
         brandBlurb:'A small bakery obsessed with one pastry. Order ahead, pay by QR, collect warm.', wechatLabel:'Instagram',
-        copiedId:'Copied', emptyBagMsg:'Your bag is empty. Time to pick some tarts!', sendingOrder:'Sending your order...', pickupDayLabel:'Choose your pickup time', pickupOpensNextWeek:'Next week\u2019s pickup times open Saturday at 5 PM. Check back soon.', soldOutThisWeek:'Sorry, we\u2019re sold out this week. Check back next week!', lowStockThisWeek:(n)=>'Only '+n+' left this week. Please lower your quantity.', copied:'WeChat ID copied!',
-        boxPromo:'Any 4 for $20!', boxPromoSub:'Mix and match any flavors. Perfect for sharing, or keeping all to yourself. We won\u2019t judge.',
-        backToBag:'\u2190 Back to bag', orderReservedTitle:'Order reserved', venmoPayBtn:(t)=>'Pay '+t+' on Venmo', venmoQrNote:'Can\u2019t open Venmo? Tap here', tlPay:'Pay', tlPayText:(t)=>'Pay '+t+' on Venmo.', tlSend:'Send us your screenshots', tlSendText:(o,n,id)=>'DM us a screenshot of your order and your Venmo payment on '+n+'. We\u2019ll confirm your order once we see them.', tlPickup:'Pickup', itemsMore:(n)=>'Show '+n+' more', itemsLess:'Show less', tlPickupNote:'On pickup day, we\u2019ll send the exact arrival time and parking spot about 30 minutes ahead.', tlPickupText:'Show your order screenshot at pickup, or just give us your Venmo name.', copyVenmo:'Copy Venmo ID', copyChannelWechat:'Copy Instagram ID', shotBtn:'Save order to Photos', shotBusy:'Preparing…', shotSaved:'Saved to Photos', shotHold:'Press and hold the image, then tap Save to Photos.', shotDownload:'Download image', shotClose:'Close', ticketSub:'Pickup order', careTitle:'Storing & reheating', careLines:['Egg tarts are best the day you get them. Refrigerate leftovers for up to 3 days. Reheat before serving:','Microwave: Remove the foil cup and heat for 30 seconds.','Oven or air fryer: Leave the foil cup on and bake at 350\u00b0F for 3\u20135 minutes.'], ticketFoot:'Show this at pickup, or just give us your Venmo name.', yourOrderNumberLabel:'Your order number',
+        copiedId:'Copied', emptyBagMsg:'Your bag is empty. Time to pick some tarts!', sendingOrder:'Sending your order...', pickupDayLabel:'Choose your pickup time', pickupOpensNextWeek:'Next week\'s pickup times open Saturday at 5 PM. Check back soon.', soldOutThisWeek:'Sorry, we\'re sold out this week. Check back next week!', lowStockThisWeek:(n)=>'Only '+n+' left this week. Please lower your quantity.', copied:'WeChat ID copied!',
+        boxPromo:'Any 4 for $20!', boxPromoSub:'Mix and match any flavors. Perfect for sharing, or keeping all to yourself. We won\'t judge.',
+        backToBag:'\u2190 Back to bag', orderReservedTitle:'Order reserved', venmoPayBtn:(t)=>'Pay '+t+' on Venmo', venmoQrNote:'Can\'t open Venmo? Tap here', tlPay:'Pay', tlPayText:(t)=>'Pay '+t+' on Venmo.', tlSend:'Send us your screenshots', tlSendText:(o,n,id)=>'DM us a screenshot of your order and your Venmo payment on '+n+'. We\'ll confirm your order once we see them.', tlPickup:'Pickup', itemsMore:(n)=>'Show '+n+' more', itemsLess:'Show less', tlPickupNote:'On pickup day, we\'ll send the exact arrival time and parking spot about 30 minutes ahead.', tlPickupText:'Show your order screenshot at pickup, or just give us your Venmo name.', copyVenmo:'Copy Venmo ID', copyChannelWechat:'Copy Instagram ID', shotBtn:'Save order to Photos', shotBusy:'Preparing…', shotSaved:'Saved to Photos', shotHold:'Press and hold the image, then tap Save to Photos.', shotDownload:'Download image', shotClose:'Close', ticketSub:'Pickup order', careTitle:'Storing & reheating', careLines:['Egg tarts are best the day you get them. Refrigerate leftovers for up to 3 days. Reheat before serving:','Microwave: Remove the foil cup and heat for 30 seconds.','Oven or air fryer: Leave the foil cup on and bake at 350\u00b0F for 3\u20135 minutes.'], ticketFoot:'Show this at pickup, or just give us your Venmo name.', yourOrderNumberLabel:'Your order number',
         nextBtn:'Next', stepBag:'Your bag', stepPickup:'Pickup time', stepPay:'Checkout', pickupTitle:'Pickup', totalLabel:'Total', eachSuffix:' each', heroWordA:'Fresh-Baked', heroWordB:'Flaky', heroWordC:'Rich',
-        confirm1:(t)=>'Scan the QR above to pay '+t+'.', confirm2:(o,w)=>'Send your order number '+o+' and the payment screenshot to us on Instagram: '+w+'.', confirm3:(s,tm)=>'Collect at '+s+', '+tm+'. Show your saved order, your order number, or just tell us your Venmo name — we’ll confirm you there.' },
+        confirm1:(t)=>'Scan the QR above to pay '+t+'.', confirm2:(o,w)=>'Send your order number '+o+' and the payment screenshot to us on Instagram: '+w+'.', confirm3:(s,tm)=>'Collect at '+s+', '+tm+'. Show your saved order, your order number, or just tell us your Venmo name — we\'ll confirm you there.' },
     };
     // Customer review screenshots: { src:'uploads/reviews/01.jpg' }. Section stays hidden while this is empty.
     this.REVIEW_TWO_ROWS_FROM = Infinity; // always one row (the shop prefers a single row)
@@ -1415,7 +1415,7 @@ class Component extends DCLogic {
         { n:'4', title: isZh?'定点自取':'Pickup', hasBullets:true, pickupCards,
           afterNote: pickupCards.length>0
             ? ''
-            : (isZh?'下一周的取货时间将于周六下午 5 点发布，请稍后查看。':'Next week\u2019s pickup times open Saturday at 5 PM. Check back soon.') },
+            : (isZh?'下一周的取货时间将于周六下午 5 点发布，请稍后查看。':'Next week\'s pickup times open Saturday at 5 PM. Check back soon.') },
       ],
       confirmSteps: [
         { n:'1', text: L.confirm1(this.money(total)) },
