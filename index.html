@@ -26,6 +26,7 @@
   gtag('config', 'G-GLZDRJTXR8');
 </script>
 <script src="./support.js"></script>
+<script>window.TT_BUILD=1792533940;</script>
 </head>
 <body>
 <noscript><h1>Tart Theory</h1><p>Handcrafted egg tarts inspired by flavors from around the world. Flaky crust, silky custard, baked fresh, new flavors every week. Pre-order online for pickup in Seattle (U District, South Lake Union) and Bellevue. Instagram: @tarttheory.eggtart</p></noscript>
@@ -837,7 +838,7 @@ class Component extends DCLogic {
       corn:{ zh:'玉米 · 玉米卡仕达 · 鸡蛋 · 牛奶 · 淡奶油 · 黄油', en:'Corn · Corn custard · Egg · Milk · Heavy whipping cream · Butter' },
     };
     this.THEME_VARS = { '--bg':'#FFFFFF','--surface':'#FAFAF8','--surface-2':'#F4F3F0','--text':'#3A2C1A','--muted':'#94826A','--line':'#ECEAE5','--accent':'#C24F0C','--accent-text':'#FFF8EC','--accent-soft':'#F7DDCB','--font-head':"'Noto Sans SC', 'Hanken Grotesk', system-ui, sans-serif",'--font-body':"'Noto Sans SC', 'Hanken Grotesk', system-ui, sans-serif",'--radius':'16px','--radius-sm':'12px','--head-weight':'600','--head-transform':'none','--head-spacing':'0','--shadow':'0 10px 30px rgba(90,60,20,.12)' };
-    this.state = { cart: {}, cartOpen: false, step: 'cart', orderNum: null, lang: 'zh', pickupDayId: null, pickupDaySelectedDate: null, reviewIdx: null, toastMsg: false, copiedWechat: false, copiedHandle: null, orderedQty: null, orderedQtyWeek: null };
+    this.state = { cart: this.restoreBag(), cartOpen: false, step: 'cart', orderNum: null, lang: 'zh', pickupDayId: null, pickupDaySelectedDate: null, reviewIdx: null, toastMsg: false, copiedWechat: false, copiedHandle: null, orderedQty: null, orderedQtyWeek: null };
     this.trackViewportHeight();
     this.bindReviewKeys();
     this.startReviewDrift();
@@ -885,6 +886,30 @@ class Component extends DCLogic {
   }
   inc(id) { this.setState(s => ({ cart:{ ...s.cart, [id]:(s.cart[id]||0)+1 } })); }
   dec(id) { this.setState(s => { const q=(s.cart[id]||0)-1; const c={...s.cart}; if(q<=0) delete c[id]; else c[id]=q; return { cart:c }; }); }
+  // ---- Saved bag: kept on this phone only (localStorage), restored on reload, cleared once an order is submitted. ----
+  restoreBag() {
+    try {
+      const raw = localStorage.getItem('tt_bag_v1'); if (!raw) return {};
+      const d = JSON.parse(raw);
+      if (!d || typeof d !== 'object' || !d.cart || Date.now() - (d.ts || 0) > 24*3600*1000) { localStorage.removeItem('tt_bag_v1'); return {}; }
+      const out = {};
+      Object.keys(d.cart).forEach(id => {
+        const q = Math.floor(Number(d.cart[id]));
+        if (this.FLAVORS.some(f => f.id === id) && q > 0) out[id] = Math.min(q, 30);
+      });
+      return out;
+    } catch (e) { return {}; }
+  }
+  persistBag() {
+    try {
+      const keep = this.state.step === 'cart' || this.state.step === 'pickup';
+      const cart = keep ? this.state.cart : {};
+      const json = JSON.stringify(cart);
+      if (json === this._bagJson) return;
+      this._bagJson = json;
+      if (Object.keys(cart).length) localStorage.setItem('tt_bag_v1', JSON.stringify({ cart, ts: Date.now() })); else localStorage.removeItem('tt_bag_v1');
+    } catch (e) {}
+  }
   openCart() {
     this.setState(s => ({ cartOpen:true, step: (s.step==='done' || s.step==='pickup') ? 'cart' : s.step }));
     const opts = this.computePickupOptions();
@@ -1279,6 +1304,7 @@ class Component extends DCLogic {
   }
   grossTotal() { return this.unitList().reduce((a,f)=>a+f.price, 0); }
   renderVals() {
+    this.persistBag();
     const lang = this.state.lang;
     const isZh = lang === 'zh';
     const L = this.UI[lang];
@@ -1524,6 +1550,34 @@ class Component extends DCLogic {
     ts[1].style.transform = 'translateY(' + (-30 * k) + 'px) scale(' + (1 + 0.08 * k) + ')';
   };
   window.addEventListener('scroll', () => { if (!queued) { queued = true; requestAnimationFrame(apply); } }, { passive: true });
+})();
+</script>
+<script>
+/* New-version check: while the page is open, compare its build stamp with the live page and offer a refresh. */
+(function () {
+  var cur = window.TT_BUILD || 0, shown = false, timer = null;
+  function txt() { var zh = document.documentElement.getAttribute('data-lang') === 'zh'; return zh ? ['网站已更新','点击刷新'] : ['The site was updated','Tap to refresh']; }
+  function show(build) {
+    if (shown) return; shown = true;
+    var t = txt(), bar = document.createElement('div');
+    bar.setAttribute('role', 'status');
+    bar.style.cssText = 'position:fixed;left:12px;right:12px;bottom:12px;z-index:50;display:flex;align-items:center;justify-content:space-between;gap:12px;max-width:420px;margin:0 auto;padding:10px 12px 10px 16px;border-radius:14px;background:#1d1612;color:#fff;font:700 14px/1.2 "Hanken Grotesk","Noto Sans SC",sans-serif;box-shadow:0 8px 24px rgba(0,0,0,.3)';
+    var span = document.createElement('span'); span.textContent = t[0];
+    var btn = document.createElement('button'); btn.textContent = t[1];
+    btn.style.cssText = 'border:0;border-radius:10px;background:#C24F0C;color:#fff;font:inherit;padding:9px 14px;cursor:pointer';
+    btn.onclick = function () { var u = location.pathname + (location.search ? location.search.replace(/([?&])v=\d+&?/, '$1') : '') ; u += (u.indexOf('?') > -1 ? (u.slice(-1) === '?' || u.slice(-1) === '&' ? '' : '&') : '?') + 'v=' + build; location.replace(u + location.hash); };
+    bar.appendChild(span); bar.appendChild(btn); document.body.appendChild(bar);
+  }
+  function check() {
+    if (shown || document.visibilityState === 'hidden' || !window.fetch) return;
+    fetch(location.pathname + '?_=' + Date.now(), { cache: 'no-store' }).then(function (r) { return r.ok ? r.text() : ''; }).then(function (h) {
+      var m = /window\.TT_BUILD=(\d+)/.exec(h); if (m && Number(m[1]) > cur) show(m[1]);
+    }).catch(function () {});
+  }
+  setTimeout(check, 4000);
+  timer = setInterval(check, 5 * 60 * 1000);
+  document.addEventListener('visibilitychange', function () { if (document.visibilityState === 'visible') check(); });
+  window.addEventListener('pageshow', function (e) { if (e.persisted) check(); });
 })();
 </script>
 </body>
