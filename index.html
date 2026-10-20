@@ -70,6 +70,7 @@
   .tt-rsv { padding: 2px 8px; border-radius: 999px; background: var(--accent); color: var(--accent-text); font-size: 11px; font-weight: 700; }
   .tt-rbs { display: flex; justify-content: flex-end; gap: 5px; flex: none; }
   .tt-rbe { width: 28px; height: 28px; border-radius: 50%; border: 2px dashed color-mix(in srgb, var(--accent) 45%, transparent); }
+  .tt-sav { display: flex; justify-content: space-between; align-items: center; margin-top: 8px; padding: 8px 12px; border-radius: 10px; background: color-mix(in srgb, var(--accent) 12%, transparent); color: var(--accent); font-weight: 800; font-size: 13px; }
   .tt-rcd { display: flex; justify-content: space-between; padding: 10px 0 3px; color: var(--accent); font-weight: 700; font-size: 13px; }
   .tt-rct { display: flex; justify-content: space-between; margin-top: 6px; padding-top: 8px; border-top: 1px dashed #cdbb9c; font-weight: 800; font-size: 15px; color: var(--text); }
   .tt-ilab { position: relative; margin: 14px 0 12px; padding: 8px 8px 5px; border: 1px solid color-mix(in srgb, var(--line) 70%, transparent); border-radius: 8px; text-align: left; font-family: var(--font-body); color: color-mix(in srgb, var(--muted) 72%, var(--surface)); }
@@ -597,6 +598,9 @@
                 <span>{{ moreLabel }}</span>
                 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="{{ moreChevStyle }}"><path d="M6 9l6 6 6-6"/></svg>
               </button>
+            </sc-if>
+            <sc-if value="{{ hasSavings }}" hint-placeholder-val="">
+              <div class="tt-sav"><span>{{ t.receiptDeal }}</span><span>{{ savingsAmount }}</span></div>
             </sc-if>
             <div class="tt-rct"><span>{{ t.totalLabel }}</span><span>{{ totalLabel }}</span></div>
             <button class="tt-shotbtn tt-shotlink" data-saved="{{ shotSavedAttr }}" onClick="{{ saveShot }}" style="{{ shotBtnStyle }}">
