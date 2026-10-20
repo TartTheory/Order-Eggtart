@@ -569,16 +569,13 @@
             <div class="tt-card">
               <div class="tt-ring tt-badge ol">2</div>
               <h4>{{ t.tlPay }}</h4>
-              <a href="{{ venmoPayUrl }}" target="_blank" rel="noopener noreferrer" style="display:block; width:100%; box-sizing:border-box; margin:4px 0 14px; padding:15px; border-radius:var(--radius-sm); background:var(--accent); color:var(--accent-text); font-family:var(--font-body); font-weight:700; font-size:15px; text-align:center; text-decoration:none">{{ venmoPayLabel }}</a>
-              <details class="tt-qrmore">
-              <summary>{{ t.venmoQrNote }}</summary>
-              <div class="tt-qrcol" style="margin-top:12px">
+              <p>{{ payText }}</p>
+              <div class="tt-qrcol">
                 <a href="uploads/venmo-qr.png" download="tart-theory-venmo-qr.png" style="display:block">
                   <img src="uploads/venmo-qr.png" alt="Venmo QR" style="width:150px; height:150px; border-radius:12px; object-fit:cover; display:block" />
                 </a>
                 <button class="tt-cpy" onClick="{{ copyVenmo }}" style="{{ copyVenmoStyle }}" aria-label="{{ t.copyVenmo }}"><span>{{ venmoId }}</span><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="{{ copyVenmoIcoStyle }}"><rect x="9" y="9" width="11" height="11" rx="2.5"/><path d="M5 15V6.5A2.5 2.5 0 0 1 7.5 4H16"/></svg><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="{{ copyVenmoOkStyle }}"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></button>
               </div>
-              </details>
             </div>
 
             <div class="tt-card">
