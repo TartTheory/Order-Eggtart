@@ -18,7 +18,10 @@ var FLAVORS = [
   { id: 'lavachoc', name: 'Lava Chocolate Egg Tart', price: 6 },
   { id: 'chestnut', name: 'Chestnut Egg Tart', price: 6 },
   { id: 'lavacheese', name: 'Lava Cheese Tart', price: 6 },
-  { id: 'corn', name: 'Corn Egg Tart', price: 6 }
+  { id: 'corn', name: 'Corn Egg Tart', price: 6 },
+  // Halloween gift boxes (limited, ends 10/31). Remove after the holiday.
+  { id: 'hbox4', name: 'Halloween Box of 4', price: 30 },
+  { id: 'hbox6', name: 'Halloween Box of 6', price: 40 }
 ];
 var PICKUP_PLACE = 'Bellevue T&T Supermarket parking lot';
 var PICKUP_TIME = '3:00–3:30 PM';
