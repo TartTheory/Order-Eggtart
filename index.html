@@ -176,11 +176,11 @@
   .tt-ring::before { content: ""; position: absolute; inset: var(--ring-w, 0px); z-index: -1; background: var(--ring-fill, transparent); -webkit-mask: url(./tart.svg) center/contain no-repeat; mask: url(./tart.svg) center/contain no-repeat; }
   .tt-tart { -webkit-mask: url(./tart.svg) center/contain no-repeat; mask: url(./tart.svg) center/contain no-repeat; }
   @keyframes ttSpin { to { transform: rotate(360deg); } }
-  .tt-hero { text-align: center; padding: clamp(20px,6vw,64px) clamp(16px,4vw,64px) clamp(24px,6vw,56px); max-width: 1280px; margin: 0 auto; overflow: hidden; }
+  .tt-hero { text-align: center; padding: clamp(20px,6vw,64px) clamp(16px,4vw,64px) clamp(24px,6vw,56px); max-width: 1280px; margin: 0 auto; overflow-x: clip; overflow-y: visible; }
   .tt-hero-h { font-family: 'Anton', 'Noto Sans SC', sans-serif; font-weight: 400; text-transform: uppercase; color: var(--text); font-size: clamp(62px,18.5vw,176px); line-height: .84; letter-spacing: -.012em; margin: 0 auto 18px; max-width: 1100px; text-wrap: balance; white-space: pre-line; }
   .tt-hero-h em { font-style: normal; color: var(--accent); }
   .tt-hero-row { display: flex; justify-content: center; align-items: center; margin: 22px -18vw 0; }
-  .tt-ht { display: block; position: relative; width: 46%; max-width: 330px; margin: 0 -5%; }
+  .tt-ht { display: block; position: relative; width: 46%; max-width: 330px; margin: 0 -5%; will-change: transform; }
   .tt-ht:nth-child(2) { width: 56%; max-width: 400px; z-index: 2; }
   .tt-hf { display: block; }
   .tt-hf img { display: block; width: 100%; }
@@ -1448,6 +1448,23 @@ class Component extends DCLogic {
     if (Math.abs(d) > 2 && Math.abs(d) < RANGE) { settling = true; window.scrollBy({ top: d, behavior: 'smooth' }); setTimeout(() => { settling = false; }, 600); }
   };
   window.addEventListener('scroll', () => { if (settling) return; clearTimeout(t); t = setTimeout(settle, 180); }, { passive: true });
+})();
+</script>
+<script>
+// Hero: as the page scrolls, the side tarts drift apart and turn while the middle one rises.
+(function () {
+  if (window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  let queued = false;
+  const apply = () => {
+    queued = false;
+    const ts = document.querySelectorAll('.tt-hero-row .tt-ht');
+    if (ts.length !== 3) return;
+    const k = Math.min(window.scrollY, 360) / 360;
+    ts[0].style.transform = 'translateX(' + (-60 * k) + 'px) rotate(' + (-40 * k) + 'deg)';
+    ts[2].style.transform = 'translateX(' + (60 * k) + 'px) rotate(' + (40 * k) + 'deg)';
+    ts[1].style.transform = 'translateY(' + (-30 * k) + 'px) scale(' + (1 + 0.08 * k) + ')';
+  };
+  window.addEventListener('scroll', () => { if (!queued) { queued = true; requestAnimationFrame(apply); } }, { passive: true });
 })();
 </script>
 </body>
