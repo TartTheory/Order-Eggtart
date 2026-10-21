@@ -26,7 +26,7 @@
   gtag('config', 'G-GLZDRJTXR8');
 </script>
 <script src="./support.js"></script>
-<script>window.TT_BUILD=1792555061;</script>
+<script>window.TT_BUILD=1792615682;</script>
 </head>
 <body>
 <noscript><h1>Tart Theory</h1><p>Handcrafted egg tarts inspired by flavors from around the world. Flaky crust, silky custard, baked fresh, new flavors every week. Pre-order online for pickup in Seattle (U District, South Lake Union) and Bellevue. Instagram: @tarttheory.eggtart</p></noscript>
@@ -1269,13 +1269,12 @@ class Component extends DCLogic {
       T(String(d.L.yourOrderNumberLabel).toUpperCase(), cx, y + 18, F(600, 19), mut, 'center');
       T(d.orderNum || '', cx, y + 82, M(800, 62), txt, 'center');
       y += 112;
-      line(y, dot, [2, 6]);
-      y += 26;
+      y += 4;
       wrap(d.when, x1 - x0, F(600, 26)).forEach(l => { T(l, x0, y + 26, F(600, 26), txt); y += 36; });
       String(d.where).split('\n').flatMap(part => wrap(part, x1 - x0, F(400, 23))).forEach(l => { T(l, x0, y + 23, F(400, 23), mut); y += 32; });
       y += 14;
       d.items.forEach((it, idx) => {
-        line(y, dot, [2, 6]);
+        if (idx === 0) line(y, dot, [2, 6]); // one rule above the items; rows are separated by spacing, not lines
         const rowTop = y, imgS = 64, tx = x0 + imgS + 20;
         const nameLines = wrap(it.qty + '× ' + it.name, x1 - tx - 110, F(700, 25));
         const rowH = Math.max(imgS + 28, nameLines.length * 34 + 28);
@@ -1290,8 +1289,7 @@ class Component extends DCLogic {
       T(d.L.totalLabel, x0, y + 32, F(800, 29), txt);
       T(d.total, x1, y + 33, F(800, 32), txt, 'right');
       y += 60;
-      line(y, dash, [8, 6]);
-      y += 30;
+      y += 14;
       T(d.L.careTitle, x0, y + 24, F(700, 23), acc);
       y += 40;
       // first line is the intro; the rest are the reheating methods, as bullets
