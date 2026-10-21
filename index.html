@@ -26,7 +26,7 @@
   gtag('config', 'G-GLZDRJTXR8');
 </script>
 <script src="./support.js"></script>
-<script>window.TT_BUILD=1792553799;</script>
+<script>window.TT_BUILD=1792553815;</script>
 </head>
 <body>
 <noscript><h1>Tart Theory</h1><p>Handcrafted egg tarts inspired by flavors from around the world. Flaky crust, silky custard, baked fresh, new flavors every week. Pre-order online for pickup in Seattle (U District, South Lake Union) and Bellevue. Instagram: @tarttheory.eggtart</p></noscript>
@@ -235,25 +235,37 @@
   .tt-hw h2 { font-family: Anton, sans-serif; font-weight: 400; text-transform: uppercase; font-size: clamp(34px, 10vw, 52px); line-height: 1; margin: 12px 0 8px; letter-spacing: 0; color: #fff; }
   [data-lang="zh"] .tt-hw h2 { font-family: 'Noto Sans SC', sans-serif; font-weight: 900; text-transform: none; font-size: clamp(32px, 9.5vw, 48px); }
   .tt-hwsub { margin: 0 0 14px; font-family: var(--font-body); font-size: 13px; line-height: 1.5; color: #d8cfc6; }
-  .tt-hwtg { display: flex; background: #2a201a; border-radius: 999px; padding: 4px; margin-bottom: 12px; }
-  .tt-hbt { flex: 1; border: 0; background: transparent; cursor: pointer; font-family: var(--font-body); font-weight: 700; font-size: 13px; padding: 9px; border-radius: 999px; color: #cfc4ba; }
-  .tt-hbt.on { background: var(--accent); color: #fff; }
-  .tt-hwcard { background: #2a201a; border-radius: 20px; padding: 14px; }
-  .tt-hwgrid { position: relative; display: grid; gap: 4px; padding: 8px; background: #1d1612; border-radius: 12px; }
-  .tt-hwgrid img { width: 100%; aspect-ratio: 1; object-fit: contain; display: block; }
+  .tt-hwcard { background: #2a201a; border-radius: 20px; overflow: hidden; padding-bottom: 14px; }
+  /* story player */
+  .tt-hwst { position: relative; aspect-ratio: 4 / 5; background: #120d0a; user-select: none; -webkit-user-select: none; -webkit-tap-highlight-color: transparent; }
+  .tt-hwbars { position: absolute; left: 10px; right: 10px; top: 10px; display: flex; gap: 4px; z-index: 5; }
+  .tt-hwbars i { flex: 1; height: 3px; border-radius: 2px; background: rgba(255,255,255,.28); overflow: hidden; }
+  .tt-hwbars i b { display: block; height: 100%; width: 0; background: #fff; }
+  .tt-hwsl { position: absolute; inset: 0; opacity: 0; transition: opacity .35s; display: flex; align-items: center; justify-content: center; padding: 44px 12px 150px; pointer-events: none; }
+  .tt-hwsl.on { opacity: 1; }
+  .tt-hwsl img { max-width: 100%; max-height: 100%; object-fit: contain; display: block; }
+  .tt-hwsl img.cut { mix-blend-mode: screen; }
+  .tt-hwsl .tt-hwgrid { width: 78%; }
+  .tt-hwgrid { position: relative; display: grid; gap: 4px; padding: 10px; background: #1d1612; border-radius: 12px; }
+  .tt-hwgrid img { width: 100%; aspect-ratio: 1; object-fit: contain; }
   .tt-hwrib { position: absolute; left: 0; right: 0; top: 50%; height: 7px; margin-top: -3px; background: var(--accent); }
-  .tt-hwph { display: block; width: 100%; border-radius: 12px; }
-  .tt-hwrow { display: flex; justify-content: space-between; align-items: center; gap: 10px; margin-top: 12px; }
-  .tt-hwn { font-family: var(--font-body); font-weight: 800; font-size: 16px; }
-  .tt-hwd { font-family: var(--font-body); font-size: 11.5px; color: #cfc4ba; margin-top: 2px; }
-  .tt-hwp { font-family: Anton, sans-serif; font-size: 32px; color: #F6A04A; line-height: 1; }
-  .tt-hwin { margin-top: 12px; font-family: var(--font-body); font-weight: 800; font-size: 10.5px; letter-spacing: .1em; color: #F6A04A; }
-  .tt-hwth { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 8px; }
-  .tt-hwth span { display: flex; flex-direction: column; align-items: center; width: 62px; }
-  .tt-hwth img { width: 46px; height: 46px; object-fit: contain; }
-  .tt-hwth em { font-style: normal; font-family: var(--font-body); font-size: 10px; line-height: 1.2; text-align: center; color: #cfc4ba; margin-top: 2px; }
-  .tt-hwadd { display: block; width: 100%; margin-top: 14px; padding: 13px; border: 0; border-radius: 12px; background: var(--accent); color: #fff; font-family: var(--font-body); font-weight: 700; font-size: 15px; cursor: pointer; }
-  .tt-hwstep { display: flex; align-items: center; justify-content: space-between; margin-top: 14px; background: #1d1612; border-radius: 12px; padding: 4px; }
+  .tt-hwcap { position: absolute; left: 0; right: 0; bottom: 0; padding: 60px 16px 16px; background: linear-gradient(transparent, rgba(10,6,4,.92) 45%); z-index: 4; pointer-events: none; }
+  .tt-hwcap small { color: #F6A04A; font-family: var(--font-body); font-weight: 800; font-size: 10.5px; letter-spacing: .1em; }
+  .tt-hwcap b { display: block; font-family: Anton, sans-serif; font-weight: 400; text-transform: uppercase; font-size: 20px; margin: 3px 0 4px; letter-spacing: .01em; }
+  [data-lang="zh"] .tt-hwcap b { font-family: 'Noto Sans SC', sans-serif; font-weight: 900; text-transform: none; font-size: 19px; }
+  .tt-hwcap p { margin: 0; font-family: var(--font-body); font-size: 13px; line-height: 1.45; color: #e8dfd6; }
+  .tt-hwzl, .tt-hwzr { position: absolute; top: 0; bottom: 0; z-index: 3; cursor: pointer; }
+  .tt-hwzl { left: 0; width: 32%; } .tt-hwzr { right: 0; width: 68%; }
+  .tt-hwpl { position: absolute; right: 10px; top: 20px; z-index: 6; width: 32px; height: 32px; border-radius: 50%; background: rgba(0,0,0,.55); color: #fff; border: 1px solid rgba(255,255,255,.25); cursor: pointer; font-size: 12px; padding: 0; }
+  /* size cards + add */
+  .tt-hwopts { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; padding: 12px 12px 0; }
+  .tt-hwoc { cursor: pointer; border: 2px solid #4a3b31; border-radius: 14px; padding: 10px; text-align: center; background: #221a15; color: #fff; font-family: var(--font-body); }
+  .tt-hwoc.on { border-color: #F6A04A; background: #2f241c; }
+  .tt-hwoc > b { display: block; font-size: 15px; font-weight: 800; }
+  .tt-hwoc > span { display: block; font-family: Anton, sans-serif; font-size: 26px; color: #F6A04A; margin: 2px 0; line-height: 1.1; }
+  .tt-hwoc > small { color: #cfc4ba; font-size: 11px; }
+  .tt-hwadd { display: block; width: calc(100% - 24px); margin: 12px 12px 0; padding: 13px; border: 0; border-radius: 12px; background: var(--accent); color: #fff; font-family: var(--font-body); font-weight: 700; font-size: 15px; cursor: pointer; }
+  .tt-hwstep { display: flex; align-items: center; justify-content: space-between; margin: 12px 12px 0; background: #1d1612; border-radius: 12px; padding: 4px; }
   .tt-hwstep button { width: 44px; height: 40px; border: 0; border-radius: 9px; background: var(--accent); color: #fff; font-size: 20px; font-weight: 700; cursor: pointer; }
   .tt-hwstep span { font-family: var(--font-body); font-weight: 800; font-size: 16px; }
   @keyframes ttStk { 0%,100% { transform: rotate(var(--r)); } 50% { transform: rotate(calc(var(--r) + 4deg)) translateY(calc(-5 * var(--u))); } }
@@ -337,21 +349,12 @@
       <div class="tt-hwtop"><span class="tt-hwtag">{{ t.hbTag }}</span><span class="tt-hwend">{{ hbEndsText }}</span></div>
       <h2>{{ t.hbTitle }}</h2>
       <p class="tt-hwsub">{{ t.hbSub }}</p>
-      <div class="tt-hwtg">
-        <sc-for list="{{ hbTabs }}" as="tb" hint-placeholder-count="2"><button class="{{ tb.cls }}" onClick="{{ tb.onSelect }}">{{ tb.label }}</button></sc-for>
-      </div>
       <div class="tt-hwcard">
-        <sc-if value="{{ hbHasPhoto }}" hint-placeholder-val=""><img class="tt-hwph" src="{{ hbPhoto }}" alt="{{ hbName }}" /></sc-if>
-        <sc-if value="{{ hbNoPhoto }}" hint-placeholder-val="{{ true }}">
-          <div class="tt-hwgrid" style="{{ hbGridStyle }}">
-            <sc-for list="{{ hbTiles }}" as="tl" hint-placeholder-count="4"><img src="{{ tl.img }}" alt="" /></sc-for>
-            <i class="tt-hwrib"></i>
-          </div>
-        </sc-if>
-        <div class="tt-hwrow"><div><div class="tt-hwn">{{ hbName }}</div><div class="tt-hwd">{{ hbPieces }}</div></div><div class="tt-hwp">{{ hbPriceLabel }}</div></div>
-        <div class="tt-hwin">{{ t.hbInside }}</div>
-        <div class="tt-hwth"><sc-for list="{{ hbTiles }}" as="tl" hint-placeholder-count="4"><span><img src="{{ tl.img }}" alt="" /><em>{{ tl.name }}</em></span></sc-for></div>
-        <sc-if value="{{ hbOutCart }}" hint-placeholder-val="{{ true }}"><button class="tt-hwadd" onClick="{{ hbAdd }}">{{ t.hbAdd }}</button></sc-if>
+        <div id="tt-hwstory" class="tt-hwst" aria-live="off"></div>
+        <div class="tt-hwopts">
+          <sc-for list="{{ hbOpts }}" as="o" hint-placeholder-count="2"><button class="{{ o.cls }}" data-n="{{ o.n }}" onClick="{{ o.onSelect }}"><b>{{ o.label }}</b><span>{{ o.price }}</span><small>{{ o.small }}</small></button></sc-for>
+        </div>
+        <sc-if value="{{ hbOutCart }}" hint-placeholder-val="{{ true }}"><button class="tt-hwadd" onClick="{{ hbAdd }}">{{ hbAddLabel }}</button></sc-if>
         <sc-if value="{{ hbInCart }}" hint-placeholder-val="">
           <div class="tt-hwstep"><button onClick="{{ hbDec }}" aria-label="remove">&minus;</button><span>{{ hbQty }}</span><button onClick="{{ hbInc }}" aria-label="add">+</button></div>
         </sc-if>
@@ -783,12 +786,20 @@ class Component extends DCLogic {
   constructor(props) {
     super(props);
     this.BRAND = 'Tart Theory';
-    // Halloween gift boxes (limited). Fixed flavors; remove the whole block after the end date by setting endsISO in the past (the section hides itself).
-    // TODO: confirm the flavors in each box and drop the real box photos into `photo` (a path like 'uploads/halloween-box-4.jpg').
+    // Halloween gift boxes (limited). Fixed flavors; the whole section hides itself after endsISO.
+    // TODO: confirm the flavors in each box (placeholders for now), add a cutaway photo per flavor in `tarts[id].cut`, and set each box's `photo`.
     this.HALLOWEEN = { endsISO:'2026-10-31T23:59:59', endsLabelEn:'10/31', endsLabelZh:'10月31日', boxes:[
-      { id:'hbox4', n:4, price:30, cols:2, zh:'万圣节礼盒 · 4 个装', en:'Halloween Box of 4', flavors:['lavachoc','blacksesame','taro','matcha'], photo:null },
-      { id:'hbox6', n:6, price:40, cols:3, zh:'万圣节礼盒 · 6 个装', en:'Halloween Box of 6', flavors:['lavachoc','blacksesame','taro','matcha','persimmon','oreo'], photo:null }
-    ] };
+      { id:'hbox4', n:4, price:30, cols:2, zh:'万圣节礼盒 · 4 个装', en:'Halloween Box of 4', flavors:['original','oreo','porkfloss','chestnut'], photo:null },
+      { id:'hbox6', n:6, price:40, cols:3, zh:'万圣节礼盒 · 6 个装', en:'Halloween Box of 6', flavors:['original','oreo','porkfloss','chestnut','persimmon','taro'], photo:null }
+    ], tarts:{
+      original:{ cut:'uploads/halloween/cut-original.webp', zh:'焦糖表面，嫩滑蛋奶馅，千层酥皮。', en:'Caramelized top over silky egg custard, in a buttery layered crust.' },
+      oreo:{ cut:'uploads/halloween/cut-oreo.webp', zh:'整块奥利奥，配浓郁布朗尼馅。', en:'A whole Oreo on a fudgy brownie filling.' },
+      porkfloss:{ cut:'uploads/halloween/cut-porkfloss.webp', zh:'肉松和海苔下，藏着一颗咸蛋黄。', en:'Pork floss and nori, with a salted egg yolk hiding in the middle.' },
+      chestnut:{ cut:'uploads/halloween/cut-chestnut.webp', zh:'整颗栗子和栗子奶油，铺在嫩滑蛋奶馅上。', en:'Whole chestnut and chestnut cream over silky custard.' },
+      persimmon:{ cut:null, zh:'柿子果肉，配丝滑蛋奶馅。', en:'Sweet persimmon over silky egg custard.' },
+      taro:{ cut:null, zh:'紫米芋泥，配丝滑蛋奶馅。', en:'Purple rice and taro over silky egg custard.' }
+    } };
+    window.TT_HALLOWEEN = this.HALLOWEEN;
     this.FLAVORS = [
       { id:'persimmon', zh:'柿柿如意挞', en:'Persimmon Egg Tart', tagZh:'秋季限定', tagEn:'Autumn Limited', cardTag:true, descZh:'柿子果肉，丝滑蛋奶馅，千层酥皮。', descEn:'Sweet persimmon, silky egg custard, buttery layered crust.', center:'#F6B04A', edge:'#E08A1E', torched:false, price:6, img:'uploads/top/persimmon.webp' },
       { id:'lychee', zh:'荔枝奶酪蛋挞', en:'Lychee Cream Cheese Egg Tart', tagZh:null, tagEn:null, descZh:'新鲜荔枝，丝滑奶酪馅，玫瑰花瓣点缀，千层酥皮。', descEn:'Fresh lychee, silky cream cheese, aromatic rose petal, buttery layered crust.', center:'#F6E1DC', edge:'#D99C92', torched:false, price:6, img:'uploads/poster-82d88b98.jpg' },
@@ -807,6 +818,7 @@ class Component extends DCLogic {
       { id:'lavacheese', zh:'芝士爆浆挞', en:'Lava Cheese Tart', tagZh:'新品', tagEn:'New', descZh:'芝士烤顶，奶酪流心，酥脆挞皮。', descEn:'Baked cheese topping, melty cream cheese filling, flaky pastry crust.', center:'#FBEFC4', edge:'#D9A441', torched:true, price:6, img:'uploads/poster-1128d5bf.jpg' },
       { id:'original', zh:'原味葡式蛋挞', en:'Classic Portuguese Egg Tart', tagZh:'畅销', tagEn:'Best Seller', descZh:'焦糖表面，嫩滑蛋奶馅，千层酥皮，完美烘烤。', descEn:'Caramelized top, silky egg custard, buttery layered crust, baked to perfection.', center:'#FFE9AE', edge:'#E7A93A', torched:true, price:4, img:'uploads/poster.jpg' },
     ];
+    window.TT_FLAVORS = this.FLAVORS;
     this.PICKUP_PLACE_ZH='Bellevue 大统华停车场'; this.PICKUP_PLACE_EN='Bellevue T&T Supermarket parking lot';
     this.DOWNTOWN_PLACE_ZH='西雅图市中心（具体地点将通过 Instagram/微信告知）'; this.DOWNTOWN_PLACE_EN='Downtown Seattle (exact spot shared via Instagram/WeChat)';
     this.UDISTRICT_PLACE_ZH='U District 茶千岁停车场'; this.UDISTRICT_PLACE_EN='Timeless Tea parking lot (U District)';
@@ -844,7 +856,7 @@ class Component extends DCLogic {
         copiedId:'已复制', emptyBagMsg:'你的袋子还是空的，去挑几个蛋挞吧。', sendingOrder:'正在提交订单…', pickupDayLabel:'选择取货时间', pickupOpensNextWeek:'下一周的取货时间将于周六下午 5 点发布，请稍后查看。', soldOutThisWeek:'抱歉，本周的蛋挞名额已订满，请下周再来 :)', lowStockThisWeek:(n)=>'本周只剩 '+n+' 个名额，请减少数量后再试。', copied:'已复制微信号！',
         boxPromo:'优惠活动：任选四颗，仅需 $20！', boxPromoSub:'全口味自由混搭，四颗更划算',
         backToBag:'\u2190 返回购物车', orderReservedTitle:'订单已预留', venmoPayBtn:(t)=>'在 Venmo 支付 '+t, venmoQrNote:'无法跳转到 Venmo？点这里', tlPay:'付款', tlPayText:(t)=>'用 Venmo 支付 '+t+'。', tlSend:'发送截图', tlSendText:(o,n,id)=>'请把订单号截图和付款截图发送至'+n+'，客服确认后即可锁定订单。', tlPickup:'取货', itemsMore:(n)=>'还有 '+n+' 款，点击展开', itemsLess:'收起', tlPickupNote:'我们会在取货当天约提前 30 分钟告知确切的到达时间和停车位置。', tlPickupText:'自取时请出示订单截图，或直接告诉我们你的 Venmo 用户名。', copyVenmo:'复制 Venmo ID', copyChannelWechat:'复制微信号', shotBtn:'保存订单到相册', shotBusy:'生成中…', shotSaved:'已保存至相册', shotHold:'长按图片，选择“存储到相册”。', shotDownload:'下载图片', shotClose:'关闭', ticketSub:'自取订单', careTitle:'保存与加热小贴士', careLines:['当天享用口感最佳。吃不完可放冰箱冷藏2-3天，吃前可复热：','微波炉：先取下锡纸壳，加热 30 秒。','烤箱 / 空气炸锅：无需取下锡纸壳，180°C（350°F）加热 3-5 分钟。'], ticketFoot:'自取时请出示订单截图，或告诉我们你的 Venmo 用户名。', yourOrderNumberLabel:'你的订单号',
-        nextBtn:'下一步', stepBag:'确认口味', stepPickup:'选择取货时间', stepPay:'结账', hbTag:'限定', hbTitle:'万圣节礼盒', hbSub:'固定口味，已装盒，周五或周六自取。', hbEnds:(d,e)=>e+' 结束 · 还剩 '+d+' 天', hbEndsToday:(e)=>e+' 结束 · 仅限今天', hbInside:'盒内口味', hbAdd:'加入购物车', hbPieces:(n)=>n+' 个挞', pickupTitle:'取货', totalLabel:'总计', eachSuffix:'/每个', heroWordA:'现烤', heroWordB:'酥脆', heroWordC:'浓郁',
+        nextBtn:'下一步', stepBag:'确认口味', stepPickup:'选择取货时间', stepPay:'结账', hbTag:'限定', hbTitle:'万圣节礼盒', hbSub:'固定口味，已装盒，周五或周六自取。', hbEnds:(d,e)=>e+' 结束 · 还剩 '+d+' 天', hbEndsToday:(e)=>e+' 结束 · 仅限今天', hbInside:'盒内口味', hbAdd:'加入购物车', hbBest:'更划算', hbAddBox:(n,p)=>'加入 '+n+' 个装 · '+p, hbPieces:(n)=>n+' 个挞', pickupTitle:'取货', totalLabel:'总计', eachSuffix:'/每个', heroWordA:'现烤', heroWordB:'酥脆', heroWordC:'浓郁',
         confirm1:(t)=>'扫描上方二维码支付 '+t+'。', confirm2:(o,w)=>'将订单号 '+o+' 和付款截图发送到微信：'+w+'。', confirm3:(s,tm)=>'在 '+s+'，'+tm+' 取货。出示相册里保存的订单、订单号，或直接告诉我们你的 Venmo 用户名，我们会现场为你核实。' },
       en:{ stkFlaky:'Flaky', stkCrispy:'Crispy', stkSilky:'Silky', stkFresh:'Fresh', stkHand:'Handmade', bag:'Bag', ctaHow:'How to order', ingTitle:'INGREDIENTS', receiptDeal:'Any 4 for $20', ingAllergen:'Contains: ', heroTitle:'Handmade egg tarts with flavors from around the world.',  heroTitleA:'Asian fusion\n', heroTitleB:'egg tarts', heroTitleC:'\nevery\nweekend', heroSubtitle:'Flaky crust.\nSilky custard.', heroNote:'Baked fresh daily.\nNew flavors every week.', heroSmall:'Pre-order online \u00b7 Pickup Fridays & Saturdays only', ctaLabel:'View Menu',
         menuLabel:'The menu', menuTitle:'Something for every craving.', add:'Add',
@@ -864,7 +876,7 @@ class Component extends DCLogic {
         copiedId:'Copied', emptyBagMsg:'Your bag is empty. Time to pick some tarts!', sendingOrder:'Sending your order...', pickupDayLabel:'Choose your pickup time', pickupOpensNextWeek:'Next week\'s pickup times open Saturday at 5 PM. Check back soon.', soldOutThisWeek:'Sorry, we\'re sold out this week. Check back next week!', lowStockThisWeek:(n)=>'Only '+n+' left this week. Please lower your quantity.', copied:'WeChat ID copied!',
         boxPromo:'Any 4 for $20!', boxPromoSub:'Mix and match any flavors. Perfect for sharing, or keeping all to yourself. We won\'t judge.',
         backToBag:'\u2190 Back to bag', orderReservedTitle:'Order reserved', venmoPayBtn:(t)=>'Pay '+t+' on Venmo', venmoQrNote:'Can\'t open Venmo? Tap here', tlPay:'Pay', tlPayText:(t)=>'Pay '+t+' on Venmo.', tlSend:'Send us your screenshots', tlSendText:(o,n,id)=>'DM us a screenshot of your order and your Venmo payment on '+n+'. We\'ll confirm your order once we see them.', tlPickup:'Pickup', itemsMore:(n)=>'Show '+n+' more', itemsLess:'Show less', tlPickupNote:'On pickup day, we\'ll send the exact arrival time and parking spot about 30 minutes ahead.', tlPickupText:'Show your order screenshot at pickup, or just give us your Venmo name.', copyVenmo:'Copy Venmo ID', copyChannelWechat:'Copy Instagram ID', shotBtn:'Save order to Photos', shotBusy:'Preparing…', shotSaved:'Saved to Photos', shotHold:'Press and hold the image, then tap Save to Photos.', shotDownload:'Download image', shotClose:'Close', ticketSub:'Pickup order', careTitle:'Storing & reheating', careLines:['Egg tarts are best the day you get them. Refrigerate leftovers for up to 3 days. Reheat before serving:','Microwave: Remove the foil cup and heat for 30 seconds.','Oven or air fryer: Leave the foil cup on and bake at 350\u00b0F for 3\u20135 minutes.'], ticketFoot:'Show this at pickup, or just give us your Venmo name.', yourOrderNumberLabel:'Your order number',
-        nextBtn:'Next', stepBag:'Your bag', stepPickup:'Pickup time', stepPay:'Checkout', hbTag:'LIMITED', hbTitle:'Halloween Gift Boxes', hbSub:'Fixed flavors, boxed and ready for Friday or Saturday pickup.', hbEnds:(d,e)=>'Ends '+e+' · '+d+(d===1?' day left':' days left'), hbEndsToday:(e)=>'Ends '+e+' · last day', hbInside:'WHAT\'S INSIDE', hbAdd:'Add to bag', hbPieces:(n)=>n+' tarts', pickupTitle:'Pickup', totalLabel:'Total', eachSuffix:' each', heroWordA:'Fresh-Baked', heroWordB:'Flaky', heroWordC:'Rich',
+        nextBtn:'Next', stepBag:'Your bag', stepPickup:'Pickup time', stepPay:'Checkout', hbTag:'LIMITED', hbTitle:'Halloween Gift Boxes', hbSub:'Fixed flavors, boxed and ready for Friday or Saturday pickup.', hbEnds:(d,e)=>'Ends '+e+' · '+d+(d===1?' day left':' days left'), hbEndsToday:(e)=>'Ends '+e+' · last day', hbInside:'WHAT\'S INSIDE', hbAdd:'Add to bag', hbBest:'best value', hbAddBox:(n,p)=>'Add Box of '+n+' \u00b7 '+p, hbPieces:(n)=>n+' tarts', pickupTitle:'Pickup', totalLabel:'Total', eachSuffix:' each', heroWordA:'Fresh-Baked', heroWordB:'Flaky', heroWordC:'Rich',
         confirm1:(t)=>'Scan the QR above to pay '+t+'.', confirm2:(o,w)=>'Send your order number '+o+' and the payment screenshot to us on Instagram: '+w+'.', confirm3:(s,tm)=>'Collect at '+s+', '+tm+'. Show your saved order, your order number, or just tell us your Venmo name — we\'ll confirm you there.' },
     };
     // Customer review screenshots: { src:'uploads/reviews/01.jpg' }. Section stays hidden while this is empty.
@@ -1485,11 +1497,8 @@ class Component extends DCLogic {
     const hw = {
       halloweenOn: hwLeft > 0,
       hbEndsText: hwDays <= 1 ? L.hbEndsToday(hwEnd) : L.hbEnds(hwDays, hwEnd),
-      hbTabs: HW.boxes.map(b => ({ label: isZh ? b.n + ' 个装' : 'Box of ' + b.n, cls: b.n===hwCur.n ? 'tt-hbt on' : 'tt-hbt', onSelect: () => this.setState({ hbSize:b.n }) })),
-      hbName: isZh ? hwCur.zh : hwCur.en, hbPriceLabel: this.money(hwCur.price), hbPieces: L.hbPieces(hwCur.n),
-      hbGridStyle: { gridTemplateColumns: 'repeat(' + hwCur.cols + ',1fr)' },
-      hbTiles: hwCur.flavors.map(id => { const f = this.FLAVORS.find(x=>x.id===id); return { name: f ? (isZh?f.zh:f.en) : id, img:'uploads/top/'+id+'.webp' }; }),
-      hbPhoto: hwCur.photo, hbHasPhoto: !!hwCur.photo, hbNoPhoto: !hwCur.photo,
+      hbOpts: HW.boxes.map(b => ({ n:b.n, label: isZh ? b.n + ' 个装' : 'Box of ' + b.n, price: this.money(b.price), small: L.hbPieces(b.n) + (b.n === 6 ? ' \u00b7 ' + L.hbBest : ''), cls: b.n===hwCur.n ? 'tt-hwoc on' : 'tt-hwoc', onSelect: () => this.setState({ hbSize:b.n }) })),
+      hbAddLabel: L.hbAddBox(hwCur.n, this.money(hwCur.price)),
       hbInCart: hwQty > 0, hbOutCart: hwQty === 0, hbQty: hwQty,
       hbAdd: () => this.add(hwCur.id), hbInc: () => this.inc(hwCur.id), hbDec: () => this.dec(hwCur.id)
     };
@@ -1665,6 +1674,70 @@ class Component extends DCLogic {
   timer = setInterval(check, 5 * 60 * 1000);
   document.addEventListener('visibilitychange', function () { if (document.visibilityState === 'visible') check(); });
   window.addEventListener('pageshow', function (e) { if (e.persisted) check(); });
+})();
+</script>
+<script>
+/* Halloween story player: box first, then each tart cut open. Plays on its own while in view; tap right/left, hold to pause. */
+(function () {
+  var DUR = 3800, reduce = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var st = { key: '', i: 0, el: 0, t0: 0, paused: reduce, held: false, visible: false, list: [], root: null, io: null, hold: null };
+  function lang() { return document.documentElement.getAttribute('data-lang') === 'zh' ? 'zh' : 'en'; }
+  function size() { var o = document.querySelector('.tt-hwoc.on'); return o ? +o.getAttribute('data-n') : 4; }
+  function flavor(id) { var F = window.TT_FLAVORS || []; for (var k = 0; k < F.length; k++) if (F[k].id === id) return F[k]; return null; }
+  function list(n, L) {
+    var H = window.TT_HALLOWEEN; if (!H) return [];
+    var box = H.boxes.filter(function (b) { return b.n === n; })[0] || H.boxes[0], zh = L === 'zh', out = [];
+    out.push({ box: box, tag: zh ? '礼盒' : 'THE BOX', t: zh ? box.zh : box.en, d: zh ? box.n + ' 个挞，已装盒，周五或周六自取。' : box.n + ' tarts, boxed and ribboned. Ready for Friday or Saturday pickup.' });
+    box.flavors.forEach(function (id, idx) {
+      var f = flavor(id), info = (H.tarts || {})[id] || {};
+      out.push({ id: id, cut: info.cut || null, tag: zh ? '第 ' + (idx + 1) + ' 款 / 共 ' + box.flavors.length + ' 款' : (idx + 1) + ' OF ' + box.flavors.length,
+        t: f ? (zh ? f.zh : f.en) : id, d: info[L] || (f ? (zh ? f.descZh : f.descEn) : '') || '' });
+    });
+    return out;
+  }
+  function slideHTML(s) {
+    if (s.box) {
+      if (s.box.photo) return '<img src="' + s.box.photo + '" alt="">';
+      return '<div class="tt-hwgrid" style="grid-template-columns:repeat(' + s.box.cols + ',1fr)">' + s.box.flavors.map(function (id) { return '<img src="uploads/top/' + id + '.webp" alt="">'; }).join('') + '<i class="tt-hwrib"></i></div>';
+    }
+    return s.cut ? '<img class="cut" src="' + s.cut + '" alt="">' : '<img src="uploads/top/' + s.id + '.webp" alt="" style="max-width:62%">';
+  }
+  function show(n) {
+    if (!st.list.length) return; st.i = Math.max(0, Math.min(st.list.length - 1, n)); st.el = 0; var r = st.root; if (!r) return;
+    var sl = r.querySelectorAll('.tt-hwsl'), bs = r.querySelectorAll('.tt-hwbars b');
+    for (var k = 0; k < sl.length; k++) { sl[k].classList.toggle('on', k === st.i); bs[k].style.width = k < st.i ? '100%' : '0'; }
+    var c = st.list[st.i]; r.querySelector('.tt-hwcap small').textContent = c.tag; r.querySelector('.tt-hwcap b').textContent = c.t; r.querySelector('.tt-hwcap p').textContent = c.d;
+  }
+  function build(root) {
+    st.root = root; st.key = size() + lang(); st.list = list(size(), lang());
+    root.innerHTML = '<div class="tt-hwbars">' + st.list.map(function () { return '<i><b></b></i>'; }).join('') + '</div><button type="button" class="tt-hwpl" aria-label="pause">' + (st.paused ? '\u25B6' : 'II') + '</button>' +
+      st.list.map(function (s) { return '<div class="tt-hwsl">' + slideHTML(s) + '</div>'; }).join('') +
+      '<div class="tt-hwcap"><small></small><b></b><p></p></div><div class="tt-hwzl"></div><div class="tt-hwzr"></div>';
+    root.setAttribute('data-ready', '1'); show(0);
+    if (window.IntersectionObserver) { if (st.io) st.io.disconnect(); st.io = new IntersectionObserver(function (e) { st.visible = e[0].isIntersecting; }, { threshold: 0.5 }); st.io.observe(root); } else st.visible = true;
+  }
+  function tick(now) {
+    try {
+      var root = document.getElementById('tt-hwstory');
+      if (root && window.TT_HALLOWEEN && window.TT_FLAVORS && (!root.getAttribute('data-ready') || st.key !== size() + lang())) build(root);
+      if (root && st.list.length && !st.paused && !st.held && st.visible && document.visibilityState === 'visible') {
+        st.el += now - st.t0; var b = root.querySelectorAll('.tt-hwbars b')[st.i]; if (b) b.style.width = Math.min(100, st.el / DUR * 100) + '%';
+        if (st.el >= DUR) { if (st.i < st.list.length - 1) show(st.i + 1); else show(0); }
+      }
+    } catch (e) {}
+    st.t0 = now; requestAnimationFrame(tick);
+  }
+  function inStory(e, c) { return e.target && e.target.closest && e.target.closest(c); }
+  document.addEventListener('pointerdown', function (e) { if (inStory(e, '.tt-hwzl') || inStory(e, '.tt-hwzr')) { st.hold = setTimeout(function () { st.held = true; }, 220); } });
+  function release() { clearTimeout(st.hold); if (st.held) setTimeout(function () { st.held = false; }, 30); }
+  document.addEventListener('pointerup', release); document.addEventListener('pointercancel', release);
+  document.addEventListener('click', function (e) {
+    if (inStory(e, '.tt-hwpl')) { st.paused = !st.paused; e.target.closest('.tt-hwpl').textContent = st.paused ? '\u25B6' : 'II'; return; }
+    if (st.held) return;
+    if (inStory(e, '.tt-hwzr')) { if (st.i < st.list.length - 1) show(st.i + 1); else show(0); }
+    else if (inStory(e, '.tt-hwzl')) show(st.i - 1);
+  });
+  st.t0 = performance.now(); requestAnimationFrame(tick);
 })();
 </script>
 </body>
