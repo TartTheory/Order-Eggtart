@@ -26,7 +26,7 @@
   gtag('config', 'G-GLZDRJTXR8');
 </script>
 <script src="./support.js"></script>
-<script>window.TT_BUILD=1792554102;</script>
+<script>window.TT_BUILD=1792554356;</script>
 </head>
 <body>
 <noscript><h1>Tart Theory</h1><p>Handcrafted egg tarts inspired by flavors from around the world. Flaky crust, silky custard, baked fresh, new flavors every week. Pre-order online for pickup in Seattle (U District, South Lake Union) and Bellevue. Instagram: @tarttheory.eggtart</p></noscript>
@@ -262,7 +262,16 @@
   [data-lang="zh"] .tt-hwcap b { font-family: 'Noto Sans SC', sans-serif; font-weight: 900; text-transform: none; font-size: 19px; }
   .tt-hwcap p { margin: 0; font-family: var(--font-body); font-size: 12.5px; line-height: 1.4; color: #e8dfd6; }
   .tt-hwzl, .tt-hwzr { position: absolute; top: 0; bottom: 0; z-index: 3; cursor: pointer; }
-  .tt-hwzl { left: 0; width: 32%; } .tt-hwzr { right: 0; width: 68%; }
+  .tt-hwzl { left: 0; width: 24%; } .tt-hwzr { right: 0; width: 24%; }
+  .tt-hwze { position: absolute; top: 0; bottom: 0; left: 24%; right: 24%; z-index: 3; cursor: zoom-in; }
+  .tt-hwex { position: absolute; right: 50px; top: 20px; z-index: 6; width: 32px; height: 32px; border-radius: 50%; background: rgba(0,0,0,.55); border: 1px solid rgba(255,255,255,.25); cursor: pointer; padding: 0; display: grid; place-items: center; }
+  .tt-hwex svg { width: 15px; height: 15px; }
+  .tt-hwlb { position: fixed; inset: 0; z-index: 130; background: rgba(8,5,3,.95); display: flex; align-items: center; justify-content: center; touch-action: none; overscroll-behavior: contain; animation: ttHwLb .25s ease; }
+  @keyframes ttHwLb { from { opacity: 0; } }
+  .tt-hwlb img { max-width: 96vw; max-height: 88vh; max-height: 88svh; object-fit: contain; border-radius: 10px; display: block; user-select: none; -webkit-user-select: none; }
+  .tt-hwlb button { position: absolute; border: 0; cursor: pointer; border-radius: 50%; width: 42px; height: 42px; background: rgba(255,255,255,.16); color: #fff; font-size: 24px; line-height: 1; display: grid; place-items: center; }
+  .tt-hwlb .x { top: 14px; right: 14px; } .tt-hwlb .pv { left: 8px; top: 50%; margin-top: -21px; } .tt-hwlb .nx { right: 8px; top: 50%; margin-top: -21px; }
+  .tt-hwlb .ct { position: absolute; bottom: 20px; left: 0; right: 0; text-align: center; color: #fff; font: 700 13px var(--font-body); opacity: .8; }
   .tt-hwpl { position: absolute; right: 10px; top: 20px; z-index: 6; width: 32px; height: 32px; border-radius: 50%; background: rgba(0,0,0,.55); color: #fff; border: 1px solid rgba(255,255,255,.25); cursor: pointer; font-size: 12px; padding: 0; }
   /* size cards; the add button is a round + straddling the bottom edge of each card */
   .tt-hwopts { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; padding: 10px 10px 20px; }
@@ -1729,7 +1738,8 @@ class Component extends DCLogic {
     st.root = root; st.key = size() + lang(); st.list = list(size(), lang());
     root.innerHTML = '<div class="tt-hwbars">' + st.list.map(function () { return '<i><b></b></i>'; }).join('') + '</div><button type="button" class="tt-hwpl" aria-label="pause">' + (st.paused ? '\u25B6' : 'II') + '</button>' +
       st.list.map(function (s) { return '<div class="tt-hwsl">' + slideHTML(s) + '</div>'; }).join('') +
-      '<div class="tt-hwcap"><small></small><b></b><p></p></div><div class="tt-hwzl"></div><div class="tt-hwzr"></div>';
+      '<div class="tt-hwcap"><small></small><b></b><p></p></div><div class="tt-hwze"></div><div class="tt-hwzl"></div><div class="tt-hwzr"></div>' +
+      '<button type="button" class="tt-hwex" aria-label="enlarge"><svg viewBox="0 0 16 16" fill="none" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M10 2h4v4M6 14H2v-4M14 2l-4.5 4.5M2 14l4.5-4.5"/></svg></button>';
     root.setAttribute('data-ready', '1'); show(0);
     if (window.IntersectionObserver) { if (st.io) st.io.disconnect(); st.io = new IntersectionObserver(function (e) { st.visible = e[0].isIntersecting; }, { threshold: 0.5 }); st.io.observe(root); } else st.visible = true;
   }
@@ -1737,7 +1747,7 @@ class Component extends DCLogic {
     try {
       var root = document.getElementById('tt-hwstory');
       if (root && window.TT_HALLOWEEN && window.TT_FLAVORS && (!root.getAttribute('data-ready') || st.key !== size() + lang())) build(root);
-      if (root && st.list.length && !st.paused && !st.held && st.visible && document.visibilityState === 'visible') {
+      if (root && st.list.length && !st.paused && !st.held && !st.lb && st.visible && document.visibilityState === 'visible') {
         st.el += now - st.t0; var b = root.querySelectorAll('.tt-hwbars b')[st.i]; if (b) b.style.width = Math.min(100, st.el / DUR * 100) + '%';
         if (st.el >= DUR) { if (st.i < st.list.length - 1) show(st.i + 1); else show(0); }
       }
@@ -1745,12 +1755,28 @@ class Component extends DCLogic {
     st.t0 = now; requestAnimationFrame(tick);
   }
   function inStory(e, c) { return e.target && e.target.closest && e.target.closest(c); }
-  document.addEventListener('pointerdown', function (e) { if (inStory(e, '.tt-hwzl') || inStory(e, '.tt-hwzr')) { st.hold = setTimeout(function () { st.held = true; }, 220); } });
+  document.addEventListener('pointerdown', function (e) { if (inStory(e, '.tt-hwzl') || inStory(e, '.tt-hwzr') || inStory(e, '.tt-hwze')) { st.hold = setTimeout(function () { st.held = true; }, 220); } });
   function release() { clearTimeout(st.hold); if (st.held) setTimeout(function () { st.held = false; }, 30); }
   document.addEventListener('pointerup', release); document.addEventListener('pointercancel', release);
+  function photoOf(s) { return s.poster || (s.box && s.box.photo) || null; }
+  function closeLB() { var o = document.querySelector('.tt-hwlb'); if (o) o.remove(); st.lb = false; document.removeEventListener('keydown', lbKey); }
+  function lbKey(e) { if (e.key === 'Escape') closeLB(); else if (e.key === 'ArrowRight') lbStep(1); else if (e.key === 'ArrowLeft') lbStep(-1); }
+  var lbItems = [], lbK = 0;
+  function lbDraw() { var o = document.querySelector('.tt-hwlb'); if (!o) return; var it = lbItems[lbK]; o.querySelector('img').src = it.src; o.querySelector('img').alt = it.t; o.querySelector('.ct').textContent = (lbK + 1) + ' / ' + lbItems.length; }
+  function lbStep(d) { lbK = (lbK + d + lbItems.length) % lbItems.length; lbDraw(); }
+  function openLB(i) {
+    lbItems = []; st.list.forEach(function (s, idx) { var src = photoOf(s); if (src) lbItems.push({ i: idx, src: src, t: s.t || '' }); });
+    lbK = Math.max(0, lbItems.findIndex(function (x) { return x.i === i; })); if (!lbItems.length) return;
+    closeLB(); st.lb = true;
+    var o = document.createElement('div'); o.className = 'tt-hwlb'; o.setAttribute('role', 'dialog');
+    o.innerHTML = '<img alt=""><button type="button" class="x" aria-label="close">&times;</button><button type="button" class="pv" aria-label="previous">&lsaquo;</button><button type="button" class="nx" aria-label="next">&rsaquo;</button><div class="ct"></div>';
+    o.addEventListener('click', function (e) { if (e.target.closest('.pv')) lbStep(-1); else if (e.target.closest('.nx')) lbStep(1); else closeLB(); });
+    document.body.appendChild(o); document.addEventListener('keydown', lbKey); lbDraw();
+  }
   document.addEventListener('click', function (e) {
     if (inStory(e, '.tt-hwpl')) { st.paused = !st.paused; e.target.closest('.tt-hwpl').textContent = st.paused ? '\u25B6' : 'II'; return; }
     if (st.held) return;
+    if (inStory(e, '.tt-hwze') || inStory(e, '.tt-hwex')) { var cur = st.list[st.i]; if (cur && photoOf(cur)) openLB(st.i); else show(st.i + 1 < st.list.length ? st.i + 1 : 0); return; }
     if (inStory(e, '.tt-hwzr')) { if (st.i < st.list.length - 1) show(st.i + 1); else show(0); }
     else if (inStory(e, '.tt-hwzl')) show(st.i - 1);
   });
