@@ -227,48 +227,48 @@
   .tt-ht:nth-child(3) { left: calc(50% + 45 * var(--u)); }
   .tt-ht:nth-child(3) img { transform: scaleX(-1) !important; }
   /* Halloween gift boxes (limited) */
-  .tt-hw { background: #1d1612; color: #fff; padding: 28px 16px 30px; }
+  .tt-hw { background: #1d1612; color: #fff; padding: 18px 16px 18px; --hwo: 262px; }
   .tt-hwi { max-width: 440px; margin: 0 auto; }
   .tt-hwtop { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
   .tt-hwtag { background: var(--accent); color: #fff; font-family: var(--font-body); font-weight: 800; font-size: 10.5px; letter-spacing: .08em; padding: 4px 10px; border-radius: 999px; }
   .tt-hwend { font-family: var(--font-body); font-weight: 700; font-size: 11.5px; color: #F6A04A; }
-  .tt-hw h2 { font-family: Anton, sans-serif; font-weight: 400; text-transform: uppercase; font-size: clamp(34px, 10vw, 52px); line-height: 1; margin: 12px 0 16px; letter-spacing: 0; color: #fff; }
-  [data-lang="zh"] .tt-hw h2 { font-family: 'Noto Sans SC', sans-serif; font-weight: 900; text-transform: none; font-size: clamp(32px, 9.5vw, 48px); }
+  .tt-hw h2 { font-family: Anton, sans-serif; font-weight: 400; text-transform: uppercase; font-size: clamp(30px, 8.6vw, 44px); line-height: 1; margin: 8px 0 12px; letter-spacing: 0; color: #fff; }
+  [data-lang="zh"] .tt-hw h2 { font-family: 'Noto Sans SC', sans-serif; font-weight: 900; text-transform: none; font-size: clamp(28px, 8vw, 40px); }
   .tt-hwsub { margin: 0 0 14px; font-family: var(--font-body); font-size: 13px; line-height: 1.5; color: #d8cfc6; }
-  .tt-hwcard { background: #2a201a; border-radius: 20px; overflow: hidden; padding-bottom: 14px; }
+  .tt-hwcard { background: #2a201a; border-radius: 20px; overflow: hidden; padding-bottom: 10px; }
   /* story player */
-  .tt-hwst { position: relative; aspect-ratio: 4 / 5; background: #120d0a; user-select: none; -webkit-user-select: none; -webkit-tap-highlight-color: transparent; }
+  .tt-hwst { position: relative; height: clamp(240px, calc(100vh - 64px - var(--hwo)), 540px); height: clamp(240px, calc(100svh - 64px - var(--hwo)), 540px); background: #120d0a; user-select: none; -webkit-user-select: none; -webkit-tap-highlight-color: transparent; }
   .tt-hwbars { position: absolute; left: 10px; right: 10px; top: 10px; display: flex; gap: 4px; z-index: 5; }
   .tt-hwbars i { flex: 1; height: 3px; border-radius: 2px; background: rgba(255,255,255,.28); overflow: hidden; }
   .tt-hwbars i b { display: block; height: 100%; width: 0; background: #fff; }
-  .tt-hwsl { position: absolute; inset: 0; opacity: 0; transition: opacity .35s; display: flex; align-items: center; justify-content: center; padding: 44px 12px 150px; pointer-events: none; }
+  .tt-hwsl { position: absolute; inset: 0; opacity: 0; transition: opacity .35s; display: flex; align-items: center; justify-content: center; padding: 34px 12px 112px; pointer-events: none; }
   .tt-hwsl.on { opacity: 1; }
   .tt-hwsl img { max-width: 100%; max-height: 100%; object-fit: contain; display: block; }
   .tt-hwsl img.cut { mix-blend-mode: screen; }
-  .tt-hwsl .tt-hwgrid { width: 78%; }
+  .tt-hwsl .tt-hwgrid { height: 100%; max-width: 100%; width: auto; }
   .tt-hwgrid { position: relative; display: grid; gap: 4px; padding: 10px; background: #1d1612; border-radius: 12px; }
   .tt-hwgrid img { width: 100%; aspect-ratio: 1; object-fit: contain; }
   .tt-hwrib { position: absolute; left: 0; right: 0; top: 50%; height: 7px; margin-top: -3px; background: var(--accent); }
-  .tt-hwcap { position: absolute; left: 0; right: 0; bottom: 0; padding: 60px 16px 16px; background: linear-gradient(transparent, rgba(10,6,4,.92) 45%); z-index: 4; pointer-events: none; }
+  .tt-hwcap { position: absolute; left: 0; right: 0; bottom: 0; padding: 40px 16px 12px; background: linear-gradient(transparent, rgba(10,6,4,.92) 45%); z-index: 4; pointer-events: none; }
   .tt-hwcap small { color: #F6A04A; font-family: var(--font-body); font-weight: 800; font-size: 10.5px; letter-spacing: .1em; }
   .tt-hwcap b { display: block; font-family: Anton, sans-serif; font-weight: 400; text-transform: uppercase; font-size: 20px; margin: 3px 0 4px; letter-spacing: .01em; }
   [data-lang="zh"] .tt-hwcap b { font-family: 'Noto Sans SC', sans-serif; font-weight: 900; text-transform: none; font-size: 19px; }
-  .tt-hwcap p { margin: 0; font-family: var(--font-body); font-size: 13px; line-height: 1.45; color: #e8dfd6; }
+  .tt-hwcap p { margin: 0; font-family: var(--font-body); font-size: 12.5px; line-height: 1.4; color: #e8dfd6; }
   .tt-hwzl, .tt-hwzr { position: absolute; top: 0; bottom: 0; z-index: 3; cursor: pointer; }
   .tt-hwzl { left: 0; width: 32%; } .tt-hwzr { right: 0; width: 68%; }
   .tt-hwpl { position: absolute; right: 10px; top: 20px; z-index: 6; width: 32px; height: 32px; border-radius: 50%; background: rgba(0,0,0,.55); color: #fff; border: 1px solid rgba(255,255,255,.25); cursor: pointer; font-size: 12px; padding: 0; }
-  /* size cards + add */
-  .tt-hwopts { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; padding: 12px 12px 0; }
-  .tt-hwoc { cursor: pointer; border: 2px solid #4a3b31; border-radius: 14px; padding: 10px; text-align: center; background: #221a15; color: #fff; font-family: var(--font-body); }
+  /* size cards with the add button built in */
+  .tt-hwopts { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; padding: 10px 10px 0; }
+  .tt-hwoc { cursor: pointer; border: 2px solid #4a3b31; border-radius: 14px; padding: 9px 10px 10px; text-align: center; background: #221a15; color: #fff; font-family: var(--font-body); display: flex; flex-direction: column; align-items: center; gap: 2px; }
   .tt-hwoc.on { border-color: #F6A04A; background: #2f241c; }
-  .tt-hwoc > b { display: block; font-size: 15px; font-weight: 800; }
-  .tt-hwoc > span { display: block; font-family: Anton, sans-serif; font-size: 26px; color: #F6A04A; margin: 2px 0; line-height: 1.1; }
-  .tt-hwoc > small { display: block; color: #cfc4ba; font-size: 11px; line-height: 1.35; }
-  .tt-hwoc > small.tt-hwtr { color: #F6A04A; font-weight: 700; margin-top: 3px; }
-  .tt-hwadd { display: block; width: calc(100% - 24px); margin: 12px 12px 0; padding: 13px; border: 0; border-radius: 12px; background: var(--accent); color: #fff; font-family: var(--font-body); font-weight: 700; font-size: 15px; cursor: pointer; }
-  .tt-hwstep { display: flex; align-items: center; justify-content: space-between; margin: 12px 12px 0; background: #1d1612; border-radius: 12px; padding: 4px; }
-  .tt-hwstep button { width: 44px; height: 40px; border: 0; border-radius: 9px; background: var(--accent); color: #fff; font-size: 20px; font-weight: 700; cursor: pointer; }
-  .tt-hwstep span { font-family: var(--font-body); font-weight: 800; font-size: 16px; }
+  .tt-hwoh { display: flex; align-items: baseline; justify-content: center; gap: 8px; flex-wrap: wrap; }
+  .tt-hwoh > b { font-size: 14px; font-weight: 800; }
+  .tt-hwoh > span { font-family: Anton, sans-serif; font-size: 22px; color: #F6A04A; line-height: 1.1; }
+  .tt-hwoc > small { display: block; color: #cfc4ba; font-size: 11px; line-height: 1.3; }
+  .tt-hwa { margin-top: 6px; width: 100%; padding: 9px 0; border: 0; border-radius: 10px; background: var(--accent); color: #fff; font-family: var(--font-body); font-weight: 700; font-size: 14px; cursor: pointer; }
+  .tt-hwms { margin-top: 6px; width: 100%; display: flex; align-items: center; justify-content: space-between; background: #1d1612; border-radius: 10px; padding: 2px; }
+  .tt-hwms button { width: 38px; height: 32px; border: 0; border-radius: 8px; background: var(--accent); color: #fff; font-size: 18px; font-weight: 700; cursor: pointer; padding: 0; }
+  .tt-hwms span { font-family: var(--font-body); font-weight: 800; font-size: 15px; }
   @keyframes ttStk { 0%,100% { transform: rotate(var(--r)); } 50% { transform: rotate(calc(var(--r) + 4deg)) translateY(calc(-5 * var(--u))); } }
   @media (prefers-reduced-motion: reduce) { .tt-stk { animation: none; } }
   .tt-pill { display: inline-flex; align-items: center; justify-content: center; flex: none; height: calc(27 * var(--u)); padding: 0 calc(12 * var(--u)); margin: 0 auto calc(15 * var(--u)); max-width: 100%; border-radius: 999px; background: var(--accent-soft); color: var(--accent); font-family: var(--font-body); font-weight: 700; font-size: calc(11.5 * var(--u)); line-height: 1; white-space: nowrap; }
@@ -352,12 +352,15 @@
       <div class="tt-hwcard">
         <div id="tt-hwstory" class="tt-hwst" aria-live="off"></div>
         <div class="tt-hwopts">
-          <sc-for list="{{ hbOpts }}" as="o" hint-placeholder-count="2"><button class="{{ o.cls }}" data-n="{{ o.n }}" onClick="{{ o.onSelect }}"><b>{{ o.label }}</b><span>{{ o.price }}</span><small>{{ o.l2 }}</small></button></sc-for>
+          <sc-for list="{{ hbOpts }}" as="o" hint-placeholder-count="2">
+            <div class="{{ o.cls }}" data-n="{{ o.n }}" onClick="{{ o.onSelect }}" role="button" tabindex="0">
+              <div class="tt-hwoh"><b>{{ o.label }}</b><span>{{ o.price }}</span></div>
+              <small>{{ o.l2 }}</small>
+              <sc-if value="{{ o.out }}" hint-placeholder-val="{{ true }}"><button class="tt-hwa" onClick="{{ o.onAdd }}">{{ o.addText }}</button></sc-if>
+              <sc-if value="{{ o.inn }}" hint-placeholder-val=""><div class="tt-hwms"><button onClick="{{ o.onDec }}" aria-label="remove">&minus;</button><span>{{ o.qty }}</span><button onClick="{{ o.onInc }}" aria-label="add">+</button></div></sc-if>
+            </div>
+          </sc-for>
         </div>
-        <sc-if value="{{ hbOutCart }}" hint-placeholder-val="{{ true }}"><button class="tt-hwadd" onClick="{{ hbAdd }}">{{ hbAddLabel }}</button></sc-if>
-        <sc-if value="{{ hbInCart }}" hint-placeholder-val="">
-          <div class="tt-hwstep"><button onClick="{{ hbDec }}" aria-label="remove">&minus;</button><span>{{ hbQty }}</span><button onClick="{{ hbInc }}" aria-label="add">+</button></div>
-        </sc-if>
       </div>
     </div>
   </section>
@@ -1498,10 +1501,10 @@ class Component extends DCLogic {
     const hw = {
       halloweenOn: hwLeft > 0,
       hbEndsText: hwDays <= 1 ? L.hbEndsToday(hwEnd) : L.hbEnds(hwDays, hwEnd),
-      hbOpts: HW.boxes.map(b => { const each = '$' + (b.price / b.n).toFixed(2); return { n:b.n, label: isZh ? b.n + ' 个装' : 'Box of ' + b.n, price: this.money(b.price),
-        l1: L.hbPieces(b.n) + ' \u00b7 ' + L.hbFixed, l2: L.hbEach(each) + (b.n === 6 ? ' \u00b7 ' + L.hbBest : ''),
-        cls: b.n===hwCur.n ? 'tt-hwoc on' : 'tt-hwoc', onSelect: () => this.setState({ hbSize:b.n }) }; }),
-      hbAddLabel: L.hbAddBox(hwCur.n, this.money(hwCur.price)),
+      hbOpts: HW.boxes.map(b => { const each = '$' + (b.price / b.n).toFixed(2), q = this.state.cart[b.id] || 0; return { n:b.n, label: isZh ? b.n + ' 个装' : 'Box of ' + b.n, price: this.money(b.price),
+        l2: L.hbEach(each) + (b.n === 6 ? ' \u00b7 ' + L.hbBest : ''), addText: L.hbAdd, out: q === 0, inn: q > 0, qty: q,
+        cls: b.n===hwCur.n ? 'tt-hwoc on' : 'tt-hwoc', onSelect: () => this.setState({ hbSize:b.n }),
+        onAdd: () => this.add(b.id), onInc: () => this.inc(b.id), onDec: () => this.dec(b.id) }; }),
       hbInCart: hwQty > 0, hbOutCart: hwQty === 0, hbQty: hwQty,
       hbAdd: () => this.add(hwCur.id), hbInc: () => this.inc(hwCur.id), hbDec: () => this.dec(hwCur.id)
     };
@@ -1701,7 +1704,7 @@ class Component extends DCLogic {
   function slideHTML(s) {
     if (s.box) {
       if (s.box.photo) return '<img src="' + s.box.photo + '" alt="">';
-      return '<div class="tt-hwgrid" style="grid-template-columns:repeat(' + s.box.cols + ',1fr)">' + s.box.flavors.map(function (id) { return '<img src="uploads/top/' + id + '.webp" alt="">'; }).join('') + '<i class="tt-hwrib"></i></div>';
+      return '<div class="tt-hwgrid" style="grid-template-columns:repeat(' + s.box.cols + ',1fr);aspect-ratio:' + s.box.cols + '/' + Math.ceil(s.box.flavors.length / s.box.cols) + '">' + s.box.flavors.map(function (id) { return '<img src="uploads/top/' + id + '.webp" alt="">'; }).join('') + '<i class="tt-hwrib"></i></div>';
     }
     return s.cut ? '<img class="cut" src="' + s.cut + '" alt="">' : '<img src="uploads/top/' + s.id + '.webp" alt="" style="max-width:62%">';
   }
