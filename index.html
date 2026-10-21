@@ -352,7 +352,7 @@
       <div class="tt-hwcard">
         <div id="tt-hwstory" class="tt-hwst" aria-live="off"></div>
         <div class="tt-hwopts">
-          <sc-for list="{{ hbOpts }}" as="o" hint-placeholder-count="2"><button class="{{ o.cls }}" data-n="{{ o.n }}" onClick="{{ o.onSelect }}"><b>{{ o.label }}</b><span>{{ o.price }}</span><small>{{ o.l1 }}</small><small>{{ o.l2 }}</small><small class="tt-hwtr">{{ o.l3 }}</small></button></sc-for>
+          <sc-for list="{{ hbOpts }}" as="o" hint-placeholder-count="2"><button class="{{ o.cls }}" data-n="{{ o.n }}" onClick="{{ o.onSelect }}"><b>{{ o.label }}</b><span>{{ o.price }}</span><small>{{ o.l1 }}</small><small>{{ o.l2 }}</small></button></sc-for>
         </div>
         <sc-if value="{{ hbOutCart }}" hint-placeholder-val="{{ true }}"><button class="tt-hwadd" onClick="{{ hbAdd }}">{{ hbAddLabel }}</button></sc-if>
         <sc-if value="{{ hbInCart }}" hint-placeholder-val="">
@@ -1499,7 +1499,7 @@ class Component extends DCLogic {
       halloweenOn: hwLeft > 0,
       hbEndsText: hwDays <= 1 ? L.hbEndsToday(hwEnd) : L.hbEnds(hwDays, hwEnd),
       hbOpts: HW.boxes.map(b => { const each = '$' + (b.price / b.n).toFixed(2); return { n:b.n, label: isZh ? b.n + ' 个装' : 'Box of ' + b.n, price: this.money(b.price),
-        l1: L.hbPieces(b.n) + ' \u00b7 ' + L.hbFixed, l2: L.hbEach(each) + (b.n === 6 ? ' \u00b7 ' + L.hbBest : ''), l3: L.hbTreat(isZh ? HW.treat.zh : HW.treat.en),
+        l1: L.hbPieces(b.n) + ' \u00b7 ' + L.hbFixed, l2: L.hbEach(each) + (b.n === 6 ? ' \u00b7 ' + L.hbBest : ''),
         cls: b.n===hwCur.n ? 'tt-hwoc on' : 'tt-hwoc', onSelect: () => this.setState({ hbSize:b.n }) }; }),
       hbAddLabel: L.hbAddBox(hwCur.n, this.money(hwCur.price)),
       hbInCart: hwQty > 0, hbOutCart: hwQty === 0, hbQty: hwQty,
@@ -1690,7 +1690,7 @@ class Component extends DCLogic {
   function list(n, L) {
     var H = window.TT_HALLOWEEN; if (!H) return [];
     var box = H.boxes.filter(function (b) { return b.n === n; })[0] || H.boxes[0], zh = L === 'zh', out = [];
-    out.push({ box: box, tag: zh ? '礼盒' : 'THE BOX', t: zh ? box.zh : box.en, d: zh ? box.n + ' 个挞和' + H.treat.zh + '，已装盒。' : box.n + ' tarts and ' + H.treat.en + ', boxed and ribboned.' });
+    out.push({ box: box, tag: zh ? '礼盒' : 'THE BOX', t: zh ? box.zh : box.en, d: zh ? box.n + ' 个挞，已装盒。每盒附赠' + H.treat.zh + '。' : box.n + ' tarts, boxed and ribboned. Each box comes with ' + H.treat.en + '.' });
     box.flavors.forEach(function (id, idx) {
       var f = flavor(id), info = (H.tarts || {})[id] || {};
       out.push({ id: id, cut: info.cut || null, tag: zh ? '第 ' + (idx + 1) + ' 款 / 共 ' + box.flavors.length + ' 款' : (idx + 1) + ' OF ' + box.flavors.length,
