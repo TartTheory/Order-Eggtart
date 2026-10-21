@@ -227,7 +227,7 @@
   .tt-ht:nth-child(3) { left: calc(50% + 45 * var(--u)); }
   .tt-ht:nth-child(3) img { transform: scaleX(-1) !important; }
   /* Halloween gift boxes (limited) */
-  .tt-hw { background: #1d1612; color: #fff; padding: 18px 16px 18px; --hwo: 262px; }
+  .tt-hw { background: #1d1612; color: #fff; padding: 18px 16px 18px; --hwo: 276px; }
   .tt-hwi { max-width: 440px; margin: 0 auto; }
   .tt-hwtop { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
   .tt-hwtag { background: var(--accent); color: #fff; font-family: var(--font-body); font-weight: 800; font-size: 10.5px; letter-spacing: .08em; padding: 4px 10px; border-radius: 999px; }
@@ -257,18 +257,18 @@
   .tt-hwzl, .tt-hwzr { position: absolute; top: 0; bottom: 0; z-index: 3; cursor: pointer; }
   .tt-hwzl { left: 0; width: 32%; } .tt-hwzr { right: 0; width: 68%; }
   .tt-hwpl { position: absolute; right: 10px; top: 20px; z-index: 6; width: 32px; height: 32px; border-radius: 50%; background: rgba(0,0,0,.55); color: #fff; border: 1px solid rgba(255,255,255,.25); cursor: pointer; font-size: 12px; padding: 0; }
-  /* size cards with the add button built in */
-  .tt-hwopts { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; padding: 10px 10px 0; }
-  .tt-hwoc { cursor: pointer; border: 2px solid #4a3b31; border-radius: 14px; padding: 9px 10px 10px; text-align: center; background: #221a15; color: #fff; font-family: var(--font-body); display: flex; flex-direction: column; align-items: center; gap: 2px; }
+  /* size cards; the add button is a round + straddling the bottom edge of each card */
+  .tt-hwopts { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; padding: 10px 10px 20px; }
+  .tt-hwoc { position: relative; cursor: pointer; border: 2px solid #4a3b31; border-radius: 14px; padding: 11px 10px 24px; text-align: center; background: #221a15; color: #fff; font-family: var(--font-body); }
   .tt-hwoc.on { border-color: #F6A04A; background: #2f241c; }
-  .tt-hwoh { display: flex; align-items: baseline; justify-content: center; gap: 8px; flex-wrap: wrap; }
+  .tt-hwoh { display: flex; flex-direction: column; align-items: center; }
   .tt-hwoh > b { font-size: 14px; font-weight: 800; }
-  .tt-hwoh > span { font-family: Anton, sans-serif; font-size: 22px; color: #F6A04A; line-height: 1.1; }
+  .tt-hwoh > span { font-family: Anton, sans-serif; font-size: 27px; color: #F6A04A; line-height: 1.15; margin: 1px 0; }
   .tt-hwoc > small { display: block; color: #cfc4ba; font-size: 11px; line-height: 1.3; }
-  .tt-hwa { margin-top: 6px; width: 100%; padding: 9px 0; border: 0; border-radius: 10px; background: var(--accent); color: #fff; font-family: var(--font-body); font-weight: 700; font-size: 14px; cursor: pointer; }
-  .tt-hwms { margin-top: 6px; width: 100%; display: flex; align-items: center; justify-content: space-between; background: #1d1612; border-radius: 10px; padding: 2px; }
-  .tt-hwms button { width: 38px; height: 32px; border: 0; border-radius: 8px; background: var(--accent); color: #fff; font-size: 18px; font-weight: 700; cursor: pointer; padding: 0; }
-  .tt-hwms span { font-family: var(--font-body); font-weight: 800; font-size: 15px; }
+  .tt-hwa { position: absolute; left: 50%; bottom: -19px; margin-left: -19px; width: 38px; height: 38px; border-radius: 50%; border: 3px solid #2a201a; background: var(--accent); color: #fff; font-size: 24px; font-weight: 600; line-height: 1; padding: 0; cursor: pointer; display: grid; place-items: center; }
+  .tt-hwms { position: absolute; left: 50%; bottom: -19px; transform: translateX(-50%); display: flex; align-items: center; gap: 2px; background: #1d1612; border: 3px solid #2a201a; border-radius: 999px; padding: 2px; white-space: nowrap; }
+  .tt-hwms button { width: 30px; height: 30px; border: 0; border-radius: 50%; background: var(--accent); color: #fff; font-size: 17px; font-weight: 700; cursor: pointer; padding: 0; line-height: 1; }
+  .tt-hwms span { font-family: var(--font-body); font-weight: 800; font-size: 14px; min-width: 22px; text-align: center; }
   @keyframes ttStk { 0%,100% { transform: rotate(var(--r)); } 50% { transform: rotate(calc(var(--r) + 4deg)) translateY(calc(-5 * var(--u))); } }
   @media (prefers-reduced-motion: reduce) { .tt-stk { animation: none; } }
   .tt-pill { display: inline-flex; align-items: center; justify-content: center; flex: none; height: calc(27 * var(--u)); padding: 0 calc(12 * var(--u)); margin: 0 auto calc(15 * var(--u)); max-width: 100%; border-radius: 999px; background: var(--accent-soft); color: var(--accent); font-family: var(--font-body); font-weight: 700; font-size: calc(11.5 * var(--u)); line-height: 1; white-space: nowrap; }
@@ -356,7 +356,7 @@
             <div class="{{ o.cls }}" data-n="{{ o.n }}" onClick="{{ o.onSelect }}" role="button" tabindex="0">
               <div class="tt-hwoh"><b>{{ o.label }}</b><span>{{ o.price }}</span></div>
               <small>{{ o.l2 }}</small>
-              <sc-if value="{{ o.out }}" hint-placeholder-val="{{ true }}"><button class="tt-hwa" onClick="{{ o.onAdd }}">{{ o.addText }}</button></sc-if>
+              <sc-if value="{{ o.out }}" hint-placeholder-val="{{ true }}"><button class="tt-hwa" onClick="{{ o.onAdd }}" aria-label="add">+</button></sc-if>
               <sc-if value="{{ o.inn }}" hint-placeholder-val=""><div class="tt-hwms"><button onClick="{{ o.onDec }}" aria-label="remove">&minus;</button><span>{{ o.qty }}</span><button onClick="{{ o.onInc }}" aria-label="add">+</button></div></sc-if>
             </div>
           </sc-for>
@@ -1502,7 +1502,7 @@ class Component extends DCLogic {
       halloweenOn: hwLeft > 0,
       hbEndsText: hwDays <= 1 ? L.hbEndsToday(hwEnd) : L.hbEnds(hwDays, hwEnd),
       hbOpts: HW.boxes.map(b => { const each = '$' + (b.price / b.n).toFixed(2), q = this.state.cart[b.id] || 0; return { n:b.n, label: isZh ? b.n + ' 个装' : 'Box of ' + b.n, price: this.money(b.price),
-        l2: L.hbEach(each) + (b.n === 6 ? ' \u00b7 ' + L.hbBest : ''), addText: L.hbAdd, out: q === 0, inn: q > 0, qty: q,
+        l2: L.hbEach(each), addText: L.hbAdd, out: q === 0, inn: q > 0, qty: q,
         cls: b.n===hwCur.n ? 'tt-hwoc on' : 'tt-hwoc', onSelect: () => this.setState({ hbSize:b.n }),
         onAdd: () => this.add(b.id), onInc: () => this.inc(b.id), onDec: () => this.dec(b.id) }; }),
       hbInCart: hwQty > 0, hbOutCart: hwQty === 0, hbQty: hwQty,
