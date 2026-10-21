@@ -80,9 +80,11 @@
 
     function computeSuggestedTotal() {
       var units = [];
+      var fixed = 0; // gift boxes: fixed price, not part of the any-4-for-$20 promo
       document.querySelectorAll('.qty').forEach(function (el) {
         var qty = parseInt(el.value, 10) || 0;
         var price = parseFloat(el.dataset.price);
+        if (el.id.indexOf('qty_hbox') === 0) { fixed += qty * price; return; }
         var isOriginal = el.id === 'qty_original';
         for (var i = 0; i < qty; i++) units.push({ price: price, original: isOriginal });
       });
@@ -95,7 +97,7 @@
         sum += Math.min(20, segSum);
       }
       sum += units.slice(boxes * 4).reduce(function (a, f) { return a + f.price; }, 0);
-      return sum;
+      return sum + fixed;
     }
 
     function refreshPreview() {

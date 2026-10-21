@@ -19,10 +19,17 @@ var FLAVORS = [
   { id: 'chestnut', name: 'Chestnut Egg Tart', price: 6 },
   { id: 'lavacheese', name: 'Lava Cheese Tart', price: 6 },
   { id: 'corn', name: 'Corn Egg Tart', price: 6 },
-  // Halloween gift boxes (limited, ends 10/31). Remove after the holiday.
-  { id: 'hbox4', name: 'Halloween Box of 4', price: 30 },
-  { id: 'hbox6', name: 'Halloween Box of 6', price: 40 }
+  // Halloween gift boxes (fixed flavors, limited). `until` hides them from the Add Manual Order
+  // form automatically from that date on; past orders and the summary are not affected.
+  { id: 'hbox4', name: 'Halloween Box of 4', price: 30, until: '2026-11-01' },
+  { id: 'hbox6', name: 'Halloween Box of 6', price: 40, until: '2026-11-01' }
 ];
+
+// The flavors/boxes that are currently on sale (limited items drop off after their `until` date).
+function activeFlavors() {
+  var now = new Date();
+  return FLAVORS.filter(function (f) { return !f.until || now < new Date(f.until + 'T00:00:00'); });
+}
 var PICKUP_PLACE = 'Bellevue T&T Supermarket parking lot';
 var PICKUP_TIME = '3:00–3:30 PM';
 
@@ -154,7 +161,7 @@ function refreshActiveSummary() {
 
 function showAddOrderDialog() {
   var tpl = HtmlService.createTemplateFromFile('AddOrderDialog');
-  tpl.flavors = FLAVORS;
+  tpl.flavors = activeFlavors();
   tpl.pickupPlace = PICKUP_PLACE;
   tpl.pickupTime = PICKUP_TIME;
   var html = tpl.evaluate().setWidth(420).setHeight(560);

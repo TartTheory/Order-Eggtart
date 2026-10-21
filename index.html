@@ -26,7 +26,7 @@
   gtag('config', 'G-GLZDRJTXR8');
 </script>
 <script src="./support.js"></script>
-<script>window.TT_BUILD=1792554678;</script>
+<script>window.TT_BUILD=1792555061;</script>
 </head>
 <body>
 <noscript><h1>Tart Theory</h1><p>Handcrafted egg tarts inspired by flavors from around the world. Flaky crust, silky custard, baked fresh, new flavors every week. Pre-order online for pickup in Seattle (U District, South Lake Union) and Bellevue. Instagram: @tarttheory.eggtart</p></noscript>
@@ -811,6 +811,10 @@ class Component extends DCLogic {
     super(props);
     this.BRAND = 'Tart Theory';
     // Halloween gift boxes (limited). Fixed flavors; the whole section hides itself after endsISO.
+    // REUSE FOR ANOTHER HOLIDAY (e.g. Thanksgiving): this block, the .tt-hw* CSS, the #tt-halloween section, the story script
+    // (IIFE near the end) and the hb* strings in both language blocks are one self-contained, data-driven feature.
+    // Copy the config below with new ids/prices/dates/photos (uploads/<season>/), update hbTag/hbTitle/hbSub, add the box
+    // ids to apps-script/Code.gs FLAVORS (with an `until` date), and redeploy Code.gs. Tagged in git as halloween-2026-gift-boxes.
     // TODO: confirm the flavors in each box (placeholders for now), add a cutaway photo per flavor in `tarts[id].cut`, and set each box's `photo`.
     this.HALLOWEEN = { endsISO:'2026-10-31T23:59:59', endsLabelEn:'10/31', endsLabelZh:'10月31日', boxes:[
       { id:'hbox4', n:4, price:30, cols:2, zh:'万圣节礼盒 · 4 个装', en:'Halloween Box of 4', flavors:['ghost','pumpkin','rip','ube'], photo:'uploads/halloween/box-4.webp' },
@@ -999,7 +1003,8 @@ class Component extends DCLogic {
       const out = {};
       Object.keys(d.cart).forEach(id => {
         const q = Math.floor(Number(d.cart[id]));
-        if (this.FLAVORS.some(f => f.id === id) && q > 0) out[id] = Math.min(q, 30);
+        const HW = this.HALLOWEEN, boxOk = !!HW && new Date(HW.endsISO).getTime() > Date.now() && HW.boxes.some(b => b.id === id); // seasonal boxes only while on sale
+        if ((this.FLAVORS.some(f => f.id === id) || boxOk) && q > 0) out[id] = Math.min(q, 30);
       });
       return out;
     } catch (e) { return {}; }
