@@ -246,6 +246,7 @@
   .tt-hwbars i b { display: block; height: 100%; width: 0; background: #fff; }
   .tt-hwsl { position: absolute; inset: 0; opacity: 0; transition: opacity .35s; display: flex; align-items: center; justify-content: center; padding: 34px 12px 112px; pointer-events: none; }
   .tt-hwsl.on { opacity: 1; }
+  .tt-hwst.pst .tt-hwcap { display: none; }  /* the flavor posters carry their own name and cutaway labels */
   .tt-hwsl .tt-hwph { position: absolute; inset: 0; overflow: hidden; }
   .tt-hwsl .tt-hwph img { position: absolute; display: block; max-width: none; max-height: none; }
   .tt-hwsl .tt-hwph .bgb { inset: -10%; width: 120%; height: 120%; object-fit: cover; filter: blur(22px) brightness(.65) saturate(1.1); }
@@ -801,17 +802,17 @@ class Component extends DCLogic {
     // Halloween gift boxes (limited). Fixed flavors; the whole section hides itself after endsISO.
     // TODO: confirm the flavors in each box (placeholders for now), add a cutaway photo per flavor in `tarts[id].cut`, and set each box's `photo`.
     this.HALLOWEEN = { endsISO:'2026-10-31T23:59:59', endsLabelEn:'10/31', endsLabelZh:'10月31日', boxes:[
-      { id:'hbox4', n:4, price:30, cols:2, zh:'万圣节礼盒 · 4 个装', en:'Halloween Box of 4', flavors:['original','oreo','porkfloss','chestnut'], photo:'uploads/halloween/box-4.webp' },
-      { id:'hbox6', n:6, price:40, cols:3, zh:'万圣节礼盒 · 6 个装', en:'Halloween Box of 6', flavors:['original','oreo','porkfloss','chestnut','persimmon','taro'], photo:'uploads/halloween/box-6.webp' }
+      { id:'hbox4', n:4, price:30, cols:2, zh:'万圣节礼盒 · 4 个装', en:'Halloween Box of 4', flavors:['ghost','pumpkin','rip','ube'], photo:'uploads/halloween/box-4.webp' },
+      { id:'hbox6', n:6, price:40, cols:3, zh:'万圣节礼盒 · 6 个装', en:'Halloween Box of 6', flavors:['spider','ghost','smores','pumpkin','rip','ube'], photo:'uploads/halloween/box-6.webp' }
     ], tarts:{
-      original:{ cut:'uploads/halloween/cut-original.webp', zh:'焦糖表面，嫩滑蛋奶馅，千层酥皮。', en:'Caramelized top over silky egg custard, in a buttery layered crust.' },
-      oreo:{ cut:'uploads/halloween/cut-oreo.webp', zh:'整块奥利奥，配浓郁布朗尼馅。', en:'A whole Oreo on a fudgy brownie filling.' },
-      porkfloss:{ cut:'uploads/halloween/cut-porkfloss.webp', zh:'肉松和海苔下，藏着一颗咸蛋黄。', en:'Pork floss and nori, with a salted egg yolk hiding in the middle.' },
-      chestnut:{ cut:'uploads/halloween/cut-chestnut.webp', zh:'整颗栗子和栗子奶油，铺在嫩滑蛋奶馅上。', en:'Whole chestnut and chestnut cream over silky custard.' },
-      persimmon:{ cut:null, zh:'柿子果肉，配丝滑蛋奶馅。', en:'Sweet persimmon over silky egg custard.' },
-      taro:{ cut:null, zh:'紫米芋泥，配丝滑蛋奶馅。', en:'Purple rice and taro over silky egg custard.' }
+      spider:{ poster:'uploads/halloween/poster-spider.webp', zh:'蜘蛛饼干', en:'Itsy Bitsy Spider' },
+      ghost:{ poster:'uploads/halloween/poster-ghost.webp', zh:'小幽灵', en:'Lil Ghost' },
+      smores:{ poster:'uploads/halloween/poster-smores.webp', zh:'棉花蛛网', en:"Mummy S'mores" },
+      pumpkin:{ poster:'uploads/halloween/poster-pumpkin.webp', zh:'南瓜小怪兽', en:'Pumpkin Boo' },
+      rip:{ poster:'uploads/halloween/poster-rip.webp', zh:'芝麻入土', en:'Rest in Pieces' },
+      ube:{ poster:'uploads/halloween/poster-ube.webp', zh:'紫薯小怪兽', en:'Ube Monster' }
     } };
-    this.HALLOWEEN.treat = { en:'a treat', zh:'一份小点心' }; // TODO: say what the treat is, e.g. 'a Halloween cookie'
+    this.HALLOWEEN.treat = { en:'a treat', zh:'小礼品' }; // the story says only "fixed flavors with a treat"; name the treat here if that ever changes
     window.TT_HALLOWEEN = this.HALLOWEEN;
     this.FLAVORS = [
       { id:'persimmon', zh:'柿柿如意挞', en:'Persimmon Egg Tart', tagZh:'秋季限定', tagEn:'Autumn Limited', cardTag:true, descZh:'柿子果肉，丝滑蛋奶馅，千层酥皮。', descEn:'Sweet persimmon, silky egg custard, buttery layered crust.', center:'#F6B04A', edge:'#E08A1E', torched:false, price:6, img:'uploads/top/persimmon.webp' },
@@ -1702,11 +1703,11 @@ class Component extends DCLogic {
   function list(n, L) {
     var H = window.TT_HALLOWEEN; if (!H) return [];
     var box = H.boxes.filter(function (b) { return b.n === n; })[0] || H.boxes[0], zh = L === 'zh', out = [];
-    out.push({ box: box, tag: zh ? '礼盒' : 'THE BOX', t: zh ? box.zh : box.en, d: zh ? box.n + ' 个挞，固定口味，已装盒。每盒附赠' + H.treat.zh + '。' : box.n + ' tarts with fixed flavors, boxed and ribboned. Each box comes with ' + H.treat.en + '.' });
+    out.push({ box: box, tag: zh ? '礼盒' : 'THE BOX', t: zh ? box.zh : box.en, d: zh ? '固定口味，每盒附赠小礼品。' : 'Fixed flavors with a treat.' });
     box.flavors.forEach(function (id, idx) {
       var f = flavor(id), info = (H.tarts || {})[id] || {};
-      out.push({ id: id, cut: info.cut || null, tag: zh ? '第 ' + (idx + 1) + ' 款 / 共 ' + box.flavors.length + ' 款' : (idx + 1) + ' OF ' + box.flavors.length,
-        t: f ? (zh ? f.zh : f.en) : id, d: info[L] || (f ? (zh ? f.descZh : f.descEn) : '') || '' });
+      out.push({ id: id, cut: info.cut || null, poster: info.poster || null, tag: zh ? '第 ' + (idx + 1) + ' 款 / 共 ' + box.flavors.length + ' 款' : (idx + 1) + ' OF ' + box.flavors.length,
+        t: info[L] || (f ? (zh ? f.zh : f.en) : id), d: info.poster ? '' : (info[L] || (f ? (zh ? f.descZh : f.descEn) : '') || '') });
     });
     return out;
   }
@@ -1715,13 +1716,14 @@ class Component extends DCLogic {
       if (s.box.photo) return '<div class="tt-hwph"><img class="bgb" src="' + s.box.photo + '" alt=""><img class="ph" src="' + s.box.photo + '" alt=""></div>';
       return '<div class="tt-hwgrid" style="grid-template-columns:repeat(' + s.box.cols + ',1fr);aspect-ratio:' + s.box.cols + '/' + Math.ceil(s.box.flavors.length / s.box.cols) + '">' + s.box.flavors.map(function (id) { return '<img src="uploads/top/' + id + '.webp" alt="">'; }).join('') + '<i class="tt-hwrib"></i></div>';
     }
+    if (s.poster) return '<div class="tt-hwph"><img class="bgb" src="' + s.poster + '" alt=""><img class="ph" src="' + s.poster + '" alt="' + s.t + '"></div>';
     return s.cut ? '<img class="cut" src="' + s.cut + '" alt="">' : '<img src="uploads/top/' + s.id + '.webp" alt="" style="max-width:62%">';
   }
   function show(n) {
     if (!st.list.length) return; st.i = Math.max(0, Math.min(st.list.length - 1, n)); st.el = 0; var r = st.root; if (!r) return;
     var sl = r.querySelectorAll('.tt-hwsl'), bs = r.querySelectorAll('.tt-hwbars b');
     for (var k = 0; k < sl.length; k++) { sl[k].classList.toggle('on', k === st.i); bs[k].style.width = k < st.i ? '100%' : '0'; }
-    var c = st.list[st.i]; r.querySelector('.tt-hwcap small').textContent = c.tag; r.querySelector('.tt-hwcap b').textContent = c.t; r.querySelector('.tt-hwcap p').textContent = c.d;
+    var c = st.list[st.i]; r.classList.toggle('pst', !!c.poster); r.querySelector('.tt-hwcap small').textContent = c.tag; r.querySelector('.tt-hwcap b').textContent = c.t; r.querySelector('.tt-hwcap p').textContent = c.d;
   }
   function build(root) {
     st.root = root; st.key = size() + lang(); st.list = list(size(), lang());
