@@ -227,7 +227,10 @@
   .tt-ht:nth-child(3) { left: calc(50% + 45 * var(--u)); }
   .tt-ht:nth-child(3) img { transform: scaleX(-1) !important; }
   /* Halloween gift boxes (limited) */
-  .tt-hw { background: #1d1612; color: #fff; padding: 18px 16px 18px; --hwo: 276px; }
+  /* ghost sheet: the white menu rises into the section as a ghost with two eyes peeking over the middle hump */
+  .tt-hwg { position: absolute; left: 0; right: 0; bottom: -1px; width: 100%; height: 60px; display: block; pointer-events: none; z-index: 1; }
+  .tt-hweye { position: absolute; left: 50%; bottom: 22px; width: 38px; height: 14px; margin-left: -19px; display: block; pointer-events: none; z-index: 2; }
+  .tt-hw { background: #1d1612; color: #fff; position: relative; padding: 18px 16px 60px; --hwo: 320px; }
   .tt-hwi { max-width: 440px; margin: 0 auto; }
   .tt-hwtop { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
   .tt-hwtag { background: var(--accent); color: #fff; font-family: var(--font-body); font-weight: 800; font-size: 10.5px; letter-spacing: .08em; padding: 4px 10px; border-radius: 999px; }
@@ -346,6 +349,8 @@
 
   <sc-if value="{{ halloweenOn }}" hint-placeholder-val="">
   <section id="tt-halloween" class="tt-hw">
+    <svg class="tt-hwg" viewBox="0 0 375 110" preserveAspectRatio="none" aria-hidden="true"><path fill="#FFFFFF" d="M0,110V70C0,46 26,34 58,34C92,34 108,60 118,72C122,77 128,77 132,72C148,52 162,18 190,18C218,18 232,52 248,72C252,77 258,77 262,72C272,60 288,34 322,34C354,34 375,48 375,70V110Z"/></svg>
+    <svg class="tt-hweye" viewBox="0 0 38 14" aria-hidden="true"><ellipse cx="9" cy="7" rx="7.5" ry="5" transform="rotate(20 9 7)" fill="#1d1612"/><ellipse cx="29" cy="7" rx="7.5" ry="5" transform="rotate(-20 29 7)" fill="#1d1612"/></svg>
     <div class="tt-hwi">
       <div class="tt-hwtop"><span class="tt-hwtag">{{ t.hbTag }}</span><span class="tt-hwend">{{ hbEndsText }}</span></div>
       <h2>{{ t.hbTitle }}</h2>
