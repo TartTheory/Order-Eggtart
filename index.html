@@ -26,7 +26,7 @@
   gtag('config', 'G-GLZDRJTXR8');
 </script>
 <script src="./support.js"></script>
-<script>window.TT_BUILD=1792553835;</script>
+<script>window.TT_BUILD=1792554102;</script>
 </head>
 <body>
 <noscript><h1>Tart Theory</h1><p>Handcrafted egg tarts inspired by flavors from around the world. Flaky crust, silky custard, baked fresh, new flavors every week. Pre-order online for pickup in Seattle (U District, South Lake Union) and Bellevue. Instagram: @tarttheory.eggtart</p></noscript>
@@ -240,17 +240,16 @@
   .tt-hwsub { margin: 0 0 14px; font-family: var(--font-body); font-size: 13px; line-height: 1.5; color: #d8cfc6; }
   .tt-hwcard { background: #2a201a; border-radius: 20px; overflow: hidden; padding-bottom: 10px; }
   /* story player */
-  .tt-hwst { position: relative; height: clamp(240px, calc(100vh - 64px - var(--hwo)), 540px); height: clamp(240px, calc(100svh - 64px - var(--hwo)), 540px); background: #120d0a; user-select: none; -webkit-user-select: none; -webkit-tap-highlight-color: transparent; }
+  .tt-hwst { position: relative; aspect-ratio: 1 / 1; width: 100%; background: #120d0a; user-select: none; -webkit-user-select: none; -webkit-tap-highlight-color: transparent; }
   .tt-hwbars { position: absolute; left: 10px; right: 10px; top: 10px; display: flex; gap: 4px; z-index: 5; }
   .tt-hwbars i { flex: 1; height: 3px; border-radius: 2px; background: rgba(255,255,255,.28); overflow: hidden; }
   .tt-hwbars i b { display: block; height: 100%; width: 0; background: #fff; }
   .tt-hwsl { position: absolute; inset: 0; opacity: 0; transition: opacity .35s; display: flex; align-items: center; justify-content: center; padding: 34px 12px 112px; pointer-events: none; }
   .tt-hwsl.on { opacity: 1; }
-  .tt-hwst.pst .tt-hwcap { display: none; }  /* the flavor posters carry their own name and cutaway labels */
+  .tt-hwst.pst .tt-hwcap { display: none; }  /* photo slides carry their own labels, so no caption on them */
   .tt-hwsl .tt-hwph { position: absolute; inset: 0; overflow: hidden; }
   .tt-hwsl .tt-hwph img { position: absolute; display: block; max-width: none; max-height: none; }
-  .tt-hwsl .tt-hwph .bgb { inset: -10%; width: 120%; height: 120%; object-fit: cover; filter: blur(22px) brightness(.65) saturate(1.1); }
-  .tt-hwsl .tt-hwph .ph { inset: 0; width: 100%; height: 100%; object-fit: contain; }
+  .tt-hwsl .tt-hwph .ph { inset: 0; width: 100%; height: 100%; object-fit: cover; }
   .tt-hwsl img { max-width: 100%; max-height: 100%; object-fit: contain; display: block; }
   .tt-hwsl img.cut { mix-blend-mode: screen; }
   .tt-hwsl .tt-hwgrid { height: 100%; max-width: 100%; width: auto; }
@@ -1714,17 +1713,17 @@ class Component extends DCLogic {
   }
   function slideHTML(s) {
     if (s.box) {
-      if (s.box.photo) return '<div class="tt-hwph"><img class="bgb" src="' + s.box.photo + '" alt=""><img class="ph" src="' + s.box.photo + '" alt=""></div>';
+      if (s.box.photo) return '<div class="tt-hwph"><img class="ph" src="' + s.box.photo + '" alt="' + s.box.en + '"></div>';
       return '<div class="tt-hwgrid" style="grid-template-columns:repeat(' + s.box.cols + ',1fr);aspect-ratio:' + s.box.cols + '/' + Math.ceil(s.box.flavors.length / s.box.cols) + '">' + s.box.flavors.map(function (id) { return '<img src="uploads/top/' + id + '.webp" alt="">'; }).join('') + '<i class="tt-hwrib"></i></div>';
     }
-    if (s.poster) return '<div class="tt-hwph"><img class="bgb" src="' + s.poster + '" alt=""><img class="ph" src="' + s.poster + '" alt="' + s.t + '"></div>';
+    if (s.poster) return '<div class="tt-hwph"><img class="ph" src="' + s.poster + '" alt="' + s.t + '"></div>';
     return s.cut ? '<img class="cut" src="' + s.cut + '" alt="">' : '<img src="uploads/top/' + s.id + '.webp" alt="" style="max-width:62%">';
   }
   function show(n) {
     if (!st.list.length) return; st.i = Math.max(0, Math.min(st.list.length - 1, n)); st.el = 0; var r = st.root; if (!r) return;
     var sl = r.querySelectorAll('.tt-hwsl'), bs = r.querySelectorAll('.tt-hwbars b');
     for (var k = 0; k < sl.length; k++) { sl[k].classList.toggle('on', k === st.i); bs[k].style.width = k < st.i ? '100%' : '0'; }
-    var c = st.list[st.i]; r.classList.toggle('pst', !!c.poster); r.querySelector('.tt-hwcap small').textContent = c.tag; r.querySelector('.tt-hwcap b').textContent = c.t; r.querySelector('.tt-hwcap p').textContent = c.d;
+    var c = st.list[st.i]; r.classList.toggle('pst', !!(c.poster || (c.box && c.box.photo))); r.querySelector('.tt-hwcap small').textContent = c.tag; r.querySelector('.tt-hwcap b').textContent = c.t; r.querySelector('.tt-hwcap p').textContent = c.d;
   }
   function build(root) {
     st.root = root; st.key = size() + lang(); st.list = list(size(), lang());
