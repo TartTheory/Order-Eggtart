@@ -232,7 +232,7 @@
   .tt-hwtop { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
   .tt-hwtag { background: var(--accent); color: #fff; font-family: var(--font-body); font-weight: 800; font-size: 10.5px; letter-spacing: .08em; padding: 4px 10px; border-radius: 999px; }
   .tt-hwend { font-family: var(--font-body); font-weight: 700; font-size: 11.5px; color: #F6A04A; }
-  .tt-hw h2 { font-family: Anton, sans-serif; font-weight: 400; text-transform: uppercase; font-size: clamp(34px, 10vw, 52px); line-height: 1; margin: 12px 0 8px; letter-spacing: 0; color: #fff; }
+  .tt-hw h2 { font-family: Anton, sans-serif; font-weight: 400; text-transform: uppercase; font-size: clamp(34px, 10vw, 52px); line-height: 1; margin: 12px 0 16px; letter-spacing: 0; color: #fff; }
   [data-lang="zh"] .tt-hw h2 { font-family: 'Noto Sans SC', sans-serif; font-weight: 900; text-transform: none; font-size: clamp(32px, 9.5vw, 48px); }
   .tt-hwsub { margin: 0 0 14px; font-family: var(--font-body); font-size: 13px; line-height: 1.5; color: #d8cfc6; }
   .tt-hwcard { background: #2a201a; border-radius: 20px; overflow: hidden; padding-bottom: 14px; }
@@ -263,7 +263,8 @@
   .tt-hwoc.on { border-color: #F6A04A; background: #2f241c; }
   .tt-hwoc > b { display: block; font-size: 15px; font-weight: 800; }
   .tt-hwoc > span { display: block; font-family: Anton, sans-serif; font-size: 26px; color: #F6A04A; margin: 2px 0; line-height: 1.1; }
-  .tt-hwoc > small { color: #cfc4ba; font-size: 11px; }
+  .tt-hwoc > small { display: block; color: #cfc4ba; font-size: 11px; line-height: 1.35; }
+  .tt-hwoc > small.tt-hwtr { color: #F6A04A; font-weight: 700; margin-top: 3px; }
   .tt-hwadd { display: block; width: calc(100% - 24px); margin: 12px 12px 0; padding: 13px; border: 0; border-radius: 12px; background: var(--accent); color: #fff; font-family: var(--font-body); font-weight: 700; font-size: 15px; cursor: pointer; }
   .tt-hwstep { display: flex; align-items: center; justify-content: space-between; margin: 12px 12px 0; background: #1d1612; border-radius: 12px; padding: 4px; }
   .tt-hwstep button { width: 44px; height: 40px; border: 0; border-radius: 9px; background: var(--accent); color: #fff; font-size: 20px; font-weight: 700; cursor: pointer; }
@@ -348,11 +349,10 @@
     <div class="tt-hwi">
       <div class="tt-hwtop"><span class="tt-hwtag">{{ t.hbTag }}</span><span class="tt-hwend">{{ hbEndsText }}</span></div>
       <h2>{{ t.hbTitle }}</h2>
-      <p class="tt-hwsub">{{ t.hbSub }}</p>
       <div class="tt-hwcard">
         <div id="tt-hwstory" class="tt-hwst" aria-live="off"></div>
         <div class="tt-hwopts">
-          <sc-for list="{{ hbOpts }}" as="o" hint-placeholder-count="2"><button class="{{ o.cls }}" data-n="{{ o.n }}" onClick="{{ o.onSelect }}"><b>{{ o.label }}</b><span>{{ o.price }}</span><small>{{ o.small }}</small></button></sc-for>
+          <sc-for list="{{ hbOpts }}" as="o" hint-placeholder-count="2"><button class="{{ o.cls }}" data-n="{{ o.n }}" onClick="{{ o.onSelect }}"><b>{{ o.label }}</b><span>{{ o.price }}</span><small>{{ o.l1 }}</small><small>{{ o.l2 }}</small><small class="tt-hwtr">{{ o.l3 }}</small></button></sc-for>
         </div>
         <sc-if value="{{ hbOutCart }}" hint-placeholder-val="{{ true }}"><button class="tt-hwadd" onClick="{{ hbAdd }}">{{ hbAddLabel }}</button></sc-if>
         <sc-if value="{{ hbInCart }}" hint-placeholder-val="">
@@ -799,6 +799,7 @@ class Component extends DCLogic {
       persimmon:{ cut:null, zh:'柿子果肉，配丝滑蛋奶馅。', en:'Sweet persimmon over silky egg custard.' },
       taro:{ cut:null, zh:'紫米芋泥，配丝滑蛋奶馅。', en:'Purple rice and taro over silky egg custard.' }
     } };
+    this.HALLOWEEN.treat = { en:'a treat', zh:'一份小点心' }; // TODO: say what the treat is, e.g. 'a Halloween cookie'
     window.TT_HALLOWEEN = this.HALLOWEEN;
     this.FLAVORS = [
       { id:'persimmon', zh:'柿柿如意挞', en:'Persimmon Egg Tart', tagZh:'秋季限定', tagEn:'Autumn Limited', cardTag:true, descZh:'柿子果肉，丝滑蛋奶馅，千层酥皮。', descEn:'Sweet persimmon, silky egg custard, buttery layered crust.', center:'#F6B04A', edge:'#E08A1E', torched:false, price:6, img:'uploads/top/persimmon.webp' },
@@ -856,7 +857,7 @@ class Component extends DCLogic {
         copiedId:'已复制', emptyBagMsg:'你的袋子还是空的，去挑几个蛋挞吧。', sendingOrder:'正在提交订单…', pickupDayLabel:'选择取货时间', pickupOpensNextWeek:'下一周的取货时间将于周六下午 5 点发布，请稍后查看。', soldOutThisWeek:'抱歉，本周的蛋挞名额已订满，请下周再来 :)', lowStockThisWeek:(n)=>'本周只剩 '+n+' 个名额，请减少数量后再试。', copied:'已复制微信号！',
         boxPromo:'优惠活动：任选四颗，仅需 $20！', boxPromoSub:'全口味自由混搭，四颗更划算',
         backToBag:'\u2190 返回购物车', orderReservedTitle:'订单已预留', venmoPayBtn:(t)=>'在 Venmo 支付 '+t, venmoQrNote:'无法跳转到 Venmo？点这里', tlPay:'付款', tlPayText:(t)=>'用 Venmo 支付 '+t+'。', tlSend:'发送截图', tlSendText:(o,n,id)=>'请把订单号截图和付款截图发送至'+n+'，客服确认后即可锁定订单。', tlPickup:'取货', itemsMore:(n)=>'还有 '+n+' 款，点击展开', itemsLess:'收起', tlPickupNote:'我们会在取货当天约提前 30 分钟告知确切的到达时间和停车位置。', tlPickupText:'自取时请出示订单截图，或直接告诉我们你的 Venmo 用户名。', copyVenmo:'复制 Venmo ID', copyChannelWechat:'复制微信号', shotBtn:'保存订单到相册', shotBusy:'生成中…', shotSaved:'已保存至相册', shotHold:'长按图片，选择“存储到相册”。', shotDownload:'下载图片', shotClose:'关闭', ticketSub:'自取订单', careTitle:'保存与加热小贴士', careLines:['当天享用口感最佳。吃不完可放冰箱冷藏2-3天，吃前可复热：','微波炉：先取下锡纸壳，加热 30 秒。','烤箱 / 空气炸锅：无需取下锡纸壳，180°C（350°F）加热 3-5 分钟。'], ticketFoot:'自取时请出示订单截图，或告诉我们你的 Venmo 用户名。', yourOrderNumberLabel:'你的订单号',
-        nextBtn:'下一步', stepBag:'确认口味', stepPickup:'选择取货时间', stepPay:'结账', hbTag:'限定', hbTitle:'万圣节礼盒', hbSub:'固定口味，已装盒，周五或周六自取。', hbEnds:(d,e)=>e+' 结束 · 还剩 '+d+' 天', hbEndsToday:(e)=>e+' 结束 · 仅限今天', hbInside:'盒内口味', hbAdd:'加入购物车', hbBest:'更划算', hbAddBox:(n,p)=>'加入 '+n+' 个装 · '+p, hbPieces:(n)=>n+' 个挞', pickupTitle:'取货', totalLabel:'总计', eachSuffix:'/每个', heroWordA:'现烤', heroWordB:'酥脆', heroWordC:'浓郁',
+        nextBtn:'下一步', stepBag:'确认口味', stepPickup:'选择取货时间', stepPay:'结账', hbTag:'限定', hbTitle:'万圣节礼盒', hbSub:'固定口味，已装盒，周五或周六自取。', hbEnds:(d,e)=>e+' 结束 · 还剩 '+d+' 天', hbEndsToday:(e)=>e+' 结束 · 仅限今天', hbInside:'盒内口味', hbAdd:'加入购物车', hbBest:'更划算', hbFixed:'固定口味', hbEach:(p)=>'每个 '+p, hbTreat:(t)=>'附赠'+t, hbAddBox:(n,p)=>'加入 '+n+' 个装 · '+p, hbPieces:(n)=>n+' 个挞', pickupTitle:'取货', totalLabel:'总计', eachSuffix:'/每个', heroWordA:'现烤', heroWordB:'酥脆', heroWordC:'浓郁',
         confirm1:(t)=>'扫描上方二维码支付 '+t+'。', confirm2:(o,w)=>'将订单号 '+o+' 和付款截图发送到微信：'+w+'。', confirm3:(s,tm)=>'在 '+s+'，'+tm+' 取货。出示相册里保存的订单、订单号，或直接告诉我们你的 Venmo 用户名，我们会现场为你核实。' },
       en:{ stkFlaky:'Flaky', stkCrispy:'Crispy', stkSilky:'Silky', stkFresh:'Fresh', stkHand:'Handmade', bag:'Bag', ctaHow:'How to order', ingTitle:'INGREDIENTS', receiptDeal:'Any 4 for $20', ingAllergen:'Contains: ', heroTitle:'Handmade egg tarts with flavors from around the world.',  heroTitleA:'Asian fusion\n', heroTitleB:'egg tarts', heroTitleC:'\nevery\nweekend', heroSubtitle:'Flaky crust.\nSilky custard.', heroNote:'Baked fresh daily.\nNew flavors every week.', heroSmall:'Pre-order online \u00b7 Pickup Fridays & Saturdays only', ctaLabel:'View Menu',
         menuLabel:'The menu', menuTitle:'Something for every craving.', add:'Add',
@@ -876,7 +877,7 @@ class Component extends DCLogic {
         copiedId:'Copied', emptyBagMsg:'Your bag is empty. Time to pick some tarts!', sendingOrder:'Sending your order...', pickupDayLabel:'Choose your pickup time', pickupOpensNextWeek:'Next week\'s pickup times open Saturday at 5 PM. Check back soon.', soldOutThisWeek:'Sorry, we\'re sold out this week. Check back next week!', lowStockThisWeek:(n)=>'Only '+n+' left this week. Please lower your quantity.', copied:'WeChat ID copied!',
         boxPromo:'Any 4 for $20!', boxPromoSub:'Mix and match any flavors. Perfect for sharing, or keeping all to yourself. We won\'t judge.',
         backToBag:'\u2190 Back to bag', orderReservedTitle:'Order reserved', venmoPayBtn:(t)=>'Pay '+t+' on Venmo', venmoQrNote:'Can\'t open Venmo? Tap here', tlPay:'Pay', tlPayText:(t)=>'Pay '+t+' on Venmo.', tlSend:'Send us your screenshots', tlSendText:(o,n,id)=>'DM us a screenshot of your order and your Venmo payment on '+n+'. We\'ll confirm your order once we see them.', tlPickup:'Pickup', itemsMore:(n)=>'Show '+n+' more', itemsLess:'Show less', tlPickupNote:'On pickup day, we\'ll send the exact arrival time and parking spot about 30 minutes ahead.', tlPickupText:'Show your order screenshot at pickup, or just give us your Venmo name.', copyVenmo:'Copy Venmo ID', copyChannelWechat:'Copy Instagram ID', shotBtn:'Save order to Photos', shotBusy:'Preparing…', shotSaved:'Saved to Photos', shotHold:'Press and hold the image, then tap Save to Photos.', shotDownload:'Download image', shotClose:'Close', ticketSub:'Pickup order', careTitle:'Storing & reheating', careLines:['Egg tarts are best the day you get them. Refrigerate leftovers for up to 3 days. Reheat before serving:','Microwave: Remove the foil cup and heat for 30 seconds.','Oven or air fryer: Leave the foil cup on and bake at 350\u00b0F for 3\u20135 minutes.'], ticketFoot:'Show this at pickup, or just give us your Venmo name.', yourOrderNumberLabel:'Your order number',
-        nextBtn:'Next', stepBag:'Your bag', stepPickup:'Pickup time', stepPay:'Checkout', hbTag:'LIMITED', hbTitle:'Halloween Gift Boxes', hbSub:'Fixed flavors, boxed and ready for Friday or Saturday pickup.', hbEnds:(d,e)=>'Ends '+e+' · '+d+(d===1?' day left':' days left'), hbEndsToday:(e)=>'Ends '+e+' · last day', hbInside:'WHAT\'S INSIDE', hbAdd:'Add to bag', hbBest:'best value', hbAddBox:(n,p)=>'Add Box of '+n+' \u00b7 '+p, hbPieces:(n)=>n+' tarts', pickupTitle:'Pickup', totalLabel:'Total', eachSuffix:' each', heroWordA:'Fresh-Baked', heroWordB:'Flaky', heroWordC:'Rich',
+        nextBtn:'Next', stepBag:'Your bag', stepPickup:'Pickup time', stepPay:'Checkout', hbTag:'LIMITED', hbTitle:'Halloween Gift Boxes', hbSub:'Fixed flavors, boxed and ready for Friday or Saturday pickup.', hbEnds:(d,e)=>'Ends '+e+' · '+d+(d===1?' day left':' days left'), hbEndsToday:(e)=>'Ends '+e+' · last day', hbInside:'WHAT\'S INSIDE', hbAdd:'Add to bag', hbBest:'best value', hbFixed:'fixed flavors', hbEach:(p)=>p+' per tart', hbTreat:(t)=>'+ '+t, hbAddBox:(n,p)=>'Add Box of '+n+' \u00b7 '+p, hbPieces:(n)=>n+' tarts', pickupTitle:'Pickup', totalLabel:'Total', eachSuffix:' each', heroWordA:'Fresh-Baked', heroWordB:'Flaky', heroWordC:'Rich',
         confirm1:(t)=>'Scan the QR above to pay '+t+'.', confirm2:(o,w)=>'Send your order number '+o+' and the payment screenshot to us on Instagram: '+w+'.', confirm3:(s,tm)=>'Collect at '+s+', '+tm+'. Show your saved order, your order number, or just tell us your Venmo name — we\'ll confirm you there.' },
     };
     // Customer review screenshots: { src:'uploads/reviews/01.jpg' }. Section stays hidden while this is empty.
@@ -1497,7 +1498,9 @@ class Component extends DCLogic {
     const hw = {
       halloweenOn: hwLeft > 0,
       hbEndsText: hwDays <= 1 ? L.hbEndsToday(hwEnd) : L.hbEnds(hwDays, hwEnd),
-      hbOpts: HW.boxes.map(b => ({ n:b.n, label: isZh ? b.n + ' 个装' : 'Box of ' + b.n, price: this.money(b.price), small: L.hbPieces(b.n) + (b.n === 6 ? ' \u00b7 ' + L.hbBest : ''), cls: b.n===hwCur.n ? 'tt-hwoc on' : 'tt-hwoc', onSelect: () => this.setState({ hbSize:b.n }) })),
+      hbOpts: HW.boxes.map(b => { const each = '$' + (b.price / b.n).toFixed(2); return { n:b.n, label: isZh ? b.n + ' 个装' : 'Box of ' + b.n, price: this.money(b.price),
+        l1: L.hbPieces(b.n) + ' \u00b7 ' + L.hbFixed, l2: L.hbEach(each) + (b.n === 6 ? ' \u00b7 ' + L.hbBest : ''), l3: L.hbTreat(isZh ? HW.treat.zh : HW.treat.en),
+        cls: b.n===hwCur.n ? 'tt-hwoc on' : 'tt-hwoc', onSelect: () => this.setState({ hbSize:b.n }) }; }),
       hbAddLabel: L.hbAddBox(hwCur.n, this.money(hwCur.price)),
       hbInCart: hwQty > 0, hbOutCart: hwQty === 0, hbQty: hwQty,
       hbAdd: () => this.add(hwCur.id), hbInc: () => this.inc(hwCur.id), hbDec: () => this.dec(hwCur.id)
@@ -1687,7 +1690,7 @@ class Component extends DCLogic {
   function list(n, L) {
     var H = window.TT_HALLOWEEN; if (!H) return [];
     var box = H.boxes.filter(function (b) { return b.n === n; })[0] || H.boxes[0], zh = L === 'zh', out = [];
-    out.push({ box: box, tag: zh ? '礼盒' : 'THE BOX', t: zh ? box.zh : box.en, d: zh ? box.n + ' 个挞，已装盒，周五或周六自取。' : box.n + ' tarts, boxed and ribboned. Ready for Friday or Saturday pickup.' });
+    out.push({ box: box, tag: zh ? '礼盒' : 'THE BOX', t: zh ? box.zh : box.en, d: zh ? box.n + ' 个挞和' + H.treat.zh + '，已装盒。' : box.n + ' tarts and ' + H.treat.en + ', boxed and ribboned.' });
     box.flavors.forEach(function (id, idx) {
       var f = flavor(id), info = (H.tarts || {})[id] || {};
       out.push({ id: id, cut: info.cut || null, tag: zh ? '第 ' + (idx + 1) + ' 款 / 共 ' + box.flavors.length + ' 款' : (idx + 1) + ' OF ' + box.flavors.length,
