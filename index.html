@@ -2,13 +2,14 @@
 <html>
 <head>
 <meta charset="utf-8">
+<base href="/">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="icon" type="image/svg+xml" href="./favicon.svg">
 <title>Tart Theory | Fresh Egg Tarts in Seattle, Pre-order for Pickup</title>
 <meta name="description" content="Tart Theory bakes handcrafted egg tarts inspired by flavors from around the world. Flaky crust, silky custard, new flavors every week. Pre-order online for pickup in Seattle (U District, SLU) and Bellevue.">
 <link rel="canonical" href="https://tart-theory.com/">
-<link rel="alternate" hreflang="zh" href="https://tart-theory.com/?lang=zh">
-<link rel="alternate" hreflang="en" href="https://tart-theory.com/?lang=en">
+<link rel="alternate" hreflang="zh" href="https://tart-theory.com/ch/">
+<link rel="alternate" hreflang="en" href="https://tart-theory.com/en/">
 <link rel="alternate" hreflang="x-default" href="https://tart-theory.com/">
 <meta name="robots" content="index, follow">
 <meta property="og:type" content="website">
@@ -29,7 +30,7 @@
   gtag('config', 'G-GLZDRJTXR8');
 </script>
 <script src="./support.js"></script>
-<script>window.TT_BUILD=1792812894;</script>
+<script>window.TT_BUILD=1792813061;</script>
 </head>
 <body>
 <noscript><h1>Tart Theory</h1><p>Handcrafted egg tarts inspired by flavors from around the world. Flaky crust, silky custard, baked fresh, new flavors every week. Pre-order online for pickup in Seattle (U District, South Lake Union) and Bellevue. Instagram: @tarttheory.eggtart</p></noscript>
@@ -961,14 +962,21 @@ class Component extends DCLogic {
   instagram() { return this.props.instagramId ?? 'tarttheory.eggtart'; }
   xiaohongshu() { return this.props.xiaohongshuId ?? 'tart_theory'; }
   money(n) { return (n % 1 === 0) ? ('$' + n) : ('$' + n.toFixed(2)); }
-  // Each language has its own link: tart-theory.com/?lang=zh and tart-theory.com/?lang=en (also /zh/ and /en/,
-  // which redirect here). No ?lang= means Chinese, the default. The toggle keeps the address bar in step so
-  // whatever link is copied from the browser opens in the language being viewed.
-  initialLang() { try { return new URLSearchParams(location.search).get('lang') === 'en' ? 'en' : 'zh'; } catch (e) { return 'zh'; } }
+  // Each language has its own link: tart-theory.com/ch (Chinese) and tart-theory.com/en (English). The same page
+  // is published at / (Chinese by default), /ch/ and /en/ -- ch/index.html and en/index.html are copies of this
+  // file (tools/sync-lang-pages.sh). The toggle keeps the address bar in step so a copied link opens in the
+  // language being viewed. The old ?lang=en form still works.
+  initialLang() {
+    try {
+      const m = /^\/(en|ch|zh)(\/|$)/.exec(location.pathname);
+      if (m) return m[1] === 'en' ? 'en' : 'zh';
+      return new URLSearchParams(location.search).get('lang') === 'en' ? 'en' : 'zh';
+    } catch (e) { return 'zh'; }
+  }
   toggleLang() {
     const next = this.state.lang === 'zh' ? 'en' : 'zh';
     this.setState({ lang: next });
-    try { const u = new URL(location.href); u.searchParams.set('lang', next); history.replaceState(null, '', u.pathname + u.search + u.hash); } catch (e) {}
+    try { history.replaceState(null, '', '/' + (next === 'en' ? 'en' : 'ch') + '/' + location.hash); } catch (e) {}
   }
 
   copyWechat() { this.copyHandle('wechat'); }
