@@ -7,6 +7,9 @@
 <title>Tart Theory | Fresh Egg Tarts in Seattle, Pre-order for Pickup</title>
 <meta name="description" content="Tart Theory bakes handcrafted egg tarts inspired by flavors from around the world. Flaky crust, silky custard, new flavors every week. Pre-order online for pickup in Seattle (U District, SLU) and Bellevue.">
 <link rel="canonical" href="https://tart-theory.com/">
+<link rel="alternate" hreflang="zh" href="https://tart-theory.com/?lang=zh">
+<link rel="alternate" hreflang="en" href="https://tart-theory.com/?lang=en">
+<link rel="alternate" hreflang="x-default" href="https://tart-theory.com/">
 <meta name="robots" content="index, follow">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Tart Theory">
@@ -26,7 +29,7 @@
   gtag('config', 'G-GLZDRJTXR8');
 </script>
 <script src="./support.js"></script>
-<script>window.TT_BUILD=1792615682;</script>
+<script>window.TT_BUILD=1792812894;</script>
 </head>
 <body>
 <noscript><h1>Tart Theory</h1><p>Handcrafted egg tarts inspired by flavors from around the world. Flaky crust, silky custard, baked fresh, new flavors every week. Pre-order online for pickup in Seattle (U District, South Lake Union) and Bellevue. Instagram: @tarttheory.eggtart</p></noscript>
@@ -946,7 +949,7 @@ class Component extends DCLogic {
       corn:{ zh:'玉米 · 玉米卡仕达 · 鸡蛋 · 牛奶 · 淡奶油 · 黄油', en:'Corn · Corn custard · Egg · Milk · Heavy whipping cream · Butter' },
     };
     this.THEME_VARS = { '--bg':'#FFFFFF','--surface':'#FAFAF8','--surface-2':'#F4F3F0','--text':'#3A2C1A','--muted':'#94826A','--line':'#ECEAE5','--accent':'#C24F0C','--accent-text':'#FFF8EC','--accent-soft':'#F7DDCB','--font-head':"'Noto Sans SC', 'Hanken Grotesk', system-ui, sans-serif",'--font-body':"'Noto Sans SC', 'Hanken Grotesk', system-ui, sans-serif",'--radius':'16px','--radius-sm':'12px','--head-weight':'600','--head-transform':'none','--head-spacing':'0','--shadow':'0 10px 30px rgba(90,60,20,.12)' };
-    this.state = { cart: this.restoreBag(), hbSize: 4, cartOpen: false, step: 'cart', orderNum: null, lang: 'zh', pickupDayId: null, pickupDaySelectedDate: null, reviewIdx: null, toastMsg: false, copiedWechat: false, copiedHandle: null, orderedQty: null, orderedQtyWeek: null };
+    this.state = { cart: this.restoreBag(), hbSize: 4, cartOpen: false, step: 'cart', orderNum: null, lang: this.initialLang(), pickupDayId: null, pickupDaySelectedDate: null, reviewIdx: null, toastMsg: false, copiedWechat: false, copiedHandle: null, orderedQty: null, orderedQtyWeek: null };
     this.trackViewportHeight();
     this.bindReviewKeys();
     this.startReviewDrift();
@@ -958,7 +961,15 @@ class Component extends DCLogic {
   instagram() { return this.props.instagramId ?? 'tarttheory.eggtart'; }
   xiaohongshu() { return this.props.xiaohongshuId ?? 'tart_theory'; }
   money(n) { return (n % 1 === 0) ? ('$' + n) : ('$' + n.toFixed(2)); }
-  toggleLang() { this.setState(s => ({ lang: s.lang==='zh' ? 'en' : 'zh' })); }
+  // Each language has its own link: tart-theory.com/?lang=zh and tart-theory.com/?lang=en (also /zh/ and /en/,
+  // which redirect here). No ?lang= means Chinese, the default. The toggle keeps the address bar in step so
+  // whatever link is copied from the browser opens in the language being viewed.
+  initialLang() { try { return new URLSearchParams(location.search).get('lang') === 'en' ? 'en' : 'zh'; } catch (e) { return 'zh'; } }
+  toggleLang() {
+    const next = this.state.lang === 'zh' ? 'en' : 'zh';
+    this.setState({ lang: next });
+    try { const u = new URL(location.href); u.searchParams.set('lang', next); history.replaceState(null, '', u.pathname + u.search + u.hash); } catch (e) {}
+  }
 
   copyWechat() { this.copyHandle('wechat'); }
   // Copies a social handle to the clipboard and shows a short "Copied" state on its row.
