@@ -393,12 +393,14 @@
 
   <section id="tt-menu" style="padding:clamp(44px,11vw,104px) clamp(16px,4vw,64px); max-width:1280px; margin:0 auto">
     <div style="display:flex; align-items:flex-end; justify-content:space-between; gap:16px; margin-bottom:24px; flex-wrap:wrap">
-      <div>
+      <div style="flex:1 1 auto">
         <div style="font-family:var(--font-body); font-size:11.5px; font-weight:700; letter-spacing:.06em; text-transform:uppercase; color:var(--accent); margin-bottom:8px">{{ t.menuLabel }}</div>
-        <h2 style="font-family:var(--font-head); font-weight:var(--head-weight); color:var(--text); font-size:clamp(24px,5vw,46px); margin:0 0 12px">{{ t.menuTitle }}</h2>
-        <div style="display:inline-flex; align-items:center; gap:6px; background:var(--accent-soft); border-radius:999px; padding:6px 12px">
-          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="var(--accent)" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex:none"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 3"/></svg>
-          <span style="font-family:var(--font-body); font-size:11px; font-weight:700; color:var(--accent); white-space:nowrap">{{ t.cutoffNotice }}</span>
+        <div style="display:flex; align-items:center; justify-content:space-between; gap:12px; flex-wrap:wrap">
+          <h2 style="font-family:var(--font-head); font-weight:var(--head-weight); color:var(--text); font-size:clamp(24px,5vw,46px); margin:0">{{ t.menuTitle }}</h2>
+          <div style="display:inline-flex; align-items:center; gap:6px; background:var(--accent-soft); border-radius:999px; padding:6px 12px; flex:none">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="var(--accent)" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex:none"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 3"/></svg>
+            <span style="font-family:var(--font-body); font-size:11px; font-weight:700; color:var(--accent); white-space:nowrap">{{ t.cutoffNotice }}</span>
+          </div>
         </div>
       </div>
     </div>
