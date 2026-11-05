@@ -461,6 +461,10 @@
               <div style="font-family:var(--font-body); color:var(--muted); font-size:12.5px; line-height:1.5">{{ st.note }}</div>
             </sc-if>
             <sc-if value="{{ st.hasBullets }}" hint-placeholder-val="">
+              <div style="display:inline-flex; align-items:center; gap:6px; background:var(--accent-soft); border-radius:999px; padding:6px 12px; margin-bottom:10px">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="var(--accent)" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex:none"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 3"/></svg>
+                <span style="font-family:var(--font-body); font-size:11px; font-weight:700; color:var(--accent); white-space:nowrap">{{ t.cutoffNotice }}</span>
+              </div>
               <div style="display:flex; flex-direction:column; gap:8px; margin-bottom:10px">
                 <sc-for list="{{ st.pickupCards }}" as="pc" hint-placeholder-count="3">
                   <div style="background:var(--surface-2); border:1px solid var(--line); border-radius:10px; padding:10px 12px; display:flex; align-items:center; justify-content:space-between; gap:10px">
