@@ -5,8 +5,8 @@
 <base href="/">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="icon" type="image/svg+xml" href="./favicon.svg">
-<title>Tart Theory | Fresh Egg Tarts in Seattle, Pre-order for Pickup</title>
-<meta name="description" content="Tart Theory bakes handcrafted egg tarts inspired by flavors from around the world. Flaky crust, silky custard, new flavors every week. Pre-order online for pickup in Seattle (U District, SLU) and Bellevue.">
+<title>Tart Theory | Fresh Asian-Fusion Egg Tarts in Seattle, Pre-order for Pickup</title>
+<meta name="description" content="Tart Theory is a Seattle bakery bringing innovative Asian-fusion flavors to the classic egg tart. Every tart is baked to order with a flaky, buttery crust and a silky custard filling. Available by preorder only, with weekend pickup in Seattle and Bellevue.">
 <link rel="canonical" href="https://tart-theory.com/">
 <link rel="alternate" hreflang="zh" href="https://tart-theory.com/ch/">
 <link rel="alternate" hreflang="en" href="https://tart-theory.com/en/">
@@ -14,12 +14,12 @@
 <meta name="robots" content="index, follow">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Tart Theory">
-<meta property="og:title" content="Tart Theory | Fresh Egg Tarts in Seattle">
-<meta property="og:description" content="Handcrafted egg tarts, new flavors every week. Pre-order for pickup in Seattle and Bellevue.">
+<meta property="og:title" content="Tart Theory | Fresh Asian-Fusion Egg Tarts in Seattle">
+<meta property="og:description" content="Tart Theory is a Seattle bakery bringing innovative Asian-fusion flavors to the classic egg tart. Preorder for weekend pickup in Seattle and Bellevue.">
 <meta property="og:url" content="https://tart-theory.com/">
 <meta name="twitter:card" content="summary">
 <script type="application/ld+json">
-{"@context":"https://schema.org","@type":"Bakery","name":"Tart Theory","alternateName":"Tart Theory Egg Tarts","url":"https://tart-theory.com/","description":"Handcrafted egg tarts inspired by flavors from around the world. Pre-order online for pickup.","servesCuisine":"Egg tarts","areaServed":["Seattle, WA","Bellevue, WA"],"address":{"@type":"PostalAddress","addressLocality":"Seattle","addressRegion":"WA","addressCountry":"US"},"sameAs":["https://instagram.com/tarttheory.eggtart"]}
+{"@context":"https://schema.org","@type":"Bakery","name":"Tart Theory","alternateName":"Tart Theory Egg Tarts","url":"https://tart-theory.com/","description":"Tart Theory is a Seattle bakery bringing innovative Asian-fusion flavors to the classic egg tart. Every tart is baked to order with a flaky, buttery crust and a silky custard filling. Available by preorder only, with weekend pickup in Seattle and Bellevue.","servesCuisine":"Asian fusion","areaServed":["Seattle, WA","Bellevue, WA"],"sameAs":["https://www.instagram.com/tarttheory.eggtart/"]}
 </script>
 <!-- Google tag (gtag.js) -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-GLZDRJTXR8"></script>
@@ -30,7 +30,7 @@
   gtag('config', 'G-GLZDRJTXR8');
 </script>
 <script src="./support.js"></script>
-<script>window.TT_BUILD=1792813036;</script>
+<script>window.TT_BUILD=1792813061;</script>
 </head>
 <body>
 <noscript><h1>Tart Theory</h1><p>Handcrafted egg tarts inspired by flavors from around the world. Flaky crust, silky custard, baked fresh, new flavors every week. Pre-order online for pickup in Seattle (U District, South Lake Union) and Bellevue. Instagram: @tarttheory.eggtart</p></noscript>
@@ -393,9 +393,15 @@
 
   <section id="tt-menu" style="padding:clamp(44px,11vw,104px) clamp(16px,4vw,64px); max-width:1280px; margin:0 auto">
     <div style="display:flex; align-items:flex-end; justify-content:space-between; gap:16px; margin-bottom:24px; flex-wrap:wrap">
-      <div>
+      <div style="flex:1 1 auto">
         <div style="font-family:var(--font-body); font-size:11.5px; font-weight:700; letter-spacing:.06em; text-transform:uppercase; color:var(--accent); margin-bottom:8px">{{ t.menuLabel }}</div>
-        <h2 style="font-family:var(--font-head); font-weight:var(--head-weight); color:var(--text); font-size:clamp(24px,5vw,46px); margin:0">{{ t.menuTitle }}</h2>
+        <div style="display:flex; align-items:center; justify-content:space-between; gap:12px; flex-wrap:wrap">
+          <h2 style="font-family:var(--font-head); font-weight:var(--head-weight); color:var(--text); font-size:clamp(24px,5vw,46px); margin:0">{{ t.menuTitle }}</h2>
+          <div style="display:inline-flex; align-items:center; gap:6px; background:var(--accent-soft); border-radius:999px; padding:6px 12px; flex:none">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="var(--accent)" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex:none"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 3"/></svg>
+            <span style="font-family:var(--font-body); font-size:11px; font-weight:700; color:var(--accent); white-space:nowrap">{{ t.cutoffNotice }}</span>
+          </div>
+        </div>
       </div>
     </div>
 
@@ -452,19 +458,24 @@
         <sc-for list="{{ steps }}" as="st" hint-placeholder-count="3">
           <div style="background:var(--surface); border:1px solid var(--line); border-radius:var(--radius); padding:18px">
             <div class="tt-ring" style="width:34px; height:34px; background:var(--accent); color:var(--accent-text); display:flex; align-items:center; justify-content:center; font-family:var(--font-head); font-weight:var(--head-weight); font-size:14.5px; margin-bottom:12px">{{ st.n }}</div>
-            <div style="font-family:var(--font-body); font-weight:700; color:var(--text); font-size:14px; margin-bottom:5px">{{ st.title }}</div>
+            <div style="display:flex; align-items:center; justify-content:space-between; gap:10px; flex-wrap:wrap; margin-bottom:5px">
+              <div style="font-family:var(--font-body); font-weight:700; color:var(--text); font-size:14px">{{ st.title }}</div>
+              <sc-if value="{{ st.hasBullets }}" hint-placeholder-val="">
+                <div style="display:inline-flex; align-items:center; gap:6px; background:var(--accent-soft); border-radius:999px; padding:6px 12px; flex:none">
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="var(--accent)" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex:none"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 3"/></svg>
+                  <span style="font-family:var(--font-body); font-size:11px; font-weight:700; color:var(--accent); white-space:nowrap">{{ t.cutoffNotice }}</span>
+                </div>
+              </sc-if>
+            </div>
             <sc-if value="{{ st.note }}" hint-placeholder-val="{{ true }}">
               <div style="font-family:var(--font-body); color:var(--muted); font-size:12.5px; line-height:1.5">{{ st.note }}</div>
             </sc-if>
             <sc-if value="{{ st.hasBullets }}" hint-placeholder-val="">
-              <div style="display:flex; flex-direction:column; gap:8px; margin-bottom:10px">
+              <div style="display:flex; flex-direction:column; gap:8px; margin-bottom:10px; margin-top:10px">
                 <sc-for list="{{ st.pickupCards }}" as="pc" hint-placeholder-count="3">
-                  <div style="background:var(--surface-2); border:1px solid var(--line); border-radius:10px; padding:10px 12px; display:flex; align-items:center; justify-content:space-between; gap:10px">
-                    <div>
-                      <div style="font-family:var(--font-body); font-weight:800; color:var(--text); font-size:12.5px">{{ pc.day }} · {{ pc.time }}</div>
-                      <div style="font-family:var(--font-body); color:var(--muted); font-size:10.5px; line-height:1.3; margin-top:2px">{{ pc.place }}</div>
-                    </div>
-                    <div style="font-family:var(--font-body); color:var(--accent); font-size:9.5px; font-weight:700; white-space:nowrap; text-align:right">{{ pc.cutoff }}</div>
+                  <div style="background:var(--surface-2); border:1px solid var(--line); border-radius:10px; padding:10px 12px">
+                    <div style="font-family:var(--font-body); font-weight:800; color:var(--text); font-size:12.5px">{{ pc.day }} · {{ pc.time }}</div>
+                    <div style="font-family:var(--font-body); color:var(--muted); font-size:10.5px; line-height:1.3; margin-top:2px">{{ pc.place }}</div>
                   </div>
                 </sc-for>
               </div>
@@ -641,7 +652,6 @@
                       <span style="font-weight:700; font-size:14px; text-align:left">{{ dopt.dateLabel }} · {{ dopt.timeLabel }}</span>
                       <span style="font-size:11.5px; opacity:.75; text-align:left">{{ dopt.fullPlace }}</span>
                     </span>
-                    <span style="font-size:10.5px; opacity:.65; white-space:nowrap">{{ dopt.cutoffLabel }}</span>
                   </button>
                 </sc-for>
               </div>
@@ -856,10 +866,12 @@ class Component extends DCLogic {
     this.DOWNTOWN_PLACE_ZH='西雅图市中心（具体地点将通过 Instagram/微信告知）'; this.DOWNTOWN_PLACE_EN='Downtown Seattle (exact spot shared via Instagram/WeChat)';
     this.UDISTRICT_PLACE_ZH='U District 茶千岁停车场'; this.UDISTRICT_PLACE_EN='Timeless Tea parking lot (U District)';
     this.SLU_PLACE_ZH='SLU Nitro Parking Garage (South) · P1 电梯间'; this.SLU_PLACE_EN='SLU Nitro Parking Garage (South) · P1 elevator lobby';
+    this.HMART_PLACE_ZH='Bellevue 市中心 H Mart 停车场'; this.HMART_PLACE_EN='Bellevue Downtown H Mart parking lot';
     this.PICKUP_SCHEDULE = [
       { id:'fri-udistrict', weekday:5, cutoffDays:1, timeZh:'下午3:30\u20134:00', timeEn:'3:30\u20134:00 PM', placeZh:this.UDISTRICT_PLACE_ZH, placeEn:this.UDISTRICT_PLACE_EN, mapQ:'Timeless Tea University District Seattle WA', shortZh:'U District 茶千岁', shortEn:'U District · Timeless Tea' },
       { id:'fri-slu', weekday:5, cutoffDays:1, timeZh:'下午4:30\u20135:00', timeEn:'4:30\u20135:00 PM', placeZh:this.SLU_PLACE_ZH, placeEn:this.SLU_PLACE_EN, mapQ:'Nitro South Parking Garage 7th Ave Seattle WA', shortZh:'SLU Nitro 停车场', shortEn:'SLU · Nitro Parking Garage' },
       { id:'sat', weekday:6, cutoffDays:1, timeZh:'下午3:00\u20133:30', timeEn:'3:00\u20133:30 PM', placeZh:this.PICKUP_PLACE_ZH, placeEn:this.PICKUP_PLACE_EN, mapQ:'T&T Supermarket Bellevue WA', shortZh:'Bellevue 大统华', shortEn:'Bellevue · T&T' },
+      { id:'sat-hmart', weekday:6, cutoffDays:1, timeZh:'下午4:00\u20134:30', timeEn:'4:00\u20134:30 PM', placeZh:this.HMART_PLACE_ZH, placeEn:this.HMART_PLACE_EN, mapQ:'H Mart Bellevue WA', shortZh:'Bellevue H Mart', shortEn:'Bellevue · H Mart' },
     ];
     // Orders close the night before each pickup day: 10 PM, or 9 PM for pickups on/after this date.
     this.CUTOFF_9PM_FROM = '2026-10-16';
@@ -888,6 +900,7 @@ class Component extends DCLogic {
         brandBlurb:'一家只专注做蛋挞的小店。提前下单，扫码付款，温热取走。', wechatLabel:'微信',
         copiedId:'已复制', emptyBagMsg:'你的袋子还是空的，去挑几个蛋挞吧。', sendingOrder:'正在提交订单…', pickupDayLabel:'选择取货时间', pickupOpensNextWeek:'下一周的取货时间将于周六下午 5 点发布，请稍后查看。', soldOutThisWeek:'抱歉，本周的蛋挞名额已订满，请下周再来 :)', lowStockThisWeek:(n)=>'本周只剩 '+n+' 个名额，请减少数量后再试。', copied:'已复制微信号！',
         boxPromo:'优惠活动：任选四颗，仅需 $20！', boxPromoSub:'全口味自由混搭，四颗更划算',
+        cutoffNotice:'周四9点截止下单',
         backToBag:'\u2190 返回购物车', orderReservedTitle:'订单已预留', venmoPayBtn:(t)=>'在 Venmo 支付 '+t, venmoQrNote:'无法跳转到 Venmo？点这里', tlPay:'付款', tlPayText:(t)=>'用 Venmo 支付 '+t+'。', tlSend:'发送截图', tlSendText:(o,n,id)=>'请把订单号截图和付款截图发送至'+n+'，客服确认后即可锁定订单。', tlPickup:'取货', itemsMore:(n)=>'还有 '+n+' 款，点击展开', itemsLess:'收起', tlPickupNote:'我们会在取货当天约提前 30 分钟告知确切的到达时间和停车位置。', tlPickupText:'自取时请出示订单截图，或直接告诉我们你的 Venmo 用户名。', copyVenmo:'复制 Venmo ID', copyChannelWechat:'复制微信号', shotBtn:'保存订单到相册', shotBusy:'生成中…', shotSaved:'已保存至相册', shotHold:'长按图片，选择“存储到相册”。', shotDownload:'下载图片', shotClose:'关闭', ticketSub:'自取订单', careTitle:'保存与加热小贴士', careLines:['当天享用口感最佳。吃不完可放冰箱冷藏2-3天，吃前可复热：','微波炉：先取下锡纸壳，加热 30 秒。','烤箱 / 空气炸锅：无需取下锡纸壳，180°C（350°F）加热 3-5 分钟。'], ticketFoot:'自取时请出示订单截图，或告诉我们你的 Venmo 用户名。', yourOrderNumberLabel:'你的订单号',
         nextBtn:'下一步', stepBag:'确认口味', stepPickup:'选择取货时间', stepPay:'结账', hbTag:'限定', hbTitle:'万圣节礼盒', hbSub:'固定口味，每盒附赠小礼品。', hbEnds:(d,e)=>e+' 结束 · 还剩 '+d+' 天', hbEndsToday:(e)=>e+' 结束 · 仅限今天', hbInside:'盒内口味', hbAdd:'加入购物车', hbBest:'更划算', hbFixed:'固定口味', hbEach:(p)=>p+'/个', hbTreat:(t)=>'附赠'+t, hbAddBox:(n,p)=>'加入 '+n+' 个装 · '+p, hbPieces:(n)=>n+' 个挞', pickupTitle:'取货', totalLabel:'总计', eachSuffix:'/每个', heroWordA:'现烤', heroWordB:'酥脆', heroWordC:'浓郁',
         confirm1:(t)=>'扫描上方二维码支付 '+t+'。', confirm2:(o,w)=>'将订单号 '+o+' 和付款截图发送到微信：'+w+'。', confirm3:(s,tm)=>'在 '+s+'，'+tm+' 取货。出示相册里保存的订单、订单号，或直接告诉我们你的 Venmo 用户名，我们会现场为你核实。' },
@@ -908,6 +921,7 @@ class Component extends DCLogic {
         brandBlurb:'A small bakery obsessed with one pastry. Order ahead, pay by QR, collect warm.', wechatLabel:'Instagram',
         copiedId:'Copied', emptyBagMsg:'Your bag is empty. Time to pick some tarts!', sendingOrder:'Sending your order...', pickupDayLabel:'Choose your pickup time', pickupOpensNextWeek:'Next week\'s pickup times open Saturday at 5 PM. Check back soon.', soldOutThisWeek:'Sorry, we\'re sold out this week. Check back next week!', lowStockThisWeek:(n)=>'Only '+n+' left this week. Please lower your quantity.', copied:'WeChat ID copied!',
         boxPromo:'Any 4 for $20!', boxPromoSub:'Mix and match any flavors. Perfect for sharing, or keeping all to yourself. We won\'t judge.',
+        cutoffNotice:'Preorder closes at 9pm Thursdays',
         backToBag:'\u2190 Back to bag', orderReservedTitle:'Order reserved', venmoPayBtn:(t)=>'Pay '+t+' on Venmo', venmoQrNote:'Can\'t open Venmo? Tap here', tlPay:'Pay', tlPayText:(t)=>'Pay '+t+' on Venmo.', tlSend:'Send us your screenshots', tlSendText:(o,n,id)=>'DM us a screenshot of your order and your Venmo payment on '+n+'. We\'ll confirm your order once we see them.', tlPickup:'Pickup', itemsMore:(n)=>'Show '+n+' more', itemsLess:'Show less', tlPickupNote:'On pickup day, we\'ll send the exact arrival time and parking spot about 30 minutes ahead.', tlPickupText:'Show your order screenshot at pickup, or just give us your Venmo name.', copyVenmo:'Copy Venmo ID', copyChannelWechat:'Copy Instagram ID', shotBtn:'Save order to Photos', shotBusy:'Preparing…', shotSaved:'Saved to Photos', shotHold:'Press and hold the image, then tap Save to Photos.', shotDownload:'Download image', shotClose:'Close', ticketSub:'Pickup order', careTitle:'Storing & reheating', careLines:['Egg tarts are best the day you get them. Refrigerate leftovers for up to 3 days. Reheat before serving:','Microwave: Remove the foil cup and heat for 30 seconds.','Oven or air fryer: Leave the foil cup on and bake at 350\u00b0F for 3\u20135 minutes.'], ticketFoot:'Show this at pickup, or just give us your Venmo name.', yourOrderNumberLabel:'Your order number',
         nextBtn:'Next', stepBag:'Your bag', stepPickup:'Pickup time', stepPay:'Checkout', hbTag:'LIMITED', hbTitle:'Halloween Gift Boxes', hbSub:'Fixed flavors with a treat.', hbEnds:(d,e)=>'Ends '+e+' · '+d+(d===1?' day left':' days left'), hbEndsToday:(e)=>'Ends '+e+' · last day', hbInside:'WHAT\'S INSIDE', hbAdd:'Add to bag', hbBest:'best value', hbFixed:'fixed flavors', hbEach:(p)=>p+'/tart', hbTreat:(t)=>'+ '+t, hbAddBox:(n,p)=>'Add Box of '+n+' \u00b7 '+p, hbPieces:(n)=>n+' tarts', pickupTitle:'Pickup', totalLabel:'Total', eachSuffix:' each', heroWordA:'Fresh-Baked', heroWordB:'Flaky', heroWordC:'Rich',
         confirm1:(t)=>'Scan the QR above to pay '+t+'.', confirm2:(o,w)=>'Send your order number '+o+' and the payment screenshot to us on Instagram: '+w+'.', confirm3:(s,tm)=>'Collect at '+s+', '+tm+'. Show your saved order, your order number, or just tell us your Venmo name — we\'ll confirm you there.' },
