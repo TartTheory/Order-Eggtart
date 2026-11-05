@@ -456,16 +456,20 @@
         <sc-for list="{{ steps }}" as="st" hint-placeholder-count="3">
           <div style="background:var(--surface); border:1px solid var(--line); border-radius:var(--radius); padding:18px">
             <div class="tt-ring" style="width:34px; height:34px; background:var(--accent); color:var(--accent-text); display:flex; align-items:center; justify-content:center; font-family:var(--font-head); font-weight:var(--head-weight); font-size:14.5px; margin-bottom:12px">{{ st.n }}</div>
-            <div style="font-family:var(--font-body); font-weight:700; color:var(--text); font-size:14px; margin-bottom:5px">{{ st.title }}</div>
+            <div style="display:flex; align-items:center; justify-content:space-between; gap:10px; flex-wrap:wrap; margin-bottom:5px">
+              <div style="font-family:var(--font-body); font-weight:700; color:var(--text); font-size:14px">{{ st.title }}</div>
+              <sc-if value="{{ st.hasBullets }}" hint-placeholder-val="">
+                <div style="display:inline-flex; align-items:center; gap:6px; background:var(--accent-soft); border-radius:999px; padding:6px 12px; flex:none">
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="var(--accent)" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex:none"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 3"/></svg>
+                  <span style="font-family:var(--font-body); font-size:11px; font-weight:700; color:var(--accent); white-space:nowrap">{{ t.cutoffNotice }}</span>
+                </div>
+              </sc-if>
+            </div>
             <sc-if value="{{ st.note }}" hint-placeholder-val="{{ true }}">
               <div style="font-family:var(--font-body); color:var(--muted); font-size:12.5px; line-height:1.5">{{ st.note }}</div>
             </sc-if>
             <sc-if value="{{ st.hasBullets }}" hint-placeholder-val="">
-              <div style="display:inline-flex; align-items:center; gap:6px; background:var(--accent-soft); border-radius:999px; padding:6px 12px; margin-bottom:10px">
-                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="var(--accent)" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex:none"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 3"/></svg>
-                <span style="font-family:var(--font-body); font-size:11px; font-weight:700; color:var(--accent); white-space:nowrap">{{ t.cutoffNotice }}</span>
-              </div>
-              <div style="display:flex; flex-direction:column; gap:8px; margin-bottom:10px">
+              <div style="display:flex; flex-direction:column; gap:8px; margin-bottom:10px; margin-top:10px">
                 <sc-for list="{{ st.pickupCards }}" as="pc" hint-placeholder-count="3">
                   <div style="background:var(--surface-2); border:1px solid var(--line); border-radius:10px; padding:10px 12px">
                     <div style="font-family:var(--font-body); font-weight:800; color:var(--text); font-size:12.5px">{{ pc.day }} · {{ pc.time }}</div>
