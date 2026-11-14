@@ -397,9 +397,9 @@
         <div style="font-family:var(--font-body); font-size:11.5px; font-weight:700; letter-spacing:.06em; text-transform:uppercase; color:var(--accent); margin-bottom:8px">{{ t.menuLabel }}</div>
         <div style="display:flex; align-items:center; justify-content:space-between; gap:12px; flex-wrap:wrap">
           <h2 style="font-family:var(--font-head); font-weight:var(--head-weight); color:var(--text); font-size:clamp(24px,5vw,46px); margin:0">{{ t.menuTitle }}</h2>
-          <div style="display:inline-flex; align-items:center; gap:6px; background:var(--accent-soft); border-radius:999px; padding:6px 12px; flex:none">
-            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="var(--accent)" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex:none"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 3"/></svg>
-            <span style="font-family:var(--font-body); font-size:11px; font-weight:700; color:var(--accent); white-space:nowrap">{{ t.cutoffNotice }}</span>
+          <div style="{{ pillStyle }}">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex:none"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 3"/></svg>
+            <span style="font-family:var(--font-body); font-size:11px; font-weight:700; color:inherit; white-space:nowrap">{{ pillText }}</span>
           </div>
         </div>
       </div>
@@ -461,9 +461,9 @@
             <div style="display:flex; align-items:center; justify-content:space-between; gap:10px; flex-wrap:wrap; margin-bottom:5px">
               <div style="font-family:var(--font-body); font-weight:700; color:var(--text); font-size:14px">{{ st.title }}</div>
               <sc-if value="{{ st.hasBullets }}" hint-placeholder-val="">
-                <div style="display:inline-flex; align-items:center; gap:6px; background:var(--accent-soft); border-radius:999px; padding:6px 12px; flex:none">
-                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="var(--accent)" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex:none"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 3"/></svg>
-                  <span style="font-family:var(--font-body); font-size:11px; font-weight:700; color:var(--accent); white-space:nowrap">{{ t.cutoffNotice }}</span>
+                <div style="{{ pillStyle }}">
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex:none"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 3"/></svg>
+                  <span style="font-family:var(--font-body); font-size:11px; font-weight:700; color:inherit; white-space:nowrap">{{ pillText }}</span>
                 </div>
               </sc-if>
             </div>
@@ -479,8 +479,25 @@
                   </div>
                 </sc-for>
               </div>
-              <sc-if value="{{ st.afterNote }}" hint-placeholder-val="">
-                <div style="font-family:var(--font-body); color:var(--muted); font-size:11.5px; line-height:1.5; font-style:italic">{{ st.afterNote }}</div>
+              <sc-if value="{{ st.closed }}" hint-placeholder-val="">
+              <div style="font-family:var(--font-body)">
+                <div style="font-size:11.5px; font-weight:700; color:var(--muted); margin:2px 0 8px">{{ t.nextWeekLabel }}</div>
+                <div style="display:flex; flex-direction:column; gap:8px">
+                  <sc-for list="{{ previewCards }}" as="pv" hint-placeholder-count="2">
+                    <div style="background:var(--surface-2); border:1px solid var(--line); border-radius:10px; padding:10px 12px; opacity:.55; filter:grayscale(1); text-align:left">
+                      <div style="font-weight:800; color:var(--text); font-size:13px">{{ pv.day }} · {{ pv.time }}</div>
+                      <div style="color:var(--muted); font-size:11px; line-height:1.35; margin-top:2px">{{ pv.place }}</div>
+                      <span style="display:inline-block; margin-top:6px; font-size:10.5px; font-weight:700; color:#6E6151; background:#E6E2DA; padding:2px 8px; border-radius:999px">{{ t.opensTag }}</span>
+                    </div>
+                  </sc-for>
+                </div>
+                <div style="color:var(--muted); font-size:12px; line-height:1.55; margin:10px 2px 0; text-align:left">{{ t.closedNote }}</div>
+                <div style="margin-top:12px; padding:12px 13px; border-radius:12px; background:var(--bg); border:1px dashed #D8D2C6; text-align:left">
+                  <div style="font-weight:700; font-size:13.5px; color:var(--text); margin-bottom:3px">{{ t.missedTitle }}</div>
+                  <div style="color:var(--muted); font-size:12px; line-height:1.55; margin-bottom:10px">{{ t.missedBody }}</div>
+                  <button onClick="{{ copyMissed }}" style="{{ missedBtnStyle }}">{{ missedBtnLabel }}</button>
+                </div>
+              </div>
               </sc-if>
             </sc-if>
             <sc-if value="{{ st.hasQr }}" hint-placeholder-val="">
@@ -657,7 +674,24 @@
               </div>
             </sc-if>
             <sc-if value="{{ !hasPickupOptions }}" hint-placeholder-val="">
-              <div style="font-family:var(--font-body); color:var(--muted); font-size:12.5px; line-height:1.5; background:var(--surface-2); border:1px solid var(--line); border-radius:var(--radius-sm); padding:12px 14px">{{ t.pickupOpensNextWeek }}</div>
+              <div style="font-family:var(--font-body)">
+                <div style="font-size:11.5px; font-weight:700; color:var(--muted); margin:10px 0 8px">{{ t.nextWeekLabel }}</div>
+                <div style="display:flex; flex-direction:column; gap:8px">
+                  <sc-for list="{{ previewCards }}" as="pv" hint-placeholder-count="2">
+                    <div style="background:var(--surface-2); border:1px solid var(--line); border-radius:10px; padding:10px 12px; opacity:.55; filter:grayscale(1); text-align:left">
+                      <div style="font-weight:800; color:var(--text); font-size:13px">{{ pv.day }} · {{ pv.time }}</div>
+                      <div style="color:var(--muted); font-size:11px; line-height:1.35; margin-top:2px">{{ pv.place }}</div>
+                      <span style="display:inline-block; margin-top:6px; font-size:10.5px; font-weight:700; color:#6E6151; background:#E6E2DA; padding:2px 8px; border-radius:999px">{{ t.opensTag }}</span>
+                    </div>
+                  </sc-for>
+                </div>
+                <div style="color:var(--muted); font-size:12px; line-height:1.55; margin:10px 2px 0; text-align:left">{{ t.closedNote }}</div>
+                <div style="margin-top:12px; padding:12px 13px; border-radius:12px; background:var(--bg); border:1px dashed #D8D2C6; text-align:left">
+                  <div style="font-weight:700; font-size:13.5px; color:var(--text); margin-bottom:3px">{{ t.missedTitle }}</div>
+                  <div style="color:var(--muted); font-size:12px; line-height:1.55; margin-bottom:10px">{{ t.missedBody }}</div>
+                  <button onClick="{{ copyMissed }}" style="{{ missedBtnStyle }}">{{ missedBtnLabel }}</button>
+                </div>
+              </div>
             </sc-if>
           </div>
           </sc-if>
@@ -809,6 +843,16 @@
       </div>
     </sc-if>
 
+    <sc-if value="{{ closedFooter }}" hint-placeholder-val="">
+      <div style="flex:none; border-top:1px solid var(--line); padding:15px 18px; display:flex; flex-direction:column; gap:11px">
+        <div style="display:flex; justify-content:space-between; align-items:baseline; font-family:var(--font-body); font-weight:800; color:var(--text); font-size:17px">
+          <span>{{ t.totalLabel }}</span>
+          <span>{{ totalLabel }}</span>
+        </div>
+        <button disabled style="width:100%; padding:15px; border:none; border-radius:var(--radius-sm); background:#D9D4CB; color:#fff; font-family:var(--font-body); font-weight:700; font-size:15px; cursor:default">{{ t.nextOff }}</button>
+      </div>
+    </sc-if>
+
     <sc-if value="{{ capBlockedFooter }}" hint-placeholder-val="">
       <div style="flex:none; border-top:1px solid var(--line); padding:15px 18px">
         <div style="font-family:var(--font-body); color:var(--muted); font-size:12.5px; line-height:1.5; background:var(--surface-2); border:1px solid var(--line); border-radius:var(--radius-sm); padding:12px 14px">{{ capBlockedMsg }}</div>
@@ -870,10 +914,10 @@ class Component extends DCLogic {
     this.PICKUP_SCHEDULE = [
       { id:'fri-udistrict', weekday:5, cutoffDays:1, timeZh:'下午3:30\u20134:00', timeEn:'3:30\u20134:00 PM', placeZh:this.UDISTRICT_PLACE_ZH, placeEn:this.UDISTRICT_PLACE_EN, mapQ:'Timeless Tea University District Seattle WA', shortZh:'U District 茶千岁', shortEn:'U District · Timeless Tea' },
       { id:'fri-slu', weekday:5, cutoffDays:1, timeZh:'下午4:30\u20135:00', timeEn:'4:30\u20135:00 PM', placeZh:this.SLU_PLACE_ZH, placeEn:this.SLU_PLACE_EN, mapQ:'Nitro South Parking Garage 7th Ave Seattle WA', shortZh:'SLU Nitro 停车场', shortEn:'SLU · Nitro Parking Garage' },
-      { id:'sat', weekday:6, cutoffDays:1, timeZh:'下午3:00\u20133:30', timeEn:'3:00\u20133:30 PM', placeZh:this.PICKUP_PLACE_ZH, placeEn:this.PICKUP_PLACE_EN, mapQ:'T&T Supermarket Bellevue WA', shortZh:'Bellevue 大统华', shortEn:'Bellevue · T&T' },
-      { id:'sat-hmart', weekday:6, cutoffDays:1, timeZh:'下午4:00\u20134:30', timeEn:'4:00\u20134:30 PM', placeZh:this.HMART_PLACE_ZH, placeEn:this.HMART_PLACE_EN, mapQ:'H Mart Bellevue WA', shortZh:'Bellevue H Mart', shortEn:'Bellevue · H Mart' },
+      { id:'sat', weekday:6, cutoffDays:2, timeZh:'下午3:00\u20133:30', timeEn:'3:00\u20133:30 PM', placeZh:this.PICKUP_PLACE_ZH, placeEn:this.PICKUP_PLACE_EN, mapQ:'T&T Supermarket Bellevue WA', shortZh:'Bellevue 大统华', shortEn:'Bellevue · T&T' },
+      { id:'sat-hmart', weekday:6, cutoffDays:2, timeZh:'下午4:00\u20134:30', timeEn:'4:00\u20134:30 PM', placeZh:this.HMART_PLACE_ZH, placeEn:this.HMART_PLACE_EN, mapQ:'H Mart Bellevue WA', shortZh:'Bellevue H Mart', shortEn:'Bellevue · H Mart' },
     ];
-    // Orders close the night before each pickup day: 10 PM, or 9 PM for pickups on/after this date.
+    // Orders close at 9 PM (10 PM before CUTOFF_9PM_FROM) cutoffDays before the pickup day: Friday slots the night before, Saturday slots on Thursday too, so the whole week closes Thursday 9 PM.
     this.CUTOFF_9PM_FROM = '2026-10-16';
     this.PICKUP_SKIP = { 'fri-udistrict': ['2026-08-28'], 'fri-slu': ['2026-08-28'] };
     // Weekly baking cap: total tarts (all flavors combined) allowed for a given
@@ -900,7 +944,7 @@ class Component extends DCLogic {
         brandBlurb:'一家只专注做蛋挞的小店。提前下单，扫码付款，温热取走。', wechatLabel:'微信',
         copiedId:'已复制', emptyBagMsg:'你的袋子还是空的，去挑几个蛋挞吧。', sendingOrder:'正在提交订单…', pickupDayLabel:'选择取货时间', pickupOpensNextWeek:'下一周的取货时间将于周六下午 5 点发布，请稍后查看。', soldOutThisWeek:'抱歉，本周的蛋挞名额已订满，请下周再来 :)', lowStockThisWeek:(n)=>'本周只剩 '+n+' 个名额，请减少数量后再试。', copied:'已复制微信号！',
         boxPromo:'优惠活动：任选四颗，仅需 $20！', boxPromoSub:'全口味自由混搭，四颗更划算',
-        cutoffNotice:'周四9点截止下单',
+        cutoffNotice:'周四9点截止下单', closedNotice:'本周预订已截止', nextWeekLabel:'下周取货', opensTag:'周六 5 PM 开放', closedNote:'下周的订单将于本周六下午 5 点开放，到时就可以选择了。', missedTitle:'错过了截止时间，还想这周取货？', missedBody:'给我们发微信，我们会尽量帮你安排。', missedBtn:'复制微信号', nextOff:'周六 5 PM 开放预订',
         backToBag:'\u2190 返回购物车', orderReservedTitle:'订单已预留', venmoPayBtn:(t)=>'在 Venmo 支付 '+t, venmoQrNote:'无法跳转到 Venmo？点这里', tlPay:'付款', tlPayText:(t)=>'用 Venmo 支付 '+t+'。', tlSend:'发送截图', tlSendText:(o,n,id)=>'请把订单号截图和付款截图发送至'+n+'，客服确认后即可锁定订单。', tlPickup:'取货', itemsMore:(n)=>'还有 '+n+' 款，点击展开', itemsLess:'收起', tlPickupNote:'我们会在取货当天约提前 30 分钟告知确切的到达时间和停车位置。', tlPickupText:'自取时请出示订单截图，或直接告诉我们你的 Venmo 用户名。', copyVenmo:'复制 Venmo ID', copyChannelWechat:'复制微信号', shotBtn:'保存订单到相册', shotBusy:'生成中…', shotSaved:'已保存至相册', shotHold:'长按图片，选择“存储到相册”。', shotDownload:'下载图片', shotClose:'关闭', ticketSub:'自取订单', careTitle:'保存与加热小贴士', careLines:['当天享用口感最佳。吃不完可放冰箱冷藏2-3天，吃前可复热：','微波炉：先取下锡纸壳，加热 30 秒。','烤箱 / 空气炸锅：无需取下锡纸壳，180°C（350°F）加热 3-5 分钟。'], ticketFoot:'自取时请出示订单截图，或告诉我们你的 Venmo 用户名。', yourOrderNumberLabel:'你的订单号',
         nextBtn:'下一步', stepBag:'确认口味', stepPickup:'选择取货时间', stepPay:'结账', hbTag:'限定', hbTitle:'万圣节礼盒', hbSub:'固定口味，每盒附赠小礼品。', hbEnds:(d,e)=>e+' 结束 · 还剩 '+d+' 天', hbEndsToday:(e)=>e+' 结束 · 仅限今天', hbInside:'盒内口味', hbAdd:'加入购物车', hbBest:'更划算', hbFixed:'固定口味', hbEach:(p)=>p+'/个', hbTreat:(t)=>'附赠'+t, hbAddBox:(n,p)=>'加入 '+n+' 个装 · '+p, hbPieces:(n)=>n+' 个挞', pickupTitle:'取货', totalLabel:'总计', eachSuffix:'/每个', heroWordA:'现烤', heroWordB:'酥脆', heroWordC:'浓郁',
         confirm1:(t)=>'扫描上方二维码支付 '+t+'。', confirm2:(o,w)=>'将订单号 '+o+' 和付款截图发送到微信：'+w+'。', confirm3:(s,tm)=>'在 '+s+'，'+tm+' 取货。出示相册里保存的订单、订单号，或直接告诉我们你的 Venmo 用户名，我们会现场为你核实。' },
@@ -921,7 +965,7 @@ class Component extends DCLogic {
         brandBlurb:'A small bakery obsessed with one pastry. Order ahead, pay by QR, collect warm.', wechatLabel:'Instagram',
         copiedId:'Copied', emptyBagMsg:'Your bag is empty. Time to pick some tarts!', sendingOrder:'Sending your order...', pickupDayLabel:'Choose your pickup time', pickupOpensNextWeek:'Next week\'s pickup times open Saturday at 5 PM. Check back soon.', soldOutThisWeek:'Sorry, we\'re sold out this week. Check back next week!', lowStockThisWeek:(n)=>'Only '+n+' left this week. Please lower your quantity.', copied:'WeChat ID copied!',
         boxPromo:'Any 4 for $20!', boxPromoSub:'Mix and match any flavors. Perfect for sharing, or keeping all to yourself. We won\'t judge.',
-        cutoffNotice:'Preorder closes at 9pm Thursdays',
+        cutoffNotice:'Preorder closes at 9pm Thursdays', closedNotice:'This week\'s preorders are closed', nextWeekLabel:'Next week', opensTag:'Opens Sat 5 PM', closedNote:'Orders for next week open this Saturday at 5 PM. You can pick a slot then.', missedTitle:'Missed the cutoff but still want tarts this week?', missedBody:'Message us on Instagram and we\'ll do our best to fit you in.', missedBtn:'Copy Instagram ID', nextOff:'Ordering opens Sat 5 PM',
         backToBag:'\u2190 Back to bag', orderReservedTitle:'Order reserved', venmoPayBtn:(t)=>'Pay '+t+' on Venmo', venmoQrNote:'Can\'t open Venmo? Tap here', tlPay:'Pay', tlPayText:(t)=>'Pay '+t+' on Venmo.', tlSend:'Send us your screenshots', tlSendText:(o,n,id)=>'DM us a screenshot of your order and your Venmo payment on '+n+'. We\'ll confirm your order once we see them.', tlPickup:'Pickup', itemsMore:(n)=>'Show '+n+' more', itemsLess:'Show less', tlPickupNote:'On pickup day, we\'ll send the exact arrival time and parking spot about 30 minutes ahead.', tlPickupText:'Show your order screenshot at pickup, or just give us your Venmo name.', copyVenmo:'Copy Venmo ID', copyChannelWechat:'Copy Instagram ID', shotBtn:'Save order to Photos', shotBusy:'Preparing…', shotSaved:'Saved to Photos', shotHold:'Press and hold the image, then tap Save to Photos.', shotDownload:'Download image', shotClose:'Close', ticketSub:'Pickup order', careTitle:'Storing & reheating', careLines:['Egg tarts are best the day you get them. Refrigerate leftovers for up to 3 days. Reheat before serving:','Microwave: Remove the foil cup and heat for 30 seconds.','Oven or air fryer: Leave the foil cup on and bake at 350\u00b0F for 3\u20135 minutes.'], ticketFoot:'Show this at pickup, or just give us your Venmo name.', yourOrderNumberLabel:'Your order number',
         nextBtn:'Next', stepBag:'Your bag', stepPickup:'Pickup time', stepPay:'Checkout', hbTag:'LIMITED', hbTitle:'Halloween Gift Boxes', hbSub:'Fixed flavors with a treat.', hbEnds:(d,e)=>'Ends '+e+' · '+d+(d===1?' day left':' days left'), hbEndsToday:(e)=>'Ends '+e+' · last day', hbInside:'WHAT\'S INSIDE', hbAdd:'Add to bag', hbBest:'best value', hbFixed:'fixed flavors', hbEach:(p)=>p+'/tart', hbTreat:(t)=>'+ '+t, hbAddBox:(n,p)=>'Add Box of '+n+' \u00b7 '+p, hbPieces:(n)=>n+' tarts', pickupTitle:'Pickup', totalLabel:'Total', eachSuffix:' each', heroWordA:'Fresh-Baked', heroWordB:'Flaky', heroWordC:'Rich',
         confirm1:(t)=>'Scan the QR above to pay '+t+'.', confirm2:(o,w)=>'Send your order number '+o+' and the payment screenshot to us on Instagram: '+w+'.', confirm3:(s,tm)=>'Collect at '+s+', '+tm+'. Show your saved order, your order number, or just tell us your Venmo name — we\'ll confirm you there.' },
@@ -1202,6 +1246,26 @@ class Component extends DCLogic {
       cutoffLabelZh: zhWeekday[cutoff.getDay()]+' '+cutoff.getHours()+':00 前下单',
       cutoffLabelEn: 'Order by '+enWeekday[cutoff.getDay()]+' '+(cutoff.getHours()-12)+'PM' }))
       .sort((a,b)=>a.date-b.date);
+  }
+  // While nothing is bookable (Thursday 9 PM until Saturday 5 PM), the slots of the next pickup week, shown greyed out.
+  nextWeekPreview() {
+    const now = new Date();
+    const zhWeekday = ['周日','周一','周二','周三','周四','周五','周六'], enWeekday = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
+    const isoDate = (dt) => dt.getFullYear()+'-'+String(dt.getMonth()+1).padStart(2,'0')+'-'+String(dt.getDate()).padStart(2,'0');
+    const anchorSat = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+    anchorSat.setDate(anchorSat.getDate() + ((6 - anchorSat.getDay() + 7) % 7));
+    for (let week = 0; week < 3; week++) {
+      const list = this.PICKUP_SCHEDULE.map(sch => {
+        const d = new Date(anchorSat); d.setDate(d.getDate() + (sch.weekday - 6));
+        const cutoff = new Date(d); cutoff.setDate(cutoff.getDate()-(sch.cutoffDays||1)); cutoff.setHours(isoDate(d) >= this.CUTOFF_9PM_FROM ? 21 : 22,0,0,0);
+        return { ...sch, date:d, cutoff };
+      }).filter(o => now.getTime() <= o.cutoff.getTime() && !(((this.PICKUP_SKIP && this.PICKUP_SKIP[o.id]) || []).includes(isoDate(o.date))));
+      if (list.length) return list.sort((a,b)=>a.date-b.date).map(o => ({ ...o,
+        dateLabelZh: zhWeekday[o.date.getDay()]+' '+(o.date.getMonth()+1)+'月'+o.date.getDate()+'日',
+        dateLabelEn: enWeekday[o.date.getDay()]+' '+(o.date.getMonth()+1)+'/'+o.date.getDate() }));
+      anchorSat.setDate(anchorSat.getDate() + 7);
+    }
+    return [];
   }
   selectPickupDay(id) {
     const o = this.computePickupOptions().find(x=>x.id===id);
@@ -1592,15 +1656,20 @@ class Component extends DCLogic {
       closeReview: () => this.closeReview(), prevReview: e => { e && e.stopPropagation && e.stopPropagation(); this.stepReview(-1); }, nextReview: e => { e && e.stopPropagation && e.stopPropagation(); this.stepReview(1); },
       stopClick: e => { e && e.stopPropagation && e.stopPropagation(); },
       menuPrev: () => this.scrollMenu(-1), menuNext: () => this.scrollMenu(1),
+      pillText: hasPickupOptions ? L.cutoffNotice : L.closedNotice,
+      pillStyle: { display:'inline-flex', alignItems:'center', gap:'6px', borderRadius:'999px', padding:'6px 12px', flex:'none', background: hasPickupOptions ? 'var(--accent-soft)' : '#ECE9E3', color: hasPickupOptions ? 'var(--accent)' : '#6E6151' },
+      previewCards: hasPickupOptions ? [] : this.nextWeekPreview().map(o => ({ day: isZh ? o.dateLabelZh : o.dateLabelEn, time: isZh ? o.timeZh : o.timeEn, place: isZh ? o.placeZh : o.placeEn })),
+      copyMissed: () => this.copyText('missed', isZh ? this.wechat() : this.instagram()),
+      missedBtnLabel: this.state.copiedKey === 'missed' ? L.copiedId : (L.missedBtn + ' \u00b7 ' + (isZh ? this.wechat() : this.instagram())),
+      missedBtnStyle: { border:'1.5px solid var(--accent)', background: this.state.copiedKey === 'missed' ? 'var(--accent)' : 'transparent', color: this.state.copiedKey === 'missed' ? 'var(--accent-text)' : 'var(--accent)', fontWeight:'700', fontSize:'12.5px', padding:'7px 14px', borderRadius:'999px', cursor:'pointer', fontFamily:'var(--font-body)' },
+      closedFooter: (this.state.step==='cart' || this.state.step==='pickup') && cartItems.length>0 && !hasPickupOptions,
       faqs: L.faq.map(f => ({ q: f.q, a: typeof f.a === 'function' ? f.a({ wechat: this.wechat(), instagram: this.instagram() }) : f.a })),
       steps: [
         { n:'1', title: isZh?'加入购物车':'Add to Bag', note: isZh?'挑选喜欢的口味，加入购物车，确认总金额。':'Pick your flavors, add them to your bag, and check the total.' },
         { n:'2', title: isZh?'Venmo 付款':'Pay via Venmo', note: isZh?'通过 Venmo 付款给我们，截图保存你的付款确认页面。':'Pay on Venmo, then take a screenshot of the confirmation.', hasQr:true, hasRealQr:true, qrId:'artisan-venmo-qr', qrImg:'uploads/venmo-qr.png', qrStyle:{width:'150px',height:'150px',margin:'12px auto 0',borderRadius:'12px',objectFit:'cover',display:'block'}, qrLabel: this.venmo(), confirmShot:true },
         { n:'3', title: isZh?'添加微信':'Follow & DM us on Instagram', note: isZh?'添加我们的微信，发送付款截图确认。':'Follow us on Instagram and DM us a screenshot of your payment.', hasQr:true, hasRealQr:true, qrId: isZh?'artisan-wechat-qr':'artisan-instagram-qr', qrImg: isZh?'uploads/wechat-qr.jpg':'uploads/instagram-qr.png', qrStyle:{width:'150px',height:'150px',margin:'12px auto 0',borderRadius:'12px',objectFit:'cover',display:'block'}, qrLabel: isZh?this.wechat():this.instagram() },
         { n:'4', title: isZh?'定点自取':'Pickup', hasBullets:true, pickupCards,
-          afterNote: pickupCards.length>0
-            ? ''
-            : (isZh?'下一周的取货时间将于周六下午 5 点发布，请稍后查看。':'Next week\'s pickup times open Saturday at 5 PM. Check back soon.') },
+          closed: !hasPickupOptions },
       ],
       confirmSteps: [
         { n:'1', text: L.confirm1(this.money(total)) },
