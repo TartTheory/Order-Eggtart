@@ -30,7 +30,7 @@
   gtag('config', 'G-GLZDRJTXR8');
 </script>
 <script src="./support.js"></script>
-<script>window.TT_BUILD=1794628704;</script>
+<script>window.TT_BUILD=1794628745;</script>
 </head>
 <body>
 <noscript><h1>Tart Theory</h1><p>Handcrafted egg tarts inspired by flavors from around the world. Flaky crust, silky custard, baked fresh, new flavors every week. Pre-order online for pickup in Seattle (U District, South Lake Union) and Bellevue. Instagram: @tarttheory.eggtart</p></noscript>
@@ -488,7 +488,7 @@
               </div>
               <sc-if value="{{ st.closed }}" hint-placeholder-val="">
               <div style="font-family:var(--font-body)">
-                <div style="font-size:11.5px; font-weight:700; color:var(--muted); margin:2px 0 8px">{{ t.nextWeekLabel }}</div>
+                <div id="tt-closed-note" style="font-size:12px; line-height:1.5; font-weight:700; color:var(--muted); margin:2px 0 10px">{{ t.closedNote }}</div>
                 <div style="display:flex; flex-direction:column; gap:8px">
                   <sc-for list="{{ previewCards }}" as="pv" hint-placeholder-count="2">
                     <div style="background:var(--surface-2); border:1px solid var(--line); border-radius:10px; padding:10px 12px; opacity:.55; filter:grayscale(1); text-align:left">
@@ -497,7 +497,6 @@
                     </div>
                   </sc-for>
                 </div>
-                <div id="tt-closed-note" style="color:var(--muted); font-size:12px; line-height:1.55; margin:10px 2px 0; text-align:left">{{ t.closedNote }}</div>
                 <div style="margin-top:12px; padding:12px 13px; border-radius:12px; background:var(--bg); border:1px dashed #D8D2C6; text-align:left">
                   <div style="font-weight:700; font-size:13.5px; color:var(--text); margin-bottom:3px">{{ t.missedTitle }}</div>
                   <div style="color:var(--muted); font-size:12px; line-height:1.55; margin-bottom:10px">{{ t.missedBody }}</div>
@@ -681,7 +680,7 @@
             </sc-if>
             <sc-if value="{{ !hasPickupOptions }}" hint-placeholder-val="">
               <div style="font-family:var(--font-body)">
-                <div style="font-size:11.5px; font-weight:700; color:var(--muted); margin:10px 0 8px">{{ t.nextWeekLabel }}</div>
+                <div style="font-size:12px; line-height:1.5; font-weight:700; color:var(--muted); margin:10px 0 8px">{{ t.closedNote }}</div>
                 <div style="display:flex; flex-direction:column; gap:8px">
                   <sc-for list="{{ previewCards }}" as="pv" hint-placeholder-count="2">
                     <div style="background:var(--surface-2); border:1px solid var(--line); border-radius:10px; padding:10px 12px; opacity:.55; filter:grayscale(1); text-align:left">
@@ -690,7 +689,6 @@
                     </div>
                   </sc-for>
                 </div>
-                <div style="color:var(--muted); font-size:12px; line-height:1.55; margin:10px 2px 0; text-align:left">{{ t.closedNote }}</div>
                 <div style="margin-top:12px; padding:12px 13px; border-radius:12px; background:var(--bg); border:1px dashed #D8D2C6; text-align:left">
                   <div style="font-weight:700; font-size:13.5px; color:var(--text); margin-bottom:3px">{{ t.missedTitle }}</div>
                   <div style="color:var(--muted); font-size:12px; line-height:1.55; margin-bottom:10px">{{ t.missedBody }}</div>
