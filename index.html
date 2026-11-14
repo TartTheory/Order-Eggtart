@@ -30,7 +30,7 @@
   gtag('config', 'G-GLZDRJTXR8');
 </script>
 <script src="./support.js"></script>
-<script>window.TT_BUILD=1794628456;</script>
+<script>window.TT_BUILD=1794628646;</script>
 </head>
 <body>
 <noscript><h1>Tart Theory</h1><p>Handcrafted egg tarts inspired by flavors from around the world. Flaky crust, silky custard, baked fresh, new flavors every week. Pre-order online for pickup in Seattle (U District, South Lake Union) and Bellevue. Instagram: @tarttheory.eggtart</p></noscript>
@@ -402,7 +402,10 @@
             <span style="font-family:var(--font-body); font-size:11px; font-weight:700; color:inherit; white-space:nowrap">{{ pillText }}</span>
           </div>
     <sc-if value="{{ isClosed }}" hint-placeholder-val="">
-      <button onClick="{{ goClosedNote }}" style="display:inline-flex; align-items:center; gap:6px; margin:-10px 0 20px; padding:6px 12px; border:none; border-radius:999px; background:#ECE9E3; color:#6E6151; font-family:var(--font-body); font-size:12px; font-weight:700; cursor:pointer">{{ t.missedLink }}<span aria-hidden="true">&rarr;</span></button>
+      <div style="display:flex; align-items:center; flex-wrap:wrap; gap:6px 10px; margin:-10px 0 20px">
+        <span style="display:inline-flex; align-items:center; gap:6px; border-radius:999px; padding:6px 12px; background:#ECE9E3; color:#6E6151; font-family:var(--font-body); font-size:11px; font-weight:700; white-space:nowrap"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex:none"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 3"/></svg>{{ t.closedNotice }}</span>
+        <button onClick="{{ goClosedNote }}" style="border:none; background:none; padding:0; color:var(--accent); font-family:var(--font-body); font-size:12px; font-weight:600; cursor:pointer; text-decoration:underline; text-underline-offset:2px; text-align:left">{{ t.missedTitle }}</button>
+      </div>
     </sc-if>
         </div>
       </div>
