@@ -30,7 +30,7 @@
   gtag('config', 'G-GLZDRJTXR8');
 </script>
 <script src="./support.js"></script>
-<script>window.TT_BUILD=1794897361;</script>
+<script>window.TT_BUILD=1794897553;</script>
 </head>
 <body>
 <noscript><h1>Tart Theory</h1><p>Handcrafted egg tarts inspired by flavors from around the world. Flaky crust, silky custard, baked fresh, new flavors every week. Pre-order online for pickup in Seattle (U District, South Lake Union) and Bellevue. Instagram: @tarttheory.eggtart</p></noscript>
@@ -290,6 +290,10 @@
   .tt-tgopts { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; padding: 10px 10px 20px; }
   .tt-tgoc { position: relative; cursor: pointer; border: 2px solid #5A3B27; border-radius: 14px; padding: 11px 10px 24px; text-align: center; background: #2F1E14; color: #fff; font-family: var(--font-body); }
   .tt-tgoc.on { border-color: #F2B04C; background: #43291A; }
+  /* ordering closed: the same "missed the cutoff, message us" note the rest of the site shows, dressed for the dark section */
+  .tt-tgmiss { margin: 0 10px 20px; padding: 12px 13px; border-radius: 12px; border: 1px dashed #5A3B27; background: #2F1E14; text-align: left; font-family: var(--font-body); }
+  .tt-tgmiss b { display: block; font-weight: 700; font-size: 13.5px; color: #FFF3DF; margin-bottom: 3px; }
+  .tt-tgmiss p { margin: 0 0 10px; font-size: 12px; line-height: 1.55; color: #cfc4ba; }
   .tt-tgoc.off { padding-bottom: 12px; opacity: .6; cursor: default; }  /* ordering closed: still browsable, nothing to add */
   .tt-tgoh { display: flex; flex-direction: column; align-items: center; }
   .tt-tgoh > b { font-size: 14px; font-weight: 800; }
@@ -402,6 +406,13 @@
             </div>
           </sc-for>
         </div>
+        <sc-if value="{{ hbClosed }}" hint-placeholder-val="">
+          <div class="tt-tgmiss">
+            <b>{{ t.missedTitle }}</b>
+            <p>{{ t.missedBody }}</p>
+            <button onClick="{{ copyMissed }}" style="{{ hbMissedBtnStyle }}">{{ missedBtnLabel }}</button>
+          </div>
+        </sc-if>
       </div>
     </div>
   </section>
@@ -1713,6 +1724,8 @@ class Component extends DCLogic {
     const HW = this.THANKSGIVING, hwLeft = new Date(HW.endsISO).getTime() - Date.now(), hwOpen = hwLeft > 0, hwDays = Math.max(1, Math.ceil(hwLeft/86400000));
     const hwCur = HW.boxes.find(b=>b.n===this.state.hbSize) || HW.boxes[0], hwQty = this.state.cart[hwCur.id] || 0, hwEnd = isZh ? HW.endsLabelZh : HW.endsLabelEn;
     const hw = {
+      hbClosed: !hwOpen,
+      hbMissedBtnStyle: { border:'1.5px solid #F2B04C', background: this.state.copiedKey === 'missed' ? '#F2B04C' : 'transparent', color: this.state.copiedKey === 'missed' ? '#2B1B12' : '#F2B04C', fontWeight:'700', fontSize:'12.5px', padding:'7px 14px', borderRadius:'999px', cursor:'pointer', fontFamily:'var(--font-body)' },
       thanksgivingOn: new Date(HW.hideISO || HW.endsISO).getTime() > Date.now(),
       hbEndsText: !hwOpen ? L.hbClosed(hwEnd) : (hwDays <= 1 ? L.hbEndsToday(hwEnd) : L.hbEnds(hwDays, hwEnd)),
       hbOpts: HW.boxes.map(b => { const each = '$' + (b.price / b.n).toFixed(2), q = this.state.cart[b.id] || 0; return { n:b.n, label: isZh ? b.n + ' 个装' : 'Box of ' + b.n, price: this.money(b.price),
