@@ -30,7 +30,7 @@
   gtag('config', 'G-GLZDRJTXR8');
 </script>
 <script src="./support.js"></script>
-<script>window.TT_BUILD=1794687816;</script>
+<script>window.TT_BUILD=1794897361;</script>
 </head>
 <body>
 <noscript><h1>Tart Theory</h1><p>Handcrafted egg tarts inspired by flavors from around the world. Flaky crust, silky custard, baked fresh, new flavors every week. Pre-order online for pickup in Seattle (U District, South Lake Union) and Bellevue. Instagram: @tarttheory.eggtart</p></noscript>
@@ -230,67 +230,81 @@
   .tt-ht:nth-child(2) { width: calc(235 * var(--u)); top: 0; left: calc(50% - 117.6 * var(--u)); }
   .tt-ht:nth-child(3) { left: calc(50% + 45 * var(--u)); }
   .tt-ht:nth-child(3) img { transform: scaleX(-1) !important; }
-  /* Halloween gift boxes (limited) */
-  /* ghost sheet: the white menu rises into the section as a ghost with two eyes peeking over the middle hump */
-  .tt-hwg { position: absolute; left: 0; right: 0; bottom: -1px; width: 100%; height: 60px; display: block; pointer-events: none; z-index: 1; }
-  .tt-hweye { position: absolute; left: 50%; bottom: 22px; width: 38px; height: 14px; margin-left: -19px; display: block; pointer-events: none; z-index: 2; }
-  .tt-hw { background: #1d1612; color: #fff; position: relative; padding: 18px 16px 60px; --hwo: 320px; }
-  .tt-hwi { max-width: 440px; margin: 0 auto; }
-  .tt-hwtop { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
-  .tt-hwtag { background: var(--accent); color: #fff; font-family: var(--font-body); font-weight: 800; font-size: 10.5px; letter-spacing: .08em; padding: 4px 10px; border-radius: 999px; }
-  .tt-hwend { font-family: var(--font-body); font-weight: 700; font-size: 11.5px; color: #F6A04A; }
-  .tt-hw h2 { font-family: Anton, sans-serif; font-weight: 400; text-transform: uppercase; font-size: clamp(30px, 8.6vw, 44px); line-height: 1; margin: 8px 0 12px; letter-spacing: 0; color: #fff; }
-  [data-lang="zh"] .tt-hw h2 { font-family: 'Noto Sans SC', sans-serif; font-weight: 900; text-transform: none; font-size: clamp(28px, 8vw, 40px); }
-  .tt-hwsub { margin: 0 0 14px; font-family: var(--font-body); font-size: 13px; line-height: 1.5; color: #d8cfc6; }
-  .tt-hwcard { background: #2a201a; border-radius: 20px; overflow: hidden; padding-bottom: 10px; }
+  /* Thanksgiving gift boxes (limited) */
+  /* fall ingredients (leaves, cranberries, pecans, cinnamon, acorns) straddle the top and bottom edges so the dark section blends into the white page */
+  .tt-tge { position: absolute; left: 0; right: 0; height: 40px; background: url(uploads/thanksgiving-edge.svg) repeat-x 0 0 / 360px 40px; pointer-events: none; z-index: 3; }
+  .tt-tget { top: -20px; }
+  .tt-tgeb { bottom: -20px; background-position: -140px 0; }
+  .tt-tg { background: #2B1B12; color: #fff; position: relative; padding: 30px 16px 60px; --hwo: 320px; }
+  .tt-tgi { max-width: 440px; margin: 0 auto; }
+  .tt-tgtop { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+  .tt-tgtag { background: var(--accent); color: #fff; font-family: var(--font-body); font-weight: 800; font-size: 10.5px; letter-spacing: .08em; padding: 4px 10px; border-radius: 999px; }
+  .tt-tgend { font-family: var(--font-body); font-weight: 700; font-size: 11.5px; color: #F2B04C; }
+  .tt-tg h2 { font-family: Anton, sans-serif; font-weight: 400; text-transform: uppercase; font-size: clamp(30px, 8.6vw, 44px); line-height: 1; margin: 8px 0 12px; letter-spacing: 0; color: #fff; }
+  [data-lang="zh"] .tt-tg h2 { font-family: 'Noto Sans SC', sans-serif; font-weight: 900; text-transform: none; font-size: clamp(28px, 8vw, 40px); }
+  .tt-tgsub { margin: 0 0 14px; font-family: var(--font-body); font-size: 13px; line-height: 1.5; color: #d8cfc6; }
+  .tt-tgcard { background: #3A2518; border-radius: 20px; overflow: hidden; padding-bottom: 10px; }
   /* story player */
-  .tt-hwst { position: relative; aspect-ratio: 1 / 1; width: 100%; background: #120d0a; user-select: none; -webkit-user-select: none; -webkit-tap-highlight-color: transparent; }
-  .tt-hwbars { position: absolute; left: 10px; right: 10px; top: 10px; display: flex; gap: 4px; z-index: 5; }
-  .tt-hwbars i { flex: 1; height: 3px; border-radius: 2px; background: rgba(255,255,255,.28); overflow: hidden; }
-  .tt-hwbars i b { display: block; height: 100%; width: 0; background: #fff; }
-  .tt-hwsl { position: absolute; inset: 0; opacity: 0; transition: opacity .35s; display: flex; align-items: center; justify-content: center; padding: 34px 12px 112px; pointer-events: none; }
-  .tt-hwsl.on { opacity: 1; }
-  .tt-hwst.pst .tt-hwcap { display: none; }  /* photo slides carry their own labels, so no caption on them */
-  .tt-hwsl .tt-hwph { position: absolute; inset: 0; overflow: hidden; }
-  .tt-hwsl .tt-hwph img { position: absolute; display: block; max-width: none; max-height: none; }
-  .tt-hwsl .tt-hwph .ph { inset: 0; width: 100%; height: 100%; object-fit: cover; }
-  .tt-hwsl img { max-width: 100%; max-height: 100%; object-fit: contain; display: block; }
-  .tt-hwsl img.cut { mix-blend-mode: screen; }
-  .tt-hwsl .tt-hwgrid { height: 100%; max-width: 100%; width: auto; }
-  .tt-hwgrid { position: relative; display: grid; gap: 4px; padding: 10px; background: #1d1612; border-radius: 12px; }
-  .tt-hwgrid img { width: 100%; aspect-ratio: 1; object-fit: contain; }
-  .tt-hwrib { position: absolute; left: 0; right: 0; top: 50%; height: 7px; margin-top: -3px; background: var(--accent); }
-  .tt-hwcap { position: absolute; left: 0; right: 0; bottom: 0; padding: 40px 16px 12px; background: linear-gradient(transparent, rgba(10,6,4,.92) 45%); z-index: 4; pointer-events: none; }
-  .tt-hwcap small { color: #F6A04A; font-family: var(--font-body); font-weight: 800; font-size: 10.5px; letter-spacing: .1em; }
-  .tt-hwcap b { display: block; font-family: Anton, sans-serif; font-weight: 400; text-transform: uppercase; font-size: 20px; margin: 3px 0 4px; letter-spacing: .01em; }
-  [data-lang="zh"] .tt-hwcap b { font-family: 'Noto Sans SC', sans-serif; font-weight: 900; text-transform: none; font-size: 19px; }
-  .tt-hwcap p { margin: 0; font-family: var(--font-body); font-size: 12.5px; line-height: 1.4; color: #e8dfd6; }
-  .tt-hwzl, .tt-hwzr { position: absolute; top: 0; bottom: 0; z-index: 3; cursor: pointer; }
-  .tt-hwzl { left: 0; width: 24%; } .tt-hwzr { right: 0; width: 24%; }
-  .tt-hwze { position: absolute; top: 0; bottom: 0; left: 24%; right: 24%; z-index: 3; cursor: zoom-in; }
-  .tt-hwex { position: absolute; right: 40px; top: 18px; z-index: 6; width: 26px; height: 26px; border-radius: 50%; background: rgba(0,0,0,.4); border: 1px solid rgba(255,255,255,.25); cursor: pointer; padding: 0; display: grid; place-items: center; }
-  .tt-hwex svg { width: 12px; height: 12px; }
-  /* Halloween box photos in the bag, pickup and checkout steps: round like the tart thumbnails */
-  .tt-drawer img[src*="uploads/halloween/"] { border-radius: 50% !important; object-fit: cover !important; filter: none !important; box-shadow: 0 2px 6px rgba(60,35,5,.28); }
-  .tt-hwlb { position: fixed; inset: 0; z-index: 130; background: rgba(8,5,3,.95); display: flex; align-items: center; justify-content: center; touch-action: none; overscroll-behavior: contain; animation: ttHwLb .25s ease; }
+  .tt-tgst { position: relative; aspect-ratio: 1 / 1; width: 100%; background: #1c110b; user-select: none; -webkit-user-select: none; -webkit-tap-highlight-color: transparent; }
+  .tt-tgbars { position: absolute; left: 10px; right: 10px; top: 10px; display: flex; gap: 4px; z-index: 5; }
+  .tt-tgbars i { flex: 1; height: 3px; border-radius: 2px; background: rgba(255,255,255,.28); overflow: hidden; }
+  .tt-tgbars i b { display: block; height: 100%; width: 0; background: #fff; }
+  .tt-tgsl { position: absolute; inset: 0; opacity: 0; transition: opacity .35s; display: flex; align-items: center; justify-content: center; padding: 34px 12px 112px; pointer-events: none; }
+  .tt-tgsl.on { opacity: 1; }
+  .tt-tgcap { display: none !important; }  /* the description sits under the picture (#tt-tgdesc), not on it */
+  .tt-tgdesc { padding: 14px 16px 2px; min-height: 86px; box-sizing: border-box; }
+  .tt-tgdesc b { display: block; font-family: var(--font-body); font-weight: 800; font-size: 15px; color: #FFF3DF; margin-bottom: 4px; }
+  .tt-tgdesc p { margin: 0; font-family: var(--font-body); font-size: 13px; line-height: 1.5; color: #e8dfd6; }
+  .tt-tgdesc.big p { text-wrap: balance; font-size: 15px; font-weight: 800; line-height: 1.4; color: #FFF3DF; }  /* the box intro is the headline on the first slide */
+  .tt-tgst.pst .tt-tgcap { display: none; }  /* photo slides carry their own labels, so no caption on them */
+  .tt-tgsl .tt-tgph { position: absolute; inset: 0; overflow: hidden; }
+  .tt-tgsl .tt-tgph img { position: absolute; display: block; max-width: none; max-height: none; }
+  .tt-tgsl .tt-tgph .ph { inset: 0; width: 100%; height: 100%; object-fit: cover; }
+  .tt-tgsl .tt-tgph .pp { object-position: 50% 40%; }  /* portrait flavor photos in the square frame: keep the tart and its cut half clear of the bottom edge; the handwritten name may sit a little under the buttons */
+  .tt-tgsl img { max-width: 100%; max-height: 100%; object-fit: contain; display: block; }
+  .tt-tgsl img.cut { mix-blend-mode: screen; }
+  .tt-tgsl .tt-tggrid { height: 100%; max-width: 100%; width: auto; }
+  .tt-tggrid { position: relative; display: grid; gap: 4px; padding: 10px; background: #2B1B12; border-radius: 12px; }
+  .tt-tggrid img { width: 100%; aspect-ratio: 1; object-fit: contain; }
+  .tt-tgrib { position: absolute; left: 0; right: 0; top: 50%; height: 7px; margin-top: -3px; background: var(--accent); }
+  .tt-tgcap { position: absolute; left: 0; right: 0; bottom: 0; padding: 40px 16px 12px; background: linear-gradient(transparent, rgba(20,10,5,.92) 45%); z-index: 4; pointer-events: none; }
+  .tt-tgcap small { color: #F2B04C; font-family: var(--font-body); font-weight: 800; font-size: 10.5px; letter-spacing: .1em; }
+  .tt-tgcap b { display: block; font-family: Anton, sans-serif; font-weight: 400; text-transform: uppercase; font-size: 20px; margin: 3px 0 4px; letter-spacing: .01em; }
+  [data-lang="zh"] .tt-tgcap b { font-family: 'Noto Sans SC', sans-serif; font-weight: 900; text-transform: none; font-size: 19px; }
+  .tt-tgcap p { margin: 0; font-family: var(--font-body); font-size: 12.5px; line-height: 1.4; color: #e8dfd6; }
+  .tt-tgzl, .tt-tgzr { position: absolute; top: 0; bottom: 0; z-index: 3; cursor: pointer; }
+  .tt-tgzl { left: 0; width: 24%; } .tt-tgzr { right: 0; width: 24%; }
+  .tt-tgze { position: absolute; top: 0; bottom: 0; left: 24%; right: 24%; z-index: 3; cursor: zoom-in; }
+  .tt-tgex { position: absolute; right: 40px; top: 18px; z-index: 6; width: 26px; height: 26px; border-radius: 50%; background: rgba(0,0,0,.4); border: 1px solid rgba(255,255,255,.25); cursor: pointer; padding: 0; display: grid; place-items: center; }
+  .tt-tgex svg { width: 12px; height: 12px; }
+  /* Thanksgiving box photos in the bag, pickup and checkout steps: round like the tart thumbnails */
+  .tt-drawer img[src*="uploads/thanksgiving/"] { border-radius: 50% !important; object-fit: cover !important; filter: none !important; box-shadow: 0 2px 6px rgba(60,35,5,.28); }
+  .tt-tglb { position: fixed; inset: 0; z-index: 130; background: rgba(8,5,3,.95); display: flex; align-items: center; justify-content: center; touch-action: none; overscroll-behavior: contain; animation: ttHwLb .25s ease; }
   @keyframes ttHwLb { from { opacity: 0; } }
-  .tt-hwlb img { max-width: 96vw; max-height: 88vh; max-height: 88svh; object-fit: contain; border-radius: 10px; display: block; user-select: none; -webkit-user-select: none; }
-  .tt-hwlb button { position: absolute; border: 0; cursor: pointer; border-radius: 50%; width: 42px; height: 42px; background: rgba(255,255,255,.16); color: #fff; font-size: 24px; line-height: 1; display: grid; place-items: center; }
-  .tt-hwlb .x { top: 14px; right: 14px; } .tt-hwlb .pv { left: 8px; top: 50%; margin-top: -21px; } .tt-hwlb .nx { right: 8px; top: 50%; margin-top: -21px; }
-  .tt-hwlb .ct { position: absolute; bottom: 20px; left: 0; right: 0; text-align: center; color: #fff; font: 700 13px var(--font-body); opacity: .8; }
-  .tt-hwpl { position: absolute; right: 8px; top: 18px; z-index: 6; width: 26px; height: 26px; border-radius: 50%; background: rgba(0,0,0,.4); color: #fff; border: 1px solid rgba(255,255,255,.25); cursor: pointer; font-size: 12px; padding: 0; }
+  .tt-tglb img { max-width: 96vw; max-height: 88vh; max-height: 88svh; object-fit: contain; border-radius: 10px; display: block; user-select: none; -webkit-user-select: none; }
+  .tt-tglb button { position: absolute; border: 0; cursor: pointer; border-radius: 50%; width: 42px; height: 42px; background: rgba(255,255,255,.16); color: #fff; font-size: 24px; line-height: 1; display: grid; place-items: center; }
+  .tt-tglb .x { top: 14px; right: 14px; } .tt-tglb .pv { left: 8px; top: 50%; margin-top: -21px; } .tt-tglb .nx { right: 8px; top: 50%; margin-top: -21px; }
+  .tt-tglb .ct { position: absolute; bottom: 20px; left: 0; right: 0; text-align: center; color: #fff; font: 700 13px var(--font-body); opacity: .8; }
+  .tt-tgpl { position: absolute; right: 8px; top: 18px; z-index: 6; width: 26px; height: 26px; border-radius: 50%; background: rgba(0,0,0,.4); color: #fff; border: 1px solid rgba(255,255,255,.25); cursor: pointer; font-size: 12px; padding: 0; }
   /* size cards; the add button is a round + straddling the bottom edge of each card */
-  .tt-hwopts { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; padding: 10px 10px 20px; }
-  .tt-hwoc { position: relative; cursor: pointer; border: 2px solid #4a3b31; border-radius: 14px; padding: 11px 10px 24px; text-align: center; background: #221a15; color: #fff; font-family: var(--font-body); }
-  .tt-hwoc.on { border-color: #F6A04A; background: #2f241c; }
-  .tt-hwoh { display: flex; flex-direction: column; align-items: center; }
-  .tt-hwoh > b { font-size: 14px; font-weight: 800; }
-  .tt-hwoh > span { font-family: Anton, sans-serif; font-size: 27px; color: #F6A04A; line-height: 1.15; margin: 1px 0; }
-  .tt-hwoc > small { display: block; color: #cfc4ba; font-size: 11px; line-height: 1.3; }
-  .tt-hwa { position: absolute; left: 50%; bottom: -19px; margin-left: -19px; width: 38px; height: 38px; border-radius: 50%; border: 3px solid #2a201a; background: var(--accent); color: #fff; font-size: 24px; font-weight: 600; line-height: 1; padding: 0; cursor: pointer; display: grid; place-items: center; }
-  .tt-hwms { position: absolute; left: 50%; bottom: -19px; transform: translateX(-50%); display: flex; align-items: center; gap: 2px; background: #1d1612; border: 3px solid #2a201a; border-radius: 999px; padding: 2px; white-space: nowrap; }
-  .tt-hwms button { width: 30px; height: 30px; border: 0; border-radius: 50%; background: var(--accent); color: #fff; font-size: 17px; font-weight: 700; cursor: pointer; padding: 0; line-height: 1; }
-  .tt-hwms span { font-family: var(--font-body); font-weight: 800; font-size: 14px; min-width: 22px; text-align: center; }
+  .tt-tgopts { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; padding: 10px 10px 20px; }
+  .tt-tgoc { position: relative; cursor: pointer; border: 2px solid #5A3B27; border-radius: 14px; padding: 11px 10px 24px; text-align: center; background: #2F1E14; color: #fff; font-family: var(--font-body); }
+  .tt-tgoc.on { border-color: #F2B04C; background: #43291A; }
+  .tt-tgoh { display: flex; flex-direction: column; align-items: center; }
+  .tt-tgoh > b { font-size: 14px; font-weight: 800; }
+  .tt-tgoh > span { font-family: Anton, sans-serif; font-size: 27px; color: #F2B04C; line-height: 1.15; margin: 1px 0; }
+  .tt-tgoc > small { display: block; color: #cfc4ba; font-size: 11px; line-height: 1.3; }
+  .tt-tga { position: absolute; left: 50%; bottom: -19px; margin-left: -19px; width: 38px; height: 38px; border-radius: 50%; border: 3px solid #3A2518; background: var(--accent); color: #fff; font-size: 24px; font-weight: 600; line-height: 1; padding: 0; cursor: pointer; display: grid; place-items: center; }
+  .tt-tgms { position: absolute; left: 50%; bottom: -19px; transform: translateX(-50%); display: flex; align-items: center; gap: 2px; background: #2B1B12; border: 3px solid #3A2518; border-radius: 999px; padding: 2px; white-space: nowrap; }
+  .tt-tgms button { width: 30px; height: 30px; border: 0; border-radius: 50%; background: var(--accent); color: #fff; font-size: 17px; font-weight: 700; cursor: pointer; padding: 0; line-height: 1; }
+  .tt-tgms span { font-family: var(--font-body); font-weight: 800; font-size: 14px; min-width: 22px; text-align: center; }
+  /* placeholder avatar, until the real picture arrives */
+  .tt-tgph2 { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 34px 20px 24px; }
+  .tt-tgph2 .av { width: 46%; aspect-ratio: 1; border-radius: 50%; border: 3px dashed rgba(255,255,255,.55); background: rgba(0,0,0,.12); }
+  .tt-tgph2 .nm { margin-top: 14px; font-family: Anton, sans-serif; text-transform: uppercase; font-size: 24px; color: #fff; text-shadow: 0 1px 8px rgba(0,0,0,.3); }
+  [data-lang="zh"] .tt-tgph2 .nm { font-family: 'Noto Sans SC', sans-serif; font-weight: 900; text-transform: none; }
+  .tt-tgph2 .fl { margin-top: 4px; font-size: 12.5px; font-weight: 600; color: rgba(255,255,255,.9); }
+  .tt-tgph2 .tagc { position: absolute; left: 14px; bottom: 12px; font-size: 10.5px; font-weight: 800; letter-spacing: .1em; color: rgba(255,255,255,.85); }
   @keyframes ttStk { 0%,100% { transform: rotate(var(--r)); } 50% { transform: rotate(calc(var(--r) + 4deg)) translateY(calc(-5 * var(--u))); } }
   @media (prefers-reduced-motion: reduce) { .tt-stk { animation: none; } }
   .tt-pill { display: inline-flex; align-items: center; justify-content: center; flex: none; height: calc(27 * var(--u)); padding: 0 calc(12 * var(--u)); margin: 0 auto calc(15 * var(--u)); max-width: 100%; border-radius: 999px; background: var(--accent-soft); color: var(--accent); font-family: var(--font-body); font-weight: 700; font-size: calc(11.5 * var(--u)); line-height: 1; white-space: nowrap; }
@@ -366,23 +380,24 @@
     </section>
   </sc-if>
 
-  <sc-if value="{{ halloweenOn }}" hint-placeholder-val="">
-  <section id="tt-halloween" class="tt-hw">
-    <svg class="tt-hwg" viewBox="0 0 375 110" preserveAspectRatio="none" aria-hidden="true"><path fill="#FFFFFF" d="M0,110V70C0,46 26,34 58,34C92,34 108,60 118,72C122,77 128,77 132,72C148,52 162,18 190,18C218,18 232,52 248,72C252,77 258,77 262,72C272,60 288,34 322,34C354,34 375,48 375,70V110Z"/></svg>
-    <svg class="tt-hweye" viewBox="0 0 38 14" aria-hidden="true"><ellipse cx="9" cy="7" rx="7.5" ry="5" transform="rotate(20 9 7)" fill="#1d1612"/><ellipse cx="29" cy="7" rx="7.5" ry="5" transform="rotate(-20 29 7)" fill="#1d1612"/></svg>
-    <div class="tt-hwi">
-      <div class="tt-hwtop"><span class="tt-hwtag">{{ t.hbTag }}</span><span class="tt-hwend">{{ hbEndsText }}</span></div>
+  <sc-if value="{{ thanksgivingOn }}" hint-placeholder-val="">
+  <section id="tt-thanksgiving" class="tt-tg">
+    <div class="tt-tge tt-tget" aria-hidden="true"></div>
+    <div class="tt-tge tt-tgeb" aria-hidden="true"></div>
+    <div class="tt-tgi">
+      <div class="tt-tgtop"><span class="tt-tgtag">{{ t.hbTag }}</span><span class="tt-tgend">{{ hbEndsText }}</span></div>
       <h2>{{ t.hbTitle }}</h2>
-      <p class="tt-hwsub">{{ t.hbSub }}</p>
-      <div class="tt-hwcard">
-        <div id="tt-hwstory" class="tt-hwst" aria-live="off"></div>
-        <div class="tt-hwopts">
+      <p class="tt-tgsub">{{ t.hbSub }}</p>
+      <div class="tt-tgcard">
+        <div id="tt-tgstory" class="tt-tgst" aria-live="off"></div>
+        <div id="tt-tgdesc" class="tt-tgdesc"><b></b><p></p></div>
+        <div class="tt-tgopts">
           <sc-for list="{{ hbOpts }}" as="o" hint-placeholder-count="2">
             <div class="{{ o.cls }}" data-n="{{ o.n }}" onClick="{{ o.onSelect }}" role="button" tabindex="0">
-              <div class="tt-hwoh"><b>{{ o.label }}</b><span>{{ o.price }}</span></div>
+              <div class="tt-tgoh"><b>{{ o.label }}</b><span>{{ o.price }}</span></div>
               <small>{{ o.l2 }}</small>
-              <sc-if value="{{ o.out }}" hint-placeholder-val="{{ true }}"><button class="tt-hwa" onClick="{{ o.onAdd }}" aria-label="add">+</button></sc-if>
-              <sc-if value="{{ o.inn }}" hint-placeholder-val=""><div class="tt-hwms"><button onClick="{{ o.onDec }}" aria-label="remove">&minus;</button><span>{{ o.qty }}</span><button onClick="{{ o.onInc }}" aria-label="add">+</button></div></sc-if>
+              <sc-if value="{{ o.out }}" hint-placeholder-val="{{ true }}"><button class="tt-tga" onClick="{{ o.onAdd }}" aria-label="add">+</button></sc-if>
+              <sc-if value="{{ o.inn }}" hint-placeholder-val=""><div class="tt-tgms"><button onClick="{{ o.onDec }}" aria-label="remove">&minus;</button><span>{{ o.qty }}</span><button onClick="{{ o.onInc }}" aria-label="add">+</button></div></sc-if>
             </div>
           </sc-for>
         </div>
@@ -480,12 +495,29 @@
             <sc-if value="{{ st.hasBullets }}" hint-placeholder-val="">
               <div style="display:flex; flex-direction:column; gap:8px; margin-bottom:10px; margin-top:10px">
                 <sc-for list="{{ st.pickupCards }}" as="pc" hint-placeholder-count="3">
-                  <div style="background:var(--surface-2); border:1px solid var(--line); border-radius:10px; padding:10px 12px">
+                  <sc-if value="{{ pc.isGroup }}" hint-placeholder-val="">
+                  <div style="{{ pc.cardStyle }}">
+                    <div style="display:flex; align-items:center; justify-content:space-between; gap:8px"><span style="font-family:var(--font-body); font-weight:800; color:var(--text); font-size:12.5px">{{ pc.day }}</span><span style="display:inline-block; font-family:var(--font-body); font-weight:800; font-size:9.5px; letter-spacing:.08em; color:#fff; background:var(--accent); border-radius:999px; padding:3px 8px; white-space:nowrap">{{ pc.badge }}</span></div>
+                    <sc-for list="{{ pc.rows }}" as="pr" hint-placeholder-count="2">
+                      <div style="display:flex; flex-wrap:wrap; align-items:baseline; gap:2px 10px; margin-top:6px; padding-top:6px; border-top:1px solid rgba(0,0,0,.07); font-family:var(--font-body)"><span style="font-weight:800; color:var(--text); font-size:12px; white-space:nowrap">{{ pr.time }}</span><span style="color:var(--muted); font-size:10.5px; line-height:1.3">{{ pr.place }}</span></div>
+                    </sc-for>
+                  </div>
+                  </sc-if>
+                  <sc-if value="{{ !pc.isGroup }}" hint-placeholder-val="{{ true }}">
+                  <div style="{{ pc.cardStyle }}">
                     <div style="font-family:var(--font-body); font-weight:800; color:var(--text); font-size:12.5px">{{ pc.day }} · {{ pc.time }}</div>
                     <div style="font-family:var(--font-body); color:var(--muted); font-size:10.5px; line-height:1.3; margin-top:2px">{{ pc.place }}</div>
                   </div>
+                  </sc-if>
                 </sc-for>
               </div>
+              <sc-if value="{{ st.showMissed }}" hint-placeholder-val="">
+              <div style="margin-top:12px; padding:12px 13px; border-radius:12px; background:var(--bg); border:1px dashed #D8D2C6; text-align:left; font-family:var(--font-body)">
+                <div style="font-weight:700; font-size:13.5px; color:var(--text); margin-bottom:3px">{{ t.missedTitle }}</div>
+                <div style="color:var(--muted); font-size:12px; line-height:1.55; margin-bottom:10px">{{ t.missedBody }}</div>
+                <button onClick="{{ copyMissed }}" style="{{ missedBtnStyle }}">{{ missedBtnLabel }}</button>
+              </div>
+              </sc-if>
               <sc-if value="{{ st.closed }}" hint-placeholder-val="">
               <div style="font-family:var(--font-body)">
                 <div id="tt-closed-note" style="font-size:12px; line-height:1.5; font-weight:700; color:var(--muted); margin:2px 0 10px">{{ t.closedNote }}</div>
@@ -669,14 +701,34 @@
             <sc-if value="{{ hasPickupOptions }}" hint-placeholder-val="{{ true }}">
               <div style="display:flex; flex-direction:column; gap:8px">
                 <sc-for list="{{ dayOptions }}" as="dopt" hint-placeholder-count="3">
+                  <sc-if value="{{ dopt.isGroup }}" hint-placeholder-val="">
+                  <div style="{{ dopt.cardStyle }}">
+                    <div style="display:flex; align-items:center; justify-content:space-between; gap:8px; padding:0 4px 2px"><span style="font-weight:800; font-size:14px; color:var(--text)">{{ dopt.dateLabel }}</span><span style="display:inline-block; font-family:var(--font-body); font-weight:800; font-size:9.5px; letter-spacing:.08em; color:#fff; background:var(--accent); border-radius:999px; padding:3px 8px; white-space:nowrap">{{ dopt.badge }}</span></div>
+                    <sc-for list="{{ dopt.rows }}" as="dr" hint-placeholder-count="2">
+                      <button onClick="{{ dr.onSelect }}" style="{{ dr.style }}">
+                        <span style="font-weight:700; font-size:14px; text-align:left">{{ dr.timeLabel }}</span>
+                        <span style="font-size:11.5px; opacity:.75; text-align:left">{{ dr.fullPlace }}</span>
+                      </button>
+                    </sc-for>
+                  </div>
+                  </sc-if>
+                  <sc-if value="{{ !dopt.isGroup }}" hint-placeholder-val="{{ true }}">
                   <button onClick="{{ dopt.onSelect }}" style="{{ dopt.style }}">
                     <span style="display:flex; flex-direction:column; align-items:flex-start; gap:2px">
                       <span style="font-weight:700; font-size:14px; text-align:left">{{ dopt.dateLabel }} · {{ dopt.timeLabel }}</span>
                       <span style="font-size:11.5px; opacity:.75; text-align:left">{{ dopt.fullPlace }}</span>
                     </span>
                   </button>
+                  </sc-if>
                 </sc-for>
               </div>
+              <sc-if value="{{ showMissed }}" hint-placeholder-val="">
+              <div style="margin-top:12px; padding:12px 13px; border-radius:12px; background:var(--bg); border:1px dashed #D8D2C6; text-align:left; font-family:var(--font-body)">
+                <div style="font-weight:700; font-size:13.5px; color:var(--text); margin-bottom:3px">{{ t.missedTitle }}</div>
+                <div style="color:var(--muted); font-size:12px; line-height:1.55; margin-bottom:10px">{{ t.missedBody }}</div>
+                <button onClick="{{ copyMissed }}" style="{{ missedBtnStyle }}">{{ missedBtnLabel }}</button>
+              </div>
+              </sc-if>
             </sc-if>
             <sc-if value="{{ !hasPickupOptions }}" hint-placeholder-val="">
               <div style="font-family:var(--font-body)">
@@ -871,25 +923,26 @@ class Component extends DCLogic {
   constructor(props) {
     super(props);
     this.BRAND = 'Tart Theory';
-    // Halloween gift boxes (limited). Fixed flavors; the whole section hides itself after endsISO.
-    // REUSE FOR ANOTHER HOLIDAY (e.g. Thanksgiving): this block, the .tt-hw* CSS, the #tt-halloween section, the story script
-    // (IIFE near the end) and the hb* strings in both language blocks are one self-contained, data-driven feature.
-    // Copy the config below with new ids/prices/dates/photos (uploads/<season>/), update hbTag/hbTitle/hbSub, add the box
-    // ids to apps-script/Code.gs FLAVORS (with an `until` date), and redeploy Code.gs. Tagged in git as halloween-2026-gift-boxes.
-    // TODO: confirm the flavors in each box (placeholders for now), add a cutaway photo per flavor in `tarts[id].cut`, and set each box's `photo`.
-    this.HALLOWEEN = { endsISO:'2026-10-31T23:59:59', endsLabelEn:'10/31', endsLabelZh:'10月31日', boxes:[
-      { id:'hbox4', n:4, price:30, cols:2, zh:'万圣节礼盒 · 4 个装', en:'Halloween Box of 4', flavors:['ghost','pumpkin','rip','ube'], photo:'uploads/halloween/box-4.webp' },
-      { id:'hbox6', n:6, price:40, cols:3, zh:'万圣节礼盒 · 6 个装', en:'Halloween Box of 6', flavors:['spider','ghost','smores','pumpkin','rip','ube'], photo:'uploads/halloween/box-6.webp' }
+    // Thanksgiving gift boxes (limited). Fixed flavors; the whole section hides itself after endsISO.
+    // Reuse for another holiday: this block, the .tt-tg* CSS, the #tt-thanksgiving section, the story script (IIFE near the end)
+    // and the hb* strings in both language blocks are one self-contained, data-driven feature (previous version: git tag halloween-2026-gift-boxes).
+    // Add the box ids to apps-script/Code.gs FLAVORS (with an `until` date), and redeploy Code.gs.
+    // Photos: `photo` per box and `poster` per tart live in uploads/thanksgiving/. `adj` ({ x, y in % of the frame, z zoom }) nudges a photo inside the square frame.
+    this.THANKSGIVING = { endsISO:'2026-11-26T23:59:59', endsLabelEn:'11/26, 11:59 PM', endsLabelZh:'11月26日晚11:59', boxes:[
+      { id:'tgbox4', n:4, price:25, cols:2, zh:'节日礼盒 · 4 个装', en:'Holiday Box of 4', flavors:['apple','cran','pumpkin','pecan'], photo:'uploads/thanksgiving/box4.webp',
+        dZh:'节日餐桌上最经典的四种派：苹果、蔓越莓、南瓜、山核桃', dEn:'Four classic holiday pies, made bite-size: apple, cranberry, pumpkin and pecan.' },
+      { id:'tgbox6', n:6, price:35, cols:3, zh:'节日礼盒 · 6 个装', en:'Holiday Box of 6', flavors:['whip','apple','cran','apricot','pumpkin','pecan'], photo:'uploads/thanksgiving/box6.webp',
+        dZh:'经典四款再加南瓜鲜奶油和南瓜杏子。', dEn:'The four classics, plus pumpkin whipped cream and pumpkin & apricot.' }
     ], tarts:{
-      spider:{ poster:'uploads/halloween/poster-spider.webp', zh:'蜘蛛饼干', en:'Itsy Bitsy Spider' },
-      ghost:{ poster:'uploads/halloween/poster-ghost.webp', zh:'小幽灵', en:'Lil Ghost' },
-      smores:{ poster:'uploads/halloween/poster-smores.webp', zh:'棉花蛛网', en:"Mummy S'mores" },
-      pumpkin:{ poster:'uploads/halloween/poster-pumpkin-2.webp', zh:'南瓜小怪兽', en:'Pumpkin Boo' },
-      rip:{ poster:'uploads/halloween/poster-rip.webp', zh:'芝麻入土', en:'Rest in Pieces' },
-      ube:{ poster:'uploads/halloween/poster-ube.webp', zh:'紫薯小怪兽', en:'Ube Monster' }
+      apple:{ poster:'uploads/thanksgiving/apple.webp', adj:{ x:0, y:8.5, z:1 }, color:'#C98A2B', zh:'苹果派', en:'Apple Pie', flZh:'焦糖肉桂苹果', flEn:'Caramel Cinnamon Apple', dZh:'经典苹果派的味道：肉桂、焦糖，还有烤得软糯的苹果。', dEn:'Classic apple pie flavor: cinnamon, caramel and tender baked apples.' },
+      cran:{ poster:'uploads/thanksgiving/cran.webp', adj:{ x:0, y:7.0, z:1 }, color:'#8E2A33', zh:'蔓越莓派', en:'Cranberry Pie', flZh:'蔓越莓果酱', flEn:'Cranberry Jam', dZh:'酸酸甜甜的蔓越莓，清爽解腻，吃完大餐来一口刚刚好。', dEn:'Cranberry with just enough sweetness. The bright bite that balances a rich holiday meal.' },
+      pumpkin:{ poster:'uploads/thanksgiving/pumpkin.webp', adj:{ x:0, y:8.2, z:1 }, color:'#D9822B', zh:'南瓜派', en:'Pumpkin Pie', flZh:'南瓜香料蛋奶馅', flEn:'Spiced Pumpkin Custard', dZh:'南瓜、肉桂和一点肉豆蔻，满满都是节日的温暖。', dEn:'Pumpkin, cinnamon and a touch of nutmeg. Pure holiday comfort.' },
+      pecan:{ poster:'uploads/thanksgiving/pecan.webp', adj:{ x:0, y:9.5, z:1 }, color:'#8B5A2B', zh:'山核桃派', en:'Pecan Pie', flZh:'焦糖山核桃', flEn:'Caramel Pecan', dZh:'烤香的山核桃裹着浓郁焦糖，香甜又带点脆。', dEn:'Toasty pecans in rich caramel. Sweet, nutty, and a little crunchy.' },
+      whip:{ poster:'uploads/thanksgiving/whip.webp', pos:'50% 28%', color:'#D2A05A', zh:'南瓜鲜奶油', en:'Pumpkin Whipped Cream', flZh:'南瓜奶油', flEn:'Pumpkin Cream', dZh:'南瓜加鲜奶油，松软轻盈，给丰盛的一餐一个轻松的收尾。', dEn:'Pumpkin and cream, soft and airy. A lighter way to end a big meal.' },
+      apricot:{ poster:'uploads/thanksgiving/apricot.webp', color:'#E39A3B', zh:'南瓜杏子', en:'Pumpkin & Apricot', flZh:'南瓜杏子', flEn:'Pumpkin Apricot', dZh:'南瓜的温润甜味，遇上杏子的明亮果香，新鲜又好入口。', dEn:'Pumpkin’s cozy sweetness meets bright apricot. A new twist that’s easy to love.' }
     } };
-    this.HALLOWEEN.treat = { en:'a treat', zh:'小礼品' }; // the story says only "fixed flavors with a treat"; name the treat here if that ever changes
-    window.TT_HALLOWEEN = this.HALLOWEEN;
+    this.THANKSGIVING.treat = { en:'a treat', zh:'小礼品' }; // the story says only "fixed flavors with a treat"; name the treat here if that ever changes
+    window.TT_THANKSGIVING = this.THANKSGIVING;
     this.FLAVORS = [
       { id:'persimmon', zh:'柿柿如意挞', en:'Persimmon Egg Tart', tagZh:'秋季限定', tagEn:'Autumn Limited', cardTag:true, descZh:'柿子果肉，丝滑蛋奶馅，千层酥皮。', descEn:'Sweet persimmon, silky egg custard, buttery layered crust.', center:'#F6B04A', edge:'#E08A1E', torched:false, price:6, img:'uploads/top/persimmon.webp' },
       { id:'lychee', zh:'荔枝奶酪蛋挞', en:'Lychee Cream Cheese Egg Tart', tagZh:null, tagEn:null, descZh:'新鲜荔枝，丝滑奶酪馅，玫瑰花瓣点缀，千层酥皮。', descEn:'Fresh lychee, silky cream cheese, aromatic rose petal, buttery layered crust.', center:'#F6E1DC', edge:'#D99C92', torched:false, price:6, img:'uploads/poster-82d88b98.jpg' },
@@ -923,6 +976,14 @@ class Component extends DCLogic {
     ];
     // Orders close at 9 PM (10 PM before CUTOFF_9PM_FROM) cutoffDays before the pickup day: Friday slots the night before, Saturday slots on Thursday too, so the whole week closes Thursday 9 PM.
     this.CUTOFF_9PM_FROM = '2026-10-16';
+    // One-off pickup slots on a fixed date (holiday specials), offered alongside the weekly schedule while their week
+    // block is open. `cutoff` is the exact last order time. Remove after the date passes.
+    this.PICKUP_EXTRA = [
+      { id:'tg-udistrict', special:true, date:'2026-11-25', cutoff:'2026-11-24T21:00:00', hideAfter:'2026-11-26T23:59:59', timeZh:'下午3:30\u20134:00', timeEn:'3:30\u20134:00 PM', placeZh:this.UDISTRICT_PLACE_ZH, placeEn:this.UDISTRICT_PLACE_EN, mapQ:'Timeless Tea University District Seattle WA', shortZh:'U District 茶千岁', shortEn:'U District · Timeless Tea' },
+      { id:'tg-slu', special:true, date:'2026-11-25', cutoff:'2026-11-24T21:00:00', hideAfter:'2026-11-26T23:59:59', timeZh:'下午4:30\u20135:00', timeEn:'4:30\u20135:00 PM', placeZh:this.SLU_PLACE_ZH, placeEn:this.SLU_PLACE_EN, mapQ:'Nitro South Parking Garage 7th Ave Seattle WA', shortZh:'SLU Nitro 停车场', shortEn:'SLU · Nitro Parking Garage' },
+      { id:'tg-bellevue', special:true, date:'2026-11-26', cutoff:'2026-11-24T21:00:00', hideAfter:'2026-11-26T23:59:59', timeZh:'中午12:00\u201312:30', timeEn:'12:00\u201312:30 PM', placeZh:this.PICKUP_PLACE_ZH, placeEn:this.PICKUP_PLACE_EN, mapQ:'T&T Supermarket Bellevue WA', shortZh:'Bellevue 大统华', shortEn:'Bellevue · T&T' },
+      { id:'tg-hmart', special:true, date:'2026-11-26', cutoff:'2026-11-24T21:00:00', hideAfter:'2026-11-26T23:59:59', timeZh:'下午1:00\u20131:30', timeEn:'1:00\u20131:30 PM', placeZh:this.HMART_PLACE_ZH, placeEn:this.HMART_PLACE_EN, mapQ:'H Mart Bellevue WA', shortZh:'Bellevue H Mart', shortEn:'Bellevue · H Mart' },
+    ];
     this.PICKUP_SKIP = { 'fri-udistrict': ['2026-08-28'], 'fri-slu': ['2026-08-28'] };
     // Weekly baking cap: total tarts (all flavors combined) allowed for a given
     // pickup week, keyed by the same week label weekLabelFor() produces (i.e.
@@ -950,7 +1011,7 @@ class Component extends DCLogic {
         boxPromo:'优惠活动：任选四颗，仅需 $20！', boxPromoSub:'全口味自由混搭，四颗更划算',
         cutoffNotice:'周四9点截止下单', closedNotice:'本周预订已截止', nextWeekLabel:'下周取货', opensTag:'周六 5 PM 开放', closedNote:'下周的订单将于本周六下午 5 点开放。', missedTitle:'错过了截止时间，但还想本周取货？', missedBody:'给我们发微信，我们会尽量帮你安排。', missedBtn:'复制微信号', missedLink:'错过截止时间？', menuClosedTitle:'本周预订已截止', menuClosedBody:'你可以先逛逛菜单、把蛋挞加入购物车，下周的订单将于本周六下午 5 点开放。错过了截止时间、但还想本周取货？给我们发微信，我们会尽量帮你安排。', nextOff:'周六 5 PM 开放预订',
         backToBag:'\u2190 返回购物车', orderReservedTitle:'订单已预留', venmoPayBtn:(t)=>'在 Venmo 支付 '+t, venmoQrNote:'无法跳转到 Venmo？点这里', tlPay:'付款', tlPayText:(t)=>'用 Venmo 支付 '+t+'。', tlSend:'发送截图', tlSendText:(o,n,id)=>'请把订单号截图和付款截图发送至'+n+'，客服确认后即可锁定订单。', tlPickup:'取货', itemsMore:(n)=>'还有 '+n+' 款，点击展开', itemsLess:'收起', tlPickupNote:'我们会在取货当天约提前 30 分钟告知确切的到达时间和停车位置。', tlPickupText:'自取时请出示订单截图，或直接告诉我们你的 Venmo 用户名。', copyVenmo:'复制 Venmo ID', copyChannelWechat:'复制微信号', shotBtn:'保存订单到相册', shotBusy:'生成中…', shotSaved:'已保存至相册', shotHold:'长按图片，选择“存储到相册”。', shotDownload:'下载图片', shotClose:'关闭', ticketSub:'自取订单', careTitle:'保存与加热小贴士', careLines:['当天享用口感最佳。吃不完可放冰箱冷藏2-3天，吃前可复热：','微波炉：先取下锡纸壳，加热 30 秒。','烤箱 / 空气炸锅：无需取下锡纸壳，180°C（350°F）加热 3-5 分钟。'], ticketFoot:'自取时请出示订单截图，或告诉我们你的 Venmo 用户名。', yourOrderNumberLabel:'你的订单号',
-        nextBtn:'下一步', stepBag:'确认口味', stepPickup:'选择取货时间', stepPay:'结账', hbTag:'限定', hbTitle:'万圣节礼盒', hbSub:'固定口味，每盒附赠小礼品。', hbEnds:(d,e)=>e+' 结束 · 还剩 '+d+' 天', hbEndsToday:(e)=>e+' 结束 · 仅限今天', hbInside:'盒内口味', hbAdd:'加入购物车', hbBest:'更划算', hbFixed:'固定口味', hbEach:(p)=>p+'/个', hbTreat:(t)=>'附赠'+t, hbAddBox:(n,p)=>'加入 '+n+' 个装 · '+p, hbPieces:(n)=>n+' 个挞', pickupTitle:'取货', totalLabel:'总计', eachSuffix:'/每个', heroWordA:'现烤', heroWordB:'酥脆', heroWordC:'浓郁',
+        nextBtn:'下一步', stepBag:'确认口味', stepPickup:'选择取货时间', stepPay:'结账', hbTag:'节日限定', tgSlotBadge:'节日限定', hbTitle:'节日礼盒', hbSub:'一盒蛋挞，陪你和爱的人好好过节。', hbEnds:(d,e)=>e+' 截止下单 · 还剩 '+d+' 天', hbEndsToday:(e)=>e+' 截止下单 · 仅限今天', hbInside:'盒内口味', hbAdd:'加入购物车', hbBest:'更划算', hbFixed:'固定口味', hbEach:(p)=>p+'/个', hbTreat:(t)=>'附赠'+t, hbAddBox:(n,p)=>'加入 '+n+' 个装 · '+p, hbPieces:(n)=>n+' 个挞', pickupTitle:'取货', totalLabel:'总计', eachSuffix:'/每个', heroWordA:'现烤', heroWordB:'酥脆', heroWordC:'浓郁',
         confirm1:(t)=>'扫描上方二维码支付 '+t+'。', confirm2:(o,w)=>'将订单号 '+o+' 和付款截图发送到微信：'+w+'。', confirm3:(s,tm)=>'在 '+s+'，'+tm+' 取货。出示相册里保存的订单、订单号，或直接告诉我们你的 Venmo 用户名，我们会现场为你核实。' },
       en:{ stkFlaky:'Flaky', stkCrispy:'Crispy', stkSilky:'Silky', stkFresh:'Fresh', stkHand:'Handmade', bag:'Bag', ctaHow:'How to order', ingTitle:'INGREDIENTS', receiptDeal:'Any 4 for $20', ingAllergen:'Contains: ', heroTitle:'Handmade egg tarts with flavors from around the world.',  heroTitleA:'Asian fusion\n', heroTitleB:'egg tarts', heroTitleC:'\nevery\nweekend', heroSubtitle:'Flaky crust.\nSilky custard.', heroNote:'Baked fresh daily.\nNew flavors every week.', heroSmall:'Pre-order online \u00b7 Pickup Fridays & Saturdays only', ctaLabel:'View Menu',
         menuLabel:'The menu', menuTitle:'Something for every craving.', add:'Add',
@@ -971,7 +1032,7 @@ class Component extends DCLogic {
         boxPromo:'Any 4 for $20!', boxPromoSub:'Mix and match any flavors. Perfect for sharing, or keeping all to yourself. We won\'t judge.',
         cutoffNotice:'Preorder closes at 9pm Thursdays', closedNotice:'Preorders closed this week', nextWeekLabel:'Next week', opensTag:'Opens Sat 5 PM', closedNote:'Orders for next week open this Saturday at 5 PM. You can pick a slot then.', missedTitle:'Missed the cutoff but still want tarts this week?', missedBody:'Message us on Instagram and we\'ll do our best to fit you in.', missedBtn:'Copy Instagram ID', missedLink:'Missed the cutoff?', menuClosedTitle:'Preorders closed this week', menuClosedBody:'Feel free to browse and fill your bag. Orders for next week open this Saturday at 5 PM. Missed the cutoff but still want tarts this week? Message us on Instagram and we\'ll do our best to fit you in.', nextOff:'Ordering opens Sat 5 PM',
         backToBag:'\u2190 Back to bag', orderReservedTitle:'Order reserved', venmoPayBtn:(t)=>'Pay '+t+' on Venmo', venmoQrNote:'Can\'t open Venmo? Tap here', tlPay:'Pay', tlPayText:(t)=>'Pay '+t+' on Venmo.', tlSend:'Send us your screenshots', tlSendText:(o,n,id)=>'DM us a screenshot of your order and your Venmo payment on '+n+'. We\'ll confirm your order once we see them.', tlPickup:'Pickup', itemsMore:(n)=>'Show '+n+' more', itemsLess:'Show less', tlPickupNote:'On pickup day, we\'ll send the exact arrival time and parking spot about 30 minutes ahead.', tlPickupText:'Show your order screenshot at pickup, or just give us your Venmo name.', copyVenmo:'Copy Venmo ID', copyChannelWechat:'Copy Instagram ID', shotBtn:'Save order to Photos', shotBusy:'Preparing…', shotSaved:'Saved to Photos', shotHold:'Press and hold the image, then tap Save to Photos.', shotDownload:'Download image', shotClose:'Close', ticketSub:'Pickup order', careTitle:'Storing & reheating', careLines:['Egg tarts are best the day you get them. Refrigerate leftovers for up to 3 days. Reheat before serving:','Microwave: Remove the foil cup and heat for 30 seconds.','Oven or air fryer: Leave the foil cup on and bake at 350\u00b0F for 3\u20135 minutes.'], ticketFoot:'Show this at pickup, or just give us your Venmo name.', yourOrderNumberLabel:'Your order number',
-        nextBtn:'Next', stepBag:'Your bag', stepPickup:'Pickup time', stepPay:'Checkout', hbTag:'LIMITED', hbTitle:'Halloween Gift Boxes', hbSub:'Fixed flavors with a treat.', hbEnds:(d,e)=>'Ends '+e+' · '+d+(d===1?' day left':' days left'), hbEndsToday:(e)=>'Ends '+e+' · last day', hbInside:'WHAT\'S INSIDE', hbAdd:'Add to bag', hbBest:'best value', hbFixed:'fixed flavors', hbEach:(p)=>p+'/tart', hbTreat:(t)=>'+ '+t, hbAddBox:(n,p)=>'Add Box of '+n+' \u00b7 '+p, hbPieces:(n)=>n+' tarts', pickupTitle:'Pickup', totalLabel:'Total', eachSuffix:' each', heroWordA:'Fresh-Baked', heroWordB:'Flaky', heroWordC:'Rich',
+        nextBtn:'Next', stepBag:'Your bag', stepPickup:'Pickup time', stepPay:'Checkout', hbTag:'HOLIDAY SPECIAL', tgSlotBadge:'HOLIDAY SPECIAL', hbTitle:'Holiday Gift Boxes', hbSub:'A box of tarts to go with the people you love this holiday.', hbEnds:(d,e)=>'Order by '+e+' · '+d+(d===1?' day left':' days left'), hbEndsToday:(e)=>'Order by '+e+' · last day', hbInside:'WHAT\'S INSIDE', hbAdd:'Add to bag', hbBest:'best value', hbFixed:'fixed flavors', hbEach:(p)=>p+'/tart', hbTreat:(t)=>'+ '+t, hbAddBox:(n,p)=>'Add Box of '+n+' \u00b7 '+p, hbPieces:(n)=>n+' tarts', pickupTitle:'Pickup', totalLabel:'Total', eachSuffix:' each', heroWordA:'Fresh-Baked', heroWordB:'Flaky', heroWordC:'Rich',
         confirm1:(t)=>'Scan the QR above to pay '+t+'.', confirm2:(o,w)=>'Send your order number '+o+' and the payment screenshot to us on Instagram: '+w+'.', confirm3:(s,tm)=>'Collect at '+s+', '+tm+'. Show your saved order, your order number, or just tell us your Venmo name — we\'ll confirm you there.' },
     };
     // Customer review screenshots: { src:'uploads/reviews/01.jpg' }. Section stays hidden while this is empty.
@@ -1085,7 +1146,7 @@ class Component extends DCLogic {
       const out = {};
       Object.keys(d.cart).forEach(id => {
         const q = Math.floor(Number(d.cart[id]));
-        const HW = this.HALLOWEEN, boxOk = !!HW && new Date(HW.endsISO).getTime() > Date.now() && HW.boxes.some(b => b.id === id); // seasonal boxes only while on sale
+        const HW = this.THANKSGIVING, boxOk = !!HW && new Date(HW.endsISO).getTime() > Date.now() && HW.boxes.some(b => b.id === id); // seasonal boxes only while on sale
         if ((this.FLAVORS.some(f => f.id === id) || boxOk) && q > 0) out[id] = Math.min(q, 30);
       });
       return out;
@@ -1216,7 +1277,7 @@ class Component extends DCLogic {
       h.style.overflow = ''; b.style.overflow = ''; b.style.paddingRight = '';
     }
   }
-  computePickupOptions() {
+  computePickupOptions(includeClosed) {
     const now = new Date();
     const zhWeekday = ['周日','周一','周二','周三','周四','周五','周六'];
     const enWeekday = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
@@ -1245,7 +1306,13 @@ class Component extends DCLogic {
       if (candidates.length > 0) break;
       anchorSat.setDate(anchorSat.getDate() + 7);
     }
-    return candidates.map(({ sch, d, cutoff }) => ({ ...sch, date:d, cutoff,
+    // One-off special slots (PICKUP_EXTRA) are bookable as soon as they exist, in any week, until their own cutoff.
+    (this.PICKUP_EXTRA || []).forEach(x => {
+      const cutoff = new Date(x.cutoff), hideAt = new Date(x.hideAfter || x.cutoff), closed = now.getTime() > cutoff.getTime();
+      // After its cutoff a special slot stays on screen greyed out (only when includeClosed) until hideAfter, then disappears.
+      if (now.getTime() <= hideAt.getTime() && (!closed || includeClosed)) candidates.push({ sch:x, d:new Date(x.date + 'T00:00:00'), cutoff, closed });
+    });
+    return candidates.map(({ sch, d, cutoff, closed }) => ({ ...sch, date:d, cutoff, closed:!!closed,
       dateLabelZh: zhWeekday[d.getDay()]+' '+(d.getMonth()+1)+'月'+d.getDate()+'日',
       dateLabelEn: enWeekday[d.getDay()]+' '+(d.getMonth()+1)+'/'+d.getDate(),
       cutoffLabelZh: zhWeekday[cutoff.getDay()]+' '+cutoff.getHours()+':00 前下单',
@@ -1499,7 +1566,7 @@ class Component extends DCLogic {
     list.sort((a,b)=>(a.id==='original'?1:0)-(b.id==='original'?1:0));
     return list;
   }
-  boxEntries() { return this.HALLOWEEN.boxes.map(b => ({ b, qty:this.state.cart[b.id]||0 })).filter(e=>e.qty>0); }
+  boxEntries() { return this.THANKSGIVING.boxes.map(b => ({ b, qty:this.state.cart[b.id]||0 })).filter(e=>e.qty>0); }
   boxTotal() { return this.boxEntries().reduce((a,e)=>a+e.qty*e.b.price, 0); }
   total() {
     const units = this.unitList();
@@ -1537,7 +1604,7 @@ class Component extends DCLogic {
 
     const boxItems = this.boxEntries().map(e => ({ id:e.b.id, name: isZh?e.b.zh:e.b.en, qty:e.qty,
       priceLabel:this.money(e.b.price), perEachLabel: this.money(e.b.price) + L.eachSuffix, lineLabel:this.money(e.b.price*e.qty),
-      custardStyle:{}, topImg:e.b.photo || 'uploads/halloween-box.svg',
+      custardStyle:{}, topImg:e.b.photo || 'uploads/thanksgiving-box.svg',
       onInc:()=>this.inc(e.b.id), onDec:()=>this.dec(e.b.id) }));
     const cartItems = boxItems.concat(this.entries().map(e => ({ id:e.f.id, name: isZh?e.f.zh:e.f.en, qty:e.qty,
       priceLabel:this.money(e.f.price), perEachLabel: this.money(e.f.price) + L.eachSuffix, lineLabel:this.money(e.f.price*e.qty),
@@ -1586,20 +1653,35 @@ class Component extends DCLogic {
 
     this.syncScrollLock(!!this.state.cartOpen);
     const pickupOptions = this.computePickupOptions();
+    const allOptions = this.computePickupOptions(true); // bookable slots plus greyed-out special slots past their cutoff
+    const showMissed = allOptions.some(o => o.closed);
     const hasPickupOptions = pickupOptions.length > 0;
     const selectedPickupId = hasPickupOptions ? (this.state.pickupDayId || pickupOptions[0].id) : null;
     const selectedPickup = hasPickupOptions ? (pickupOptions.find(o=>o.id===selectedPickupId) || pickupOptions[0]) : null;
-    const dayOptions = pickupOptions.map(o => {
-      const active = o.id===selectedPickupId;
-      return { id:o.id,
+    const dayOptionsFlat = allOptions.map(o => {
+      const active = !o.closed && o.id===selectedPickupId;
+      return { id:o.id, special:!!o.special, badge:L.tgSlotBadge,
         dateLabel: isZh?o.dateLabelZh:o.dateLabelEn, timeLabel: isZh?o.timeZh:o.timeEn,
         placeLabel: isZh?o.shortZh:o.shortEn, fullPlace: isZh?o.placeZh:o.placeEn, cutoffLabel: isZh?o.cutoffLabelZh:o.cutoffLabelEn,
-        onSelect:()=>this.selectPickupDay(o.id),
+        closed:!!o.closed, onSelect:()=>{ if (!o.closed) this.selectPickupDay(o.id); },
         style:{ display:'flex', justifyContent:'space-between', alignItems:'center', textAlign:'left', cursor:'pointer',
           padding:'12px 14px', borderRadius:'var(--radius-sm)', fontFamily:'var(--font-body)',
           border: active ? '1.5px solid var(--accent)' : '1.5px solid var(--line)',
           background: active ? 'var(--accent-soft)' : 'var(--surface-2)',
+          color: active ? 'var(--accent)' : 'var(--text)' },
+        rowStyle:{ display:'flex', flexDirection:'column', alignItems:'flex-start', gap:'2px', width:'100%', textAlign:'left', cursor:'pointer', marginTop:'4px',
+          padding:'9px 10px', borderRadius:'10px', fontFamily:'var(--font-body)',
+          border: active ? '1.5px solid var(--accent)' : '1.5px solid transparent',
+          background: active ? 'var(--accent-soft)' : 'transparent',
           color: active ? 'var(--accent)' : 'var(--text)' } };
+    });
+    // Holiday special slots are grouped one card per day (date + pill once, one row per time); regular slots stay one card each.
+    const dayOptions = [];
+    dayOptionsFlat.forEach(d => {
+      if (!d.special) { dayOptions.push({ ...d, isGroup:false }); return; }
+      let g = dayOptions[dayOptions.length-1];
+      if (!g || !g.isGroup || g.dateLabel !== d.dateLabel) { g = { isGroup:true, dateLabel:d.dateLabel, badge:d.badge, rows:[], cardStyle:'background:#FFF6E6; border:1.5px solid #EBCF9E; border-radius:var(--radius-sm); padding:10px 10px 6px; font-family:var(--font-body)' + (d.closed ? '; opacity:.55; filter:grayscale(1)' : '') }; dayOptions.push(g); }
+      g.rows.push({ ...d, style: d.closed ? { ...d.rowStyle, cursor:'default' } : d.rowStyle });
     });
     const pickupPlace = hasPickupOptions ? (isZh ? selectedPickup.placeZh : selectedPickup.placeEn).replace(' · ', '\n') : ''; // detail after the middle dot (e.g. which floor) goes on its own line
     const pickupTimeText = hasPickupOptions ? (isZh ? (selectedPickup.dateLabelZh+' '+selectedPickup.timeZh) : (selectedPickup.dateLabelEn+' '+selectedPickup.timeEn)) : '';
@@ -1607,10 +1689,15 @@ class Component extends DCLogic {
     this._ticket = { L, orderNum:this.state.orderNum, when:pickupTimeText, where:pickupPlace,
       items: cartItems.map(ci => ({ qty:ci.qty, name:ci.name, line:ci.lineLabel, img:ci.topImg })), total:this.money(this.total()) };
 
-    const pickupCards = pickupOptions.map(o => ({
-      day: isZh ? o.dateLabelZh : o.dateLabelEn, time: isZh ? o.timeZh : o.timeEn,
-      place: isZh ? o.placeZh : o.placeEn, cutoff: isZh ? o.cutoffLabelZh : o.cutoffLabelEn,
-    }));
+    const regCardStyle = 'background:var(--surface-2); border:1px solid var(--line); border-radius:10px; padding:10px 12px';
+    const pickupCards = [];
+    allOptions.forEach(o => {
+      const day = isZh ? o.dateLabelZh : o.dateLabelEn, time = isZh ? o.timeZh : o.timeEn, place = isZh ? o.placeZh : o.placeEn;
+      if (!o.special) { pickupCards.push({ isGroup:false, cardStyle:regCardStyle, day, time, place, cutoff: isZh ? o.cutoffLabelZh : o.cutoffLabelEn }); return; }
+      let g = pickupCards[pickupCards.length-1];
+      if (!g || !g.isGroup || g.day !== day) { g = { isGroup:true, day, badge:L.tgSlotBadge, rows:[], cardStyle:'background:#FFF6E6; border:1px solid #EBCF9E; border-radius:10px; padding:10px 12px' + (o.closed ? '; opacity:.55; filter:grayscale(1)' : '') }; pickupCards.push(g); }
+      g.rows.push({ time, place });
+    });
 
     // Weekly baking cap (see PICKUP_CAPS). `remaining` is only known once
     // fetchOrderedQty() has resolved for the currently active week; until
@@ -1622,14 +1709,14 @@ class Component extends DCLogic {
     const capBlocked = capKnown && qty > remaining;
     const capBlockedMsg = !capBlocked ? '' : (remaining <= 0 ? L.soldOutThisWeek : L.lowStockThisWeek(remaining));
 
-    const HW = this.HALLOWEEN, hwLeft = new Date(HW.endsISO).getTime() - Date.now(), hwDays = Math.max(1, Math.ceil(hwLeft/86400000));
+    const HW = this.THANKSGIVING, hwLeft = new Date(HW.endsISO).getTime() - Date.now(), hwDays = Math.max(1, Math.ceil(hwLeft/86400000));
     const hwCur = HW.boxes.find(b=>b.n===this.state.hbSize) || HW.boxes[0], hwQty = this.state.cart[hwCur.id] || 0, hwEnd = isZh ? HW.endsLabelZh : HW.endsLabelEn;
     const hw = {
-      halloweenOn: hwLeft > 0,
+      thanksgivingOn: hwLeft > 0,
       hbEndsText: hwDays <= 1 ? L.hbEndsToday(hwEnd) : L.hbEnds(hwDays, hwEnd),
       hbOpts: HW.boxes.map(b => { const each = '$' + (b.price / b.n).toFixed(2), q = this.state.cart[b.id] || 0; return { n:b.n, label: isZh ? b.n + ' 个装' : 'Box of ' + b.n, price: this.money(b.price),
         l2: L.hbEach(each), addText: L.hbAdd, out: q === 0, inn: q > 0, qty: q,
-        cls: b.n===hwCur.n ? 'tt-hwoc on' : 'tt-hwoc', onSelect: () => this.setState({ hbSize:b.n }),
+        cls: b.n===hwCur.n ? 'tt-tgoc on' : 'tt-tgoc', onSelect: () => this.setState({ hbSize:b.n }),
         onAdd: () => this.add(b.id), onInc: () => this.inc(b.id), onDec: () => this.dec(b.id) }; }),
       hbInCart: hwQty > 0, hbOutCart: hwQty === 0, hbQty: hwQty,
       hbAdd: () => this.add(hwCur.id), hbInc: () => this.inc(hwCur.id), hbDec: () => this.dec(hwCur.id)
@@ -1675,7 +1762,7 @@ class Component extends DCLogic {
         { n:'1', title: isZh?'加入购物车':'Add to Bag', note: isZh?'挑选喜欢的口味，加入购物车，确认总金额。':'Pick your flavors, add them to your bag, and check the total.' },
         { n:'2', title: isZh?'Venmo 付款':'Pay via Venmo', note: isZh?'通过 Venmo 付款给我们，截图保存你的付款确认页面。':'Pay on Venmo, then take a screenshot of the confirmation.', hasQr:true, hasRealQr:true, qrId:'artisan-venmo-qr', qrImg:'uploads/venmo-qr.png', qrStyle:{width:'150px',height:'150px',margin:'12px auto 0',borderRadius:'12px',objectFit:'cover',display:'block'}, qrLabel: this.venmo(), confirmShot:true },
         { n:'3', title: isZh?'添加微信':'Follow & DM us on Instagram', note: isZh?'添加我们的微信，发送付款截图确认。':'Follow us on Instagram and DM us a screenshot of your payment.', hasQr:true, hasRealQr:true, qrId: isZh?'artisan-wechat-qr':'artisan-instagram-qr', qrImg: isZh?'uploads/wechat-qr.jpg':'uploads/instagram-qr.png', qrStyle:{width:'150px',height:'150px',margin:'12px auto 0',borderRadius:'12px',objectFit:'cover',display:'block'}, qrLabel: isZh?this.wechat():this.instagram() },
-        { n:'4', title: isZh?'定点自取':'Pickup', hasBullets:true, pickupCards,
+        { n:'4', title: isZh?'定点自取':'Pickup', hasBullets:true, pickupCards, showMissed,
           closed: !hasPickupOptions },
       ],
       confirmSteps: [
@@ -1692,7 +1779,7 @@ class Component extends DCLogic {
       footPickupWhen: hasPickupOptions ? ((isZh?selectedPickup.dateLabelZh:selectedPickup.dateLabelEn) + ' \u00b7 ' + (isZh?selectedPickup.timeZh:selectedPickup.timeEn)) : '',
       footPickupWhere: hasPickupOptions ? (isZh?selectedPickup.shortZh:selectedPickup.shortEn) : '',
       scrollToPickup: () => { const el = document.getElementById('tt-pickup'), box = document.querySelector('.tt-body'); if (el && box) box.scrollTo({ top: box.scrollTop + el.getBoundingClientRect().top - box.getBoundingClientRect().top - 12, behavior:'smooth' }); },
-      dayOptions, hasPickupOptions, toastMsg: this.state.toastMsg, toastMsgText,
+      dayOptions, showMissed, hasPickupOptions, toastMsg: this.state.toastMsg, toastMsgText,
       savingsNote: isZh?('已省 $'+savings.toFixed(savings%1===0?0:2)):('You saved $'+savings.toFixed(savings%1===0?0:2)),
       cartOpen: this.state.cartOpen,
       isCart: this.state.step==='cart' || this.state.step==='pickup',
@@ -1816,83 +1903,92 @@ class Component extends DCLogic {
 })();
 </script>
 <script>
-/* Halloween story player: box first, then each tart cut open. Plays on its own while in view; tap right/left, hold to pause. */
+/* Thanksgiving story player: box first, then each tart cut open. Plays on its own while in view; tap right/left, hold to pause. */
 (function () {
   var DUR = 3800, reduce = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
   var st = { key: '', i: 0, el: 0, t0: 0, paused: reduce, held: false, visible: false, list: [], root: null, io: null, hold: null };
   function lang() { return document.documentElement.getAttribute('data-lang') === 'zh' ? 'zh' : 'en'; }
-  function size() { var o = document.querySelector('.tt-hwoc.on'); return o ? +o.getAttribute('data-n') : 4; }
+  function size() { var o = document.querySelector('.tt-tgoc.on'); return o ? +o.getAttribute('data-n') : 4; }
   function flavor(id) { var F = window.TT_FLAVORS || []; for (var k = 0; k < F.length; k++) if (F[k].id === id) return F[k]; return null; }
   function list(n, L) {
-    var H = window.TT_HALLOWEEN; if (!H) return [];
+    var H = window.TT_THANKSGIVING; if (!H) return [];
     var box = H.boxes.filter(function (b) { return b.n === n; })[0] || H.boxes[0], zh = L === 'zh', out = [];
-    out.push({ box: box, tag: zh ? '礼盒' : 'THE BOX', t: zh ? box.zh : box.en, d: '' });
+    out.push({ box: box, adj: box.adj || null, tag: zh ? '礼盒' : 'THE BOX', t: zh ? box.zh : box.en, d: zh ? box.dZh : box.dEn });
     box.flavors.forEach(function (id, idx) {
       var f = flavor(id), info = (H.tarts || {})[id] || {};
-      out.push({ id: id, cut: info.cut || null, poster: info.poster || null, tag: zh ? '第 ' + (idx + 1) + ' 款 / 共 ' + box.flavors.length + ' 款' : (idx + 1) + ' OF ' + box.flavors.length,
-        t: info[L] || (f ? (zh ? f.zh : f.en) : id), d: info.poster ? '' : (info[L] || (f ? (zh ? f.descZh : f.descEn) : '') || '') });
+      out.push({ id: id, ph: !info.poster && !info.cut && info.color ? { color: info.color, fl: zh ? info.flZh : info.flEn } : null, cut: info.cut || null, poster: info.poster || null, pos: info.pos || '', adj: info.adj || null, tag: zh ? '第 ' + (idx + 1) + ' 款 / 共 ' + box.flavors.length + ' 款' : (idx + 1) + ' OF ' + box.flavors.length,
+        t: info[L] || (f ? (zh ? f.zh : f.en) : id), d: (zh ? info.dZh : info.dEn) || (f ? (zh ? f.descZh : f.descEn) : '') || '' });
     });
     return out;
   }
+  // per-photo framing: s.pos = object-position, s.adj = { x, y (% of the frame), z (zoom) } (tuned by hand)
+  function imgStyle(s) {
+    var a = s.adj, st = [];
+    if (s.pos) st.push('object-position:' + s.pos);
+    if (a) st.push('transform:translate(' + (a.x || 0) + '%,' + (a.y || 0) + '%) scale(' + (a.z || 1) + ')');
+    return st.length ? ' style="' + st.join(';') + '"' : '';
+  }
   function slideHTML(s) {
     if (s.box) {
-      if (s.box.photo) return '<div class="tt-hwph"><img class="ph" src="' + s.box.photo + '" alt="' + s.box.en + '"></div>';
-      return '<div class="tt-hwgrid" style="grid-template-columns:repeat(' + s.box.cols + ',1fr);aspect-ratio:' + s.box.cols + '/' + Math.ceil(s.box.flavors.length / s.box.cols) + '">' + s.box.flavors.map(function (id) { return '<img src="uploads/top/' + id + '.webp" alt="">'; }).join('') + '<i class="tt-hwrib"></i></div>';
+      if (s.box.photo) return '<div class="tt-tgph"><img class="ph" src="' + s.box.photo + '" alt="' + s.box.en + '"' + imgStyle(s) + '></div>';
+      return '<div class="tt-tgph2" style="background:linear-gradient(160deg,#6b3a1e,#3a2012)"><div class="tt-tggrid" style="grid-template-columns:repeat(' + s.box.cols + ',1fr);width:62% !important;height:auto !important;background:none;padding:0">' + s.box.flavors.map(function () { return '<i style="aspect-ratio:1;border-radius:50%;border:2px dashed rgba(255,255,255,.5);background:rgba(0,0,0,.14)"></i>'; }).join('') + '<i class="tt-tgrib"></i></div><span class="tagc">' + s.tag + ' \u00b7 ' + s.t + '</span></div>';
     }
-    if (s.poster) return '<div class="tt-hwph"><img class="ph" src="' + s.poster + '" alt="' + s.t + '"></div>';
+    if (s.ph) return '<div class="tt-tgph2" style="background:radial-gradient(circle at 50% 38%,' + s.ph.color + ',#1c110b)"><div class="av"></div><div class="nm">' + s.t + '</div><div class="fl">' + s.ph.fl + '</div></div>';
+    if (s.poster) return '<div class="tt-tgph"><img class="ph pp" src="' + s.poster + '" alt="' + s.t + '"' + imgStyle(s) + '></div>';
     return s.cut ? '<img class="cut" src="' + s.cut + '" alt="">' : '<img src="uploads/top/' + s.id + '.webp" alt="" style="max-width:62%">';
   }
   function show(n) {
     if (!st.list.length) return; st.i = Math.max(0, Math.min(st.list.length - 1, n)); st.el = 0; var r = st.root; if (!r) return;
-    var sl = r.querySelectorAll('.tt-hwsl'), bs = r.querySelectorAll('.tt-hwbars b');
+    var sl = r.querySelectorAll('.tt-tgsl'), bs = r.querySelectorAll('.tt-tgbars b');
     for (var k = 0; k < sl.length; k++) { sl[k].classList.toggle('on', k === st.i); bs[k].style.width = k < st.i ? '100%' : '0'; }
-    var c = st.list[st.i]; r.classList.toggle('pst', !!(c.poster || (c.box && c.box.photo))); r.querySelector('.tt-hwcap small').textContent = c.tag; r.querySelector('.tt-hwcap b').textContent = c.t; r.querySelector('.tt-hwcap p').textContent = c.d;
+    var c = st.list[st.i]; r.classList.toggle('pst', !!(c.poster || c.ph || c.box)); r.querySelector('.tt-tgcap small').textContent = c.tag; r.querySelector('.tt-tgcap b').textContent = c.t; r.querySelector('.tt-tgcap p').textContent = c.d;
+    var dx = document.getElementById('tt-tgdesc'); if (dx) { var db = dx.querySelector('b'); db.textContent = c.box ? '' : c.t; db.style.display = c.box ? 'none' : ''; dx.classList.toggle('big', !!c.box); dx.querySelector('p').textContent = c.d; }
   }
   function build(root) {
     st.root = root; st.key = size() + lang(); st.list = list(size(), lang());
-    root.innerHTML = '<div class="tt-hwbars">' + st.list.map(function () { return '<i><b></b></i>'; }).join('') + '</div><button type="button" class="tt-hwpl" aria-label="pause">' + (st.paused ? '\u25B6' : 'II') + '</button>' +
-      st.list.map(function (s) { return '<div class="tt-hwsl">' + slideHTML(s) + '</div>'; }).join('') +
-      '<div class="tt-hwcap"><small></small><b></b><p></p></div><div class="tt-hwze"></div><div class="tt-hwzl"></div><div class="tt-hwzr"></div>' +
-      '<button type="button" class="tt-hwex" aria-label="enlarge"><svg viewBox="0 0 16 16" fill="none" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M10 2h4v4M6 14H2v-4M14 2l-4.5 4.5M2 14l4.5-4.5"/></svg></button>';
+    root.innerHTML = '<div class="tt-tgbars">' + st.list.map(function () { return '<i><b></b></i>'; }).join('') + '</div><button type="button" class="tt-tgpl" aria-label="pause">' + (st.paused ? '\u25B6' : 'II') + '</button>' +
+      st.list.map(function (s) { return '<div class="tt-tgsl">' + slideHTML(s) + '</div>'; }).join('') +
+      '<div class="tt-tgcap"><small></small><b></b><p></p></div><div class="tt-tgze"></div><div class="tt-tgzl"></div><div class="tt-tgzr"></div>' +
+      '<button type="button" class="tt-tgex" aria-label="enlarge"><svg viewBox="0 0 16 16" fill="none" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M10 2h4v4M6 14H2v-4M14 2l-4.5 4.5M2 14l4.5-4.5"/></svg></button>';
     root.setAttribute('data-ready', '1'); show(0);
     if (window.IntersectionObserver) { if (st.io) st.io.disconnect(); st.io = new IntersectionObserver(function (e) { st.visible = e[0].isIntersecting; }, { threshold: 0.5 }); st.io.observe(root); } else st.visible = true;
   }
   function tick(now) {
     try {
-      var root = document.getElementById('tt-hwstory');
-      if (root && window.TT_HALLOWEEN && window.TT_FLAVORS && (!root.getAttribute('data-ready') || st.key !== size() + lang())) build(root);
+      var root = document.getElementById('tt-tgstory');
+      if (root && window.TT_THANKSGIVING && window.TT_FLAVORS && (!root.getAttribute('data-ready') || st.key !== size() + lang())) build(root);
       if (root && st.list.length && !st.paused && !st.held && !st.lb && st.visible && document.visibilityState === 'visible') {
-        st.el += now - st.t0; var b = root.querySelectorAll('.tt-hwbars b')[st.i]; if (b) b.style.width = Math.min(100, st.el / DUR * 100) + '%';
+        st.el += now - st.t0; var b = root.querySelectorAll('.tt-tgbars b')[st.i]; if (b) b.style.width = Math.min(100, st.el / DUR * 100) + '%';
         if (st.el >= DUR) { if (st.i < st.list.length - 1) show(st.i + 1); else show(0); }
       }
     } catch (e) {}
     st.t0 = now; requestAnimationFrame(tick);
   }
   function inStory(e, c) { return e.target && e.target.closest && e.target.closest(c); }
-  document.addEventListener('pointerdown', function (e) { if (inStory(e, '.tt-hwzl') || inStory(e, '.tt-hwzr') || inStory(e, '.tt-hwze')) { st.hold = setTimeout(function () { st.held = true; }, 220); } });
+  document.addEventListener('pointerdown', function (e) { if (inStory(e, '.tt-tgzl') || inStory(e, '.tt-tgzr') || inStory(e, '.tt-tgze')) { st.hold = setTimeout(function () { st.held = true; }, 220); } });
   function release() { clearTimeout(st.hold); if (st.held) setTimeout(function () { st.held = false; }, 30); }
   document.addEventListener('pointerup', release); document.addEventListener('pointercancel', release);
   function photoOf(s) { return s.poster || (s.box && s.box.photo) || null; }
-  function closeLB() { var o = document.querySelector('.tt-hwlb'); if (o) o.remove(); st.lb = false; document.removeEventListener('keydown', lbKey); }
+  function closeLB() { var o = document.querySelector('.tt-tglb'); if (o) o.remove(); st.lb = false; document.removeEventListener('keydown', lbKey); }
   function lbKey(e) { if (e.key === 'Escape') closeLB(); else if (e.key === 'ArrowRight') lbStep(1); else if (e.key === 'ArrowLeft') lbStep(-1); }
   var lbItems = [], lbK = 0;
-  function lbDraw() { var o = document.querySelector('.tt-hwlb'); if (!o) return; var it = lbItems[lbK]; o.querySelector('img').src = it.src; o.querySelector('img').alt = it.t; o.querySelector('.ct').textContent = (lbK + 1) + ' / ' + lbItems.length; }
+  function lbDraw() { var o = document.querySelector('.tt-tglb'); if (!o) return; var it = lbItems[lbK]; o.querySelector('img').src = it.src; o.querySelector('img').alt = it.t; o.querySelector('.ct').textContent = (lbK + 1) + ' / ' + lbItems.length; }
   function lbStep(d) { lbK = (lbK + d + lbItems.length) % lbItems.length; lbDraw(); }
   function openLB(i) {
     lbItems = []; st.list.forEach(function (s, idx) { var src = photoOf(s); if (src) lbItems.push({ i: idx, src: src, t: s.t || '' }); });
     lbK = Math.max(0, lbItems.findIndex(function (x) { return x.i === i; })); if (!lbItems.length) return;
     closeLB(); st.lb = true;
-    var o = document.createElement('div'); o.className = 'tt-hwlb'; o.setAttribute('role', 'dialog');
+    var o = document.createElement('div'); o.className = 'tt-tglb'; o.setAttribute('role', 'dialog');
     o.innerHTML = '<img alt=""><button type="button" class="x" aria-label="close">&times;</button><button type="button" class="pv" aria-label="previous">&lsaquo;</button><button type="button" class="nx" aria-label="next">&rsaquo;</button><div class="ct"></div>';
     o.addEventListener('click', function (e) { if (e.target.closest('.pv')) lbStep(-1); else if (e.target.closest('.nx')) lbStep(1); else closeLB(); });
     document.body.appendChild(o); document.addEventListener('keydown', lbKey); lbDraw();
   }
   document.addEventListener('click', function (e) {
-    if (inStory(e, '.tt-hwpl')) { st.paused = !st.paused; e.target.closest('.tt-hwpl').textContent = st.paused ? '\u25B6' : 'II'; return; }
+    if (inStory(e, '.tt-tgpl')) { st.paused = !st.paused; e.target.closest('.tt-tgpl').textContent = st.paused ? '\u25B6' : 'II'; return; }
     if (st.held) return;
-    if (inStory(e, '.tt-hwze') || inStory(e, '.tt-hwex')) { var cur = st.list[st.i]; if (cur && photoOf(cur)) openLB(st.i); else show(st.i + 1 < st.list.length ? st.i + 1 : 0); return; }
-    if (inStory(e, '.tt-hwzr')) { if (st.i < st.list.length - 1) show(st.i + 1); else show(0); }
-    else if (inStory(e, '.tt-hwzl')) show(st.i - 1);
+    if (inStory(e, '.tt-tgze') || inStory(e, '.tt-tgex')) { var cur = st.list[st.i]; if (cur && photoOf(cur)) openLB(st.i); else show(st.i + 1 < st.list.length ? st.i + 1 : 0); return; }
+    if (inStory(e, '.tt-tgzr')) { if (st.i < st.list.length - 1) show(st.i + 1); else show(0); }
+    else if (inStory(e, '.tt-tgzl')) show(st.i - 1);
   });
   st.t0 = performance.now(); requestAnimationFrame(tick);
 })();

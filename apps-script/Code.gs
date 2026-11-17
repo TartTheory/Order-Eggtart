@@ -20,10 +20,10 @@ var FLAVORS = [
   { id: 'chestnut', name: 'Chestnut Egg Tart', price: 6 },
   { id: 'lavacheese', name: 'Lava Cheese Tart', price: 6 },
   { id: 'corn', name: 'Corn Egg Tart', price: 6 },
-  // Halloween gift boxes (fixed flavors, limited). `until` hides them from the Add Manual Order
+  // Holiday gift boxes (fixed flavors, limited). `until` hides them from the Add Manual Order
   // form automatically from that date on; past orders and the summary are not affected.
-  { id: 'hbox4', name: 'Halloween Box of 4', price: 30, until: '2026-11-01' },
-  { id: 'hbox6', name: 'Halloween Box of 6', price: 40, until: '2026-11-01' }
+  { id: 'tgbox4', name: 'Holiday Box of 4', price: 25, until: '2026-11-26' },
+  { id: 'tgbox6', name: 'Holiday Box of 6', price: 35, until: '2026-11-26' }
 ];
 
 // The flavors/boxes that are currently on sale (limited items drop off after their `until` date).
@@ -289,10 +289,12 @@ function formatSheet(sheet) {
 // their own tart breakdown, since Friday and Saturday are baked/packed as
 // separate batches. Matched against the start of the Pickup Day cell (e.g.
 // "Fri 9/26", "Sat 9/27").
-var PICKUP_DAYS = ['Friday', 'Saturday'];
+var PICKUP_DAYS = ['Wednesday', 'Thursday', 'Friday', 'Saturday']; // Wed/Thu only appear for one-off holiday slots (hidden when empty)
 
 function pickupDayBucket(pickupDayLabel) {
   var s = String(pickupDayLabel || '');
+  if (s.indexOf('Wed') === 0) return 'Wednesday';
+  if (s.indexOf('Thu') === 0) return 'Thursday';
   if (s.indexOf('Fri') === 0) return 'Friday';
   if (s.indexOf('Sat') === 0) return 'Saturday';
   return null;
@@ -458,6 +460,7 @@ function rebuildSummaryLocked_(sheet) {
   // its own flavor breakdown instead of one merged list.
   PICKUP_DAYS.forEach(function (d) {
     var bucket = byDay[d];
+    if (bucket.tarts === 0 && (d === 'Wednesday' || d === 'Thursday')) return; // one-off holiday days: no section unless there are orders
     headerRowIndexes.push(rows.length);
     rows.push(summaryRow(d.toUpperCase() + ' TARTS', bucket.tarts));
     bucket.order.forEach(function (name) {
